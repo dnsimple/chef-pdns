@@ -7,4 +7,5 @@ end
 
 dpkg_package 'pdns' do
   source "#{Chef::Config[:file_cache_path]}/pdns-static_#{version}.deb"
+  options '--force-confdef'
 end
