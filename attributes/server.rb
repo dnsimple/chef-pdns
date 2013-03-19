@@ -1,6 +1,6 @@
-default[:pdns][:server][:version] = 3
+default[:pdns][:server_config_version] = 3
 
-if node[:pdns][:server][:version] == 2
+if node[:pdns][:server_config_version] == 2
   default[:pdns][:server][:allow_recursion_override] = false
   default[:pdns][:server][:lazy_recursion] = true
   default[:pdns][:server][:logfile] = 'pdns.log'
