@@ -1,0 +1,14 @@
+# Backend configuration
+#
+<% backend = node["pdns"]["server"]["backend"]-%>
+<%= "g#{backend}-host=#{node["pdns"][backend]["host"]}" unless node["pdns"][backend]["host"].empty? %>
+<%= "g#{backend}-port=#{node["pdns"][backend]["port"]}" unless node["pdns"][backend]["port"].empty? %>
+<%= "g#{backend}-dbname=#{node["pdns"][backend]["database"]}" unless node["pdns"][backend]["database"].empty? %>
+<%= "g#{backend}-user=#{node["pdns"][backend]["user"]}" unless node["pdns"][backend]["user"].empty? %>
+<%= "g#{backend}-password=#{node["pdns"][backend]["password"]}" unless node["pdns"][backend]["database"].empty? %>
+launch=g<%= backend %>
+
+# Custom queries
+<% node["pdns"][backend]["queries"].keys.each do |query| -%>
+<%= "g#{backend}-#{query}=#{node["pdns"][backend]["queries"][query]}" %>
+<% end -%>
