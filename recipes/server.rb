@@ -3,6 +3,7 @@
 # Recipe:: server
 #
 # Copyright 2010, Opscode, Inc.
+# Copyright 2013, Gabor Nagy
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,7 +18,6 @@
 # limitations under the License.
 #
 
-include_recipe "pdns::#{node['pdns']['server_backend']}"
 
 package "pdns" do
   package_name value_for_platform(
@@ -26,24 +26,81 @@ package "pdns" do
   )
 end
 
-service "pdns" do
-  action [:enable, :start]
-end
-
-case node["platform"]
-when "arch"
-  user "pdns" do
-    shell "/bin/false"
-    home "/var/spool/powerdns"
-    supports :manage_home => true
-    system true
+case node['pdns']['server']['backend']
+when "sqlite"
+  package "pdns-backend-sqlite3" do
+    package_name value_for_platform(
+      "arch"                       => { "default" => "pdns" },
+      ["debian","ubuntu"]          => { "default" => "pdns-backend-sqlite3" },
+      ["redhat","centos","fedora"] => { "default" => "pdns-backend-sqlite3" },
+      "default"                    => "pdns-backend-sqlite3"
+    )
+  end
+when "mysql"
+  package "pdns-backend-mysql" do
+    package_name value_for_platform(
+      "arch"                       => { "default" => "pdns" },
+      ["debian","ubuntu"]          => { "default" => "pdns-backend-mysql" },
+      ["redhat","centos","fedora"] => { "default" => "pdns-backend-mysql" },
+      "default"                    => "pdns-backend-mysql"
+    )
+  end
+when "pgsql"
+  package "pdns-backend-postgresql" do
+    package_name value_for_platform(
+      "arch"                       => { "default" => "pdns" },
+      ["debian","ubuntu"]          => { "default" => "pdns-backend-pgsql" },
+      ["redhat","centos","fedora"] => { "default" => "pdns-backend-postgresql" },
+      "default"                    => "pdns-backend-postgresql"
+    )
   end
 end
 
-template "/etc/powerdns/pdns.conf" do
-  source "pdns.conf.erb"
+case node['platform']
+when "arch"
+  group node['pdns']['group'] do
+    action :create
+  end
+
+  user node['pdns']['user'] do
+    gid      node['pdns']['group']
+    shell    "/bin/false"
+    home     "/var/spool/powerdns"
+    supports :manage_home => true
+    system   true
+  end
+end
+
+# Location of the pdns.local file.
+directory "#{node['pdns']['server']['config-dir']}/pdns.d" do
   owner "root"
   group "root"
-  mode 0644
+  mode  "0700"
+  action :create
+end
+
+# Creates pdns.local file for the selected backend.
+template "#{node['pdns']['server']['config-dir']}/pdns.d/pdns.local" do
+  source "pdns.local.erb"
+  owner  "root"
+  group  "root"
+  mode   "0600"
+end
+
+# Creates PowerDNS Server configuration file.
+template "#{node['pdns']['server']['config-dir']}/pdns.conf" do
+  source "pdns.conf.erb"
+  owner  "root"
+  group  "root"
+  mode   "0600"
   notifies :restart, "service[pdns]", :immediately
+end
+
+# Loads default schema if it is enabled. See schema in the documentation or in files directory.
+load_default_schema
+# Loads custom schema that is given by the user.
+load_custom_schema
+
+service "pdns" do
+  action [:enable, :start]
 end
