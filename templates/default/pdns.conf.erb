@@ -1,0 +1,15 @@
+<% node[:pdns][:server].sort.each do |key, value| %>
+<% next if value.nil? %>
+<%= key.gsub('_', '-') %>=<%=
+  case value
+  when TrueClass
+    'yes'
+  when FalseClass
+    'no'
+  when Array
+    value.join(',')
+  else
+    value
+  end
+%>
+<% end %>

@@ -47,3 +47,4 @@ default["pdns"]["recursor"]["forward_zones"] = []
 default["pdns"]["recursor"]["forward_zones_recurse"] = []
 default["pdns"]["recursor"]["local_address"] = [ipaddress]
 default["pdns"]["recursor"]["local_port"] = "53"
+default["pdns"]["recursor"]["network_timeout"] = "1500"
