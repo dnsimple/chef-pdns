@@ -1,7 +1,7 @@
 default[:pdns][:server_config_version] = 3
 
 if node[:pdns][:server_config_version] == 2
-  default[:pdns][:server][:allow_recursion_override] = false
+  default[:pdns][:server][:allow_recursion_override] = 'off'
   default[:pdns][:server][:lazy_recursion] = true
   default[:pdns][:server][:logfile] = 'pdns.log'
   default[:pdns][:server][:skip_cname] = false
@@ -67,7 +67,7 @@ default[:pdns][:server][:log_dns_details] = false
 default[:pdns][:server][:log_failed_updates] = false
 default[:pdns][:server][:logging_facility] = nil
 default[:pdns][:server][:loglevel] = 4
-default[:pdns][:server][:master] = false
+default[:pdns][:server][:master] = 'off'
 default[:pdns][:server][:max_queue_length] = 5000
 default[:pdns][:server][:max_tcp_connections] = 10
 default[:pdns][:server][:module_dir] = '/usr/lib/pdns'
@@ -85,7 +85,7 @@ default[:pdns][:server][:recursor] = false
 default[:pdns][:server][:send_root_referral] = false
 default[:pdns][:server][:setgid] = 'pdns'
 default[:pdns][:server][:setuid] = 'pdns'
-default[:pdns][:server][:slave] = false
+default[:pdns][:server][:slave] = 'off'
 default[:pdns][:server][:slave_cycle_interval] = 60
 default[:pdns][:server][:smtpredirector] = nil
 default[:pdns][:server][:soa_expire_default] = 604800

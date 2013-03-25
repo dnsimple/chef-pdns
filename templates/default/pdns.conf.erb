@@ -3,9 +3,9 @@
 <%= key.gsub('_', '-') %>=<%=
   case value
   when TrueClass
-    'on'
+    'yes'
   when FalseClass
-    'off'
+    'no'
   when Array
     value.join(',')
   else
