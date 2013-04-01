@@ -10,14 +10,14 @@ dpkg_package 'pdns' do
   options '--force-confdef'
 end
 
-service 'pdns' do
-  action [ :enable, :start ]
-end
-
 template '/etc/powerdns/pdns.conf' do
   source 'pdns.conf.erb'
   owner 'root'
   group 'root'
   mode 0644
   notifies :restart, 'service[pdns]'
+end
+
+service 'pdns' do
+  action [ :enable, :start ]
 end
