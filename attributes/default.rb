@@ -20,8 +20,8 @@
 default["pdns"]["user"] = "pdns"
 default["pdns"]["group"] = "pdns"
 
-case platform
-when "redhat","centos","fedora"
+case node['platform_family']
+when "rhel","fedora"
   default["pdns"]["server"]["config_dir"] = "/etc/pdns"
   default["pdns"]["recursor"]["config_dir"] = "/etc/pdns-recursor"
   default["pdns"]["user"] = "pdns-recursor"
