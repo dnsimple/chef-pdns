@@ -10,7 +10,7 @@ package 'libpq-dev'
 
 git '/usr/src/pdns' do
   repository 'https://github.com/PowerDNS/pdns.git'
-  reference 'auth-3.3-rc1'
+  reference node[:pdns][:source][:reference]
   action :sync
 end
 
