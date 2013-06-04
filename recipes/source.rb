@@ -43,10 +43,6 @@ execute 'pdns: install' do
   creates '/usr/local/sbin/pdns_server'
 end
 
-link '/usr/local/etc/pdns.conf' do
-  to '/etc/powerdns/pdns.conf'
-end
-
 file '/usr/src/pdns/pdns/pdns' do
   owner 'root'
   group 'root'
@@ -55,4 +51,22 @@ end
 
 link '/etc/init.d/pdns' do
   to '/usr/src/pdns/pdns/pdns'
+end
+
+directory '/etc/powerdns'
+
+link '/usr/local/etc/pdns.conf' do
+  to '/etc/powerdns/pdns.conf'
+end
+
+template '/etc/powerdns/pdns.conf' do
+  source 'pdns.conf.erb'
+  owner 'root'
+  group 'root'
+  mode 0644
+  notifies :restart, 'service[pdns]', :immediately
+end
+
+service 'pdns' do
+  action [ :enable, :start ]
 end
