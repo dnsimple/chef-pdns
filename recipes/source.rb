@@ -16,6 +16,9 @@ end
 
 path = '/usr/src/pdns'
 
+user 'pdns'
+group 'pdns'
+
 execute 'pdns: bootstrap' do
   command './bootstrap'
   cwd path
@@ -53,7 +56,10 @@ link '/etc/init.d/pdns' do
   to '/usr/src/pdns/pdns/pdns'
 end
 
-directory '/etc/powerdns'
+directory '/etc/powerdns' do
+  owner 'pdns'
+  group 'pdns'
+end
 
 link '/usr/local/etc/pdns.conf' do
   to '/etc/powerdns/pdns.conf'
@@ -61,8 +67,8 @@ end
 
 template '/etc/powerdns/pdns.conf' do
   source 'pdns.conf.erb'
-  owner 'root'
-  group 'root'
+  owner 'pdns'
+  group 'pdns'
   mode 0644
   notifies :restart, 'service[pdns]', :immediately
 end
