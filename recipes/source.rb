@@ -49,7 +49,7 @@ end
 file '/usr/src/pdns/pdns/pdns' do
   owner 'root'
   group 'root'
-  mode '755'
+  mode '0755'
 end
 
 link '/etc/init.d/pdns' do
@@ -69,7 +69,7 @@ template '/etc/powerdns/pdns.conf' do
   source 'pdns.conf.erb'
   owner 'pdns'
   group 'pdns'
-  mode 0644
+  mode '0644'
   notifies :restart, 'service[pdns]', :immediately
 end
 
