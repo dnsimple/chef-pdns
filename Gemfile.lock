@@ -1,0 +1,36 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    celluloid (0.14.1)
+      timers (>= 1.0.0)
+    coderay (1.0.9)
+    kitchen-vagrant (0.11.1.dev)
+      test-kitchen (~> 1.0.0.beta.1)
+    method_source (0.8.2)
+    mixlib-shellout (1.2.0)
+    net-scp (1.1.2)
+      net-ssh (>= 2.6.5)
+    net-ssh (2.6.8)
+    pry (0.9.12.2)
+      coderay (~> 1.0.5)
+      method_source (~> 0.8)
+      slop (~> 3.4)
+    safe_yaml (0.9.4)
+    slop (3.4.6)
+    test-kitchen (1.0.0.beta.2)
+      celluloid
+      mixlib-shellout
+      net-scp
+      net-ssh
+      pry
+      safe_yaml (~> 0.9.3)
+      thor
+    thor (0.18.1)
+    timers (1.1.0)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  kitchen-vagrant (= 0.11.1.dev)
+  test-kitchen (~> 1.0.0.beta.2)

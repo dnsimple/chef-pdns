@@ -52,13 +52,18 @@ file '/usr/src/pdns/pdns/pdns' do
   mode '0755'
 end
 
-link '/etc/init.d/pdns' do
-  to '/usr/src/pdns/pdns/pdns'
+file '/etc/init.d/pdns' do
+  content File.open('/usr/src/pdns/pdns/pdns').read
+  owner 'root'
+  group 'root'
+  mode '0755'
+  action :create_if_missing
 end
 
 directory '/etc/powerdns' do
   owner 'pdns'
   group 'pdns'
+  mode '0755'
 end
 
 link '/usr/local/etc/pdns.conf' do
