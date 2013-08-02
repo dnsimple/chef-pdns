@@ -2,3 +2,5 @@
 .kitchen.local.yml
 .librarian/
 tmp/
+Cheffile.lock
+Gemfile.lock
