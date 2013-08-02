@@ -55,6 +55,11 @@ server
 
 Sets up a PowerDNS Authoritative Server. Uses the SQLite backend by default with the `pdns::sqlite` recipe.
 
+source
+------
+
+Sets up a PowerDNS Authoritative Server from source.
+
 sqlite
 ------
 
