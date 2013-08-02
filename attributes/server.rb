@@ -11,13 +11,13 @@ else
   default["pdns"]["server"]["edns_subnet_option_number"] = 20730
   default["pdns"]["server"]["edns_subnet_processing"] = false
   default["pdns"]["server"]["entropy_source"] = '/dev/urandom'
-  default["pdns"]["server"]["experimental_direct_dnskey"] = false
-  default["pdns"]["server"]["experimental_json_interface"] = false
-  default["pdns"]["server"]["experimental_logfile"] = '/var/log/pdns.log'
+  default["pdns"]["server"]["experimental_direct_dnskey"] = nil
+  default["pdns"]["server"]["experimental_json_interface"] = nil
+  default["pdns"]["server"]["experimental_logfile"] = nil
   default["pdns"]["server"]["log_dns_queries"] = false
   default["pdns"]["server"]["lua_prequery_script"] = nil
   default["pdns"]["server"]["max_cache_entries"] = 1000000
-  default["pdns"]["server"]["max_ent_entries"] = 100000
+  default["pdns"]["server"]["max_ent_entries"] = nil
   default["pdns"]["server"]["overload_queue_length"] = 0
   default["pdns"]["server"]["query_local_address6"] = '::'
   default["pdns"]["server"]["receiver_threads"] = 1

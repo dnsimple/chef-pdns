@@ -23,8 +23,7 @@ Where a list of values is used by the PowerDNS config, we use an Array value pop
 server
 ------
 
-* `node["pdns"]["server"]["backend"]` - Selects the PDNS database backend, default 'sqlite3' (only option available at this time).
-* `node["pdns"]["server"]["sqlite_file"]` - Filename for the sqlite database. Only used if the backend is gsqlite.
+* `node["pdns"]["server"]["backend"]` - Selects the PDNS database backend, default 'sqlite3'.  This can also be an array `["sqlite3", "geo"]` if using multiple backends.
 * `node["pdns"]["server"]["local_address"]` - Array list of the local IPv4 or IPv6 addresses to bind to, corresponds to the recursor.conf value `local-address` default ["127.0.0.1"] under the assumption that the recursor is used with an Authoritative Server on the same system and passes local zone requests to the loopback.
 
 recursor
@@ -63,7 +62,56 @@ Sets up a PowerDNS Authoritative Server from source.
 sqlite
 ------
 
-Sets up an SQLite database backend for the `pdns::server`. This backend is the default.
+Sets up an SQLite database backend for the `pdns::server`. This backend is the default.  Use the `pdns::server` recipe and set `node["pdns"]["server"]["backend"] = "sqlite"` on the role.
+
+
+### Additional attributes
+
+* `node["pdns"]["server"]["sqlite_file"]` - Filename for the sqlite database. Only used if the backend is gsqlite.
+
+geo
+---
+
+Sets up the GEO backend for the `pdns::server`.  [Offical documentation](http://doc.powerdns.com/html/geo.html) and [Backend documentation](http://wiki.powerdns.com/trac/browser/trunk/pdns/modules/geobackend/README)
+
+### Additional attributes
+
+* `node["pdns"]["server"]["geo_ttl"]` - TTL to return to the client on succesful results.
+* `node["pdns"]["server"]["geo_zone"]` - The zone in which all CNAMEs and keys will be attached to. (geo.example.com)
+* `node["pdns"]["server"]["geo_soa_values"]` - Comma seperated SOA values (ns1.example.com,hostmaster@example.com)
+* `node["pdns"]["server"]["geo_ns_records"]` - The NS records to return with the CNAME response.
+* `node["pdns"]["server"]["geo_maps"]` - Directory in which the map files will reside.
+* `node["pdns"]["server"]["geo_ip_map_zonefile"]` - Country code blacklist filename.
+* `node["pdns"]["geo"]["country_code_server"]` - Rsync server and file to synchronize with `geo_ip_map_zonefile`
+* `node["pdns"]["geo"]["databag"]` - Databag name containing geo maps to manage
+
+### Geo map format
+
+Create a databag called "pdns-geo-maps" or something similiar and set `node["pdns"]["geo"]["databag"]` in the role.  Each databag itme name will be the name of the file created in the `node["pdns"]["server"]["geo_maps"]` directory.  A databag item contains
+* `id` - The map `id` is the hostname that will be attached to `node["pdns"]["server"]["geo_zone"]`.  For example, if the `id` is "test1" the zone map will resolve for "test1.geo.example.com"
+* `zone` - The map `zone` is to set the `$ORIGIN` record for the map.  This is required, but also prevents having to re-type the same target zone over and over.
+* `maps` - The map `maps` correllates to the ISO numerical country code to the host record in the `zone`.  You can use fully-qualified names as long as they end in a trailing dot (.).   Zero (0) correlates to the default in which no country code matches.
+
+
+**Example:**
+```json
+{
+  "id": "test1",
+  "zone": "example.com",
+  "maps": {
+    "0": "us1",
+    "840": "ams1",
+    "484": "ams1",
+    "124": "ams1",
+    "76": "ams1",
+    "170": "ams1",
+    "188": "ams1",
+    "136": "ams1",
+    "192": "ams1",
+    "36": "ams1"
+  }
+}
+```
 
 Usage
 =====

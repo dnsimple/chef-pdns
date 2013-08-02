@@ -1,0 +1,6 @@
+$RECORD <%= @geomap['id'] %>
+$ORIGIN <%= @geomap['zone'] %>
+
+<% @geomap['maps'].each do |region,record| %>
+<%= region %>   <%= record %>
+<% end %>

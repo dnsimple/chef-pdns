@@ -17,7 +17,15 @@
 # limitations under the License.
 #
 
-include_recipe "pdns::#{node['pdns']['server_backend']}"
+case node['pdns']['server_backend']
+  when Array
+    node['pdns']['server_backend'].each do |value|
+        next if value.nil?
+        include_recipe "pdns::#{value}"
+    end
+  else
+    include_recipe "pdns::#{node['pdns']['server_backend']}"
+end
 
 package "pdns" do
   package_name value_for_platform(
