@@ -9,5 +9,5 @@ platforms:
 suites:
 - name: default
   run_list:
-    - recipe[pdns]
+    - recipe[pdns::source]
   attributes: {}

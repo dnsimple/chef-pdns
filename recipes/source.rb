@@ -2,6 +2,7 @@ include_recipe 'build-essential'
 include_recipe 'mysql::client'
 include_recipe 'git'
 
+package 'libtool'
 package 'pkg-config'
 package 'libboost-all-dev'
 package 'ragel'
@@ -52,12 +53,15 @@ file '/usr/src/pdns/pdns/pdns' do
   mode '0755'
 end
 
+execute 'copy pdns init' do
+  command 'cp /usr/src/pdns/pdns/pdns /etc/init.d/pdns'
+  not_if 'diff /usr/src/pdns/pdns/pdns /etc/init.d/pdns'
+end
+
 file '/etc/init.d/pdns' do
-  content File.open('/usr/src/pdns/pdns/pdns').read
   owner 'root'
   group 'root'
   mode '0755'
-  action :create_if_missing
 end
 
 directory '/etc/powerdns' do
