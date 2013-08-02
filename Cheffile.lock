@@ -1,0 +1,14 @@
+SITE
+  remote: http://community.opscode.com/api/v1
+  specs:
+    sqlite (1.0.0)
+
+PATH
+  remote: ./
+  specs:
+    pdns (0.1.3)
+      sqlite (>= 0.0.0)
+
+DEPENDENCIES
+  pdns (>= 0)
+

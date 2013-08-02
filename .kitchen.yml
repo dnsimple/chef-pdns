@@ -8,5 +8,6 @@ platforms:
 
 suites:
 - name: default
-  run_list: ["recipe[pdns]"]
+  run_list:
+    - recipe[pdns]
   attributes: {}
