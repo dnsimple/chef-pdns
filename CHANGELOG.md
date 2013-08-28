@@ -2,6 +2,11 @@ pdns Cookbook CHANGELOG
 =======================
 This file is used to list changes made in each version of the pdns cookbook.
 
+v0.2.0
+------
+### Improvement
+- **[COOK-3106](https://tickets.opscode.com/browse/COOK-3106)** - Add source recipe
+
 v0.1.2
 ------
 ### Bug
