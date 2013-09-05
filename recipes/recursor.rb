@@ -20,6 +20,7 @@
 package "pdns-recursor"
 
 service "pdns-recursor" do
+  pattern "pdns_recursor"
   action [:enable, :start]
 end
 
