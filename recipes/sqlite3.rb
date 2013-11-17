@@ -34,11 +34,7 @@ cookbook_file "/var/tmp/pdns_schema.sql" do
   source "schema.sql"
 end
 
-ruby_block "load pdns schema" do
-  block do
-    require 'sqlite3'
-    SQLite3::Database.new("/var/lib/pdns/pdns.sqlite3") do |db|
-      open("/var/tmp/pdns_schema.sql").each {|l| db.execute(l) }
-    end
-  end
+execute "load pdns schema" do
+  command "sqlite3 /var/lib/pdns/pdns.sqlite3 < /var/tmp/pdns_schema.sql"
+  not_if { ::File.exists?("/var/lib/pdns/pdns.sqlite3") }
 end
