@@ -40,7 +40,7 @@ ruby_block "load pdns schema" do
   block do
     require 'sqlite3'
     SQLite3::Database.new("/var/lib/pdns/pdns.sqlite3") do |db|
-      open("/var/tmp/pdns_schema.sql").each {|l| db.execute(l) }
+      open("/var/tmp/pdns_schema.sql").each {|l| db.execute(l) unless l.lstrip.rstrip.empty? }
     end
   end
 end
