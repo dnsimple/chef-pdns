@@ -8,7 +8,7 @@ create table IF NOT EXISTS domains (
   account           VARCHAR(40) DEFAULT NULL
 );
 
-CREATE UNIQUE INDEX name_index ON domains(name);
+CREATE UNIQUE INDEX IF NOT EXISTS name_index ON domains(name);
 
 CREATE TABLE  IF NOT EXISTS records (
   id              INTEGER PRIMARY KEY,
@@ -21,9 +21,9 @@ CREATE TABLE  IF NOT EXISTS records (
   change_date     INTEGER DEFAULT NULL
 );
 
-CREATE INDEX rec_name_index ON records(name);
-CREATE INDEX nametype_index ON records(name,type);
-CREATE INDEX domain_id ON records(domain_id);
+CREATE INDEX IF NOT EXISTS rec_name_index ON records(name);
+CREATE INDEX IF NOT EXISTS nametype_index ON records(name,type);
+CREATE INDEX IF NOT EXISTS domain_id ON records(domain_id);
 
 create table  IF NOT EXISTS supermasters (
   ip          VARCHAR(25) NOT NULL,
