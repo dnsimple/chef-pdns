@@ -19,6 +19,8 @@
 
 include_recipe "sqlite"
 
+chef_gem 'sqlite3'
+
 package "pdns-backend-sqlite3" do
   package_name value_for_platform(
     "arch" => { "default" => "pdns" },
