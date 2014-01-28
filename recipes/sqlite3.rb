@@ -19,6 +19,8 @@
 
 include_recipe "sqlite"
 
+package "sqlite3-dev"
+
 chef_gem 'sqlite3'
 
 package "pdns-backend-sqlite3" do
