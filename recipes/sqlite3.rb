@@ -19,7 +19,7 @@
 
 include_recipe "sqlite"
 
-package "sqlite3-dev" do
+package "libsqlite3-dev" do
   action :nothing
 end.run_action(:install)
 
