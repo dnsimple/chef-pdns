@@ -19,7 +19,9 @@
 
 include_recipe "sqlite"
 
-package "sqlite3-dev"
+package "sqlite3-dev" do
+  action :nothing
+end.run_action(:install)
 
 chef_gem 'sqlite3'
 
