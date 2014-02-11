@@ -62,7 +62,7 @@ def create_pdns_domain_record
                       "86400")
     rows = db.execute("insert into records (domain_id,name,type,content,ttl) values (?,?,?,?,?)",
                       domain_id,
-                      "ns.#{@new_resource.domain}",
+                      "ns1.#{@new_resource.domain}",
                       "A",
                       @new_resource.soa_ip,
                       "120")
