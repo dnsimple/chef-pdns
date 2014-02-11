@@ -47,3 +47,14 @@ template "/etc/powerdns/pdns.conf" do
   mode 0644
   notifies :restart, "service[pdns]", :immediately
 end
+
+resolvconf "custom" do
+  nameserver "127.0.0.1"
+  search "chillibean.net chilli.internal"
+  head       "# Don't touch this configuration file!"
+  base       "# Will be added after nameserver, search, options config items"
+  tail       "# This goes to the end of the file."
+
+  # do not touch my interface configuration plz!
+  clear_dns_from_interfaces false
+end
