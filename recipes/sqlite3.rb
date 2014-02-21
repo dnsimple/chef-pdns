@@ -19,6 +19,12 @@
 
 include_recipe "sqlite"
 
+package "libsqlite3-dev" do
+  action :nothing
+end.run_action(:install)
+
+chef_gem 'sqlite3'
+
 package "pdns-backend-sqlite3" do
   package_name value_for_platform(
     "arch" => { "default" => "pdns" },
@@ -38,7 +44,7 @@ ruby_block "load pdns schema" do
   block do
     require 'sqlite3'
     SQLite3::Database.new("/var/lib/pdns/pdns.sqlite3") do |db|
-      open("/var/tmp/pdns_schema.sql").each {|l| db.execute(l) }
+      db.execute_batch(IO.read("/var/tmp/pdns_schema.sql"))
     end
   end
 end
