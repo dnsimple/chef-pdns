@@ -2,6 +2,12 @@ pdns Cookbook CHANGELOG
 =======================
 This file is used to list changes made in each version of the pdns cookbook.
 
+v0.3.0 (2014-02-21)
+-------------------
+### Bug
+- **[COOK-978](https://tickets.opscode.com/browse/COOK-978)** - pdns should install the sqlite gem (needs build-essentials) and use the correct pdns template filename
+
+
 v0.2.0
 ------
 ### Improvement
