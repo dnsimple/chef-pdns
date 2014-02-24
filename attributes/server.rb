@@ -104,3 +104,4 @@ default["pdns"]["server"]["webserver_password"] = nil
 default["pdns"]["server"]["webserver_port"] = 8081
 default["pdns"]["server"]["webserver_print_arguments"] = false
 default["pdns"]["server"]["wildcard_url"] = false
+default["pdns"]["server"]["searchdomains"] = ""
