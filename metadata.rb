@@ -5,9 +5,10 @@ license          "Apache 2.0"
 description      "Installs/Configures pdns"
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
 version          "0.3.4"
-depends "sqlite"
 
-depends "build-essential"
-depends "mysql"
-depends "git"
-depends "resolvconf"
+depends 'build-essential'
+depends 'git'
+depends 'mysql'
+depends 'postgresql'
+depends 'sqlite'
+depends 'resolvconf'
