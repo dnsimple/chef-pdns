@@ -6,4 +6,5 @@ gem 'rake'
 group :test, :integration do
   gem 'test-kitchen'
   gem 'kitchen-vagrant'
+  gem 'foodcritic'
 end
