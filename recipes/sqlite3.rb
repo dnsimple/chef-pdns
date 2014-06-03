@@ -17,9 +17,9 @@
 # limitations under the License.
 #
 
-include_recipe 'chef-sugar'
-include_recipe 'build-essential'
-include_recipe 'sqlite'
+include_recipe 'chef-sugar::default'
+include_recipe 'build-essential::default'
+include_recipe 'sqlite::default'
 
 compile_time do
   package 'libsqlite3-dev'
