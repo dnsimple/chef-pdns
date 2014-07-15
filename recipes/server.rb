@@ -17,40 +17,39 @@
 # limitations under the License.
 #
 
+include_recipe 'chef-sugar::default'
 include_recipe "pdns::#{node['pdns']['server_backend']}"
 
-package "pdns" do
+package 'pdns' do
   package_name value_for_platform(
-    ["debian","ubuntu"] => { "default" => "pdns-server" },
-    "default" => "pdns"
+    ['debian','ubuntu'] => { 'default' => 'pdns-server' },
+    'default' => 'pdns'
   )
 end
 
-service "pdns" do
+service 'pdns' do
   action [:enable, :start]
 end
 
-case node["platform"]
-when "arch"
-  user "pdns" do
-    shell "/bin/false"
-    home "/var/spool/powerdns"
-    supports :manage_home => true
-    system true
-  end
+user 'pdns' do
+  shell '/bin/false'
+  home '/var/spool/powerdns'
+  supports :manage_home => true
+  system true
+  only_if { arch_linux? }
 end
 
-template "/etc/powerdns/pdns.conf" do
-  source "pdns.conf.erb"
-  owner "root"
-  group "root"
+template '/etc/powerdns/pdns.conf' do
+  source 'pdns.conf.erb'
+  owner 'root'
+  group 'root'
   mode 0644
-  notifies :restart, "service[pdns]", :immediately
+  notifies :restart, 'service[pdns]', :immediately
 end
 
-resolvconf "custom" do
-  nameserver "127.0.0.1"
-  search node["pdns"]["server"]["searchdomains"]
+resolvconf 'custom' do
+  nameserver '127.0.0.1'
+  search node['pdns']['server']['searchdomains']
   head       "# Don't touch this configuration file!"
   base       "# Will be added after nameserver, search, options config items"
   tail       "# This goes to the end of the file."
