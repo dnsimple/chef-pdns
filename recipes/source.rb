@@ -11,7 +11,7 @@ package 'libpq-dev'
 
 git '/usr/src/pdns' do
   repository 'https://github.com/PowerDNS/pdns.git'
-  reference node[:pdns][:source][:reference]
+  reference node['pdns']['source']['reference']
   action :sync
 end
 
@@ -28,7 +28,7 @@ end
 
 execute 'pdns: configure' do
   command './configure ' +
-    "--with-modules='#{node[:pdns][:source][:backends]}' " +
+    "--with-modules='#{node['pdns']['source']['backends']}' " +
     '--with-mysql-includes=/usr/include ' +
     '--without-lua'
   cwd path
