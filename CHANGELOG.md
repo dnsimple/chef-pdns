@@ -2,6 +2,11 @@ pdns Cookbook CHANGELOG
 =======================
 This file is used to list changes made in each version of the pdns cookbook.
 
+v0.3.3 (2014-07-15)
+-------------------
+- #14 Testing Updates
+- #14 Fixes missing build-essential include
+
 v0.3.2 (2014-07-14)
 -------------------
 - #11 Remove incorrect search domains
