@@ -18,6 +18,7 @@
 #
 
 include_recipe "sqlite"
+include_recipe "build-essential"
 
 package "libsqlite3-dev" do
   action :nothing
