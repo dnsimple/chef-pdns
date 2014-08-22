@@ -1,7 +1,6 @@
 ---
 driver_config:
-  digitalocean_client_id: <%= ENV['DIGITAL_OCEAN_CLIENT_ID'] %>
-  digitalocean_api_key: <%= ENV['DIGITAL_OCEAN_API_KEY'] %>
+  digitalocean_api_key: <%= ENV['DIGITALOCEAN_ACCESS_TOKEN'] %>
 
 provisioner:
   name: chef_zero
@@ -9,25 +8,25 @@ provisioner:
 
 platforms:
 
-- name: ubuntu-12.04
+- name: ubuntu-12-04-x64
   driver_plugin: digitalocean
   driver_config:
-    image_id: 3101045
-    flavor_id: 63
-    region_id: 4
-    ssh_key_ids: <%= ENV['DIGITAL_OCEAN_SSH_KEY_IDS'] %>
-    ssh_key: <%= ENV['DIGITAL_OCEAN_SSH_KEY_PATH'] %>
+    image: ubuntu-12-04-x64
+    size: 512mb
+    region: nyc3
+    ssh_key_ids: <%= ENV['DIGITALOCEAN_SSH_KEY_IDS'] %>
+    ssh_key: <%= ENV['DIGITALOCEAN_SSH_KEY_PATH'] %>
   run_list:
     - recipe[apt]
 
-- name: ubuntu-14.04
+- name: ubuntu-14-04-x64
   driver_plugin: digitalocean
   driver_config:
-    image_id: 3240036
-    flavor_id: 63
-    region_id: 4
-    ssh_key_ids: <%= ENV['DIGITAL_OCEAN_SSH_KEY_IDS'] %>
-    ssh_key: <%= ENV['DIGITAL_OCEAN_SSH_KEY_PATH'] %>
+    image: ubuntu-14-04-x64
+    size: 512mb
+    region: nyc3
+    ssh_key_ids: <%= ENV['DIGITALOCEAN_SSH_KEY_IDS'] %>
+    ssh_key: <%= ENV['DIGITALOCEAN_SSH_KEY_PATH'] %>
   run_list:
     - recipe[apt]
 

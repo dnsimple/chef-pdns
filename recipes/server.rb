@@ -40,7 +40,7 @@ when "arch"
   end
 end
 
-template "/etc/powerdns/pdns.conf" do
+template "#{node["pdns"]["server"]["config_dir"]}/pdns.conf" do
   source "pdns.conf.erb"
   owner "root"
   group "root"
