@@ -17,6 +17,11 @@
 # limitations under the License.
 #
 
+if platform_family?("debian")
+  include_recipe "apt"
+elsif platform_family?("rhel")
+  include_recipe "yum-epel"
+end
 include_recipe "pdns::#{node['pdns']['server_backend']}"
 
 package "pdns" do
@@ -48,13 +53,16 @@ template "#{node["pdns"]["server"]["config_dir"]}/pdns.conf" do
   notifies :restart, "service[pdns]", :immediately
 end
 
-resolvconf "custom" do
-  nameserver "127.0.0.1"
-  search node["pdns"]["server"]["searchdomains"]
-  head       "# Don't touch this configuration file!"
-  base       "# Will be added after nameserver, search, options config items"
-  tail       "# This goes to the end of the file."
+#resolvconf cookbook compatible with debian\ubuntu only!
+if platform_family?("debian")
+  resolvconf "custom" do
+    nameserver "127.0.0.1"
+    search node["pdns"]["server"]["searchdomains"]
+    head       "# Don't touch this configuration file!"
+    base       "# Will be added after nameserver, search, options config items"
+    tail       "# This goes to the end of the file."
 
-  # do not touch my interface configuration plz!
-  clear_dns_from_interfaces false
+    # do not touch my interface configuration plz!
+    clear_dns_from_interfaces false
+  end
 end
