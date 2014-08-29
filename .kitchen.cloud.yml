@@ -29,6 +29,14 @@ platforms:
     ssh_key: <%= ENV['DIGITALOCEAN_SSH_KEY_PATH'] %>
   run_list:
     - recipe[apt]
+- name: centos-6-5-x64
+  driver_plugin: digitalocean
+  driver_config:
+    image: centos-6-5-x64
+    size: 512mb
+    region: nyc3
+    ssh_key_ids: <%= ENV['DIGITALOCEAN_SSH_KEY_IDS'] %>
+    ssh_key: <%= ENV['DIGITALOCEAN_SSH_KEY_PATH'] %>
 
 suites:
 - name: source
