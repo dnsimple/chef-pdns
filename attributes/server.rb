@@ -42,7 +42,6 @@ default["pdns"]["server"]["allow_axfr_ips"] = [ '0.0.0.0/0',
 default["pdns"]["server"]["allow_recursion"] = [ '127.0.0.1' ]
 default["pdns"]["server"]["cache_ttl"] = 20
 default["pdns"]["server"]["chroot"] = nil
-default["pdns"]["server"]["config_dir"] = '/etc/pdns'
 default["pdns"]["server"]["config_name"] = nil
 default["pdns"]["server"]["control_console"] = false
 default["pdns"]["server"]["daemon"] = true
@@ -53,12 +52,20 @@ default["pdns"]["server"]["disable_tcp"] = false
 default["pdns"]["server"]["distributor_threads"] = 3
 default["pdns"]["server"]["do_ipv6_additional_processing"] = true
 default["pdns"]["server"]["fancy_records"] = false
-default["pdns"]["server"]["gmysql_host"] = nil
-default["pdns"]["server"]["gmysql_user"] = nil
-default["pdns"]["server"]["gmysql_password"] = nil
-default["pdns"]["server"]["gmysql_dbname"] = nil
+if node["pdns"]["server_backend"] == 'mysql'
+  default["pdns"]["server"]["launch"] = "gmysql"
+  default["pdns"]["server"]["gmysql_host"] = node["pdns"]["mysql_backend"]["hostname"]
+  default["pdns"]["server"]["gmysql_user"] = node["pdns"]["mysql_backend"]["username"]
+  default["pdns"]["server"]["gmysql_password"] = node["pdns"]["mysql_backend"]["password"]
+  default["pdns"]["server"]["gmysql_dbname"] = node["pdns"]["mysql_backend"]["dbname"]
+else
+  default["pdns"]["server"]["gmysql_host"] = nil
+  default["pdns"]["server"]["gmysql_user"] = nil
+  default["pdns"]["server"]["gmysql_password"] = nil
+  default["pdns"]["server"]["gmysql_dbname"] = nil
+  default["pdns"]["server"]["launch"] = nil
+end
 default["pdns"]["server"]["guardian"] = true
-default["pdns"]["server"]["launch"] = nil
 default["pdns"]["server"]["load_modules"] = nil
 default["pdns"]["server"]["local_address"] = node["ipaddress"]
 default["pdns"]["server"]["local_ipv6"] = nil
