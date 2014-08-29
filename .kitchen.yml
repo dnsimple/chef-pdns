@@ -4,10 +4,29 @@ driver_config:
   require_chef_omnibus: true
 
 platforms:
-- name: ubuntu-12.04
+- name: ubuntu-14.04
 
 suites:
 - name: default
   run_list:
     - recipe[pdns::source]
   attributes: {}
+- name: gmysql_backend
+  run_list:
+  - recipe[apt]
+  - recipe[mysql::server]
+  - recipe[setup]
+  - recipe[pdns::server]
+  attributes:
+   mysql:
+    server_root_password: password
+    port: "3306"
+    data_dir: /var/lib/mysql
+   pdns:
+     mysql: 
+      hostname: localhost
+      port: "3306"
+      user: pdns
+      password: pdns
+      database: pdns
+     server_backend: gmysql

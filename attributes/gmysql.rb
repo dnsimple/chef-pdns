@@ -1,0 +1,5 @@
+default['pdns']['mysql']['hostname'] = node['mysql']['hostname'] || "localhost"
+default['pdns']['mysql']['port'] = node['mysql']['port'] || "3306"
+default['pdns']['mysql']['user'] = node['mysql']['user'] || "pdns"
+default['pdns']['mysql']['password'] = node['mysql']['password'] || ""
+default['pdns']['mysql']['database'] = node['mysql']['database'] || "pdns"

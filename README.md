@@ -20,7 +20,7 @@ Where a list of values is used by the PowerDNS config, we use an Array value pop
 - `node["pdns"]["recursor"]["config_dir"]` - Config directory location for recursor.conf.
 
 ### server
-- `node["pdns"]["server"]["backend"]` - Selects the PDNS database backend, default 'sqlite3' (only option available at this time).
+- `node["pdns"]["server_backend"]` - Selects the PDNS database backend, default 'sqlite3' 
 - `node["pdns"]["server"]["sqlite_file"]` - Filename for the sqlite database. Only used if the backend is gsqlite.
 - `node["pdns"]["server"]["local_address"]` - Array list of the local IPv4 or IPv6 addresses to bind to, corresponds to the recursor.conf value `local-address` default ["127.0.0.1"] under the assumption that the recursor is used with an Authoritative Server on the same system and passes local zone requests to the loopback.
 
