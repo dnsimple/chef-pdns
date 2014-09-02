@@ -17,8 +17,11 @@ cookbook_file "/var/tmp/mysql_schema.sql" do
 end
 
 execute "import database" do
+      exists = <<-EOH
+      mysql --host=#{node['pdns']['mysql']['hostname']} --port=#{node['pdns']['mysql']['port']} -u #{node['pdns']['mysql']['user']} -p#{node['pdns']['mysql']['password']} #{node['pdns']['mysql']['database']} -e 'show tables' | grep -c "records"
+      EOH
       command "mysql --host=#{node['pdns']['mysql']['hostname']} --port=#{node['pdns']['mysql']['port']} -u #{node['pdns']['mysql']['user']} -p#{node['pdns']['mysql']['password']} #{node['pdns']['mysql']['database']}  < /var/tmp/mysql_schema.sql"
-      #TODO should implement not_if
+      not_if exists
 end
 
 template "/etc/powerdns/pdns.d/pdns.gmysql.conf" do
