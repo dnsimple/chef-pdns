@@ -28,6 +28,7 @@ end
 #hotfix for current debian package
 link "/usr/lib/powerdns" do 
   to "/usr/lib/x86_64-linux-gnu/pdns"
+  not_if "test -d /usr/lib/powerdns"
 end
 
 template "/etc/powerdns/pdns.d/pdns.gmysql.conf" do
