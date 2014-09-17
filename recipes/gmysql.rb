@@ -20,8 +20,14 @@ execute "import database" do
       exists = <<-EOH
       mysql --host=#{node['pdns']['mysql']['hostname']} --port=#{node['pdns']['mysql']['port']} -u #{node['pdns']['mysql']['user']} -p#{node['pdns']['mysql']['password']} #{node['pdns']['mysql']['database']} -e 'show tables' | grep -c "records"
       EOH
-      command "mysql --host=#{node['pdns']['mysql']['hostname']} --port=#{node['pdns']['mysql']['port']} -u #{node['pdns']['mysql']['user']} -p#{node['pdns']['mysql']['password']} #{node['pdns']['mysql']['database']}  < /var/tmp/mysql_schema.sql"
+#      command "mysql --host=#{node['pdns']['mysql']['hostname']} --port=#{node['pdns']['mysql']['port']} -u #{node['pdns']['mysql']['user']} -p#{node['pdns']['mysql']['password']} #{node['pdns']['mysql']['database']}  < /var/tmp/mysql_schema.sql"
+      command "mysql --host=#{node['pdns']['mysql']['hostname']} --port=#{node['pdns']['mysql']['port']} -u #{node['pdns']['mysql']['user']} -p#{node['pdns']['mysql']['password']} #{node['pdns']['mysql']['database']}  < /usr/share/dbconfig-common/data/pdns-backend-mysql/install/mysql "
       not_if exists
+end
+
+#hotfix for current debian package
+link "/usr/lib/x86_64-linux-gnu/pdns" do
+    to "/usr/lib/powerdns"
 end
 
 template "/etc/powerdns/pdns.d/pdns.gmysql.conf" do
