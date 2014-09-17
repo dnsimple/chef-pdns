@@ -26,8 +26,8 @@ execute "import database" do
 end
 
 #hotfix for current debian package
-link "/usr/lib/x86_64-linux-gnu/pdns" do
-    to "/usr/lib/powerdns"
+link "/usr/lib/powerdns" do 
+  to "/usr/lib/x86_64-linux-gnu/pdns"
 end
 
 template "/etc/powerdns/pdns.d/pdns.gmysql.conf" do
