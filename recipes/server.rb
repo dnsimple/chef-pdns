@@ -56,5 +56,5 @@ end
 #  tail       "# This goes to the end of the file."
 
   # do not touch my interface configuration plz!
-  clear_dns_from_interfaces false
-end
+#  clear_dns_from_interfaces false
+#end
