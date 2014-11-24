@@ -50,6 +50,9 @@ Sets up a PowerDNS Authoritative Server from source.
 ### sqlite
 Sets up an SQLite database backend for the `pdns::server`. This backend is the default.
 
+### mysql
+Sets up an MySQL database backend for the `pdns::server`.
+
 
 Usage
 -----

@@ -17,4 +17,4 @@
 # limitations under the License.
 #
 
-include_recipe "pdns::recursor"
+include_recipe 'pdns::recursor'

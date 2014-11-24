@@ -27,9 +27,9 @@ execute 'pdns: bootstrap' do
 end
 
 execute 'pdns: configure' do
-  command './configure ' +
-    "--with-modules='#{node['pdns']['source']['backends']}' " +
-    '--with-mysql-includes=/usr/include ' +
+  command './configure ' \
+    "--with-modules='#{node['pdns']['source']['backends']}' " \
+    '--with-mysql-includes=/usr/include ' \
     '--without-lua'
   cwd path
   creates '/usr/src/pdns/config.h'
@@ -83,5 +83,5 @@ template '/etc/powerdns/pdns.conf' do
 end
 
 service 'pdns' do
-  action [ :enable, :start ]
+  action [:enable, :start]
 end

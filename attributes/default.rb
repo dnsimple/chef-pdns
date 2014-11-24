@@ -17,33 +17,36 @@
 # limitations under the License.
 #
 
-default["pdns"]["user"] = "pdns"
-default["pdns"]["group"] = "pdns"
+default['pdns']['user'] = 'pdns'
+default['pdns']['group'] = 'pdns'
+default['pdns']['data_bag'] = 'pdns'
+default['pdns']['data_bag_item'] = node.chef_environment
+default['pdns']['backend_dir'] = '/var/lib/pdns'
 
 case node['platform_family']
-when "rhel","fedora"
-  default["pdns"]["server"]["config_dir"] = "/etc/pdns"
-  default["pdns"]["recursor"]["config_dir"] = "/etc/pdns-recursor"
-  default["pdns"]["user"] = "pdns-recursor"
-  default["pdns"]["group"] = "pdns-recursor"
+when 'rhel', 'fedora'
+  default['pdns']['server']['config_dir'] = '/etc/pdns'
+  default['pdns']['recursor']['config_dir'] = '/etc/pdns-recursor'
+  default['pdns']['user'] = 'pdns-recursor'
+  default['pdns']['group'] = 'pdns-recursor'
 else
-  default["pdns"]["server"]["config_dir"] = "/etc/powerdns"
-  default["pdns"]["recursor"]["config_dir"] = "/etc/powerdns"
+  default['pdns']['server']['config_dir'] = '/etc/powerdns'
+  default['pdns']['recursor']['config_dir'] = '/etc/powerdns'
 end
 
-default["pdns"]["server_backend"] = "sqlite3"
+default['pdns']['server_backend'] = 'sqlite3'
 
-default["pdns"]["recursor"]["allow_from"] = [
-  "127.0.0.0/8",
-  "10.0.0.0/8",
-  "192.168.0.0/16",
-  "172.16.0.0/12",
-  "::1/128",
-  "e80::/10"
+default['pdns']['recursor']['allow_from'] = [
+  '127.0.0.0/8',
+  '10.0.0.0/8',
+  '192.168.0.0/16',
+  '172.16.0.0/12',
+  '::1/128',
+  'e80::/10'
 ]
 
-default["pdns"]["recursor"]["auth_zones"] = []
-default["pdns"]["recursor"]["forward_zones"] = []
-default["pdns"]["recursor"]["forward_zones_recurse"] = []
-default["pdns"]["recursor"]["local_address"] = [ipaddress]
-default["pdns"]["recursor"]["local_port"] = "53"
+default['pdns']['recursor']['auth_zones'] = []
+default['pdns']['recursor']['forward_zones'] = []
+default['pdns']['recursor']['forward_zones_recurse'] = []
+default['pdns']['recursor']['local_address'] = [ipaddress]
+default['pdns']['recursor']['local_port'] = '53'

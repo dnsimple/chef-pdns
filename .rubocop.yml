@@ -1,0 +1,16 @@
+AllCops:
+  Include:
+    - Berksfile
+    - Gemfile
+    - Rakefile
+  Exclude:
+    - test/**/*
+    - vendor/**/*
+
+LineLength:
+  Enabled: false
+SingleSpaceBeforeFirstArg:
+  Exclude:
+    - '**/metadata.rb'
+HashSyntax:
+  Enabled: false

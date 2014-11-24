@@ -1,4 +1,4 @@
-<% node[:pdns][:server].sort.each do |key, value| %>
+<% node['pdns']['server'].sort.each do |key, value| %>
 <% next if value.nil? %>
 <%= key.gsub('_', '-') %>=<%=
   case value
@@ -13,3 +13,4 @@
   end
 %>
 <% end %>
+include-dir=<%= ::File.join(node['pdns']['server']['config_dir'], 'conf.d') %>

@@ -3,11 +3,32 @@ driver_plugin: vagrant
 driver_config:
   require_chef_omnibus: true
 
+provisioner:
+  name: chef_zero
+  data_bags_path: test/share/data_bags
+  encrypted_data_bag_secret_key_path: test/share/encrypted_data_bag_secret
+  data_path: test/share
+
 platforms:
-- name: ubuntu-12.04
+- name: ubuntu-14.04
+- name: centos-6.5
 
 suites:
 - name: default
   run_list:
     - recipe[pdns::source]
   attributes: {}
+
+- name: mysql
+  run_list:
+    - recipe[pdns_test::mysql]
+  attributes:
+    pdns:
+      server_backend: 'mysql'
+
+- name: sqlite3
+  run_list:
+    - recipe[pdns_test::sqlite3]
+  attributes:
+    pdns:
+      server_backend: 'sqlite3'
