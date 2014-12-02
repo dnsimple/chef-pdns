@@ -26,13 +26,13 @@ def domain_exists?(domain)
   require 'sqlite3'
   rows=nil
   SQLite3::Database.new("/var/lib/pdns/pdns.sqlite3") do |db|
-    rows = db.execute("select * from domains where name=?",domain)
+    rows = db.execute("select * from domains where name=#{domain}")
   end
   !(rows.empty?)
 end
 
-def lookup_domain(db,domain)
-  domains = db.execute("select id from domains where name=?",domain)
+def lookup_domain(db, domain)
+  domains = db.execute("select id from domains where name=#{domain}")
   if domains.empty?
     nil
   else

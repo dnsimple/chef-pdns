@@ -1,0 +1,27 @@
+{
+  "id": "_default",
+  "db_user": {
+    "encrypted_data": "LQaKI+b3NHu5WNjyzwfkdIPGfl4HDWkyanKv7lqhVyA=\n",
+    "iv": "ZiSSAUuQQqpUx7MKSdzGjQ==\n",
+    "version": 1,
+    "cipher": "aes-256-cbc"
+  },
+  "db_password": {
+    "encrypted_data": "Ok1tjHcWq6PilwkgeNj7uohAKsZu2lYTKGb2plh5ZbU=\n",
+    "iv": "h1jYCPFwuwvS20n+WUvEGA==\n",
+    "version": 1,
+    "cipher": "aes-256-cbc"
+  },
+  "db_name": {
+    "encrypted_data": "RcKIoxL44vQIk05FAAtQn1qhTrRSkrkv78nxaIZqZ08=\n",
+    "iv": "+cGKcRaIYRN3yret/jsYzA==\n",
+    "version": 1,
+    "cipher": "aes-256-cbc"
+  },
+  "server_root_password": {
+    "encrypted_data": "Wc9MSGAfRFRw39H83K/wa1wJRQDNRpkeuO9anLn4Irs=\n",
+    "iv": "ivtExN9R3BSdsOg+Fwqjww==\n",
+    "version": 1,
+    "cipher": "aes-256-cbc"
+  }
+}
