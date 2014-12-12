@@ -23,16 +23,6 @@ service "pdns-recursor" do
   action [:enable, :start]
 end
 
-case node["platform"]
-when "arch"
-  user "pdns" do
-    shell "/bin/false"
-    home "/var/spool/powerdns"
-    supports :manage_home => true
-    system true
-  end
-end
-
 template "#{node['pdns']['recursor']['config_dir']}/recursor.conf" do
   source "recursor.conf.erb"
   owner "root"

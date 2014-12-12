@@ -6,7 +6,6 @@ package 'libtool'
 package 'pkg-config'
 package 'libboost-all-dev'
 package 'ragel'
-
 package 'libpq-dev'
 
 git '/usr/src/pdns' do
@@ -21,14 +20,15 @@ user 'pdns'
 group 'pdns'
 
 execute 'pdns: bootstrap' do
-  command './bootstrap'
+  command './bootstrap && ./bootstrap'
   cwd path
   creates '/usr/src/pdns/configure'
 end
 
 execute 'pdns: configure' do
   command './configure ' +
-    "--with-modules='#{node['pdns']['source']['backends']}' " +
+    "--with-modules='#{node['pdns']['source']['backends'].join(' ')}' " +
+    "--with-config-dir=#{node['pdns']['source']['config_dir']} " + 
     '--with-mysql-includes=/usr/include ' +
     '--without-lua'
   cwd path
@@ -70,18 +70,4 @@ directory '/etc/powerdns' do
   mode '0755'
 end
 
-link '/usr/local/etc/pdns.conf' do
-  to '/etc/powerdns/pdns.conf'
-end
 
-template '/etc/powerdns/pdns.conf' do
-  source 'pdns.conf.erb'
-  owner 'pdns'
-  group 'pdns'
-  mode '0644'
-  notifies :restart, 'service[pdns]', :immediately
-end
-
-service 'pdns' do
-  action [ :enable, :start ]
-end

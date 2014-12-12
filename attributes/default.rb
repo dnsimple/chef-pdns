@@ -17,33 +17,11 @@
 # limitations under the License.
 #
 
-default["pdns"]["user"] = "pdns"
-default["pdns"]["group"] = "pdns"
+default['pdns']['mode']='recursor'
+default['pdns']['build_method']='package'
+default['pdns']['package']['enable_server_backend']=true
+default['pdns']['package']['server_backend'] = 'sqlite3'
 
-case node['platform_family']
-when "rhel","fedora"
-  default["pdns"]["server"]["config_dir"] = "/etc/pdns"
-  default["pdns"]["recursor"]["config_dir"] = "/etc/pdns-recursor"
-  default["pdns"]["user"] = "pdns-recursor"
-  default["pdns"]["group"] = "pdns-recursor"
-else
-  default["pdns"]["server"]["config_dir"] = "/etc/powerdns"
-  default["pdns"]["recursor"]["config_dir"] = "/etc/powerdns"
-end
+default['pdns']['user'] = 'pdns'
+default['pdns']['group'] = 'pdns'
 
-default["pdns"]["server_backend"] = "sqlite3"
-
-default["pdns"]["recursor"]["allow_from"] = [
-  "127.0.0.0/8",
-  "10.0.0.0/8",
-  "192.168.0.0/16",
-  "172.16.0.0/12",
-  "::1/128",
-  "e80::/10"
-]
-
-default["pdns"]["recursor"]["auth_zones"] = []
-default["pdns"]["recursor"]["forward_zones"] = []
-default["pdns"]["recursor"]["forward_zones_recurse"] = []
-default["pdns"]["recursor"]["local_address"] = [ipaddress]
-default["pdns"]["recursor"]["local_port"] = "53"
