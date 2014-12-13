@@ -5,3 +5,4 @@ tmp/
 Cheffile.lock
 Gemfile.lock
 Berksfile.lock
+Vagrantfile.erb
