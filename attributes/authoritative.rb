@@ -8,10 +8,8 @@ if node['pdns']['server_config_version'] == 2
   default['pdns']['authoritative']['use_logfile'] = false
   default['pdns']['authoritative']['wildcards'] = nil
 else
-  default['pdns']['authoritative']['edns_subnet_option_number'] = 20730
   default['pdns']['authoritative']['edns_subnet_processing'] = false
   default['pdns']['authoritative']['entropy_source'] = '/dev/urandom'
-  default['pdns']['authoritative']['experimental_direct_dnskey'] = false
   default['pdns']['authoritative']['experimental_json_interface'] = false
   default['pdns']['authoritative']['experimental_logfile'] = '/var/log/pdns.log'
   default['pdns']['authoritative']['log_dns_queries'] = false
@@ -37,8 +35,7 @@ else
   default['pdns']['authoritative']['traceback_handler'] = true
 end
 
-default['pdns']['authoritative']['allow_axfr_ips'] = [ '0.0.0.0/0',
-                                             '::/0' ]
+default['pdns']['authoritative']['allow_axfr_ips'] = [ '127.0.0.1/8', '::1' ]
 default['pdns']['authoritative']['allow_recursion'] = [ '127.0.0.1' ]
 default['pdns']['authoritative']['cache_ttl'] = 20
 default['pdns']['authoritative']['chroot'] = nil
@@ -52,11 +49,6 @@ default['pdns']['authoritative']['disable_axfr'] = true
 default['pdns']['authoritative']['disable_tcp'] = false
 default['pdns']['authoritative']['distributor_threads'] = 3
 default['pdns']['authoritative']['do_ipv6_additional_processing'] = true
-default['pdns']['authoritative']['fancy_records'] = false
-default['pdns']['authoritative']['gmysql_host'] = nil
-default['pdns']['authoritative']['gmysql_user'] = nil
-default['pdns']['authoritative']['gmysql_password'] = nil
-default['pdns']['authoritative']['gmysql_dbname'] = nil
 default['pdns']['authoritative']['guardian'] = true
 default['pdns']['authoritative']['launch'] = nil
 default['pdns']['authoritative']['load_modules'] = nil
@@ -64,7 +56,6 @@ default['pdns']['authoritative']['local_address'] = node['ipaddress']
 default['pdns']['authoritative']['local_ipv6'] = nil
 default['pdns']['authoritative']['local_port'] = 53
 default['pdns']['authoritative']['log_dns_details'] = false
-default['pdns']['authoritative']['log_failed_updates'] = false
 default['pdns']['authoritative']['logging_facility'] = nil
 default['pdns']['authoritative']['loglevel'] = 4
 default['pdns']['authoritative']['master'] = 'off'
@@ -92,16 +83,11 @@ default['pdns']['authoritative']['soa_expire_default'] = 604800
 default['pdns']['authoritative']['soa_minimum_ttl'] = 3600
 default['pdns']['authoritative']['soa_refresh_default'] = 10800
 default['pdns']['authoritative']['soa_retry_default'] = 3600
-default['pdns']['authoritative']['soa_serial_offset'] = 0
 default['pdns']['authoritative']['socket_dir'] = '/var/run'
-default['pdns']['authoritative']['strict_rfc_axfrs'] = false
 default['pdns']['authoritative']['trusted_notification_proxy'] = nil
-default['pdns']['authoritative']['urlredirector'] = '127.0.0.1'
 default['pdns']['authoritative']['version_string'] = 'powerdns'
 default['pdns']['authoritative']['webserver'] = false
 default['pdns']['authoritative']['webserver_address'] = '127.0.0.1'
 default['pdns']['authoritative']['webserver_password'] = nil
 default['pdns']['authoritative']['webserver_port'] = 8081
 default['pdns']['authoritative']['webserver_print_arguments'] = false
-default['pdns']['authoritative']['wildcard_url'] = false
-default['pdns']['authoritative']['searchdomains'] = ''
