@@ -7,9 +7,9 @@ platforms:
 - name: ubuntu-14.04
 
 suites:
-- name: default
+- name: recursor
   run_list:
-    - recipe[pdns::default]
+    - recipe[pdns::recursor]
   attributes: {}
 - name: authoritative
   run_list:
