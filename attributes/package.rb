@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: pdns
-# Attributes:: default
+# Attributes:: package
 #
 # Copyright 2014, Aetrion, LLC.
 #
@@ -17,9 +17,5 @@
 # limitations under the License.
 #
 
-default['pdns']['mode'] = 'recursor'
-default['pdns']['build_method'] = 'package'
-
-default['pdns']['user'] = 'pdns'
-default['pdns']['group'] = 'pdns'
-
+default['pdns']['package']['enable_server_backend']=false
+default['pdns']['package']['server_backend'] = 'sqlite3'
