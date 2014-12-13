@@ -1,5 +1,7 @@
 include_recipe "pdns::#{node['pdns']['build_method']}"
 
+directory '/etc/pdns'
+
 template '/etc/pdns/pdns.conf' do
   source 'pdns.conf.erb'
   owner 'pdns'
