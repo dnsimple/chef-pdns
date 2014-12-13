@@ -1,6 +1,6 @@
 include_recipe "pdns::#{node['pdns']['build_method']}"
 
-template '/etc/powerdns/pdns.conf' do
+template '/etc/pdns/pdns.conf' do
   source 'pdns.conf.erb'
   owner 'pdns'
   group 'pdns'
