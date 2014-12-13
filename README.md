@@ -5,7 +5,7 @@ Installs and configures PowerDNS (pdns). Sets up a recursor by default and can s
 
 ### Platforms:
 
-* Ubuntu (12.04, 13.04, 14.04)
+* Ubuntu (12.04, 14.04)
 * Arch Linux
 
 ### Cookbooks:
