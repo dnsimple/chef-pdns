@@ -22,12 +22,8 @@ if node['pdns']['package']['enable_server_backend']
   include_recipe "pdns::#{node['pdns']['package']['server_backend']}"
 end
 
-package "pdns" do
-  package_name value_for_platform(
-    ["debian","ubuntu"] => { "default" => "pdns-server" },
-    "default" => "pdns"
-  )
-end
+package "pdns-server"
+package "pdns-backend-pgsql"
 
 resolvconf "custom" do
   nameserver "127.0.0.1"
