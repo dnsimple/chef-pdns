@@ -19,7 +19,7 @@
 
 default['pdns']['mode']='recursor'
 default['pdns']['build_method']='package'
-default['pdns']['package']['enable_server_backend']=true
+default['pdns']['package']['enable_server_backend']=false
 default['pdns']['package']['server_backend'] = 'sqlite3'
 
 default['pdns']['user'] = 'pdns'
