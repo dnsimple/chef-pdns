@@ -1,5 +1,3 @@
-default['pdns']['server_config_version'] = 3
-
 default['pdns']['authoritative']['allow_recursion'] = [ '127.0.0.1' ]
 default['pdns']['authoritative']['config_dir'] = '/etc/powerdns'
 default['pdns']['authoritative']['daemon'] = true
