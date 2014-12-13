@@ -31,7 +31,7 @@ end
 
 resolvconf "custom" do
   nameserver "127.0.0.1"
-  search node["pdns"]["server"]["searchdomains"]
+  search node["pdns"]["authoritative"]["searchdomains"]
   head       "# Don't touch this configuration file!"
   base       "# Will be added after nameserver, search, options config items"
   tail       "# This goes to the end of the file."
