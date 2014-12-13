@@ -10,7 +10,6 @@ supports 'ubuntu'
 
 depends "sqlite"
 depends "build-essential"
-depends "mysql"
 depends "git"
 depends "resolvconf"
 
