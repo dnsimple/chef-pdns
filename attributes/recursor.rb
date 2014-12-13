@@ -1,4 +1,4 @@
-default['pdns']['recursor']['config_dir'] = '/etc/powerdns'
+default['pdns']['recursor']['config_dir'] = '/etc/pdns'
 default['pdns']['recursor']['allow_from'] = [
   '127.0.0.0/8',
   '10.0.0.0/8',
