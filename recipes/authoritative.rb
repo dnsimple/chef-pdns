@@ -1,7 +1,7 @@
 include_recipe "pdns::#{node['pdns']['build_method']}"
 
 template '/etc/powerdns/pdns.conf' do
-  source 'pdns.conf.erb'
+  source 'authoritative.conf.erb'
   owner 'pdns'
   group 'pdns'
   mode '0644'
