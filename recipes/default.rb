@@ -17,5 +17,3 @@
 # limitations under the License.
 #
 
-include_recipe "pdns::#{node['pdns']['mode']}"
-

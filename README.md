@@ -44,27 +44,34 @@ Where a list of values is used by the PowerDNS config, we use an Array value pop
 Recipes
 -------
 ### default
-Includes the `pdns::recursor` recipe.
-
-### recursor
-Sets up a PowerDNS Recursor.
-
-### server
-Sets up a PowerDNS Authoritative Server. Uses the SQLite backend by default with the `pdns::sqlite` recipe.
+Does nothing
 
 ### source
 Sets up a PowerDNS Authoritative Server from source.
 
-### sqlite
-Sets up an SQLite database backend for the `pdns::server`. This backend is the default.
+### recursor
+Sets up a PowerDNS Recursor.
 
+### authoritative
+Sets up a PowerDNS Authoritative Server. Uses the SQLite backend by default
+with the `pdns::backend_sqlite3` recipe.
+
+### authoritative_config
+Configures a PowerDNS Authoritative Server. This is separated because you can
+run any backend or even multiple backends.
+
+### backend_sqlite3
+Sets up an SQLite database backend for `pdns::authoritative`. This backend is
+the default.
+
+### backend_pgsql
+Sets up a PostgreSQL database backend for `pdns::authoritative`.
 
 Usage
 -----
-To set up a Recursor, simply put `recipe[pdns]` in the run list. Modify the attributes via a role or on the node directly as required for the local configuration. If using the recursor with an Authoritative Server running on the same system, the local address and port should be changed to a public IP and the forward zones recurse setting to point at the loopback for the local zone. This is generally assumed, and the default listen interface for the recursor is set to the nodes ipaddress attribute.
+To set up a Recursor, simply put `recipe[pdns::recursor]` in the run list. Modify the attributes via a role or on the node directly as required for the local configuration. If using the recursor with an Authoritative Server running on the same system, the local address and port should be changed to a public IP and the forward zones recurse setting to point at the loopback for the local zone. This is generally assumed, and the default listen interface for the recursor is set to the nodes ipaddress attribute.
 
-To set up an authoritative server, put `recipe[pdns::server]` in the run list. If another backend besides SQLite is desired, change the `node["pdns"]["server"]["backend"]` attribute.
-
+To set up an authoritative server, put `recipe[pdns::authoritative]` in the run list. If another backend besides SQLite is desired, change the `node["pdns"]["server"]["backend"]` attribute.
 
 License & Authors
 -----------------
