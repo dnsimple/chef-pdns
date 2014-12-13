@@ -11,5 +11,5 @@ supports 'ubuntu'
 depends "sqlite"
 depends "build-essential"
 depends "git"
+depends "mysql"
 depends "resolvconf"
-

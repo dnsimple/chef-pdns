@@ -1,12 +1,20 @@
-pdns Cookbook
-=============
+# pdns Cookbook
 Installs and configures PowerDNS (pdns). Sets up a recursor by default and can set up an Authoritative Server with multiple backends.
 
+## Requirements
 
-Requirements
-------------
-Tested on ArchLinux, and Ubuntu. Should work on Debian and Red Hat family, but needs EPEL repository enabled.
+### Platforms:
 
+* Ubuntu (12.04, 14.04)
+* Arch Linux
+
+### Cookbooks:
+
+* build-essential (for source build)
+* mysql (for the MySQL backend)
+* sqlite (for the SQLite backend)
+* git (for source build)
+* resolvconf (used in the server recipe for setting resolv.conf)
 
 Attributes
 ----------
@@ -63,7 +71,7 @@ License & Authors
 - Author:: Joshua Timberman (<joshua@opscode.com>)
 
 ```text
-Copyright:: 2010, Opscode, Inc
+Copyright:: 2010-2014, Opscode, Inc & 2014 Aetrion, LLC.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
