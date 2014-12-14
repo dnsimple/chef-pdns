@@ -10,5 +10,5 @@ default['pdns']['recursor']['allow_from'] = [
 default['pdns']['recursor']['auth_zones'] = []
 default['pdns']['recursor']['forward_zones'] = []
 default['pdns']['recursor']['forward_zones_recurse'] = []
-default['pdns']['recursor']['local_address'] = [node['ipaddress']]
+default['pdns']['recursor']['local_address'] = ['127.0.0.1']
 default['pdns']['recursor']['local_port'] = '53'
