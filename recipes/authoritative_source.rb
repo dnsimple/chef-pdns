@@ -79,11 +79,11 @@ execute 'pdns: build' do
   creates "#{pdns_dir}/pdns/pdns_server"
 end
 
-# execute 'pdns: install' do
-#   command 'make install'
-#   cwd node['pdns']['source']['path']
-#   creates '/usr/local/sbin/pdns_server'
-# end
+execute 'pdns: install' do
+  command 'make install'
+  cwd pdns_dir
+  creates '/usr/local/sbin/pdns_server'
+end
 
 # file '/usr/src/pdns/pdns/pdns' do
 #   owner 'root'
