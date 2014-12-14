@@ -34,3 +34,30 @@ def pdns_dir(uri)
   base_path = node['pdns']['authoritative']['source']['path']
   "#{base_path}/#{::File.basename(filename, extension)}"
 end
+
+def pdns_modules_requirements
+  modules = node['pdns']['authoritative']['source']['backends']
+  required_packages = []
+  modules.each do |mod|
+    case mod
+    when 'gpgsql'
+      required_packages << 'libpq-dev'
+    when 'gmysql'
+      required_packages << 'libmysqlclient-dev'
+    end
+  end
+  required_packages
+end
+
+def pdns_modules_config
+  modules = node['pdns']['authoritative']['source']['backends']
+  with_configs = []
+  modules.each do |mod|
+    case mod
+    when 'gpgsql'
+    # when 'gmysql'
+    #   with_configs << '--with-mysql-includes=/usr/include'
+    end
+  end
+  with_configs.join(' ')
+end

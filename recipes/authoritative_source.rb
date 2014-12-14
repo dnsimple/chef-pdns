@@ -23,7 +23,6 @@ package 'libtool'
 package 'pkg-config'
 package 'libboost-all-dev'
 package 'ragel'
-package 'libpq-dev'
 
 # Base install directory
 pdns_basepath = node['pdns']['authoritative']['source']['path']
@@ -40,7 +39,7 @@ remote_file pdns_filepath do
 end
 
 bash 'unarchive_source' do
-  cwd '/opt'
+  cwd node['pdns']['authoritative']['source']['path']
   code <<-EOH
   tar xjf #{::File.basename(pdns_filepath)} -C #{::File.dirname(pdns_filepath)}
   EOH
@@ -53,27 +52,32 @@ directory node['pdns']['authoritative']['config_dir'] do
   mode '0755'
 end
 
-# execute 'pdns: bootstrap' do
-#   command './bootstrap && ./bootstrap'
-#   cwd path
-#   creates '/usr/src/pdns/configure'
-# end
+execute 'pdns: bootstrap' do
+  # This insanity is documented in the README
+  command './bootstrap && ./bootstrap'
+  cwd pdns_dir
+  creates "#{pdns_dir}/configure"
+end
 
-# execute 'pdns: configure' do
-#   command './configure ' +
-#     "--with-modules='#{node['pdns']['source']['backends'].join(' ')}' " +
-#     "--with-config-dir=#{node['pdns']['source']['config_dir']} " +
-#     '--with-mysql-includes=/usr/include ' +
-#     '--without-lua'
-#   cwd path
-#   creates '/usr/src/pdns/config.h'
-# end
+pdns_modules_requirements.each do |pkg|
+  package pkg
+end
 
-# execute 'pdns: build' do
-#   command 'make'
-#   cwd node['pdns']['source']['path']
-#   creates '/usr/src/pdns/pdns/pdns_server'
-# end
+execute 'pdns: configure' do
+  command './configure ' +
+    "--with-modules='#{node['pdns']['authoritative']['source']['backends'].join(' ')}' " +
+    "--sysconfdir=#{node['pdns']['authoritative']['config_dir']} " +
+    pdns_modules_config +
+    '--without-lua'
+  cwd pdns_dir
+  creates "#{pdns_dir}/config.h"
+end
+
+execute 'pdns: build' do
+  command 'make'
+  cwd pdns_dir
+  creates "#{pdns_dir}/pdns/pdns_server"
+end
 
 # execute 'pdns: install' do
 #   command 'make install'
@@ -97,4 +101,3 @@ end
 #   group 'root'
 #   mode '0755'
 # end
-
