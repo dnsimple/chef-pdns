@@ -15,6 +15,12 @@ suites:
   run_list:
     - recipe[pdns::authoritative]
   attributes: {}
+- name: authoritative_source
+  run_list:
+    - recipe[pdns::authoritative]
+  attributes:
+    pdns:
+      build_method: source
 - name: backend_pgsql
   run_list:
     - recipe[pdns::authoritative]
