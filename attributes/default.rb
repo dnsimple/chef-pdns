@@ -18,14 +18,6 @@
 #
 
 default['pdns']['build_method'] = 'package'
-
 default['pdns']['user'] = 'pdns'
 default['pdns']['group'] = 'pdns'
 
-default['pdns']['authoritative']['source']['url'] = 'https://downloads.powerdns.com/releases/pdns-3.4.1.tar.bz2'
-default['pdns']['authoritative']['source']['path'] = '/opt'
-default['pdns']['authoritative']['source']['backends'] = %w( pipe gpgsql gmysql )
-default['pdns']['authoritative']['source']['config_dir'] = node['pdns']['authoritative']['config_dir']
-
-# The backend to launch with the authoritative server
-default['pdns']['authoritative']['launch'] = 'gpgsql'
