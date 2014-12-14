@@ -17,7 +17,6 @@
 # limitations under the License.
 #
 
-default['pdns']['mode'] = 'recursor'
 default['pdns']['build_method'] = 'package'
 
 default['pdns']['user'] = 'pdns'
