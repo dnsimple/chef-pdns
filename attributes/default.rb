@@ -25,3 +25,6 @@ default['pdns']['group'] = 'pdns'
 default['pdns']['authoritative']['source']['path'] = '/usr/src/pdns'
 default['pdns']['authoritative']['source']['backends'] = %w( pipe gpgsql gmysql )
 default['pdns']['authoritative']['source']['config_dir'] = node['pdns']['authoritative']['config_dir']
+
+# The backend to launch with the authoritative server
+default['pdns']['authoritative']['launch'] = 'gpgsql'
