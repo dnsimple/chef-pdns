@@ -27,7 +27,7 @@ end
 execute 'pdns: configure' do
   command './configure ' +
     "--with-modules='#{node['pdns']['source']['backends'].join(' ')}' " +
-    "--with-config-dir=#{node['pdns']['source']['config_dir']} " + 
+    "--with-config-dir=#{node['pdns']['source']['config_dir']} " +
     '--with-mysql-includes=/usr/include ' +
     '--without-lua'
   cwd path
