@@ -21,7 +21,7 @@ default['pdns']['authoritative']['config_dir'] = '/etc/powerdns'
 
 default['pdns']['authoritative']['source']['url'] = 'https://downloads.powerdns.com/releases/pdns-3.4.1.tar.bz2'
 default['pdns']['authoritative']['source']['path'] = '/opt'
-default['pdns']['authoritative']['source']['backends'] = %w( pipe gpgsql gmysql )
+default['pdns']['authoritative']['source']['backends'] = %w( pipe )
 
 default['pdns']['authoritative']['config']['config_dir'] = node['pdns']['authoritative']['config_dir']
 default['pdns']['authoritative']['config']['allow_recursion'] = [ '127.0.0.1' ]
@@ -32,5 +32,6 @@ default['pdns']['authoritative']['config']['setgid'] = node['pdns']['group']
 default['pdns']['authoritative']['config']['setuid'] = node['pdns']['user']
 default['pdns']['authoritative']['config']['version_string'] = 'powerdns'
 default['pdns']['authoritative']['config']['default_ttl'] = '3600'
+default['pdns']['authoritative']['config']['pipe_command'] = '/opt/pdns-3.4.1/modules/pipebackend/backend.pl'
 default['pdns']['authoritative']['config']['launch'] = 'pipe'
 
