@@ -1,4 +1,5 @@
 # pdns Cookbook
+
 Installs and configures PowerDNS (pdns). Sets up a recursor by default and can set up an Authoritative Server with multiple backends.
 
 ## Requirements
@@ -68,7 +69,7 @@ Key                            | Type     | Description                         
   <tr>
     <td><tt>['pdns']['authoritative']['package']['backends']</tt></td>
     <td>Array</td>
-    <td>List of backends to setup and configure with PowerDNS</td>
+    <td>List of backends to install and configure with PowerDNS via packages</td>
     <td><tt>['pipe']</tt></td>
   </tr>
 </table>
@@ -91,18 +92,19 @@ define the attribute entirely.
 
 ### recursor
 
-Key                            | Type     | Description                                 | Default
--------------------------------| ---------|---------------------------------------------|---------
-`node['pdns']['user']`         | String   | User to setuid the pdns daemons             | pdns
-`node['pdns']['group']`        | String   | Group to setuid the pdns daemons            | pdns
-`node['pdns']['build_method']` | String   | Type of installation, 'package' or 'source' | package
+The `['pdns']['recursor']['config']` array directly maps to each
+configuration directive in the configuration file. Of special note is
+any configuration option that needs a hyphen (`-`) should be defined
+as an underscore (`_`) and it will be converted at compilation time.
 
-- `node["pdns"]["recursor"]["allow_from"]` - Array list of netmasks to recurse, corresponds to recursor.conf value `allow-from`, default ["127.0.0.0/8", "0.0.0.0/8", "92.168.0.0/16", "72.16.0.0/12", ":1/128", "e80::/10"].
-- `node["pdns"]["recursor"]["auth_zones"]` - Array list of 'zonename=filename' pairs served authoritatively, corresponds to recursor.conf value `auth-zones`, default [].
-- `node["pdns"]["recursor"]["forward_zones"]` - Array list of 'zonename=IP' pairs. Queries for the zone are forwarded to the specified IP, corresponds to recursor.conf value `forward-zones`, default [].
-- `node["pdns"]["recursor"]["forward_zones_recurse"]` - Array list of 'zonename=IP' pairs. Like `forward_zones` above, sets the `recursion_desired` bit to 1, corresponds to recursor.conf value `forward-zones-recurse`, default [].
-- `node["pdns"]["recursor"]["local_address"]` - Array list of the local IPv4 or IPv6 addresses to bind to, corresponds to the recursor.conf value `local-address` default [ipaddress] under the assumption that the recursor is used with an Authoritative Server on the same system.
-- `node["pdns"]["recursor"]["local_port"]` - Local port to bind, default '53'.
+For example, if you want the version-string setting to be changed, you'll want
+to define it like so:
+
+`default['pdns']['recursor']['config']['local_port'] = '53'`
+
+Another thing to note is boolean values are mapped to 'yes' and 'no'
+respectively. If you want to remove a value, simply set it to 'nil' or do not
+define the attribute entirely.
 
 ## Recipes
 
