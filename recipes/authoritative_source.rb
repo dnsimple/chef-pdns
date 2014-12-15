@@ -38,6 +38,11 @@ remote_file pdns_filepath do
   action :create_if_missing
 end
 
+user node['pdns']['user'] do
+  system true
+  shell  '/bin/false'
+end
+
 bash 'unarchive_source' do
   cwd node['pdns']['authoritative']['source']['path']
   code <<-EOH
