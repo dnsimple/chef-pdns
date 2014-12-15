@@ -49,15 +49,3 @@ def pdns_modules_requirements
   required_packages
 end
 
-def pdns_modules_config
-  modules = node['pdns']['authoritative']['source']['backends']
-  with_configs = []
-  modules.each do |mod|
-    case mod
-    when 'gpgsql'
-    # when 'gmysql'
-    #   with_configs << '--with-mysql-includes=/usr/include'
-    end
-  end
-  with_configs.join(' ')
-end
