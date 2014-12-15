@@ -1,3 +1,15 @@
+# 1.0.0 / 2014-12-15
+
+### Breaking Changes
+
+* There have been major changes to the recipes and attributes of this
+  cookbook in the first of many efforts to stabilize and modernize everything.
+  Please review the updated README and take special note of the install type
+  and backend attributes to suit your configuration.
+
+* We plan to eventually migrate the recipes over to LWRP's to make this
+  cookbook easier to wrap and extend.
+
 # 0.3.4 / 2014-07-15
 
 ### Testing
