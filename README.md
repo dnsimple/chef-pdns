@@ -6,18 +6,19 @@ Installs and configures PowerDNS (pdns). Sets up a recursor by default and can s
 ### Platforms:
 
 * Ubuntu (12.04, 14.04)
-* Arch Linux
 
-### Cookbooks:
+### Required Cookbooks:
 
 * build-essential (for source build)
-* mysql (for the MySQL backend)
-* sqlite (for the SQLite backend)
-* git (for source build)
 * resolvconf (used in the server recipe for setting resolv.conf)
 
-Attributes
-----------
+### Suggested Cookbooks:
+
+* mysql (for the MySQL backend)
+* sqlite (for the SQLite backend)
+* postgres (for the PostgreSQL backend)
+
+## Attributes
 Attributes used by the recipes and templates. Some correspond to configuration file values. The default setting in the attribute matches the default value in PowerDNS itself where possible and is populated in the appropriate template (`/etc/powerdns/recursor.conf` and `/etc/powerdns/pdns.conf` respectively for the recursor or server). Where applicable, values are namespaced in the attributes by `server` or `recursor`.
 
 Where a list of values is used by the PowerDNS config, we use an Array value populated with the defaults. This gives more flexibility in recipes to manipulate the list easily using Ruby Array methods.
