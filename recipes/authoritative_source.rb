@@ -72,7 +72,6 @@ execute 'pdns: configure' do
   command './configure ' +
     "--with-modules='#{node['pdns']['authoritative']['source']['backends'].join(' ')}' " +
     "--sysconfdir=#{node['pdns']['authoritative']['config_dir']} " +
-    pdns_modules_config +
     '--without-lua'
   cwd pdns_dir
   creates "#{pdns_dir}/config.h"
