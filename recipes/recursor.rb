@@ -17,26 +17,16 @@
 # limitations under the License.
 #
 
-package "pdns-recursor"
+package 'pdns-recursor'
 
-service "pdns-recursor" do
+service 'pdns-recursor' do
   action [:enable, :start]
 end
 
-case node["platform"]
-when "arch"
-  user "pdns" do
-    shell "/bin/false"
-    home "/var/spool/powerdns"
-    supports :manage_home => true
-    system true
-  end
-end
-
 template "#{node['pdns']['recursor']['config_dir']}/recursor.conf" do
-  source "recursor.conf.erb"
-  owner "root"
-  group "root"
+  source 'recursor.conf.erb'
+  owner 'root'
+  group 'root'
   mode 0644
-  notifies :restart, "service[pdns-recursor]", :immediately
+  notifies :restart, 'service[pdns-recursor]', :immediately
 end

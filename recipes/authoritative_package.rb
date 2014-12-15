@@ -1,8 +1,8 @@
 #
 # Cookbook Name:: pdns
-# Attributes:: default
+# Recipe:: server
 #
-# Copyright 2014, Aetrion, LLC.
+# Copyright 2010, Opscode, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,7 +17,8 @@
 # limitations under the License.
 #
 
-default['pdns']['build_method'] = 'package'
-default['pdns']['user'] = 'pdns'
-default['pdns']['group'] = 'pdns'
+package 'pdns-server'
 
+pdns_package_module_requirements.each do |pkg|
+  package pkg
+end

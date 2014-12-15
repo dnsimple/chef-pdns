@@ -1,8 +1,8 @@
 #
 # Cookbook Name:: pdns
-# Recipe:: default
+# Recipe:: authoritative
 #
-# Copyright 2010, Opscode, Inc.
+# Copyright 2014, Aetrion, LLC.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,4 +17,4 @@
 # limitations under the License.
 #
 
-include_recipe "pdns::recursor"
+include_recipe "pdns::authoritative_#{node['pdns']['build_method']}"
