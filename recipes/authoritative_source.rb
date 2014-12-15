@@ -85,11 +85,13 @@ execute 'pdns: install' do
   creates '/usr/local/sbin/pdns_server'
 end
 
-# file '/usr/src/pdns/pdns/pdns' do
-#   owner 'root'
-#   group 'root'
-#   mode '0755'
-# end
+template '/etc/powerdns/pdns.conf' do
+  source 'authoritative.conf.erb'
+  owner node['pdns']['user']
+  group node['pdns']['group']
+  mode 0644
+  notifies :restart, 'service[pdns]'
+end
 
 # execute 'copy pdns init' do
 #   command 'cp /usr/src/pdns/pdns/pdns /etc/init.d/pdns'

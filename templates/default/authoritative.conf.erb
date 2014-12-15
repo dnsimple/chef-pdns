@@ -1,4 +1,4 @@
-<% node['pdns']['authoritative'].sort.each do |key, value| %>
+<% node['pdns']['authoritative']['config'].sort.each do |key, value| %>
 <% next if value.nil? %>
 <%= key.gsub('_', '-') %>=<%=
   case value
