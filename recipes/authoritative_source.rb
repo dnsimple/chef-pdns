@@ -98,13 +98,15 @@ template '/etc/powerdns/pdns.conf' do
   notifies :restart, 'service[pdns]'
 end
 
-# execute 'copy pdns init' do
-#   command 'cp /usr/src/pdns/pdns/pdns /etc/init.d/pdns'
-#   not_if 'diff /usr/src/pdns/pdns/pdns /etc/init.d/pdns'
-# end
+template '/etc/init.d/pdns' do
+  source 'pdns.init.erb'
+  owner 'root'
+  group 'root'
+  mode 0755
+end
 
-# file '/etc/init.d/pdns' do
-#   owner 'root'
-#   group 'root'
-#   mode '0755'
-# end
+service 'pdns' do
+  provider Chef::Provider::Service::Init::Debian
+  supports status: true, restart: true, reload: true
+  action [:enable, :start]
+end
