@@ -18,7 +18,9 @@
 #
 
 default['pdns']['recursor']['config_dir'] = '/etc/powerdns'
-default['pdns']['recursor']['allow_from'] = [
+
+default['pdns']['recursor']['config']['config_dir'] = node['pdns']['recursor']['config_dir']
+default['pdns']['recursor']['config']['allow_from'] = [
   '127.0.0.0/8',
   '10.0.0.0/8',
   '192.168.0.0/16',
@@ -26,8 +28,8 @@ default['pdns']['recursor']['allow_from'] = [
   '::1/128',
   'e80::/10'
 ]
-default['pdns']['recursor']['auth_zones'] = []
-default['pdns']['recursor']['forward_zones'] = []
-default['pdns']['recursor']['forward_zones_recurse'] = []
-default['pdns']['recursor']['local_address'] = ['127.0.0.1']
-default['pdns']['recursor']['local_port'] = '53'
+default['pdns']['recursor']['config']['auth_zones'] = []
+default['pdns']['recursor']['config']['forward_zones'] = []
+default['pdns']['recursor']['config']['forward_zones_recurse'] = []
+default['pdns']['recursor']['config']['local_address'] = ['127.0.0.1']
+default['pdns']['recursor']['config']['local_port'] = '53'
