@@ -35,7 +35,21 @@ def pdns_dir(uri)
   "#{base_path}/#{::File.basename(filename, extension)}"
 end
 
-def pdns_modules_requirements
+def pdns_package_module_requirements
+  modules = node['pdns']['authoritative']['package']['backends']
+  required_packages = []
+  modules.each do |mod|
+    case mod
+    when 'gpgsql'
+      required_packages << 'pdns-backend-pgsql'
+    when 'gmysql'
+      required_packages << 'pdns-backend-mysql'
+    end
+  end
+  required_packages
+end
+
+def pdns_source_module_requirements
   modules = node['pdns']['authoritative']['source']['backends']
   required_packages = []
   modules.each do |mod|

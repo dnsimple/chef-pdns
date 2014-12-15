@@ -64,7 +64,7 @@ execute 'pdns: bootstrap' do
   creates "#{pdns_dir}/configure"
 end
 
-pdns_modules_requirements.each do |pkg|
+pdns_source_module_requirements.each do |pkg|
   package pkg
 end
 

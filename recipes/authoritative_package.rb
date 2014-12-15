@@ -18,3 +18,7 @@
 #
 
 package 'pdns-server'
+
+pdns_package_module_requirements.each do |pkg|
+  package pkg
+end
