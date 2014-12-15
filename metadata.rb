@@ -6,10 +6,11 @@ description      'Installs/Configures pdns'
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
 version          '0.4.0'
 
-supports 'ubuntu'
+supports 'ubuntu', '>= 12.04'
 
-depends 'sqlite'
 depends 'build-essential'
-depends 'git'
-depends 'mysql'
 depends 'resolvconf'
+
+suggests 'mysql'
+suggests 'sqlite'
+suggests 'postgres'
