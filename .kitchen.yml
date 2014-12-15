@@ -23,7 +23,13 @@ suites:
       build_method: source
 - name: backend_pgsql
   run_list:
+    - recipe[postgresql]
     - recipe[pdns::authoritative]
     - recipe[pdns::backend_pgsql]
     - recipe[pdns::authoritative_config]
-  attributes: {}
+  attributes:
+    pdns:
+      authoritative:
+        package:
+          backends:
+          - gpgsql
