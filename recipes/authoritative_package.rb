@@ -22,3 +22,17 @@ package 'pdns-server'
 pdns_package_module_requirements.each do |pkg|
   package pkg
 end
+
+template "#{node['pdns']['authoritative']['config_dir']}/pdns.conf" do
+  source 'authoritative.conf.erb'
+  owner node['pdns']['user']
+  group node['pdns']['group']
+  mode 0644
+  notifies :restart, 'service[pdns]'
+end
+
+service 'pdns' do
+  provider Chef::Provider::Service::Init::Debian
+  supports status: true, restart: true, reload: true
+  action [:enable, :start]
+end
