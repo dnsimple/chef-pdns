@@ -1,3 +1,9 @@
+# 1.0.1 / 2014-12-17
+
+### Bug Fixes
+
+* Adding missing configuration bits for authoritative_package recipe
+
 # 1.0.0 / 2014-12-15
 
 ### Breaking Changes

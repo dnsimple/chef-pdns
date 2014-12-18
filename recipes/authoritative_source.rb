@@ -89,7 +89,7 @@ execute 'pdns: install' do
   creates '/usr/local/sbin/pdns_server'
 end
 
-template '/etc/powerdns/pdns.conf' do
+template "#{node['pdns']['authoritative']['config_dir']}/pdns.conf" do
   source 'authoritative.conf.erb'
   owner node['pdns']['user']
   group node['pdns']['group']
