@@ -1,8 +1,8 @@
 #
 # Cookbook Name:: pdns
-# Recipe:: default
+# Recipe:: recursor
 #
-# Copyright 2010, Opscode, Inc.
+# Copyright 2014, Aetrion, LLC.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
