@@ -14,23 +14,61 @@ suites:
   attributes: {}
 - name: authoritative
   run_list:
-    - recipe[pdns::authoritative]
+    - recipe[pdns::default]
   attributes: {}
 - name: authoritative_source
   run_list:
-    - recipe[pdns::authoritative]
+    - recipe[pdns::default]
   attributes:
     pdns:
       build_method: source
-- name: backend_pgsql
+      flavor: authoritative
+- name: backend_pgsql_source
   run_list:
-    - recipe[postgresql]
-    - recipe[pdns::authoritative]
-    - recipe[pdns::backend_pgsql]
-    - recipe[pdns::authoritative_config]
+    - recipe[postgresql::server]
+    - recipe[pdns::default]
   attributes:
     pdns:
+      build_method: source
+      flavor: authoritative
+      package:
+        backends:
+        - gpgsql
       authoritative:
-        package:
-          backends:
-          - gpgsql
+        config:
+          launch: gpgsql
+    postgresql:
+      password:
+        postgres: wadus
+- name: backend_pgsql_package
+  run_list:
+    - recipe[postgresql::server]
+    - recipe[pdns::default]
+  attributes:
+    pdns:
+      build_method: package
+      flavor: authoritative
+      package:
+        backends:
+        - gpgsql
+      authoritative:
+        config:
+          launch: gpgsql
+    postgresql:
+      password:
+        postgres: wadus
+- name: slave_source
+  run_list:
+    - recipe[pdns::default]
+  attributes: 
+    pdns:
+      build_method: source
+      flavor: slave
+- name: slave_package
+  run_list:
+    - recipe[pdns::default]
+  attributes:
+    pdns:
+      build_method: package
+      flavor: slave
+
