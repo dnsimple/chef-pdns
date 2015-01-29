@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: pdns
-# Recipe:: authoritative
+# Recipe:: authoritative_source
 #
 # Copyright 2014, Aetrion, LLC.
 #
@@ -17,95 +17,10 @@
 # limitations under the License.
 #
 
-include_recipe 'build-essential'
+backends = node['pdns']['source']['backends'] + node['pdns']['authoritative']['backends']
+node.set['pdns']['source']['backends'] = backends.uniq
 
-package 'libtool'
-package 'pkg-config'
-package 'libboost-all-dev'
-package 'ragel'
+include_recipe 'pdns::_source'
+include_recipe 'pdns::_config'
+include_recipe 'pdns::_service'
 
-# Base install directory
-pdns_basepath = node['pdns']['authoritative']['source']['path']
-# Filename
-pdns_filename = pdns_file(node['pdns']['authoritative']['source']['url'])
-# Base install dir + Filename
-pdns_filepath = "#{pdns_basepath}/#{pdns_filename}"
-# Base install dir + (Filename - Extension)
-pdns_dir = pdns_dir(pdns_filename)
-
-remote_file pdns_filepath do
-  source node['pdns']['authoritative']['source']['url']
-  action :create_if_missing
-end
-
-user node['pdns']['user'] do
-  system true
-  shell  '/bin/false'
-end
-
-bash 'unarchive_source' do
-  cwd node['pdns']['authoritative']['source']['path']
-  code <<-EOH
-  tar xjf #{::File.basename(pdns_filepath)} -C #{::File.dirname(pdns_filepath)}
-  EOH
-  not_if { ::File.directory?("#{pdns_dir}") }
-end
-
-directory node['pdns']['authoritative']['config_dir'] do
-  owner node['pdns']['user']
-  group node['pdns']['group']
-  mode '0755'
-end
-
-execute 'pdns: bootstrap' do
-  # This insanity is documented in the README
-  command './bootstrap && ./bootstrap'
-  cwd pdns_dir
-  creates "#{pdns_dir}/configure"
-end
-
-pdns_source_module_requirements.each do |pkg|
-  package pkg
-end
-
-execute 'pdns: configure' do
-  command './configure ' +
-    "--with-modules='#{node['pdns']['authoritative']['source']['backends'].join(' ')}' " +
-    "--sysconfdir=#{node['pdns']['authoritative']['config_dir']} " +
-    '--without-lua'
-  cwd pdns_dir
-  creates "#{pdns_dir}/config.h"
-end
-
-execute 'pdns: build' do
-  command 'make'
-  cwd pdns_dir
-  creates "#{pdns_dir}/pdns/pdns_server"
-end
-
-execute 'pdns: install' do
-  command 'make install'
-  cwd pdns_dir
-  creates '/usr/local/sbin/pdns_server'
-end
-
-template "#{node['pdns']['authoritative']['config_dir']}/pdns.conf" do
-  source 'authoritative.conf.erb'
-  owner node['pdns']['user']
-  group node['pdns']['group']
-  mode 0644
-  notifies :restart, 'service[pdns]'
-end
-
-template '/etc/init.d/pdns' do
-  source 'pdns.init.erb'
-  owner 'root'
-  group 'root'
-  mode 0755
-end
-
-service 'pdns' do
-  provider Chef::Provider::Service::Init::Debian
-  supports status: true, restart: true, reload: true
-  action [:enable, :start]
-end

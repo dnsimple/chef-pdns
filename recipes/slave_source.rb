@@ -1,8 +1,8 @@
 #
 # Cookbook Name:: pdns
-# Recipe:: authoritative_package
+# Recipe:: slave_source
 #
-# Copyright 2010, Opscode, Inc.
+# Copyright 2014, Aetrion, LLC.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,10 +17,10 @@
 # limitations under the License.
 #
 
-backends = node['pdns']['package']['backends'] + node['pdns']['authoritative']['backends']
+backends = node['pdns']['package']['backends'] + node['pdns']['slave']['backends']
 node.set['pdns']['package']['backends'] = backends.uniq
 
-include_recipe 'pdns::_package'
+include_recipe 'pdns::_source'
 include_recipe 'pdns::_config'
 include_recipe 'pdns::_service'
 
