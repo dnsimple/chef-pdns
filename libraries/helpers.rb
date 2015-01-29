@@ -31,12 +31,12 @@ def pdns_dir(uri)
   path = pdns_pathname(uri)
   extension = '.tar.bz2'
   filename = path.basename.to_s
-  base_path = node['pdns']['authoritative']['source']['path']
+  base_path = node['pdns']['source']['path']
   "#{base_path}/#{::File.basename(filename, extension)}"
 end
 
 def pdns_package_module_requirements
-  modules = node['pdns']['authoritative']['package']['backends']
+  modules = node['pdns']['package']['backends']
   required_packages = []
   modules.each do |mod|
     case mod
@@ -50,7 +50,7 @@ def pdns_package_module_requirements
 end
 
 def pdns_source_module_requirements
-  modules = node['pdns']['authoritative']['source']['backends']
+  modules = node['pdns']['source']['backends']
   required_packages = []
   modules.each do |mod|
     case mod
