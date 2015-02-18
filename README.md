@@ -135,13 +135,13 @@ To set up an authoritative server, put `recipe[pdns::authoritative]` in the run 
 
 License & Authors
 -----------------
-- Author:: Joshua Timberman (<joshua@opscode.com>)
+- Author:: Joshua Timberman (<joshua@chef.io>)
 - Author:: Aaron Kalin (<aaron.kalin@dnsimple.com>)
 - Author:: Jacobo García (<jacobo.garcia@dnsimple.com>)
 - Author:: Anthony Eden (<anthony.eden@dnsimple.com>)
 
 ```text
-Copyright:: 2010-2014, Opscode, Inc & 2014 Aetrion, LLC.
+Copyright:: 2010-2014, Chef Software, Inc & 2014 Aetrion, LLC.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
