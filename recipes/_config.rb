@@ -17,11 +17,12 @@
 # limitations under the License.
 #
 
-template "#{node['pdns']['config_dir']}/pdns.conf" do
+config_file_path = "#{node['pdns'][node['pdns']['flavor']]['config']['config_dir']}/pdns.conf"
+
+template config_file_path do
   source 'pdns.conf.erb'
   owner node['pdns']['user']
   group node['pdns']['group']
   mode 0644
   notifies :restart, 'service[pdns]'
 end
-

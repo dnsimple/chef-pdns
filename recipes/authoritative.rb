@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: pdns
-# Recipe:: slave_package
+# Recipe:: authoritative_package
 #
 # Copyright 2010, Opscode, Inc.
 #
@@ -17,10 +17,11 @@
 # limitations under the License.
 #
 
-backends = node['pdns']['package']['backends'] + node['pdns']['slave']['backends']
-node.set['pdns']['package']['backends'] = backends.uniq
+build_method = node['pdns']['build_method']
 
-include_recipe 'pdns::_package'
+backends = node['pdns'][build_method]['backends'] + node['pdns']['authoritative']['backends']
+node.set['pdns'][build_method]['backends'] = backends.uniq
+
+include_recipe "pdns::_#{build_method}"
 include_recipe 'pdns::_config'
 include_recipe 'pdns::_service'
-

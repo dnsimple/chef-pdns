@@ -51,7 +51,7 @@ bash 'unarchive_source' do
   not_if { ::File.directory?("#{pdns_dir}") }
 end
 
-directory node['pdns']['config_dir'] do
+directory node['pdns'][node['pdns']['flavor']]['config']['config_dir'] do
   owner node['pdns']['user']
   group node['pdns']['group']
   mode '0755'
@@ -71,7 +71,7 @@ end
 execute 'pdns: configure' do
   command './configure ' +
     "--with-modules='#{node['pdns']['source']['backends'].join(' ')}' " +
-    "--sysconfdir=#{node['pdns']['config_dir']} " +
+    "--sysconfdir=#{node['pdns'][node['pdns']['flavor']]['config']['config_dir']} " +
     '--without-lua'
   cwd pdns_dir
   creates "#{pdns_dir}/config.h"

@@ -17,4 +17,4 @@
 # limitations under the License.
 #
 
-include_recipe "pdns::#{node['pdns']['flavor']}_#{node['pdns']['build_method']}"
+include_recipe "pdns::#{node['pdns']['flavor']}"
