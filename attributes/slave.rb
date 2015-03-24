@@ -20,10 +20,10 @@
 default['pdns']['slave']['backends'] = %w( bind )
 default['pdns']['slave']['config']['launch'] = 'bind'
 
-default['pdns']['slave']['config']['config_dir'] = node['pdns']['config_dir']
-default['pdns']['slave']['config']['setgid'] = node['pdns']['group']
-default['pdns']['slave']['config']['setuid'] = node['pdns']['user']
-default['pdns']['slave']['config']['version_string'] = node['pdns']['version_string']
+default['pdns']['slave']['config']['config_dir'] = '/etc/powerdns'
+default['pdns']['slave']['config']['setgid'] = 'pdns'
+default['pdns']['slave']['config']['setuid'] = 'pdns'
+default['pdns']['slave']['config']['version_string'] = 'powerdns'
 
 default['pdns']['slave']['config']['master'] = false
 default['pdns']['slave']['config']['slave'] = true

@@ -19,9 +19,5 @@
 
 default['pdns']['build_method'] = 'package'
 default['pdns']['flavor'] = 'authoritative'
-
 default['pdns']['user'] = 'pdns'
 default['pdns']['group'] = 'pdns'
-default['pdns']['config_dir'] = '/etc/powerdns'
-default['pdns']['version_string'] = 'powerdns'
-
