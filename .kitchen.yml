@@ -10,12 +10,8 @@ platforms:
 suites:
 - name: recursor
   run_list:
-    - recipe[pdns::recursor]
-  attributes: {}
-- name: authoritative
-  run_list:
     - recipe[pdns::default]
-  attributes: {}
+  attributes:
 - name: authoritative_source
   run_list:
     - recipe[pdns::default]

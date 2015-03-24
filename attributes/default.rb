@@ -18,6 +18,6 @@
 #
 
 default['pdns']['build_method'] = 'package'
-default['pdns']['flavor'] = 'authoritative'
+default['pdns']['flavor'] = 'recursor'
 default['pdns']['user'] = 'pdns'
 default['pdns']['group'] = 'pdns'
