@@ -23,6 +23,13 @@ suites:
     pdns:
       build_method: source
       flavor: authoritative
+      source:
+        backends:
+          - gpgsql
+          - bind
+      authoritative:
+        backends:
+          - gmysql
 - name: backend_pgsql_source
   run_list:
     - recipe[postgresql::server]
@@ -31,10 +38,9 @@ suites:
     pdns:
       build_method: source
       flavor: authoritative
-      package:
-        backends:
-        - gpgsql
       authoritative:
+        backends:
+          - gpgsql
         config:
           launch: gpgsql
     postgresql:
@@ -51,7 +57,6 @@ suites:
       package:
         backends:
         - gpgsql
-      authoritative:
         config:
           launch: gpgsql
     postgresql:
