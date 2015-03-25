@@ -50,7 +50,7 @@ Key                                 | Type     | Description                    
 ### package
 
 Key                                  | Type     | Description                                           | Default
-----------------------.--------------| ---------|-------------------------------------------------------|---------
+-------------------------------------| ---------|-------------------------------------------------------|---------
 `node['pdns']['package']['backends']`| Array    | List of backends to install with PowerDNS             | [ 'bind' ] 
 
 ### authoritative
@@ -90,8 +90,7 @@ Key                                                           | Type     | Descr
 --------------------------------------------------------------|----------|-------------------------------------------------------------------|---------
 `node['pdns']['recursor']['config_dir']`                      | String   | Location of configuration directory                               | /etc/powerdns
 `node['pdns']['recursor']['config']['config_dir']`            | String   | Location of configuration directory                               | /etc/powerdns
-`node['pdns']['recursor']['config']['allow_from']`            | Array    | Netmasks that are allowed to use the server                       | '127.0.0.0/8',
-  '10.0.0.0/8', '192.168.0.0/16','172.16.0.0/12', '::1/128', 'e80::/10'
+`node['pdns']['recursor']['config']['allow_from']`            | Array    | Netmasks that are allowed to use the server                       | '127.0.0.0/8', '10.0.0.0/8', '192.168.0.0/16', '172.16.0.0/12', '::1/128', 'e80::/10'
 `node['pdns']['recursor']['config']['auth_zones']`            | Array    | Zones read from these files are served authoritatively            | [ ]
 `node['pdns']['recursor']['config']['forward_zones']`         | Array    | Queries for zones listed here will be forwarded to the IP         | [ ]
 `node['pdns']['recursor']['config']['forward_zones_recurse']` | Array    | Add the recurse bit to the behavior of forward zones              | [ ]
