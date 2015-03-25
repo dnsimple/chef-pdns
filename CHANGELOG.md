@@ -1,3 +1,13 @@
+# 1.1.0 / 2015-03-25
+
+### Enhancements
+
+* Recursor is now the default behavior
+* Adding a new slave PowerDNS server configuration
+* Refactor of authoritative part
+* Refactor of build related code
+* Expanded documentation
+
 # 1.0.1 / 2014-12-17
 
 ### Bug Fixes
