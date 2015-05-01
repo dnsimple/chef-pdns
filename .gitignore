@@ -1,5 +1,6 @@
 .kitchen/
 .kitchen.local.yml
+.kitchen.list.yml
 .librarian/
 tmp/
 Cheffile.lock
