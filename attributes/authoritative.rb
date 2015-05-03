@@ -20,7 +20,8 @@
 default['pdns']['authoritative']['config_dir'] = '/etc/powerdns'
 
 # For Source based builds
-default['pdns']['authoritative']['source']['url'] = 'https://downloads.powerdns.com/releases/pdns-3.4.4.tar.bz2'
+default['pdns']['authoritative']['source']['version'] = '3.4.4'
+default['pdns']['authoritative']['source']['url'] = "https://downloads.powerdns.com/releases/pdns-#{node['pdns']['authoritative']['source']['version']}.tar.bz2"
 default['pdns']['authoritative']['source']['path'] = '/opt'
 default['pdns']['authoritative']['source']['backends'] = %w( pipe )
 
