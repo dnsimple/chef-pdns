@@ -1,3 +1,15 @@
+# 1.0.2 / 2015-05-04
+
+### Security
+
+* Updating to version 3.4.4 of authoritative powerdns server in order to address
+  PowerDNS Security Advisory 2015-01: Label decompression bug can cause crashes 
+  or CPU spikes.
+
+### Bug Fixes
+
+* Allowing pdns_server to automatically upgrade in source installs
+
 # 1.0.1 / 2014-12-17
 
 ### Bug Fixes
