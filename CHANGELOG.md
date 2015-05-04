@@ -1,5 +1,12 @@
 # 1.0.2 / 2015-05-04
 
+### Bug Fixes
+
+* Executing bootstrap command on every pdns compilation run
+
+
+# 1.0.2 / 2015-05-04
+
 ### Security
 
 * Updating to version 3.4.4 of authoritative powerdns server in order to address
