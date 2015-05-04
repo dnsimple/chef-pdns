@@ -57,13 +57,13 @@ directory node['pdns']['authoritative']['config_dir'] do
   mode '0755'
 end
 
-log "pdns_dir: #{pdns_dir}"
+version = node['pdns']['authoritative']['source']['version']
 
 execute 'pdns: bootstrap' do
   # This insanity is documented in the README
   command './bootstrap && ./bootstrap'
   cwd pdns_dir
-  creates "#{pdns_dir}/configure"
+  not_if "/usr/local/sbin/pdns_server --version 2>&1 | grep #{version}"
 end
 
 pdns_source_module_requirements.each do |pkg|
@@ -85,12 +85,10 @@ execute 'pdns: build' do
   creates "#{pdns_dir}/pdns/pdns_server"
 end
 
-version = node['pdns']['authoritative']['source']['version']
-
 execute 'pdns: install' do
   command 'make install'
   cwd pdns_dir
-  only_if "/usr/local/sbin/pdns_server --version 2>&1 | grep -v #{version}"
+  not_if "/usr/local/sbin/pdns_server --version 2>&1 | grep #{version}"
 end
 
 template "#{node['pdns']['authoritative']['config_dir']}/pdns.conf" do
