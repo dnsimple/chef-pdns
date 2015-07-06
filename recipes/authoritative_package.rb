@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: pdns
-# Recipe:: server
+# Recipe:: authoritative_package
 #
 # Copyright 2010, Chef Software, Inc.
 #
