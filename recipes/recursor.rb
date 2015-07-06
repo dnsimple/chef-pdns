@@ -17,16 +17,4 @@
 # limitations under the License.
 #
 
-package 'pdns-recursor'
-
-service 'pdns-recursor' do
-  action [:enable, :start]
-end
-
-template "#{node['pdns']['recursor']['config_dir']}/recursor.conf" do
-  source 'recursor.conf.erb'
-  owner 'root'
-  group 'root'
-  mode 0644
-  notifies :restart, 'service[pdns-recursor]', :immediately
-end
+include_recipe "pdns::recursor_#{node['pdns']['build_method']}"

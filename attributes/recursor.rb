@@ -18,8 +18,12 @@
 #
 
 default['pdns']['recursor']['config_dir'] = '/etc/powerdns'
-
 default['pdns']['recursor']['config']['config_dir'] = '/etc/powerdns'
+
+# For Source based builds
+default['pdns']['recursor']['source']['version'] = '3.7.3'
+default['pdns']['recursor']['source']['url'] = "https://downloads.powerdns.com/releases/pdns-recursor-#{node['pdns']['recursor']['source']['version']}.tar.bz2"
+
 default['pdns']['recursor']['config']['allow_from'] = [
   '127.0.0.0/8',
   '10.0.0.0/8',

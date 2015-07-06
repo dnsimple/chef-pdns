@@ -37,16 +37,43 @@ suites:
   run_list:
     - recipe[postgresql::server]
     - recipe[pdns::default]
+  attributes: {}
+- name: recursor_source
+  run_list:
+    - recipe[apt::default]
+    - recipe[pdns::recursor]
   attributes:
     pdns:
-      build_method: package
-      flavor: authoritative
+      build_method: source
+- name: authoritative
+  run_list:
+    - recipe[apt::default]
+    - recipe[pdns::authoritative]
+    - recipe[pdns_test::default]
+  attributes:
+    pdns:
       authoritative:
-        backends:
-          - gpgsql
-    postgresql:
-      password:
-        postgres: wadus
+        package:
+          backends:
+            - pipe
+        config:
+          pipe_command: /tmp/backend.pl
+          launch: pipe
+- name: authoritative_source
+  run_list:
+    - recipe[apt::default]
+    - recipe[pdns::authoritative]
+    - recipe[pdns_test::default]
+  attributes:
+    pdns:
+      build_method: source
+      authoritative:
+        package:
+          backends:
+            - pipe
+        config:
+          pipe_command: /tmp/backend.pl
+          launch: pipe
 - name: slave_source
   run_list:
     - recipe[pdns::default]

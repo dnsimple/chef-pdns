@@ -44,6 +44,10 @@ def pdns_package_module_requirements
       required_packages << 'pdns-backend-pgsql'
     when 'gmysql'
       required_packages << 'pdns-backend-mysql'
+    when 'random'
+      # Random isn't available on Ubuntu
+    else
+      required_packages << "pdns-backend-#{mod}"
     end
   end
   required_packages

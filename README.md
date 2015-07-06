@@ -129,7 +129,8 @@ Another thing to note is boolean values are mapped to 'yes' and 'no'
 respectively. If you want to remove a value, simply set it to 'nil' or do not
 define the attribute entirely.
 
-### slave
+## Recipes
+>>>>>>> 56a96cb... Add the ability to install pdns_recursor from source.
 
 The `['pdns']['slave']['config']` array directly maps to each
 configuration directive in the configuration file. Of special note is
@@ -150,7 +151,6 @@ define the attribute entirely.
 Add the default recipe and set the right attributes ('flavor' and 'install_method') to install and configure PowerDNS as your needs. The default behavior is installing a recursor.
 
 To set up a Recursor, simply put `recipe[pdns::default]` in the run list. Modify the attributes via a role or on the node directly as required for the local configuration. If using the recursor with an Authoritative Server running on the same system, the local address and port should be changed to a public IP and the forward zones recurse setting to point at the loopback for the local zone. This is generally assumed, and the default listen interface for the recursor is set to the nodes ipaddress attribute.
-
 
 To set up an authoritative server, put `recipe[pdns::default]` in the run list and set the attribute `node['pdns']['flavor']` to 'authoritative'. If another backend besides SQLite is desired, change the `node['pdns']['server']['backend']` attribute. Choose between 'package', 'source' with the `node['pdns']['install_method']` attribute. Tune your server specific configuration with `node['pdns']['authoritative']['config']`.
 
