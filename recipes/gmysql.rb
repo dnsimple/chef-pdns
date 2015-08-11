@@ -10,6 +10,15 @@ package "pdns-backend-mysql" do
   )
 end
 
+package "mysql-client" do
+  package_name value_for_platform(
+    "arch" => { "default" => "mysql-client" },
+    ["debian","ubuntu"] => { "default" => "mysql-client" },
+    ["redhat","centos","fedora"] => { "default" => "mysql-client" },
+    "default" => "mysql-client"
+  )
+end
+
 directory "/var/lib/pdns"
 
 cookbook_file "/var/tmp/mysql_schema.sql" do
