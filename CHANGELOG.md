@@ -1,9 +1,16 @@
+# 1.0.4 / 2015-09-02
+
+## Security
+
+* Updating to 3.4.6 addressing PowerDNS Security Advisory 2015-02. 
+More information about this CVE can be found here: 
+http://www.openwall.com/lists/oss-security/2015/09/02/5
+
 # 1.0.3 / 2015-05-04
 
 ### Bug Fixes
 
 * Executing bootstrap command on every pdns compilation run
-
 
 # 1.0.2 / 2015-05-04
 
