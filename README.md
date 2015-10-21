@@ -15,8 +15,8 @@ Installs and configures PowerDNS (pdns). Sets up a recursor by default and can s
 
 ### Suggested Cookbooks:
 
+* database (for configuring MySQL and Postgres users/databases)
 * mysql (for the MySQL backend)
-* sqlite (for the SQLite backend)
 * postgres (for the PostgreSQL backend)
 
 ## Attributes
@@ -64,13 +64,13 @@ Key                            | Type     | Description                         
     <td><tt>['pdns']['authoritative']['source']['backends']</tt></td>
     <td>Array</td>
     <td>List of backends to build and configure with PowerDNS</td>
-    <td><tt>['pipe']</tt></td>
+    <td><tt>['gsqlite3']</tt></td>
   </tr>
   <tr>
     <td><tt>['pdns']['authoritative']['package']['backends']</tt></td>
     <td>Array</td>
     <td>List of backends to install and configure with PowerDNS via packages</td>
-    <td><tt>['pipe']</tt></td>
+    <td><tt>['gsqlite3']</tt></td>
   </tr>
 </table>
 
@@ -89,6 +89,14 @@ to define it like so:
 Another thing to note is boolean values are mapped to 'yes' and 'no'
 respectively. If you want to remove a value, simply set it to 'nil' or do not
 define the attribute entirely.
+
+#### authoritative server backends
+Each backend has its own configuration parameters, which are omitted from the PowerDNS configuration by default.  These parameters are stored in `['pdns']['authoritative'][< backend name>]`.
+
+When the configuration file is rendered, values from the appropriate backend arroy are merged into the `['pdns']['authoritative']['config']` array.
+
+When the gsqlite3 backend is used, this cookbook will set up the sqlite packages and database for you.  If you wish to use gmysql or gpgsql backends, it's up to you to configure the database before including the pdns::authoritative recipe.
+
 
 ### recursor
 
@@ -110,7 +118,7 @@ define the attribute entirely.
 
 ### authoritative
 
-Sets up a PowerDNS Authoritative Server. Uses the pipe backend by default.
+Sets up a PowerDNS Authoritative Server. Uses the gsqlite3 backend by default.
 
 ### authoritative_source
 
@@ -127,11 +135,55 @@ method.
 
 Sets up a PowerDNS Recursor from packages.
 
+## Resources
+
+### pdns_domain
+
+The `pdns_domain` resource creates a minimal domain definition in PowerDNS. This is made up of a domain entry, an SOA record, an NS record (required by the SOA), and an A record (required by the NS record).
+
+Example:
+```ruby
+pdns_domain "example.com" do
+  soa_email 'hostmaster@example.com'
+  soa_ip '192.168.33.33'
+end
+```
+
+Resulting domain (`dig -t axfr example.com` output):
+```
+example.com.            86400   IN      SOA     ns1.example.com. hostmaster.example.com. 1 10800 3600 604800 3600
+example.com.            86400   IN      NS      ns1.example.com.
+ns1.example.com.        120     IN      A       192.168.33.33
+example.com.            86400   IN      SOA     ns1.example.com. hostmaster.example.com. 1 10800 3600 604800 3600
+```
+
+### pdns_record
+
+The `pdns_record` resource creates a DNS record in PowerDNS.  All DNS records must be attached to an already-existing DNS domain.
+
+Examples:
+```ruby
+pdns_record 'example.com.' do
+  type 'MX'
+  domain 'example.com'
+  content 'mail.example.com'
+  prio 0
+end
+```
+```ruby
+pdns_record 'mail.example.com.' do
+  type 'A'
+  domain 'example.com'
+  content '10.0.101.11'
+end
+```
+
 ## Usage
 
 To set up a Recursor, simply put `recipe[pdns::recursor]` in the run list. Modify the attributes via a role or on the node directly as required for the local configuration. If using the recursor with an Authoritative Server running on the same system, the local address and port should be changed to a public IP and the forward zones recurse setting to point at the loopback for the local zone. This is generally assumed, and the default listen interface for the recursor is set to the nodes ipaddress attribute.
 
-To set up an authoritative server, put `recipe[pdns::authoritative]` in the run list. If another backend besides SQLite is desired, change the `node["pdns"]["server"]["backend"]` attribute.
+To set up an authoritative server, put `recipe[pdns::authoritative]` in the run list.  To configure a backend other than SQLite, see the notes on backends above.
+
 
 License & Authors
 -----------------

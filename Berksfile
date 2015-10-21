@@ -1,3 +1,4 @@
+# -*- mode: ruby -*-
 source 'https://api.berkshelf.com'
 
 metadata
@@ -9,3 +10,6 @@ end
 group :development do
   cookbook 'postgresql'
 end
+
+cookbook 'bach-hypervisor', path: '../chef-bach-hypervisor'
+cookbook 'mysql'

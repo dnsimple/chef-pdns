@@ -12,6 +12,8 @@ supports 'ubuntu', '= 14.04'
 depends 'build-essential'
 depends 'resolvconf'
 
-suggests 'mysql'
-suggests 'sqlite'
+depends 'apt'
+depends 'database'
+depends 'mysql'
 suggests 'postgresql'
+
