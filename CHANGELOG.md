@@ -1,3 +1,11 @@
+# 1.0.5 / 2015-11-10
+
+## Security
+
+* Updating to 3.4.7 addressing PowerDNS Security Advisory 2015-03.
+More information about this CVE can be found here:
+http://www.openwall.com/lists/oss-security/2015/11/09/3
+
 # 1.0.4 / 2015-09-02
 
 ## Security
