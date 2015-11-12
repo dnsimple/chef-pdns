@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: pdns
-# Recipe:: authoritative_source
+# Recipe:: recursor_source
 #
 # Copyright 2014, Aetrion, LLC.
 #
@@ -27,14 +27,14 @@ package 'ragel'
 # Base install directory
 pdns_basepath = node['pdns']['source']['path']
 # Filename
-pdns_filename = pdns_file(node['pdns']['authoritative']['source']['url'])
+pdns_filename = pdns_file(node['pdns']['recursor']['source']['url'])
 # Base install dir + Filename
 pdns_filepath = "#{pdns_basepath}/#{pdns_filename}"
 # Base install dir + (Filename - Extension)
 pdns_dir = pdns_dir(pdns_filename)
 
 remote_file pdns_filepath do
-  source node['pdns']['authoritative']['source']['url']
+  source node['pdns']['recursor']['source']['url']
   action :create_if_missing
 end
 
@@ -51,62 +51,43 @@ bash 'unarchive_source' do
   not_if { ::File.directory?("#{pdns_dir}") }
 end
 
-directory node['pdns']['authoritative']['config_dir'] do
+directory node['pdns']['recursor']['config_dir'] do
   owner node['pdns']['user']
   group node['pdns']['group']
   mode '0755'
 end
 
-version = node['pdns']['authoritative']['source']['version']
-
-execute 'pdns: bootstrap' do
-  # This insanity is documented in the README
-  command './bootstrap && ./bootstrap'
-  cwd pdns_dir
-  not_if "/usr/local/sbin/pdns_server --version 2>&1 | grep #{version}"
-end
-
-pdns_source_module_requirements.each do |pkg|
-  package pkg
-end
+version = node['pdns']['recursor']['source']['version']
 
 execute 'pdns: configure' do
   command './configure ' +
-    "--with-modules='#{node['pdns']['authoritative']['source']['backends'].join(' ')}' " +
-    "--sysconfdir=#{node['pdns']['authoritative']['config_dir']} " +
+    "--sysconfdir=#{node['pdns']['recursor']['config_dir']} " +
     '--without-lua'
   cwd pdns_dir
-  creates "#{pdns_dir}/config.h"
+  creates "#{pdns_dir}/dep"
 end
 
 execute 'pdns: build' do
   command 'make'
   cwd pdns_dir
-  creates "#{pdns_dir}/pdns/pdns_server"
+  creates "#{pdns_dir}/pdns/pdns_recursor"
 end
 
 execute 'pdns: install' do
   command 'make install'
   cwd pdns_dir
-  not_if "/usr/local/sbin/pdns_server --version 2>&1 | grep #{version}"
+  not_if "/usr/sbin/pdns_recursor --version 2>&1 | grep #{version}"
 end
 
-template "#{node['pdns']['authoritative']['config_dir']}/pdns.conf" do
-  source 'authoritative.conf.erb'
-  owner node['pdns']['user']
-  group node['pdns']['group']
-  mode 0644
-  notifies :restart, 'service[pdns]'
-end
-
-template '/etc/init.d/pdns' do
-  source 'pdns.init.erb'
+template "#{node['pdns']['recursor']['config_dir']}/recursor.conf" do
+  source 'recursor.conf.erb'
   owner 'root'
   group 'root'
-  mode 0755
+  mode 0644
+  notifies :restart, 'service[pdns-recursor]'
 end
 
-service 'pdns' do
+service 'pdns-recursor' do
   provider Chef::Provider::Service::Init::Debian
   supports status: true, restart: true, reload: true
   action [:enable, :start]

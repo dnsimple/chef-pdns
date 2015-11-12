@@ -31,7 +31,7 @@ def pdns_dir(uri)
   path = pdns_pathname(uri)
   extension = '.tar.bz2'
   filename = path.basename.to_s
-  base_path = node['pdns']['authoritative']['source']['path']
+  base_path = node['pdns']['source']['path']
   "#{base_path}/#{::File.basename(filename, extension)}"
 end
 
@@ -44,6 +44,10 @@ def pdns_package_module_requirements
       required_packages << 'pdns-backend-pgsql'
     when 'gmysql'
       required_packages << 'pdns-backend-mysql'
+    when 'random'
+      # Random isn't available on Ubuntu
+    else
+      required_packages << "pdns-backend-#{mod}"
     end
   end
   required_packages

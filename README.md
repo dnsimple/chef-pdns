@@ -27,11 +27,12 @@ a PowerDNS recursor, or an authoritative DNS name server. The default attributes
 
 ### default
 
-Key                            | Type     | Description                                 | Default
--------------------------------| ---------|---------------------------------------------|---------
-`node['pdns']['user']`         | String   | User to setuid the pdns daemons             | pdns
-`node['pdns']['group']`        | String   | Group to setuid the pdns daemons            | pdns
-`node['pdns']['build_method']` | String   | Type of installation, 'package' or 'source' | package
+Key                               | Type     | Description                                          | Default
+----------------------------------| ---------|------------------------------------------------------|---------
+`node['pdns']['user']`            | String   | User to setuid the pdns daemons                      | pdns
+`node['pdns']['group']`           | String   | Group to setuid the pdns daemons                     | pdns
+`node['pdns']['build_method']`    | String   | Type of installation, 'package' or 'source'          | package
+`node['pdns']['source']['path']`  | String   | The base path to setting up the source installation  | /opt
 
 ### authoritative
 
@@ -53,12 +54,6 @@ Key                            | Type     | Description                         
     <td>String</td>
     <td>URL to the PowerDNS Authoritative DNS Server Source Package</td>
     <td><tt>https://downloads.powerdns.com/releases/pdns-3.4.1.tar.bz2</tt></td>
-  </tr>
-  <tr>
-    <td><tt>['pdns']['authoritative']['source']['path']</tt></td>
-    <td>String</td>
-    <td>The base path to setting up the source installation</td>
-    <td><tt>/opt</tt></td>
   </tr>
   <tr>
     <td><tt>['pdns']['authoritative']['source']['backends']</tt></td>
@@ -106,6 +101,33 @@ Another thing to note is boolean values are mapped to 'yes' and 'no'
 respectively. If you want to remove a value, simply set it to 'nil' or do not
 define the attribute entirely.
 
+<table>
+  <tr>
+    <th>Key</th>
+    <th>Type</th>
+    <th>Description</th>
+    <th>Default</th>
+  </tr>
+  <tr>
+    <td><tt>['pdns']['recursor']['config_dir']</tt></td>
+    <td>String</td>
+    <td>Path to the config directory</td>
+    <td><tt>/etc/powerdns</tt></td>
+  </tr>
+  <tr>
+    <td><tt>['pdns']['recursor']['source']['version']</tt></td>
+    <td>String</td>
+    <td>Version of the PowerDNS Recursor to build and deploy</td>
+    <td>3.7.3</td>
+  </tr>
+  <tr>
+    <td><tt>['pdns']['recursor']['source']['url']</tt></td>
+    <td>String</td>
+    <td>URL to the PowerDNS Recursor DNS Server Source Package</td>
+    <td><tt>https://downloads.powerdns.com/releases/pdns-recursor-#{node['pdns']['recursor']['source']['version']}.tar.bz2</tt></td>
+  </tr>
+</table>
+
 ## Recipes
 
 ### authoritative
@@ -125,7 +147,18 @@ method.
 
 ### recursor
 
-Sets up a PowerDNS Recursor from packages.
+Sets up a PowerDNS Recursor.
+
+### recursor_package
+
+Sets up a PowerDNS Recursor from packages. This is automatically selected
+based upon the `node['pdns']['build_method']` attribute. It is also the default install
+method.
+
+### recursor_source
+
+Sets up a PowerDNS Recursor from source. This is automatically selected
+based upon the `node['pdns']['build_method']` attribute.
 
 ## Usage
 

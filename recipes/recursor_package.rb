@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: pdns
-# Attributes:: default
+# Recipe:: recursor_package
 #
 # Copyright 2014, Aetrion, LLC.
 #
@@ -17,8 +17,16 @@
 # limitations under the License.
 #
 
-default['pdns']['build_method'] = 'package'
-default['pdns']['user'] = 'pdns'
-default['pdns']['group'] = 'pdns'
-default['pdns']['source']['path'] = '/opt'
+package 'pdns-recursor'
 
+service 'pdns-recursor' do
+  action [:enable, :start]
+end
+
+template "#{node['pdns']['recursor']['config_dir']}/recursor.conf" do
+  source 'recursor.conf.erb'
+  owner 'root'
+  group 'root'
+  mode 0644
+  notifies :restart, 'service[pdns-recursor]', :immediately
+end

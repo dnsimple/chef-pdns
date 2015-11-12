@@ -1,8 +1,8 @@
 #
 # Cookbook Name:: pdns
-# Recipe:: default
+# Recipe:: recursor
 #
-# Copyright 2010, Chef Software, Inc.
+# Copyright 2014, Aetrion, LLC.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,16 +17,4 @@
 # limitations under the License.
 #
 
-package 'pdns-recursor'
-
-service 'pdns-recursor' do
-  action [:enable, :start]
-end
-
-template "#{node['pdns']['recursor']['config_dir']}/recursor.conf" do
-  source 'recursor.conf.erb'
-  owner 'root'
-  group 'root'
-  mode 0644
-  notifies :restart, 'service[pdns-recursor]', :immediately
-end
+include_recipe "pdns::recursor_#{node['pdns']['build_method']}"

@@ -10,20 +10,48 @@ platforms:
 suites:
 - name: recursor
   run_list:
+    - recipe[apt::default]
     - recipe[pdns::recursor]
   attributes: {}
-- name: authoritative
+- name: recursor_source
   run_list:
-    - recipe[pdns::authoritative]
-  attributes: {}
-- name: authoritative_source
-  run_list:
-    - recipe[pdns::authoritative]
+    - recipe[apt::default]
+    - recipe[pdns::recursor]
   attributes:
     pdns:
       build_method: source
+- name: authoritative
+  run_list:
+    - recipe[apt::default]
+    - recipe[pdns::authoritative]
+    - recipe[pdns_test::default]
+  attributes:
+    pdns:
+      authoritative:
+        package:
+          backends:
+            - pipe
+        config:
+          pipe_command: /tmp/backend.pl
+          launch: pipe
+- name: authoritative_source
+  run_list:
+    - recipe[apt::default]
+    - recipe[pdns::authoritative]
+    - recipe[pdns_test::default]
+  attributes:
+    pdns:
+      build_method: source
+      authoritative:
+        package:
+          backends:
+            - pipe
+        config:
+          pipe_command: /tmp/backend.pl
+          launch: pipe
 - name: backend_pgsql
   run_list:
+    - recipe[apt::default]
     - recipe[postgresql]
     - recipe[pdns::authoritative]
   attributes:
