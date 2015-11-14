@@ -9,11 +9,11 @@ version          '1.0.5'
 supports 'ubuntu', '= 12.04'
 supports 'ubuntu', '= 14.04'
 
+depends 'apt'
 depends 'build-essential'
+depends 'database'
 depends 'resolvconf'
 
-depends 'apt'
-depends 'database'
-depends 'mysql'
+suggests 'mysql'
 suggests 'postgresql'
 

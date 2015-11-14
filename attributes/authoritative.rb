@@ -47,7 +47,7 @@ default['pdns']['authoritative']['gmysql']['gmysql-port'] = 3306
 default['pdns']['authoritative']['gmysql']['gmysql-user'] = 'mysql_user'
 default['pdns']['authoritative']['gmysql']['gmysql-password'] = 'mysql_password'
 default['pdns']['authoritative']['gmysql']['gmysql-dbname'] = 'pdns'
-default['pdns']['authoritative']['gmysql']['gmysql-dnssec'] = 'yes'
+default['pdns']['authoritative']['gmysql']['gmysql-dnssec'] = 'no'
 
 # Postgres backend parameters.
 default['pdns']['authoritative']['gpgsql']['gpgsql-host'] = '127.0.0.1'
@@ -55,11 +55,12 @@ default['pdns']['authoritative']['gpgsql']['gpgsql-port'] = 5432
 default['pdns']['authoritative']['gpgsql']['gpgsql-user'] = 'pgsql_user'
 default['pdns']['authoritative']['gpgsql']['gpgsql-password'] = 'pgsql_password'
 default['pdns']['authoritative']['gpgsql']['gpgsql-dbname'] = 'pdns'
+default['pdns']['authoritative']['gpgsql']['gpgsql-dnssec'] = 'no'
 
 # SQLite backend parameters
 default['pdns']['authoritative']['gsqlite3']['gsqlite3-database'] =
   node['pdns']['authoritative']['data_dir'] + '/pdns.sqlite3'
-default['pdns']['authoritative']['gsqlite3']['gsqlite3-dnssec'] = 'yes'
+default['pdns']['authoritative']['gsqlite3']['gsqlite3-dnssec'] = 'no'
 
 # Pipe backend parameters
 #

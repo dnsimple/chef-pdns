@@ -5,11 +5,9 @@ metadata
 
 group :integration do
   cookbook 'apt'
-end
-
-group :development do
+  cookbook 'mysql'
   cookbook 'postgresql'
+
+  cookbook 'test', path: './test/fixtures/cookbooks/test'
 end
 
-cookbook 'bach-hypervisor', path: '../chef-bach-hypervisor'
-cookbook 'mysql'

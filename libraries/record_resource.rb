@@ -36,7 +36,6 @@ class Chef
       def type(arg=nil)
         # Set a default priority on MX and SRV records.
         if prio.nil? && (arg == 'MX' || arg == 'SRV')
-          Chef::Log.warn("Setting default priority 0 for #{name} (#{arg})")
           prio(0)
         end
         set_or_return(:type, arg, :kind_of => String)

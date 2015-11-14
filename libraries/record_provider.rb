@@ -26,9 +26,10 @@ class Chef
         @current_resource.content(new_resource.content)
         @current_resource.prio(new_resource.prio)
 
-        if dns_record_exists?(@current_resource.name,
-                              @current_resource.domain,
-                              @current_resource.type)
+        if dns_record_exists?(domain: @current_resource.domain,
+                              name: @current_resource.name,
+                              type: @current_resource.type,
+                              content: @current_resource.content)
           Chef::Log.info "record exists"
           @current_resource.exists = true
         else
@@ -45,22 +46,23 @@ class Chef
           raise "Cannot create record in non-existent domain \"#{@new_resource.domain}\""
         end
         pdns_database.from(:records).insert(:domain_id => domain_id,
-                                       :name => @new_resource.name,
-                                       :type => @new_resource.type,
-                                       :content => @new_resource.content,
-                                       :ttl => @new_resource.ttl,
-                                       :prio => @new_resource.prio)
+                                            :name => @new_resource.name,
+                                            :type => @new_resource.type,
+                                            :content => @new_resource.content,
+                                            :ttl => @new_resource.ttl,
+                                            :prio => @new_resource.prio)
       end
 
-      def dns_record_exists?(domain,name,type)
+      def dns_record_exists?(domain:,name:,type:,content:)
         domain_id = lookup_domain(domain)
         if domain_id.nil?
-          Chef::Log.info "domain: #{domain} is missing"
+          Chef::Log.warn("domain: #{domain} is missing")
           false
         else
           pdns_database.from(:records).where(:domain_id => domain_id, 
-                                        :name => name, 
-                                        :type => type).count > 0
+                                             :name => name, 
+                                             :type => type,
+                                             :content => content).count > 0
         end
       end
 
@@ -68,7 +70,8 @@ class Chef
         domains = pdns_database.from(:domains)
         domain_ids = domains.where(:name => domain_name).map(:id)
         if(domain_ids.count > 1) 
-          Chef::Log.warn("More than one domain ID found for \"#{domain_name}\" !")
+          Chef::Log.warn("More than one database entry found for " +
+                         domain_name + " !")
         end
         domain_ids.first
       end
