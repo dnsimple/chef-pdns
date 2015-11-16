@@ -32,8 +32,7 @@ suites:
   run_list:
     - recipe[test::mysql]
   attributes: {}
-# # Postgres is currently not working.
-# - name: authoritative_backend_pgsql
-#   run_list:
-#     - recipe[test::pgsql]
-#   attributes:
+- name: authoritative_backend_pgsql
+  run_list:
+    - recipe[test::pgsql]
+  attributes: {}

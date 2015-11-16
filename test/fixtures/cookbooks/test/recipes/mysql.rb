@@ -33,8 +33,9 @@ mysql_database_user pdns_user do
   action :create
 end
 
-mysql_database_user pdns_user do
+mysql_database_user "grant-pdns-permissions-for-#{pdns_user}" do
   connection mysql_connection_info
+  username pdns_user
   database_name 'pdns'
   host '%'
   privileges [:all]
@@ -63,8 +64,14 @@ execute 'install-pdns-schema' do
     "perl -nle 's/type=Inno/engine=Inno/g; print' | " +
     mysql_command_string
 
-  not_if('echo "select id from domains limit 1;" | ' +
-         mysql_command_string)
+  not_if {
+    c = Mixlib::ShellOut.new('echo "select id from domains limit 1;" | ' +
+                             mysql_command_string)
+    c.run_command
+    c.status.success?
+  }
+
+  sensitive true
       
   notifies :reload, 'service[pdns]'
 end
