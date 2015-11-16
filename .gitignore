@@ -1,9 +1,12 @@
+.bundle/
 .kitchen/
 .kitchen.local.yml
 .kitchen.list.yml
 .librarian/
 tmp/
+vendor/
 Cheffile.lock
 Gemfile.lock
 Berksfile.lock
 Vagrantfile.erb
+Vagrantfile.local.rb

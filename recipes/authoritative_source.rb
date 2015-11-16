@@ -91,14 +91,6 @@ execute 'pdns: install' do
   not_if "/usr/local/sbin/pdns_server --version 2>&1 | grep #{version}"
 end
 
-template "#{node['pdns']['authoritative']['config_dir']}/pdns.conf" do
-  source 'authoritative.conf.erb'
-  owner node['pdns']['user']
-  group node['pdns']['group']
-  mode 0644
-  notifies :restart, 'service[pdns]'
-end
-
 template '/etc/init.d/pdns' do
   source 'pdns.init.erb'
   owner 'root'
@@ -106,8 +98,3 @@ template '/etc/init.d/pdns' do
   mode 0755
 end
 
-service 'pdns' do
-  provider Chef::Provider::Service::Init::Debian
-  supports status: true, restart: true, reload: true
-  action [:enable, :start]
-end

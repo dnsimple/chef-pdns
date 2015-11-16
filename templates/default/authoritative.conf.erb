@@ -1,4 +1,8 @@
-<% node['pdns']['authoritative']['config'].sort.each do |key, value| %>
+#
+# This file was created be Chef.
+# Local changes will be reverted.
+#
+<% @config.sort.each do |key, value| %>
 <% next if value.nil? %>
 <%= key.gsub('_', '-') %>=<%=
   case value

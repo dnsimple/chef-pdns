@@ -35,15 +35,22 @@ def pdns_dir(uri)
   "#{base_path}/#{::File.basename(filename, extension)}"
 end
 
+# Packaged distributions still require development libraries so that Chef
+# can build gems for providers to access the PDNS database.
 def pdns_package_module_requirements
   modules = node['pdns']['authoritative']['package']['backends']
   required_packages = []
   modules.each do |mod|
     case mod
-    when 'gpgsql'
-      required_packages << 'pdns-backend-pgsql'
     when 'gmysql'
       required_packages << 'pdns-backend-mysql'
+    when 'gpgsql'
+      required_packages << 'pdns-backend-pgsql'
+    when 'gsqlite3'
+      required_packages << 'pdns-backend-sqlite3'
+      required_packages << 'sqlite3'
+    when 'pipe'
+      required_packages << 'pdns-backend-pipe'
     end
   end
   required_packages
@@ -54,12 +61,20 @@ def pdns_source_module_requirements
   required_packages = []
   modules.each do |mod|
     case mod
-    when 'gpgsql'
-      required_packages << 'libpq-dev'
     when 'gmysql'
       required_packages << 'libmysqlclient-dev'
+    when 'gpgsql'
+      required_packages << 'libpq-dev'
+    when 'gsqlite3'
+      required_packages << 'libsqlite3-dev'
     end
   end
   required_packages
 end
 
+def pdns_config_hash
+  base_config = node['pdns']['authoritative']['config']
+  launch = node['pdns']['authoritative']['config']['launch']
+  backend_config = node['pdns']['authoritative'][launch] rescue {}
+  return base_config.merge(backend_config)
+end

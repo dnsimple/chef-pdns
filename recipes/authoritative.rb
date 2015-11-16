@@ -17,4 +17,6 @@
 # limitations under the License.
 #
 
+include_recipe 'pdns::backend_clients'
 include_recipe "pdns::authoritative_#{node['pdns']['build_method']}"
+include_recipe 'pdns::authoritative_config'

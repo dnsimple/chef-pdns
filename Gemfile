@@ -1,6 +1,8 @@
 source 'https://rubygems.org'
 
-gem 'test-kitchen'
+gem 'berkshelf', '~> 4'
 gem 'kitchen-vagrant'
-
+gem 'rspec-dns'
 gem 'stove'
+gem 'test-kitchen'
+
