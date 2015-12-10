@@ -1,8 +1,8 @@
 #
 # Cookbook Name:: pdns
-# Recipe:: authoritative_package
+# Recipe:: _package
 #
-# Copyright 2010, Opscode, Inc.
+# Copyright 2014, Aetrion, LLC.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,11 +17,8 @@
 # limitations under the License.
 #
 
-build_method = node['pdns']['build_method']
+package 'pdns-server'
 
-backends = node['pdns'][build_method]['backends'] + node['pdns']['authoritative']['backends']
-node.set['pdns'][build_method]['backends'] = backends.uniq
-
-include_recipe "pdns::_#{build_method}"
-include_recipe 'pdns::_config'
-include_recipe 'pdns::_service'
+pdns_package_module_requirements.each do |pkg|
+  package pkg
+end

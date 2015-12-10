@@ -1,3 +1,14 @@
+# 1.1.0 / 2015-03-25
+
+### Enhancements
+
+* Recursor is now the default behavior
+* Using bind as a default backend per recommendation on irc channel
+* Adding a new slave PowerDNS server configuration
+* Refactor of authoritative part
+* Refactor of build related code
+* Expanded documentation
+
 # 1.0.5 / 2015-11-10
 
 ## Security

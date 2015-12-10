@@ -1,8 +1,8 @@
 #
 # Cookbook Name:: pdns
-# Recipe:: authoritative_package
+# Recipe:: _service
 #
-# Copyright 2010, Opscode, Inc.
+# Copyright 2014, Aetrion, LLC.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,11 +17,8 @@
 # limitations under the License.
 #
 
-build_method = node['pdns']['build_method']
-
-backends = node['pdns'][build_method]['backends'] + node['pdns']['authoritative']['backends']
-node.set['pdns'][build_method]['backends'] = backends.uniq
-
-include_recipe "pdns::_#{build_method}"
-include_recipe 'pdns::_config'
-include_recipe 'pdns::_service'
+service 'pdns' do
+  provider Chef::Provider::Service::Init::Debian
+  supports status: true, restart: true, reload: true
+  action [:enable, :start]
+end

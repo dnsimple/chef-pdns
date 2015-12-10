@@ -1,8 +1,8 @@
 #
 # Cookbook Name:: pdns
-# Recipe:: server
+# Recipe:: slave_package
 #
-# Copyright 2010, Chef Software, Inc.
+# Copyright 2010, Opscode, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,22 +17,12 @@
 # limitations under the License.
 #
 
-package 'pdns-server'
+build_method = node['pdns']['build_method']
 
-pdns_package_module_requirements.each do |pkg|
-  package pkg
-end
+backends = node['pdns'][build_method]['backends'] + node['pdns']['slave']['backends']
+node.set['pdns'][build_method]['backends'] = backends.uniq
 
-template "#{node['pdns']['authoritative']['config_dir']}/pdns.conf" do
-  source 'authoritative.conf.erb'
-  owner node['pdns']['user']
-  group node['pdns']['group']
-  mode 0644
-  notifies :restart, 'service[pdns]'
-end
+include_recipe "pdns::_#{build_method}"
+include_recipe 'pdns::_config'
+include_recipe 'pdns::_service'
 
-service 'pdns' do
-  provider Chef::Provider::Service::Init::Debian
-  supports status: true, restart: true, reload: true
-  action [:enable, :start]
-end

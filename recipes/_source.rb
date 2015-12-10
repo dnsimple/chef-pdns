@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: pdns
-# Recipe:: authoritative
+# Recipe:: _source
 #
 # Copyright 2014, Aetrion, LLC.
 #
@@ -25,16 +25,16 @@ package 'libboost-all-dev'
 package 'ragel'
 
 # Base install directory
-pdns_basepath = node['pdns']['authoritative']['source']['path']
+pdns_basepath = node['pdns']['source']['path']
 # Filename
-pdns_filename = pdns_file(node['pdns']['authoritative']['source']['url'])
+pdns_filename = pdns_file(node['pdns']['source']['url'])
 # Base install dir + Filename
 pdns_filepath = "#{pdns_basepath}/#{pdns_filename}"
 # Base install dir + (Filename - Extension)
 pdns_dir = pdns_dir(pdns_filename)
 
 remote_file pdns_filepath do
-  source node['pdns']['authoritative']['source']['url']
+  source node['pdns']['source']['url']
   action :create_if_missing
 end
 
@@ -44,14 +44,14 @@ user node['pdns']['user'] do
 end
 
 bash 'unarchive_source' do
-  cwd node['pdns']['authoritative']['source']['path']
+  cwd node['pdns']['source']['path']
   code <<-EOH
   tar xjf #{::File.basename(pdns_filepath)} -C #{::File.dirname(pdns_filepath)}
   EOH
   not_if { ::File.directory?("#{pdns_dir}") }
 end
 
-directory node['pdns']['authoritative']['config_dir'] do
+directory node['pdns'][node['pdns']['flavor']]['config']['config_dir'] do
   owner node['pdns']['user']
   group node['pdns']['group']
   mode '0755'
@@ -72,8 +72,8 @@ end
 
 execute 'pdns: configure' do
   command './configure ' +
-    "--with-modules='#{node['pdns']['authoritative']['source']['backends'].join(' ')}' " +
-    "--sysconfdir=#{node['pdns']['authoritative']['config_dir']} " +
+    "--with-modules='#{node['pdns']['source']['backends'].join(' ')}' " +
+    "--sysconfdir=#{node['pdns'][node['pdns']['flavor']]['config']['config_dir']} " +
     '--without-lua'
   cwd pdns_dir
   creates "#{pdns_dir}/config.h"
@@ -91,14 +91,6 @@ execute 'pdns: install' do
   not_if "/usr/local/sbin/pdns_server --version 2>&1 | grep #{version}"
 end
 
-template "#{node['pdns']['authoritative']['config_dir']}/pdns.conf" do
-  source 'authoritative.conf.erb'
-  owner node['pdns']['user']
-  group node['pdns']['group']
-  mode 0644
-  notifies :restart, 'service[pdns]'
-end
-
 template '/etc/init.d/pdns' do
   source 'pdns.init.erb'
   owner 'root'
@@ -106,8 +98,5 @@ template '/etc/init.d/pdns' do
   mode 0755
 end
 
-service 'pdns' do
-  provider Chef::Provider::Service::Init::Debian
-  supports status: true, restart: true, reload: true
-  action [:enable, :start]
-end
+# pdns::service  just registers pdns as a debian init service
+include_recipe "pdns::_service"
