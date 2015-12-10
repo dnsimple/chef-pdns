@@ -35,7 +35,7 @@ Key                             | Type     | Description                        
 `node['pdns']['user']`          | String   | User to setuid the pdns daemons                     | pdns
 `node['pdns']['group']`         | String   | Group to setuid the pdns daemons                    | pdns
 `node['pdns']['build_method']`  | String   | Type of installation, 'package' or 'source'         | package
-`node['pdns']['flavor']`        | String   | Functionality of server 'authoritative' or 'slave'  | authoritative
+`node['pdns']['flavor']`        | String   | Functionality 'resolver', 'authoritative', 'slave'  | authoritative
 
 ### source
 
