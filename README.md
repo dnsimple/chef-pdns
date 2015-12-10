@@ -41,7 +41,7 @@ Key                             | Type     | Description                        
 
 Key                                 | Type     | Description                                           | Default
 ------------------------------------| ---------|-------------------------------------------------------|---------
-`node['pdns']['source']['url']`     | String   | URL to the PowerDNS Server Source Package             | https://downloads.powerdns.com/releases/pdns-3.4.1.tar.bz2
+`node['pdns']['source']['url']`     | String   | URL to the PowerDNS Server Source Package             | https://downloads.powerdns.com/releases/pdns-3.4.7.tar.bz2
 `node['pdns']['source']['path']`    | String   | The base path to setting up the source installation   | /opt
 `node['pdns']['build_method']`      | String   | Type of installation, 'package' or 'source'           | package
 `node['pdns']['flavor']`            | String   | 'recursor', 'authoritative' or 'slave'                | authoritative
