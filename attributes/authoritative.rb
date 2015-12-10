@@ -31,5 +31,3 @@ default['pdns']['authoritative']['config']['disable_axfr'] = true
 default['pdns']['authoritative']['config']['guardian'] = true
 default['pdns']['authoritative']['config']['default_ttl'] = '3600'
 
-default['pdns']['authoritative']['config']['pipe_command'] = '/opt/pdns-3.4.4/modules/pipebackend/backend.pl'
-default['pdns']['authoritative']['config']['launch'] = 'pipe'
