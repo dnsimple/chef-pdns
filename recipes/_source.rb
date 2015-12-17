@@ -33,8 +33,10 @@ pdns_filepath = "#{pdns_basepath}/#{pdns_filename}"
 # Base install dir + (Filename - Extension)
 pdns_dir = pdns_dir(pdns_filename)
 
+flavor = node['pdns']['flavor']
+
 remote_file pdns_filepath do
-  source node['pdns']['source']['url']
+  source lazy { node['pdns']['source']['url'] }
   action :create_if_missing
 end
 
@@ -51,13 +53,13 @@ bash 'unarchive_source' do
   not_if { ::File.directory?("#{pdns_dir}") }
 end
 
-directory node['pdns'][node['pdns']['flavor']]['config']['config_dir'] do
+directory node['pdns'][flavor]['config']['config_dir'] do
   owner node['pdns']['user']
   group node['pdns']['group']
   mode '0755'
 end
 
-version = node['pdns']['authoritative']['source']['version']
+version = node['pdns']['source']['version']
 
 execute 'pdns: bootstrap' do
   # This insanity is documented in the README
@@ -73,7 +75,7 @@ end
 execute 'pdns: configure' do
   command './configure ' +
     "--with-modules='#{node['pdns']['source']['backends'].join(' ')}' " +
-    "--sysconfdir=#{node['pdns'][node['pdns']['flavor']]['config']['config_dir']} " +
+    "--sysconfdir=#{node['pdns'][flavor]['config']['config_dir']} " +
     '--without-lua'
   cwd pdns_dir
   creates "#{pdns_dir}/config.h"

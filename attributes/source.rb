@@ -17,6 +17,7 @@
 # limitations under the License.
 #
 
-default['pdns']['source']['url'] = 'https://downloads.powerdns.com/releases/pdns-3.4.1.tar.bz2'
+default['pdns']['source']['version'] = '3.4.7'
+default['pdns']['source']['url'] = "https://downloads.powerdns.com/releases/pdns-#{node['pdns']['source']['version']}.tar.bz2"
 default['pdns']['source']['path'] = '/opt'
 default['pdns']['source']['backends'] = %w( bind )
