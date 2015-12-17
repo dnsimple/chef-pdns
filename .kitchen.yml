@@ -1,7 +1,7 @@
 ---
 driver_plugin: vagrant
 driver_config:
-  require_chef_omnibus: 11.18.12-1
+  require_chef_omnibus: 12.5.1
 
 platforms:
 - name: ubuntu-14.04
@@ -12,37 +12,28 @@ suites:
   run_list:
     - recipe[pdns::default]
   attributes:
-- name: authoritative_source
-  run_list:
-    - recipe[pdns::default]
-  attributes:
-    pdns:
-      build_method: source
-      flavor: authoritative
-      source:
-        backends:
-          - gpgsql
-          - bind
-      authoritative:
-        backends:
-          - gmysql
-- name: backend_pgsql_source
+- name: authoritative_pgsql_source
   run_list:
     - recipe[postgresql::server]
+    - recipe[pdns::load_schema_pg]
     - recipe[pdns::default]
   attributes:
     pdns:
       build_method: source
-      flavor: authoritative
+      flavor: authoritative      
       authoritative:
         backends:
           - gpgsql
         config:
           launch: gpgsql
+          gpgsql_dbname: 'powerdns'
+          gpgsql_host: '127.0.0.1'
+          gpgsql_user: 'pdns'
+          gpgsql_password: 'test'        
     postgresql:
       password:
         postgres: wadus
-- name: backend_pgsql_package
+- name: authoritative_pgsql_package
   run_list:
     - recipe[postgresql::server]
     - recipe[pdns::default]
@@ -50,11 +41,9 @@ suites:
     pdns:
       build_method: package
       flavor: authoritative
-      package:
+      authoritative:
         backends:
-        - gpgsql
-        config:
-          launch: gpgsql
+          - gpgsql
     postgresql:
       password:
         postgres: wadus
