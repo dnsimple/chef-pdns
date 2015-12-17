@@ -11,6 +11,7 @@ supports 'ubuntu', '= 14.04'
 
 depends 'build-essential'
 depends 'resolvconf'
+depends 'database'
 
 suggests 'mysql'
 suggests 'sqlite'
