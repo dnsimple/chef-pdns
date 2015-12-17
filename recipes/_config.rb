@@ -17,12 +17,14 @@
 # limitations under the License.
 #
 
-config_file_path = "#{node['pdns'][node['pdns']['flavor']]['config']['config_dir']}/pdns.conf"
+flavor = node['pdns']['flavor']
+config_file_path = "#{node['pdns'][flavor]['config']['config_dir']}/pdns.conf"
 
 template config_file_path do
   source 'pdns.conf.erb'
   owner node['pdns']['user']
   group node['pdns']['group']
-  mode 0644
+  mode 0640
   notifies :restart, 'service[pdns]'
+  variables( :flavor => flavor )
 end
