@@ -33,8 +33,8 @@ end
 
 cookbook_file '/var/tmp/pdns_pg_schema.sql' do
   source 'pg_schema.sql'
-  notifies :query, 'postgresql_database[powerdns]'
-  notifies :create, 'postgresql_database_user[pdns]'
+  notifies :query, 'postgresql_database[powerdns]', :immediately
+  notifies :create, 'postgresql_database_user[pdns]', :immediately
 end
 
 postgresql_database 'powerdns' do
@@ -48,5 +48,12 @@ postgresql_database_user 'pdns' do
   database_name 'powerdns'
   username 'pdns'
   password 'test'
+  action :nothing
+  notifies :query, 'postgresql_database[powerdns_grant]', :immediately
+end
+
+postgresql_database 'powerdns_grant' do
+  connection postgresql_connection_info
+  sql "GRANT ALL ON ALL TABLES IN SCHEMA public TO pdns;"
   action :nothing
 end
