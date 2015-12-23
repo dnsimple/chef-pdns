@@ -1,4 +1,16 @@
-# 1.1.0 / 2015-03-25
+# 1.1.1 / 2015-12-23
+
+### Enhancements
+
+* Creating schema, grants and users for postgres backend
+
+### Bug Fixes
+
+* Handling the URL for downloading the source gracefully using lazy evaluation
+ since this provoked a malformed URL string when concatenated with the version
+ on source recipe.
+
+# 1.1.0 / 2015-12-10
 
 ### Enhancements
 
