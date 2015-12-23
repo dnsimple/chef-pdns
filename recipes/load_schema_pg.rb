@@ -33,14 +33,13 @@ end
 
 cookbook_file '/var/tmp/pdns_pg_schema.sql' do
   source 'pg_schema.sql'
-  notifies :query, 'postgresql_database[powerdns]', :immediately
-  notifies :create, 'postgresql_database_user[pdns]', :immediately
 end
 
 postgresql_database 'powerdns' do
   connection postgresql_connection_info
   sql { ::File.open('/var/tmp/pdns_pg_schema.sql').read }
-  action :nothing
+  action :query
+  not_if 'psql -c "\l" | grep powerdns', :user => 'postgres'
 end
 
 postgresql_database_user 'pdns' do
@@ -48,12 +47,12 @@ postgresql_database_user 'pdns' do
   database_name 'powerdns'
   username 'pdns'
   password 'test'
-  action :nothing
-  notifies :query, 'postgresql_database[powerdns_grant]', :immediately
+  action :create
+  not_if 'psql -c "\du" | grep pdns', :user => 'postgres'
 end
 
 postgresql_database 'powerdns_grant' do
   connection postgresql_connection_info
   sql "GRANT ALL ON ALL TABLES IN SCHEMA public TO pdns;"
-  action :nothing
+  action :query
 end
