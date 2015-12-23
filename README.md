@@ -156,6 +156,14 @@ To set up an authoritative server, put `recipe[pdns::default]` in the run list a
 
 To set up an slave server, add `recipe[pdns::default]` to you run list and set the attribute `node['pdns']['flavor']` to 'slave'. Choose between 'package', 'source' with the `node['pdns']['install_method']` attribute. Tune your server specific configuration with `node['pdns']['slave']['config']`.
 
+Note that ubuntu has an specific database configuration when using their packges for backends, it's located here: `/etc/powerdns/pdns.d/`
+
+## TODO
+
+ - Add recursor from source
+ - Add mysql backend
+ - Use ubuntu `/etc/powerdns/pdns.d/` at least when using package, probably good for source too
+
 License & Authors
 -----------------
 - Author:: Joshua Timberman (<joshua@chef.io>)
