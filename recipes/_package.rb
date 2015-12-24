@@ -17,8 +17,14 @@
 # limitations under the License.
 #
 
-package 'pdns-server'
 
-pdns_package_module_requirements.each do |pkg|
-  package pkg
+flavor = node['pdns']['flavor']
+package_name = flavor =='recursor' ? 'pdns-recursor' : 'pdns-server'
+
+package package_name
+
+if flavor == 'authoritative'
+  pdns_package_module_requirements.each do |pkg|
+    package pkg
+  end
 end
