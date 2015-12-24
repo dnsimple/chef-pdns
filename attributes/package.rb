@@ -17,8 +17,3 @@
 # limitations under the License.
 #
 
-
-case node['pdns']['flavor']
-when 'authoritative'
-  default['pdns']['package']['backends'] = %w( bind )
-end

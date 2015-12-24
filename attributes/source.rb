@@ -26,5 +26,4 @@ when 'recursor'
 else
   default['pdns']['source']['version'] = '3.4.7'
   default['pdns']['source']['url'] = "https://downloads.powerdns.com/releases/pdns-#{node['pdns']['source']['version']}.tar.bz2"
-  default['pdns']['source']['backends'] = %w( bind )
 end

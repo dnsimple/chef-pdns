@@ -19,9 +19,6 @@
 
 build_method = node['pdns']['build_method']
 
-backends = node['pdns'][build_method]['backends'] + node['pdns']['authoritative']['backends']
-node.set['pdns'][build_method]['backends'] = backends.uniq
-
 include_recipe "pdns::_#{build_method}"
 include_recipe 'pdns::_config'
 include_recipe 'pdns::_service'
