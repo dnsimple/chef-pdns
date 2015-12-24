@@ -1,4 +1,4 @@
-#
+
 # Cookbook Name:: pdns
 # Attributes:: package
 #
@@ -17,4 +17,8 @@
 # limitations under the License.
 #
 
-default['pdns']['package']['backends'] = %w( bind )
+
+case node['pdns']['flavor']
+when 'authoritative'
+  default['pdns']['package']['backends'] = %w( bind )
+end
