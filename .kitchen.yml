@@ -48,16 +48,14 @@ suites:
     - recipe[pdns::default]
   attributes:
     pdns:
+      build_method: package
+      flavor: authoritative
       authoritative:
-        package:
-          backends:
-            - gpgsql
-          config:
-            launch: gpgsql
-            gpgsql_dbname: 'powerdns'
-            gpgsql_host: '127.0.0.1'
-            gpgsql_user: 'pdns'
-            gpgsql_password: 'test' 
+        backends:
+          - gpgsql
+        config:
+          launch: gpgsql
+          include-dir: '/etc/powerdns/pdns.d'
     postgresql:
       password:
         postgres: wadus
@@ -70,10 +68,10 @@ suites:
   attributes:
     pdns:
       build_method: source
+      flavor: authoritative
       authoritative:
-        package:
-          backends:
-            - pipe
+        backends:
+          - pipe
         config:
           pipe_command: /tmp/backend.pl
           launch: pipe
