@@ -17,4 +17,8 @@
 # limitations under the License.
 #
 
-include_recipe "pdns::recursor_#{node['pdns']['build_method']}"
+build_method = node['pdns']['build_method']
+
+include_recipe "pdns::_#{build_method}"
+include_recipe 'pdns::_config'
+include_recipe 'pdns::_service'
