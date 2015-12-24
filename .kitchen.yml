@@ -12,12 +12,14 @@ suites:
   run_list:
     - recipe[pdns::default]
   attributes:
+
 - name: recursor_source
   run_list:
     - recipe[pdns::default]
   attributes:
     pdns:
       build_method: source
+
 - name: authoritative_pgsql_source
   run_list:
     - recipe[postgresql::server]
@@ -39,26 +41,28 @@ suites:
     postgresql:
       password:
         postgres: wadus
+
 - name: authoritative_pgsql_package
   run_list:
     - recipe[postgresql::server]
     - recipe[pdns::default]
-  attributes: {}
-- name: authoritative
-  run_list:
-    - recipe[apt::default]
-    - recipe[pdns::authoritative]
-    - recipe[pdns_test::default]
   attributes:
     pdns:
       authoritative:
         package:
           backends:
-            - pipe
-        config:
-          pipe_command: /tmp/backend.pl
-          launch: pipe
-- name: authoritative_source
+            - gpgsql
+          config:
+            launch: gpgsql
+            gpgsql_dbname: 'powerdns'
+            gpgsql_host: '127.0.0.1'
+            gpgsql_user: 'pdns'
+            gpgsql_password: 'test' 
+    postgresql:
+      password:
+        postgres: wadus
+
+- name: authoritative_pipe_source
   run_list:
     - recipe[apt::default]
     - recipe[pdns::authoritative]
@@ -73,6 +77,7 @@ suites:
         config:
           pipe_command: /tmp/backend.pl
           launch: pipe
+
 - name: slave_source
   run_list:
     - recipe[pdns::default]
@@ -80,6 +85,7 @@ suites:
     pdns:
       build_method: source
       flavor: slave
+
 - name: slave_package
   run_list:
     - recipe[pdns::default]
