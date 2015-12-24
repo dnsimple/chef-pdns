@@ -27,5 +27,6 @@ default['pdns']['slave']['config']['version_string'] = 'powerdns'
 
 default['pdns']['slave']['config']['master'] = false
 default['pdns']['slave']['config']['slave'] = true
+default['pdns']['slave']['config']['guardian'] = true
 default['pdns']['slave']['config']['slave_cycle_interval'] = '60'
 default['pdns']['slave']['config']['disable_axfr'] = true
