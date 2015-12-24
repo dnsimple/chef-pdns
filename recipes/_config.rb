@@ -27,6 +27,11 @@ if flavor == 'recursor'
   service_name = 'pdns-recursor'
 end
 
+file '/etc/powerdns/pdns.d/pdns.simplebind.conf' do
+  action :delete
+  only_if { node['pdns']['build_method'] == 'package' }
+end
+
 template config_file_path do
   source 'pdns.conf.erb'
   owner node['pdns']['user']
