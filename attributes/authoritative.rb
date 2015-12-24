@@ -30,4 +30,3 @@ default['pdns']['authoritative']['config']['daemon'] = true
 default['pdns']['authoritative']['config']['disable_axfr'] = true
 default['pdns']['authoritative']['config']['guardian'] = true
 default['pdns']['authoritative']['config']['default_ttl'] = '3600'
-
