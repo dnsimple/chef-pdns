@@ -8,10 +8,16 @@ platforms:
 - name: ubuntu-12.04
 
 suites:
-- name: recursor
+- name: recursor_package
   run_list:
     - recipe[pdns::default]
   attributes:
+- name: recursor_source
+  run_list:
+    - recipe[pdns::default]
+  attributes:
+    pdns:
+      build_method: source
 - name: authoritative_pgsql_source
   run_list:
     - recipe[postgresql::server]
@@ -38,13 +44,6 @@ suites:
     - recipe[postgresql::server]
     - recipe[pdns::default]
   attributes: {}
-- name: recursor_source
-  run_list:
-    - recipe[apt::default]
-    - recipe[pdns::recursor]
-  attributes:
-    pdns:
-      build_method: source
 - name: authoritative
   run_list:
     - recipe[apt::default]
