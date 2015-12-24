@@ -19,13 +19,15 @@
 
 flavor = node['pdns']['flavor']
 
-# Only PDNS recursor comes with init script
+# Only PDNS source recursor comes with init script
+
 template '/etc/init.d/pdns' do
   source 'pdns.init.erb'
   owner 'root'
   group 'root'
   mode 0755
   only_if { [ 'slave', 'authoritative' ].include? flavor }
+  not_if {  node['pdns']['build_method'] == 'package' }
 end
 
 service_name = flavor == 'recursor' ? "pdns-recursor" : "pdns"
