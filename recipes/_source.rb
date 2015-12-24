@@ -17,6 +17,9 @@
 # limitations under the License.
 #
 
+flavor = node['pdns']['flavor']
+version = node['pdns']['source']['version']
+
 include_recipe 'build-essential'
 
 package 'libtool'
@@ -32,8 +35,6 @@ pdns_filename = pdns_file(node['pdns']['source']['url'])
 pdns_filepath = "#{pdns_basepath}/#{pdns_filename}"
 # Base install dir + (Filename - Extension)
 pdns_dir = pdns_dir(pdns_filename)
-
-flavor = node['pdns']['flavor']
 
 remote_file pdns_filepath do
   source lazy { node['pdns']['source']['url'] }
@@ -59,46 +60,42 @@ directory node['pdns'][flavor]['config']['config_dir'] do
   mode '0755'
 end
 
-version = node['pdns']['source']['version']
+modules = String.new
+binary_string = 'pdns_recursor'
 
-execute 'pdns: bootstrap' do
-  # This insanity is documented in the README
-  command './bootstrap && ./bootstrap'
-  cwd pdns_dir
-  not_if "/usr/local/sbin/pdns_server --version 2>&1 | grep #{version}"
-end
+if [ 'slave', 'authoritative' ].include? flavor
+  modules = "--with-modules='#{node['pdns']['source']['backends'].join(' ')}' "
+  binary_string = 'pdns_server'
 
-pdns_source_module_requirements.each do |pkg|
-  package pkg
+  execute 'pdns: bootstrap' do
+    # This insanity is documented in the README
+    command './bootstrap && ./bootstrap'
+    cwd pdns_dir
+    not_if "/usr/local/sbin/#{binary_string} --version 2>&1 | grep #{version}"
+  end
+
+  pdns_source_module_requirements.each do |pkg|
+    package pkg
+  end
 end
 
 execute 'pdns: configure' do
   command './configure ' +
-    "--with-modules='#{node['pdns']['source']['backends'].join(' ')}' " +
-    "--sysconfdir=#{node['pdns'][flavor]['config']['config_dir']} " +
-    '--without-lua'
+  modules +
+  "--sysconfdir=#{node['pdns'][flavor]['config']['config_dir']} " +
+  '--without-lua'
   cwd pdns_dir
-  creates "#{pdns_dir}/config.h"
+  not_if "/usr/local/sbin/#{binary_string} --version 2>&1 | grep #{version}"
 end
 
 execute 'pdns: build' do
   command 'make'
   cwd pdns_dir
-  creates "#{pdns_dir}/pdns/pdns_server"
+  not_if "/usr/local/sbin/#{binary_string} --version 2>&1 | grep #{version}"
 end
 
 execute 'pdns: install' do
   command 'make install'
   cwd pdns_dir
-  not_if "/usr/local/sbin/pdns_server --version 2>&1 | grep #{version}"
+  not_if "/usr/sbin/#{binary_string} --version 2>&1 | grep #{version}"
 end
-
-template '/etc/init.d/pdns' do
-  source 'pdns.init.erb'
-  owner 'root'
-  group 'root'
-  mode 0755
-end
-
-# pdns::service  just registers pdns as a debian init service
-include_recipe "pdns::_service"
