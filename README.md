@@ -129,8 +129,7 @@ Another thing to note is boolean values are mapped to 'yes' and 'no'
 respectively. If you want to remove a value, simply set it to 'nil' or do not
 define the attribute entirely.
 
-## Recipes
->>>>>>> 56a96cb... Add the ability to install pdns_recursor from source.
+## slave
 
 The `['pdns']['slave']['config']` array directly maps to each
 configuration directive in the configuration file. Of special note is
