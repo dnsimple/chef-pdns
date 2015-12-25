@@ -17,7 +17,6 @@
 # limitations under the License.
 #
 
-default['pdns']['slave']['backends'] = %w( bind )
 default['pdns']['slave']['config']['launch'] = 'bind'
 
 default['pdns']['slave']['config']['config_dir'] = '/etc/powerdns'
