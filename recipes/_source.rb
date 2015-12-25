@@ -64,7 +64,7 @@ modules = String.new
 binary_string = 'pdns_recursor'
 
 if [ 'slave', 'authoritative' ].include? flavor
-  modules = "--with-modules='#{node['pdns']['source']['backends'].join(' ')}' "
+  modules = "--with-modules='#{node['pdns']['authoritative']['backends'].join(' ')}' "
   binary_string = 'pdns_server'
 
   execute 'pdns: bootstrap' do
