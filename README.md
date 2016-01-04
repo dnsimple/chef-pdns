@@ -127,8 +127,18 @@ To set up an slave server, add `recipe[pdns::default]` to you run list and set t
  - Ubuntu has an specific database configuration when using their packges for backends, it's located here: `/etc/powerdns/pdns.d/`
  - It is not possible to install both an authoritative server and a recursor on the same machine using the flavor attribute.
 
+## Backends and flavors
+
+There is several combinations of backends or flavors available, currently a few of them have been tested, more or less the ones that represented in `.kitchen.yml` file, specifically:
+
+ - Authoritative / PostgreSQL backend (package and source)
+ - Authoritative / pipe backend       (package and source)
+ - Resolver                           (package and source)
+ - Slave                              (package and source)
+
 ## TODO
 
+ - Add Bind backend (that should be the default)
  - Add MySQL backend
  - Add SQLite backend
  - Use ubuntu `/etc/powerdns/pdns.d/` for configuring PowerDNS.
