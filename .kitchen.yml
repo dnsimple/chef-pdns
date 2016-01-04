@@ -63,6 +63,7 @@ suites:
 - name: authoritative_pipe_source
   run_list:
     - recipe[apt::default]
+    - recipe[pdns_test::default]
     - recipe[pdns::default]
   attributes:
     pdns:
