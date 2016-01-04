@@ -1,8 +1,8 @@
 # places the test backend file
 
-cookbook_file '/tmp/backend.pl' do
-    source 'backend.pl'
-    owner node['pdns']['user']
-    group node['pdns']['user']
-    mode 00755
+cookbook_file '/var/tmp/backend.pl' do
+  source 'backend.pl'
+  owner 'root'
+  group 'root'
+  mode 00755
 end

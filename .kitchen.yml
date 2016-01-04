@@ -73,7 +73,23 @@ suites:
         backends:
           - pipe
         config:
-          pipe_command: /tmp/backend.pl
+          pipe_command: /var/tmp/backend.pl
+          launch: pipe
+
+- name: authoritative_pipe_package
+  run_list:
+    - recipe[apt::default]
+    - recipe[pdns_test::default]
+    - recipe[pdns::default]
+  attributes:
+    pdns:
+      build_method: package
+      flavor: authoritative
+      authoritative:
+        backends:
+          - pipe
+        config:
+          pipe_command: /var/tmp/backend.pl
           launch: pipe
 
 - name: slave_source
