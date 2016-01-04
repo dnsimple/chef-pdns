@@ -21,37 +21,33 @@ Installs and configures PowerDNS (pdns). Sets up an authoritative  by default an
 
 ## Attributes
 
-Depending on the type of server you are installing there are specific options you may want to set via attributes. Each
-attribute file (other than default) corresponds to the combination of PowerDNS server you are installing (flavor) and
-install method. This can be either a PowerDNS recursor, an authoritative DNS name server, or a slave DNS server. All of them 
-can be build from source or installed from packages except the recursor that currently is only available from packages.
+Depending on the type of server you are installing there are specific options you may want to set via attributes. Several attribute files handle settings of the different 'flavors' of a PowerDNS install, that is an authoritative server, a slave server or a recursor. Also there is two attribute files that handle the way PowerDNS should be installed: via a package or compiled by source.
 
-The different combinations of install method and functionality are controlled by the default attributes 'build_method' and 'flavor'
+The different combinations of install method and functionality are handled by the attributes 'build_method' and 'flavor' located in the default attributes file. You can set these attributes according to your needs.
 
 ### default
 
 Key                             | Type     | Description                                         | Default
 --------------------------------| ---------|-----------------------------------------------------|---------
+`node['pdns']['build_method']`  | String   | Type of installation: 'package' or 'source'         | package
+`node['pdns']['flavor']`        | String   | Functionality: 'resolver', 'authoritative', 'slave' | recursor
 `node['pdns']['user']`          | String   | User to setuid the pdns daemons                     | pdns
 `node['pdns']['group']`         | String   | Group to setuid the pdns daemons                    | pdns
-`node['pdns']['build_method']`  | String   | Type of installation, 'package' or 'source'         | package
-`node['pdns']['flavor']`        | String   | Functionality 'resolver', 'authoritative', 'slave'  | authoritative
+
 
 ### source
 
 Key                                 | Type     | Description                                           | Default
 ------------------------------------| ---------|-------------------------------------------------------|---------
-`node['pdns']['source']['url']`     | String   | URL to the PowerDNS Server Source Package             | https://downloads.powerdns.com/releases/pdns-3.4.7.tar.bz2
 `node['pdns']['source']['path']`    | String   | The base path to setting up the source installation   | /opt
-`node['pdns']['build_method']`      | String   | Type of installation, 'package' or 'source'           | package
-`node['pdns']['flavor']`            | String   | 'recursor', 'authoritative' or 'slave'                | authoritative
-`node['pdns']['source']['backends']`| Array    | List of backends to build and configure with PowerDNS | [ 'bind' ] 
+`node['pdns']['source']['version']` | String   | Version of source server or resolver based on 'flavor'| 3.4.7 or 3.7.3 
+`node['pdns']['source']['url']`     | String   | URL to the PowerDNS Server Source Package             | https://downloads.powerdns.com/releases/pdns-[recursor?]-[version].tar.bz2
 
 ### package
 
 Key                                  | Type     | Description                                           | Default
 -------------------------------------| ---------|-------------------------------------------------------|---------
-`node['pdns']['package']['backends']`| Array    | List of backends to install with PowerDNS             | [ 'bind' ] 
+
 
 ### authoritative
 
@@ -81,6 +77,7 @@ Key                                                           | Type     | Descr
 `node['pdns']['slave']['config']['version_string']`           | String   | What powerdns answers when queried for its version over DNS       | powerdns
 `node['pdns']['slave']['config']['master']`                   | Boolean  | Operate in master mode                                            | false
 `node['pdns']['slave']['config']['slave']`                    | Boolean  | Operate as a slave to a PowerDNS master server                    | true
+`node['pdns']['authoritative']['config']['guardian']`        | Boolean  | Run within a guardian process                                    | true
 `node['pdns']['slave']['config']['slave_cycle_interval']`     | String   | Seconds slave checks of domains with unknown status               | '60'
 `node['pdns']['slave']['config']['disable_axfr']`             | Boolean  | Do not allow zone transfers                                       | true
 
@@ -97,15 +94,17 @@ Key                                                           | Type     | Descr
 `node['pdns']['recursor']['config']['local_address']`         | Array    | IP addresses to bind to                                           | ['127.0.0.1']
 `node['pdns']['recursor']['config']['local_port']`            | String   | Port to listen                                                    | '53'
 
-#### authoritative server configuration
+## Further configurations
 
-The `['pdns']['authoritative']['config']` array directly maps to each
+Every flavor has it's own attribute namespace for customizing it. More precisely
+
+The `['pdns'][flavor]['config']` array directly maps to each
 configuration directive in the configuration file. Of special note is
 any configuration option that needs a hyphen (`-`) should be defined
 as an underscore (`_`) and it will be converted at compilation time.
 
-For example, if you want the version-string setting to be changed, you'll want
-to define it like so:
+For example, if you want the version-string setting to be changed for your 
+authoritative server, you'll want to define it like so:
 
 `default['pdns']['authoritative']['config']['version_string'] = 'awesomedns'`
 
@@ -113,56 +112,36 @@ Another thing to note is boolean values are mapped to 'yes' and 'no'
 respectively. If you want to remove a value, simply set it to 'nil' or do not
 define the attribute entirely.
 
-### recursor
-
-The `['pdns']['recursor']['config']` array directly maps to each
-configuration directive in the configuration file. Of special note is
-any configuration option that needs a hyphen (`-`) should be defined
-as an underscore (`_`) and it will be converted at compilation time.
-
-For example, if you want the version-string setting to be changed, you'll want
-to define it like so:
-
-`default['pdns']['recursor']['config']['local_port'] = '53'`
-
-Another thing to note is boolean values are mapped to 'yes' and 'no'
-respectively. If you want to remove a value, simply set it to 'nil' or do not
-define the attribute entirely.
-
-### slave
-
-The `['pdns']['slave']['config']` array directly maps to each
-configuration directive in the configuration file. Of special note is
-any configuration option that needs a hyphen (`-`) should be defined
-as an underscore (`_`) and it will be converted at compilation time.
-
-For example, if you want the version-string setting to be changed, you'll want
-to define it like so:
-
-`default['pdns']['slave']['config']['local_port'] = '53'`
-
-Another thing to note is boolean values are mapped to 'yes' and 'no'
-respectively. If you want to remove a value, simply set it to 'nil' or do not
-define the attribute entirely.
-
 ## Usage
 
-Add the default recipe and set the right attributes ('flavor' and 'install_method') to install and configure PowerDNS as your needs. The default behavior is installing a recursor.
+Add the default recipe and set the right attributes ('flavor' and 'install_method') to install and configure PowerDNS as your needs. The default behavior is installing a recursor by package.
 
-To set up a Recursor, simply put `recipe[pdns::default]` in the run list. Modify the attributes via a role or on the node directly as required for the local configuration. If using the recursor with an Authoritative Server running on the same system, the local address and port should be changed to a public IP and the forward zones recurse setting to point at the loopback for the local zone. This is generally assumed, and the default listen interface for the recursor is set to the nodes ipaddress attribute.
-
+To set up a secursor, simply put `recipe[pdns::default]` in the run list. Modify the attributes via a role or on the node directly as required for the local configuration. 
 
 To set up an authoritative server, put `recipe[pdns::default]` in the run list and set the attribute `node['pdns']['flavor']` to 'authoritative'. If another backend besides SQLite is desired, change the `node['pdns']['server']['backend']` attribute. Choose between 'package', 'source' with the `node['pdns']['install_method']` attribute. Tune your server specific configuration with `node['pdns']['authoritative']['config']`.
 
 To set up an slave server, add `recipe[pdns::default]` to you run list and set the attribute `node['pdns']['flavor']` to 'slave'. Choose between 'package', 'source' with the `node['pdns']['install_method']` attribute. Tune your server specific configuration with `node['pdns']['slave']['config']`.
 
-Note that ubuntu has an specific database configuration when using their packges for backends, it's located here: `/etc/powerdns/pdns.d/`
+### Notes
+
+ - Ubuntu has an specific database configuration when using their packges for backends, it's located here: `/etc/powerdns/pdns.d/`
+ - It is not possible to install both an authoritative server and a recursor on the same machine using the flavor attribute.
+
+## Backends and flavors
+
+There are several combinations of backends and flavors available, currently a few of them have been tested, more or less the ones that represented in `.kitchen.yml` file, specifically:
+
+ - Authoritative / PostgreSQL backend (package and source)
+ - Authoritative / pipe backend       (package and source)
+ - Resolver                           (package and source)
+ - Slave                              (package and source)
 
 ## TODO
 
- - Add recursor from source
- - Add mysql backend
- - Use ubuntu `/etc/powerdns/pdns.d/` at least when using package, probably good for source too
+ - Add Bind backend (that should be the default)
+ - Add MySQL backend
+ - Add SQLite backend
+ - Use ubuntu `/etc/powerdns/pdns.d/` for configuring PowerDNS.
 
 License & Authors
 -----------------

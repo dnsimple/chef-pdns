@@ -8,12 +8,25 @@ platforms:
 - name: ubuntu-12.04
 
 suites:
-- name: recursor
+- name: recursor_package
   run_list:
+    - recipe[apt::default]
     - recipe[pdns::default]
+    - recipe[pdns_test::recursor]
   attributes:
+
+- name: recursor_source
+  run_list:
+    - recipe[apt::default]
+    - recipe[pdns::default]
+    - recipe[pdns_test::recursor]   
+  attributes:
+    pdns:
+      build_method: source
+
 - name: authoritative_pgsql_source
   run_list:
+    - recipe[apt::default]
     - recipe[postgresql::server]
     - recipe[pdns::load_schema_pg]
     - recipe[pdns::default]
@@ -33,8 +46,10 @@ suites:
     postgresql:
       password:
         postgres: wadus
+
 - name: authoritative_pgsql_package
   run_list:
+    - recipe[apt::default]
     - recipe[postgresql::server]
     - recipe[pdns::default]
   attributes:
@@ -44,18 +59,57 @@ suites:
       authoritative:
         backends:
           - gpgsql
+        config:
+          launch: gpgsql
+          include-dir: '/etc/powerdns/pdns.d'
     postgresql:
       password:
         postgres: wadus
+
+- name: authoritative_pipe_source
+  run_list:
+    - recipe[apt::default]
+    - recipe[pdns_test::default]
+    - recipe[pdns::default]
+  attributes:
+    pdns:
+      build_method: source
+      flavor: authoritative
+      authoritative:
+        backends:
+          - pipe
+        config:
+          pipe_command: /var/tmp/backend.pl
+          launch: pipe
+
+- name: authoritative_pipe_package
+  run_list:
+    - recipe[apt::default]
+    - recipe[pdns_test::default]
+    - recipe[pdns::default]
+  attributes:
+    pdns:
+      build_method: package
+      flavor: authoritative
+      authoritative:
+        backends:
+          - pipe
+        config:
+          pipe_command: /var/tmp/backend.pl
+          launch: pipe
+
 - name: slave_source
   run_list:
+    - recipe[apt::default]
     - recipe[pdns::default]
   attributes: 
     pdns:
       build_method: source
       flavor: slave
+
 - name: slave_package
   run_list:
+    - recipe[apt::default]
     - recipe[pdns::default]
   attributes:
     pdns:

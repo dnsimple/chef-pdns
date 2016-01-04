@@ -36,7 +36,7 @@ def pdns_dir(uri)
 end
 
 def pdns_package_module_requirements
-  modules = node['pdns']['package']['backends']
+  modules = node['pdns']['authoritative']['backends']
   required_packages = []
   modules.each do |mod|
     case mod
@@ -44,13 +44,20 @@ def pdns_package_module_requirements
       required_packages << 'pdns-backend-pgsql'
     when 'gmysql'
       required_packages << 'pdns-backend-mysql'
+    when 'random'
+      # Random isn't available on Ubuntu
+      next
+    when 'bind'
+      required_packages # Nothing extra is needed here
+    else
+      required_packages << "pdns-backend-#{mod}"
     end
   end
   required_packages
 end
 
 def pdns_source_module_requirements
-  modules = node['pdns']['source']['backends']
+  modules = node['pdns']['authoritative']['backends']
   required_packages = []
   modules.each do |mod|
     case mod

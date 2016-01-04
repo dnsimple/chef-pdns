@@ -17,7 +17,12 @@
 # limitations under the License.
 #
 
-default['pdns']['source']['version'] = '3.4.7'
-default['pdns']['source']['url'] = "https://downloads.powerdns.com/releases/pdns-#{node['pdns']['source']['version']}.tar.bz2"
 default['pdns']['source']['path'] = '/opt'
-default['pdns']['source']['backends'] = %w( bind )
+
+if node['pdns']['flavor'] == 'recursor'
+  default['pdns']['source']['version'] = '3.7.3'
+  default['pdns']['source']['url'] = "https://downloads.powerdns.com/releases/pdns-recursor-#{node['pdns']['source']['version']}.tar.bz2"
+else
+  default['pdns']['source']['version'] = '3.4.7'
+  default['pdns']['source']['url'] = "https://downloads.powerdns.com/releases/pdns-#{node['pdns']['source']['version']}.tar.bz2"
+end

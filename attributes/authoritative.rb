@@ -31,3 +31,7 @@ default['pdns']['authoritative']['config']['disable_axfr'] = true
 default['pdns']['authoritative']['config']['guardian'] = true
 default['pdns']['authoritative']['config']['default_ttl'] = '3600'
 
+# This attribute is only required in authoritative package installs
+if node['pdns']['build_method'] == 'package'
+  default['pdns']['authoritative']['config']['include-dir']='/etc/powerdns/pdns.d'
+end

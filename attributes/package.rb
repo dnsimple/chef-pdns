@@ -1,4 +1,4 @@
-#
+
 # Cookbook Name:: pdns
 # Attributes:: package
 #
@@ -17,4 +17,3 @@
 # limitations under the License.
 #
 
-default['pdns']['package']['backends'] = %w( bind )

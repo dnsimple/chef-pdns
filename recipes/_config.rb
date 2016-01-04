@@ -18,13 +18,26 @@
 #
 
 flavor = node['pdns']['flavor']
+
 config_file_path = "#{node['pdns'][flavor]['config']['config_dir']}/pdns.conf"
+service_name = 'pdns'
+
+if flavor == 'recursor'
+  config_file_path = "#{node['pdns'][flavor]['config']['config_dir']}/recursor.conf" 
+  service_name = 'pdns-recursor'
+end
+
+file '/etc/powerdns/pdns.d/pdns.simplebind.conf' do
+  action :delete
+  only_if { node['pdns']['build_method'] == 'package' }
+end
 
 template config_file_path do
   source 'pdns.conf.erb'
   owner node['pdns']['user']
   group node['pdns']['group']
   mode 0640
-  notifies :restart, 'service[pdns]'
+  notifies :restart, "service[#{service_name}]"
   variables( :flavor => flavor )
 end
+

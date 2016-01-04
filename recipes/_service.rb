@@ -17,7 +17,22 @@
 # limitations under the License.
 #
 
-service 'pdns' do
+flavor = node['pdns']['flavor']
+
+# Only PDNS source recursor comes with init script
+
+template '/etc/init.d/pdns' do
+  source 'pdns.init.erb'
+  owner 'root'
+  group 'root'
+  mode 0755
+  only_if { [ 'slave', 'authoritative' ].include? flavor }
+  not_if {  node['pdns']['build_method'] == 'package' }
+end
+
+service_name = flavor == 'recursor' ? "pdns-recursor" : "pdns"
+
+service service_name do
   provider Chef::Provider::Service::Init::Debian
   supports status: true, restart: true, reload: true
   action [:enable, :start]

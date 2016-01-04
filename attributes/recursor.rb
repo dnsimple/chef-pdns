@@ -18,8 +18,8 @@
 #
 
 default['pdns']['recursor']['config_dir'] = '/etc/powerdns'
-
 default['pdns']['recursor']['config']['config_dir'] = '/etc/powerdns'
+
 default['pdns']['recursor']['config']['allow_from'] = [
   '127.0.0.0/8',
   '10.0.0.0/8',
@@ -28,6 +28,7 @@ default['pdns']['recursor']['config']['allow_from'] = [
   '::1/128',
   'e80::/10'
 ]
+
 default['pdns']['recursor']['config']['auth_zones'] = []
 default['pdns']['recursor']['config']['forward_zones'] = []
 default['pdns']['recursor']['config']['forward_zones_recurse'] = []
