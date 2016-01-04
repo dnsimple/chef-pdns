@@ -10,18 +10,23 @@ platforms:
 suites:
 - name: recursor_package
   run_list:
+    - recipe[apt::default]
     - recipe[pdns::default]
+    - recipe[pdns_test::recursor]
   attributes:
 
 - name: recursor_source
   run_list:
+    - recipe[apt::default]
     - recipe[pdns::default]
+    - recipe[pdns_test::recursor]   
   attributes:
     pdns:
       build_method: source
 
 - name: authoritative_pgsql_source
   run_list:
+    - recipe[apt::default]
     - recipe[postgresql::server]
     - recipe[pdns::load_schema_pg]
     - recipe[pdns::default]
@@ -44,6 +49,7 @@ suites:
 
 - name: authoritative_pgsql_package
   run_list:
+    - recipe[apt::default]
     - recipe[postgresql::server]
     - recipe[pdns::default]
   attributes:
@@ -94,6 +100,7 @@ suites:
 
 - name: slave_source
   run_list:
+    - recipe[apt::default]
     - recipe[pdns::default]
   attributes: 
     pdns:
@@ -102,6 +109,7 @@ suites:
 
 - name: slave_package
   run_list:
+    - recipe[apt::default]
     - recipe[pdns::default]
   attributes:
     pdns:
