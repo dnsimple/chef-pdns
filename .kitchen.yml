@@ -69,7 +69,7 @@ suites:
 - name: authoritative_pipe_source
   run_list:
     - recipe[apt::default]
-    - recipe[pdns_test::default]
+    - recipe[pdns_test::pipe_backend]
     - recipe[pdns::default]
   attributes:
     pdns:
@@ -85,7 +85,7 @@ suites:
 - name: authoritative_pipe_package
   run_list:
     - recipe[apt::default]
-    - recipe[pdns_test::default]
+    - recipe[pdns_test::pipe_backend]
     - recipe[pdns::default]
   attributes:
     pdns:
@@ -97,6 +97,36 @@ suites:
         config:
           pipe_command: /var/tmp/backend.pl
           launch: pipe
+
+- name: authoritative_bind_source
+  run_list:
+    - recipe[apt::default]
+    - recipe[pdns_test::bind_backend]
+    - recipe[pdns::default]
+  attributes:
+    pdns:
+      build_method: source
+      flavor: authoritative
+      authoritative:
+        backends:
+          - bind
+        config:
+          bind_config: /etc/pdns/bind-backend.conf
+          launch: bind
+
+- name: authoritative_bind_package
+  run_list:
+    - recipe[apt::default]
+    - recipe[pdns_test::bind_backend]
+    - recipe[pdns::default]
+  attributes:
+    pdns:
+      build_method: package
+      flavor: authoritative
+      authoritative:
+        backends:
+          - bind
+        config:
 
 - name: slave_source
   run_list:
