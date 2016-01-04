@@ -46,6 +46,7 @@ def pdns_package_module_requirements
       required_packages << 'pdns-backend-mysql'
     when 'random'
       # Random isn't available on Ubuntu
+      next
     when 'bind'
       required_packages # Nothing extra is needed here
     else
