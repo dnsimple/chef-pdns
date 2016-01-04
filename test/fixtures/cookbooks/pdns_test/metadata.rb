@@ -9,4 +9,4 @@ version          '1.0.0'
 supports 'ubuntu', '= 12.04'
 supports 'ubuntu', '= 14.04'
 
-# depends 'pdns'
+depends 'resolver'
