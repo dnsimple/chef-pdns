@@ -23,7 +23,7 @@ Installs and configures PowerDNS (pdns). Sets up an authoritative  by default an
 
 Depending on the type of server you are installing there are specific options you may want to set via attributes. Several attribute files handle settings of the different 'flavors' of a PowerDNS install, that is an authoritative server, a slave server or a recursor. Also there is two attribute files that handle the way PowerDNS should be installed: via a package or compiled by source.
 
-The different combinations of install method and functionality are handled by the attributes 'build_method' and 'flavor' located in the default attributes file. You can set this attributes accordingly to your needs.
+The different combinations of install method and functionality are handled by the attributes 'build_method' and 'flavor' located in the default attributes file. You can set these attributes according to your needs.
 
 ### default
 
@@ -129,7 +129,7 @@ To set up an slave server, add `recipe[pdns::default]` to you run list and set t
 
 ## Backends and flavors
 
-There is several combinations of backends or flavors available, currently a few of them have been tested, more or less the ones that represented in `.kitchen.yml` file, specifically:
+There are several combinations of backends and flavors available, currently a few of them have been tested, more or less the ones that represented in `.kitchen.yml` file, specifically:
 
  - Authoritative / PostgreSQL backend (package and source)
  - Authoritative / pipe backend       (package and source)

@@ -2,13 +2,13 @@
 
 ### Enhancements
 
-* Adds the capability of install a recursor from source
+* Adds the capability of installing a recursor from source
 * Adds the capability of installing a recursor with pipe backend (source and package install).
 * Updating documentation.
 
 ### Cleanup
 
-* Mayor code refactor
+* Major code refactor
 
 ### Breaking changes
 
