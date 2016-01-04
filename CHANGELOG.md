@@ -1,8 +1,27 @@
+# 2.0.0 / 2015-12-23
+
+### Enhancements
+
+* Adds the capability of install a recursor from source
+* Adds the capability of installing a recursor with pipe backend (source and package install).
+* Updating documentation.
+
+### Cleanup
+
+* Mayor code refactor
+
+### Breaking changes
+
+* Resolver no longer uses a separated template for configuration and it uses the same 
+  attribute (flavor) to decide the functionality, so it is not possible to install a
+  resolver and an authoritative on the same machine anymore.
+* Only authoritative servers install or compile backends now.
+
 # 1.1.1 / 2015-12-23
 
 ### Enhancements
 
-* Creating schema, grants and users for postgres backend
+* Creating schema, grants and users for postgres backend.
 
 ### Bug Fixes
 
