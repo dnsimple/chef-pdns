@@ -55,7 +55,7 @@ Key                                                          | Type     | Descri
 -------------------------------------------------------------|----------|------------------------------------------------------------------|---------
 `node['pdns']['authoritative']['backends']`                  | Array    | List of backends to build and configure or install with PowerDNS | [ 'bind' ] 
 `node['pdns']['authoritative']['config']['launch']`          | String   | Backend that will be used when running PowerDNS                  | bind
-`node['pdns']['authoritative']['config']['bind_config']`     | Array    | Location of the bind configuration file | /etc/powerdns/bind-backend.conf
+`node['pdns']['authoritative']['config']['bind_config']`     | Array    | Location of the bind zone file | /etc/powerdns/bind-backend.conf
 `node['pdns']['authoritative']['config']['config_dir']`      | String   | Location of configuration directory                              | /etc/powerdns
 `node['pdns']['authoritative']['config']['setgid']`          | String   | User to setuid the pdns daemons                                  | pdns
 `node['pdns']['authoritative']['config']['setuid']`          | String   | Group to setuid the pdns daemons                                 | pdns
@@ -125,7 +125,7 @@ To set up an slave server, add `recipe[pdns::default]` to you run list and set t
 
 ### Notes
 
- - Currently this cookbook just provides minimal bind backend configuration and leaves to the user how to provision and manage the bind config file required by the backend (see https://doc.powerdns.com/md/authoritative/backend-bind/). Also, take a look at `test/fixtures` where a example bind config file is located for testing.
+ - Currently this cookbook just provides minimal bind backend configuration and leaves to the user how to provision and manage the bind zone file required by the backend (see https://doc.powerdns.com/md/authoritative/backend-bind/). Also, take a look at `test/fixtures` where a example bind zone file is located for testing.
  - For PostgreSQL backend a recipe for creating the database schema and user is provided, it is also used for testing.
  - Ubuntu has an specific database configuration when using their packges for backends, it's located here: `/etc/powerdns/pdns.d/`
  - It is not possible to install both an authoritative server and a recursor on the same machine using the flavor attribute.
