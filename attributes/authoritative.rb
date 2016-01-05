@@ -20,6 +20,10 @@
 default['pdns']['authoritative']['backends'] = %w( bind )
 default['pdns']['authoritative']['config']['launch'] = 'bind'
 
+if node['pdns']['authoritative']['config']['launch'] == 'bind'
+  default['pdns']['authoritative']['config']['bind_config'] = '/etc/powerdns/bind-backend.conf'
+end
+
 default['pdns']['authoritative']['config']['config_dir'] = '/etc/powerdns'
 default['pdns']['authoritative']['config']['setgid'] = 'pdns'
 default['pdns']['authoritative']['config']['setuid'] = 'pdns'
