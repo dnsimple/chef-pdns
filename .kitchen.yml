@@ -24,6 +24,26 @@ suites:
     pdns:
       build_method: source
 
+- name: authoritative_bind_package
+  run_list:
+    - recipe[apt::default]
+    - recipe[pdns::default]
+    - recipe[pdns_test::bind_backend]
+  attributes:
+    pdns:
+      build_method: package
+      flavor: authoritative
+
+- name: authoritative_bind_source
+  run_list:
+    - recipe[apt::default]
+    - recipe[pdns::default]
+    - recipe[pdns_test::bind_backend]
+  attributes:
+    pdns:
+      build_method: source
+      flavor: authoritative
+
 - name: authoritative_pgsql_source
   run_list:
     - recipe[apt::default]
@@ -97,27 +117,6 @@ suites:
         config:
           pipe_command: /var/tmp/backend.pl
           launch: pipe
-
-- name: authoritative_bind_source
-  run_list:
-    - recipe[apt::default]
-    - recipe[pdns_test::bind_backend]
-    - recipe[pdns::default]
-  attributes:
-    pdns:
-      build_method: source
-      flavor: authoritative
-      authoritative:
-
-- name: authoritative_bind_package
-  run_list:
-    - recipe[apt::default]
-    - recipe[pdns::default]
-    - recipe[pdns_test::bind_backend]
-  attributes:
-    pdns:
-      build_method: package
-      flavor: authoritative
 
 - name: slave_source
   run_list:
