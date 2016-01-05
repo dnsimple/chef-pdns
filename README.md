@@ -118,7 +118,7 @@ Add the default recipe and set the right attributes ('flavor' and 'install_metho
 
 To set up a secursor, simply put `recipe[pdns::default]` in the run list. Modify the attributes via a role or on the node directly as required for the local configuration. 
 
-To set up an authoritative server, put `recipe[pdns::default]` in the run list and set the attribute `node['pdns']['flavor']` to 'authoritative'. If another backend besides SQLite is desired, change the `node['pdns']['server']['backend']` attribute. Choose between 'package', 'source' with the `node['pdns']['install_method']` attribute. Tune your server specific configuration with `node['pdns']['authoritative']['config']`.
+To set up an authoritative server, put `recipe[pdns::default]` in the node's run list and set the attribute `node['pdns']['flavor']` to 'authoritative'. Modify `node['pdns']['authoritative']['backend']` attribute in order to install one or more backends. Choose between 'package' and 'source' installs in the `node['pdns']['install_method']` attribute. Further tune your server configuration with `node['pdns']['authoritative']['config']`.
 
 To set up an slave server, add `recipe[pdns::default]` to you run list and set the attribute `node['pdns']['flavor']` to 'slave'. Choose between 'package', 'source' with the `node['pdns']['install_method']` attribute. Tune your server specific configuration with `node['pdns']['slave']['config']`.
 
