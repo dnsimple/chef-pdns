@@ -108,25 +108,16 @@ suites:
       build_method: source
       flavor: authoritative
       authoritative:
-        backends:
-          - bind
-        config:
-          bind_config: /etc/pdns/bind-backend.conf
-          launch: bind
 
 - name: authoritative_bind_package
   run_list:
     - recipe[apt::default]
-    - recipe[pdns_test::bind_backend]
     - recipe[pdns::default]
+    - recipe[pdns_test::bind_backend]
   attributes:
     pdns:
       build_method: package
       flavor: authoritative
-      authoritative:
-        backends:
-          - bind
-        config:
 
 - name: slave_source
   run_list:
