@@ -19,7 +19,7 @@ suites:
   run_list:
     - recipe[apt::default]
     - recipe[pdns::default]
-    - recipe[pdns_test::recursor]   
+    - recipe[pdns_test::recursor]
   attributes:
     pdns:
       build_method: source
@@ -44,29 +44,6 @@ suites:
       build_method: source
       flavor: authoritative
 
-- name: authoritative_pgsql_source
-  run_list:
-    - recipe[apt::default]
-    - recipe[postgresql::server]
-    - recipe[pdns::load_schema_pg]
-    - recipe[pdns::default]
-  attributes:
-    pdns:
-      build_method: source
-      flavor: authoritative      
-      authoritative:
-        backends:
-          - gpgsql
-        config:
-          launch: gpgsql
-          gpgsql_dbname: 'powerdns'
-          gpgsql_host: '127.0.0.1'
-          gpgsql_user: 'pdns'
-          gpgsql_password: 'test'        
-    postgresql:
-      password:
-        postgres: wadus
-
 - name: authoritative_pgsql_package
   run_list:
     - recipe[apt::default]
@@ -86,10 +63,11 @@ suites:
       password:
         postgres: wadus
 
-- name: authoritative_pipe_source
+- name: authoritative_pgsql_source
   run_list:
     - recipe[apt::default]
-    - recipe[pdns_test::pipe_backend]
+    - recipe[postgresql::server]
+    - recipe[pdns::load_schema_pg]
     - recipe[pdns::default]
   attributes:
     pdns:
@@ -97,10 +75,16 @@ suites:
       flavor: authoritative
       authoritative:
         backends:
-          - pipe
+          - gpgsql
         config:
-          pipe_command: /var/tmp/backend.pl
-          launch: pipe
+          launch: gpgsql
+          gpgsql_dbname: 'powerdns'
+          gpgsql_host: '127.0.0.1'
+          gpgsql_user: 'pdns'
+          gpgsql_password: 'test'
+    postgresql:
+      password:
+        postgres: wadus
 
 - name: authoritative_pipe_package
   run_list:
@@ -118,14 +102,21 @@ suites:
           pipe_command: /var/tmp/backend.pl
           launch: pipe
 
-- name: slave_source
+- name: authoritative_pipe_source
   run_list:
     - recipe[apt::default]
+    - recipe[pdns_test::pipe_backend]
     - recipe[pdns::default]
-  attributes: 
+  attributes:
     pdns:
       build_method: source
-      flavor: slave
+      flavor: authoritative
+      authoritative:
+        backends:
+          - pipe
+        config:
+          pipe_command: /var/tmp/backend.pl
+          launch: pipe
 
 - name: slave_package
   run_list:
@@ -134,5 +125,14 @@ suites:
   attributes:
     pdns:
       build_method: package
+      flavor: slave
+
+- name: slave_source
+  run_list:
+    - recipe[apt::default]
+    - recipe[pdns::default]
+  attributes:
+    pdns:
+      build_method: source
       flavor: slave
 
