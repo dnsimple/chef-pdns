@@ -55,6 +55,7 @@ Key                                                          | Type     | Descri
 -------------------------------------------------------------|----------|------------------------------------------------------------------|---------
 `node['pdns']['authoritative']['backends']`                  | Array    | List of backends to build and configure or install with PowerDNS | [ 'bind' ] 
 `node['pdns']['authoritative']['config']['launch']`          | String   | Backend that will be used when running PowerDNS                  | bind
+`node['pdns']['authoritative']['config']['bind_config']`     | Array    | Location of the bind zone file | /etc/powerdns/bind-backend.conf
 `node['pdns']['authoritative']['config']['config_dir']`      | String   | Location of configuration directory                              | /etc/powerdns
 `node['pdns']['authoritative']['config']['setgid']`          | String   | User to setuid the pdns daemons                                  | pdns
 `node['pdns']['authoritative']['config']['setuid']`          | String   | Group to setuid the pdns daemons                                 | pdns
@@ -116,14 +117,16 @@ define the attribute entirely.
 
 Add the default recipe and set the right attributes ('flavor' and 'install_method') to install and configure PowerDNS as your needs. The default behavior is installing a recursor by package.
 
-To set up a secursor, simply put `recipe[pdns::default]` in the run list. Modify the attributes via a role or on the node directly as required for the local configuration. 
+To set up a recursor, simply put `recipe[pdns::default]` in the run list. Modify the attributes via a role or on the node directly as required for the local configuration. 
 
-To set up an authoritative server, put `recipe[pdns::default]` in the node's run list and set the attribute `node['pdns']['flavor']` to 'authoritative'. Modify `node['pdns']['authoritative']['backend']` attribute in order to install one or more backends. Choose between 'package' and 'source' installs in the `node['pdns']['install_method']` attribute. Further tune your server configuration with `node['pdns']['authoritative']['config']`.
+To set up an authoritative server, put `recipe[pdns::default]` in the node's run list and set the attribute `node['pdns']['flavor']` to 'authoritative'. Modify `node['pdns']['authoritative']['backend']` attribute in order to install one or more backends, the default backend is bind. Choose between 'package' and 'source' installs in the `node['pdns']['install_method']` attribute. Further tune your server configuration with `node['pdns']['authoritative']['config']`.
 
 To set up an slave server, add `recipe[pdns::default]` to you run list and set the attribute `node['pdns']['flavor']` to 'slave'. Choose between 'package', 'source' with the `node['pdns']['install_method']` attribute. Tune your server specific configuration with `node['pdns']['slave']['config']`.
 
 ### Notes
 
+ - Currently this cookbook just provides minimal bind backend configuration and leaves to the user how to provision and manage the bind zone file required by the backend (see https://doc.powerdns.com/md/authoritative/backend-bind/). Also, take a look at `test/fixtures` where a example bind zone file is located for testing.
+ - For PostgreSQL backend a recipe for creating the database schema and user is provided, it is also used for testing.
  - Ubuntu has an specific database configuration when using their packges for backends, it's located here: `/etc/powerdns/pdns.d/`
  - It is not possible to install both an authoritative server and a recursor on the same machine using the flavor attribute.
 
@@ -131,6 +134,7 @@ To set up an slave server, add `recipe[pdns::default]` to you run list and set t
 
 There are several combinations of backends and flavors available, currently a few of them have been tested, more or less the ones that represented in `.kitchen.yml` file, specifically:
 
+ - Authoritative / bind backend       (package and source)
  - Authoritative / PostgreSQL backend (package and source)
  - Authoritative / pipe backend       (package and source)
  - Resolver                           (package and source)
@@ -138,7 +142,6 @@ There are several combinations of backends and flavors available, currently a fe
 
 ## TODO
 
- - Add Bind backend (that should be the default)
  - Add MySQL backend
  - Add SQLite backend
  - Use ubuntu `/etc/powerdns/pdns.d/` for configuring PowerDNS.
@@ -151,7 +154,7 @@ License & Authors
 - Author:: Anthony Eden (<anthony.eden@dnsimple.com>)
 
 ```text
-Copyright:: 2010-2014, Chef Software, Inc & 2014 Aetrion, LLC.
+Copyright:: 2010-2014, Chef Software, Inc & 2014-2015 Aetrion, LLC.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

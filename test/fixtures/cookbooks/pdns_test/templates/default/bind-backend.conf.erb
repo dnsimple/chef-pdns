@@ -1,0 +1,20 @@
+$TTL 180
+;
+; Zone file for example.com
+;
+;
+@       IN      SOA     ns1.example.com.      postmaster.example.com. (
+                        2014080704      ; Serial Number (date YYYYMMDD++)
+                        86400           ; Refresh (24 hours)
+                        1800            ; Retry (1/2 hour)
+                        3600000         ; Expire (42 days)
+                        21600)          ; Minimum (6 hours)
+                        IN      NS      ns1.example.com.
+
+ 
+@       IN      A       <%= @node['ipaddress'] %>
+        IN      MX      0 mail.example.com.
+www     IN      A       <%= @node['ipaddress'] %>
+mail    IN      A       <%= @node['ipaddress'] %>
+ns1     IN      A       <%= @node['ipaddress'] %>
+
