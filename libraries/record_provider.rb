@@ -1,4 +1,5 @@
 require 'chef/provider'
+require 'ipaddress'
 
 class Chef
   class Provider
@@ -45,6 +46,15 @@ class Chef
         if(domain_id.nil?)
           raise "Cannot create record in non-existent domain \"#{@new_resource.domain}\""
         end
+
+        # If it's an A/AAAA record, attempt to parse it as an IP address.
+        # If it fails with an exception, we don't want to create the record.
+        if(@new_resource.type == 'A')
+            IPAddress::IPv4.new(@new_resource.content).to_s
+        elsif(@new_resource.type == 'AAAA')
+            IPAddress::IPv6.new(@new_resource.content).to_s
+        end
+        
         pdns_database.from(:records).insert(:domain_id => domain_id,
                                             :name => @new_resource.name,
                                             :type => @new_resource.type,
