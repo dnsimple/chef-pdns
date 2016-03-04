@@ -1,3 +1,10 @@
+# 2.2.1 / 2016-03-03
+
+## Bug Fixes
+
+* Resolved an issue where pdns install would run over and over again due
+  to a bad path.
+
 # 2.2.0 / 2016-03-03
 
 ## Enhancements
