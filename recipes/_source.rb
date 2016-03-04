@@ -16,9 +16,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-
 flavor = node['pdns']['flavor']
-version = node['pdns']['source']['version']
+version = node['pdns'][flavor]['source']['version']
 
 include_recipe 'build-essential'
 
@@ -30,14 +29,14 @@ package 'ragel'
 # Base install directory
 pdns_basepath = node['pdns']['source']['path']
 # Filename
-pdns_filename = pdns_file(node['pdns']['source']['url'])
+pdns_filename = pdns_file(node['pdns'][flavor]['source']['url'])
 # Base install dir + Filename
 pdns_filepath = "#{pdns_basepath}/#{pdns_filename}"
 # Base install dir + (Filename - Extension)
 pdns_source_dir = pdns_dir(pdns_filename)
 
 remote_file pdns_filepath do
-  source lazy { node['pdns']['source']['url'] }
+  source lazy { node['pdns'][flavor]['source']['url'] }
   action :create_if_missing
 end
 

@@ -19,6 +19,16 @@
 
 flavor = node['pdns']['flavor']
 
+# Set the bind config if we're launching with that
+if node['pdns']['authoritative']['config']['launch'] == 'bind'
+  node.default['pdns']['authoritative']['config']['bind_config'] = '/etc/powerdns/bind-backend.conf'
+end
+
+# This attribute is only required in authoritative package installs
+if node['pdns']['build_method'] == 'package'
+  node.default['pdns']['authoritative']['config']['include-dir']='/etc/powerdns/pdns.d'
+end
+
 config_file_path = "#{node['pdns'][flavor]['config']['config_dir']}/pdns.conf"
 service_name = 'pdns'
 
