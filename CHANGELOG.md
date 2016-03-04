@@ -1,3 +1,14 @@
+# 2.1.1 / 2016-03-03
+
+## Bug Fixes
+
+* Renamed some ambiguous variables that might be causing a bug in certain
+  circumstances.
+
+## Cleanup
+
+* Updated some copyrights and trimmed a bunch of whitespace
+
 # 2.1.0 / 2016-01-11
 
 ### Enhancements
@@ -22,7 +33,7 @@
 
 ### Breaking changes
 
-* Resolver no longer uses a separated template for configuration and it uses the same 
+* Resolver no longer uses a separated template for configuration and it uses the same
   attribute (flavor) to decide the functionality, so it is not possible to install a
   resolver and an authoritative on the same machine anymore.
 * Only authoritative servers install or compile backends now.
@@ -62,8 +73,8 @@ http://www.openwall.com/lists/oss-security/2015/11/09/3
 
 ## Security
 
-* Updating to 3.4.6 addressing PowerDNS Security Advisory 2015-02. 
-More information about this CVE can be found here: 
+* Updating to 3.4.6 addressing PowerDNS Security Advisory 2015-02.
+More information about this CVE can be found here:
 http://www.openwall.com/lists/oss-security/2015/09/02/5
 
 # 1.0.3 / 2015-05-04
@@ -77,7 +88,7 @@ http://www.openwall.com/lists/oss-security/2015/09/02/5
 ### Security
 
 * Updating to version 3.4.4 of authoritative powerdns server in order to address
-  PowerDNS Security Advisory 2015-01: Label decompression bug can cause crashes 
+  PowerDNS Security Advisory 2015-01: Label decompression bug can cause crashes
   or CPU spikes.
 
 ### Bug Fixes
