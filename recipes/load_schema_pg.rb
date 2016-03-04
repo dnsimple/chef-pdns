@@ -20,10 +20,10 @@
 include_recipe 'database::postgresql'
 
 postgresql_connection_info = {
-  :host     => '127.0.0.1',
-  :port     => node['postgresql']['config']['port'],
-  :username => 'postgres',
-  :password => node['postgresql']['password']['postgres']
+  host: '127.0.0.1',
+  port: node['postgresql']['config']['port'],
+  username: 'postgres',
+  password: node['postgresql']['password']['postgres']
 }
 
 postgresql_database 'powerdns' do
@@ -39,7 +39,7 @@ postgresql_database 'powerdns' do
   connection postgresql_connection_info
   sql { ::File.open('/var/tmp/pdns_pg_schema.sql').read }
   action :query
-  not_if 'psql -c "\l" | grep powerdns', :user => 'postgres'
+  not_if 'psql -c "\l" | grep powerdns', user: 'postgres'
 end
 
 postgresql_database_user 'pdns' do
@@ -48,11 +48,11 @@ postgresql_database_user 'pdns' do
   username 'pdns'
   password 'test'
   action :create
-  not_if 'psql -c "\du" | grep pdns', :user => 'postgres'
+  not_if 'psql -c "\du" | grep pdns', user: 'postgres'
 end
 
 postgresql_database 'powerdns_grant' do
   connection postgresql_connection_info
-  sql "GRANT ALL ON ALL TABLES IN SCHEMA public TO pdns;"
+  sql 'GRANT ALL ON ALL TABLES IN SCHEMA public TO pdns;'
   action :query
 end

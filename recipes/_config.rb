@@ -48,6 +48,6 @@ template config_file_path do
   group node['pdns']['group']
   mode 0640
   notifies :restart, "service[#{service_name}]"
-  variables( :flavor => flavor )
+  variables( flavor: flavor )
 end
 

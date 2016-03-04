@@ -30,7 +30,7 @@ template '/etc/init.d/pdns' do
   not_if {  node['pdns']['build_method'] == 'package' }
 end
 
-service_name = flavor == 'recursor' ? "pdns-recursor" : "pdns"
+service_name = flavor == 'recursor' ? 'pdns-recursor' : 'pdns'
 
 service service_name do
   provider Chef::Provider::Service::Init::Debian
