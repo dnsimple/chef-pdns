@@ -34,13 +34,12 @@ Key                             | Type     | Description                        
 `node['pdns']['user']`          | String   | User to setuid the pdns daemons                     | pdns
 `node['pdns']['group']`         | String   | Group to setuid the pdns daemons                    | pdns
 
-
 ### source
 
 Key                                 | Type     | Description                                           | Default
 ------------------------------------| ---------|-------------------------------------------------------|---------
 `node['pdns']['source']['path']`    | String   | The base path to setting up the source installation   | /opt
-`node['pdns']['source']['version']` | String   | Version of source server or resolver based on 'flavor'| 3.4.7 or 3.7.3 
+`node['pdns']['source']['version']` | String   | Version of source server or resolver based on 'flavor'| 3.4.7 or 3.7.3
 `node['pdns']['source']['url']`     | String   | URL to the PowerDNS Server Source Package             | https://downloads.powerdns.com/releases/pdns-[recursor?]-[version].tar.bz2
 
 ### package
@@ -53,7 +52,7 @@ Key                                  | Type     | Description                   
 
 Key                                                          | Type     | Description                                                      | Default
 -------------------------------------------------------------|----------|------------------------------------------------------------------|---------
-`node['pdns']['authoritative']['backends']`                  | Array    | List of backends to build and configure or install with PowerDNS | [ 'bind' ] 
+`node['pdns']['authoritative']['backends']`                  | Array    | List of backends to build and configure or install with PowerDNS | [ 'bind' ]
 `node['pdns']['authoritative']['config']['launch']`          | String   | Backend that will be used when running PowerDNS                  | bind
 `node['pdns']['authoritative']['config']['bind_config']`     | Array    | Location of the bind zone file | /etc/powerdns/bind-backend.conf
 `node['pdns']['authoritative']['config']['config_dir']`      | String   | Location of configuration directory                              | /etc/powerdns
@@ -70,7 +69,7 @@ Key                                                          | Type     | Descri
 
 Key                                                           | Type     | Description                                                       | Default
 --------------------------------------------------------------|----------|-------------------------------------------------------------------|---------
-`node['pdns']['slave']['backends']`                           | Array    | List of backends to build and configure or install with PowerDNS  | [ 'bind' ] 
+`node['pdns']['slave']['backends']`                           | Array    | List of backends to build and configure or install with PowerDNS  | [ 'bind' ]
 `node['pdns']['slave']['config']['launch']`                   | String   | Backend that will be used when running PowerDNS                   | bind
 `node['pdns']['slave']['config']['config_dir']`               | String   | Location of configuration directory                               | /etc/powerdns
 `node['pdns']['slave']['config']['setgid']`                   | String   | User to setuid the pdns daemons                                   | pdns
@@ -104,7 +103,7 @@ configuration directive in the configuration file. Of special note is
 any configuration option that needs a hyphen (`-`) should be defined
 as an underscore (`_`) and it will be converted at compilation time.
 
-For example, if you want the version-string setting to be changed for your 
+For example, if you want the version-string setting to be changed for your
 authoritative server, you'll want to define it like so:
 
 `default['pdns']['authoritative']['config']['version_string'] = 'awesomedns'`
@@ -117,7 +116,7 @@ define the attribute entirely.
 
 Add the default recipe and set the right attributes ('flavor' and 'install_method') to install and configure PowerDNS as your needs. The default behavior is installing a recursor by package.
 
-To set up a recursor, simply put `recipe[pdns::default]` in the run list. Modify the attributes via a role or on the node directly as required for the local configuration. 
+To set up a recursor, simply put `recipe[pdns::default]` in the run list. Modify the attributes via a role or on the node directly as required for the local configuration.
 
 To set up an authoritative server, put `recipe[pdns::default]` in the node's run list and set the attribute `node['pdns']['flavor']` to 'authoritative'. Modify `node['pdns']['authoritative']['backend']` attribute in order to install one or more backends, the default backend is bind. Choose between 'package' and 'source' installs in the `node['pdns']['install_method']` attribute. Further tune your server configuration with `node['pdns']['authoritative']['config']`.
 
@@ -154,7 +153,7 @@ License & Authors
 - Author:: Anthony Eden (<anthony.eden@dnsimple.com>)
 
 ```text
-Copyright:: 2010-2014, Chef Software, Inc & 2014-2015 Aetrion, LLC.
+Copyright:: 2010-2014, Chef Software, Inc & 2014-2016 Aetrion, LLC.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
