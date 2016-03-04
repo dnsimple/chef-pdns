@@ -96,5 +96,5 @@ end
 execute 'pdns: install' do
   command 'make install'
   cwd pdns_source_dir
-  not_if "/usr/sbin/#{binary_string} --version 2>&1 | grep #{version}"
+  not_if "/usr/local/sbin/#{binary_string} --version 2>&1 | grep #{version}"
 end
