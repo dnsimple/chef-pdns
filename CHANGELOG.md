@@ -1,3 +1,18 @@
+# 2.2.0 / 2016-03-03
+
+## Enhancements
+
+* We have eliminated the node attributes from the attributes folder to make
+  this cookbook more wrapper pattern friendly. Remember kids, don't put node
+  attributes in your attributes folder, everyone will have a bad time. :(
+
+## Cleanup
+
+* Added some basic rubocop rules that we're starting to use with DNSimple
+  cookbook. Nothing intense, but should help get things looking spiffy :+1:
+* Made sure to comply with foodcritic, the ultimate yelp reviewer of the
+  Chef Supermarket.
+
 # 2.1.1 / 2016-03-03
 
 ## Bug Fixes
