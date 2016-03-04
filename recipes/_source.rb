@@ -34,7 +34,7 @@ pdns_filename = pdns_file(node['pdns']['source']['url'])
 # Base install dir + Filename
 pdns_filepath = "#{pdns_basepath}/#{pdns_filename}"
 # Base install dir + (Filename - Extension)
-pdns_dir = pdns_dir(pdns_filename)
+pdns_source_dir = pdns_dir(pdns_filename)
 
 remote_file pdns_filepath do
   source lazy { node['pdns']['source']['url'] }
@@ -51,7 +51,7 @@ bash 'unarchive_source' do
   code <<-EOH
   tar xjf #{::File.basename(pdns_filepath)} -C #{::File.dirname(pdns_filepath)}
   EOH
-  not_if { ::File.directory?("#{pdns_dir}") }
+  not_if { ::File.directory?("#{pdns_source_dir}") }
 end
 
 directory node['pdns'][flavor]['config']['config_dir'] do
@@ -70,7 +70,7 @@ if [ 'slave', 'authoritative' ].include? flavor
   execute 'pdns: bootstrap' do
     # This insanity is documented in the README
     command './bootstrap && ./bootstrap'
-    cwd pdns_dir
+    cwd pdns_source_dir
     not_if "/usr/local/sbin/#{binary_string} --version 2>&1 | grep #{version}"
   end
 
@@ -84,18 +84,18 @@ execute 'pdns: configure' do
   modules +
   "--sysconfdir=#{node['pdns'][flavor]['config']['config_dir']} " +
   '--without-lua'
-  cwd pdns_dir
+  cwd pdns_source_dir
   not_if "/usr/local/sbin/#{binary_string} --version 2>&1 | grep #{version}"
 end
 
 execute 'pdns: build' do
   command 'make'
-  cwd pdns_dir
+  cwd pdns_source_dir
   not_if "/usr/local/sbin/#{binary_string} --version 2>&1 | grep #{version}"
 end
 
 execute 'pdns: install' do
   command 'make install'
-  cwd pdns_dir
+  cwd pdns_source_dir
   not_if "/usr/sbin/#{binary_string} --version 2>&1 | grep #{version}"
 end
