@@ -2,7 +2,7 @@
 # Cookbook Name:: pdns
 # Recipe:: _source
 #
-# Copyright 2014, Aetrion, LLC.
+# Copyright 2014-2016, Aetrion, LLC.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.

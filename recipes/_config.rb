@@ -23,7 +23,7 @@ config_file_path = "#{node['pdns'][flavor]['config']['config_dir']}/pdns.conf"
 service_name = 'pdns'
 
 if flavor == 'recursor'
-  config_file_path = "#{node['pdns'][flavor]['config']['config_dir']}/recursor.conf" 
+  config_file_path = "#{node['pdns'][flavor]['config']['config_dir']}/recursor.conf"
   service_name = 'pdns-recursor'
 end
 
