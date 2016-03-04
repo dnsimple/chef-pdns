@@ -50,7 +50,7 @@ bash 'unarchive_source' do
   code <<-EOH
   tar xjf #{::File.basename(pdns_filepath)} -C #{::File.dirname(pdns_filepath)}
   EOH
-  not_if { ::File.directory?("#{pdns_source_dir}") }
+  not_if { ::File.directory?(pdns_source_dir) }
 end
 
 directory node['pdns'][flavor]['config']['config_dir'] do
