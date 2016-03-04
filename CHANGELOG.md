@@ -1,3 +1,13 @@
+# 2.1.0 / 2016-01-11
+
+### Enhancements
+
+* Added bind as backend option and made it default
+
+### Cleanup
+
+* Some spelling mistakes in the README were corrected
+
 # 2.0.0 / 2015-12-23
 
 ### Enhancements
