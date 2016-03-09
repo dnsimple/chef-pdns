@@ -63,16 +63,16 @@ class Chef
                                             :prio => @new_resource.prio)
       end
 
-      def dns_record_exists?(domain:,name:,type:,content:)
-        domain_id = lookup_domain(domain)
+      def dns_record_exists?(options = {})
+        domain_id = lookup_domain(options[:domain])
         if domain_id.nil?
-          Chef::Log.warn("domain: #{domain} is missing")
+          Chef::Log.warn("domain: #{options[:domain]} is missing")
           false
         else
           pdns_database.from(:records).where(:domain_id => domain_id, 
-                                             :name => name, 
-                                             :type => type,
-                                             :content => content).count > 0
+                                             :name => options[:name], 
+                                             :type => options[:type],
+                                             :content => options[:content]).count > 0
         end
       end
 

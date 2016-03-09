@@ -7,13 +7,20 @@ include_recipe 'apt'
 include_recipe 'build-essential'
 launch = node['pdns']['authoritative']['config']['launch']
 
-chef_gem 'sequel' do
-  compile_time false if respond_to?(:compile_time)
+#
+# For Chef 11.x compatibility, it is important to use gem_package
+# instead of chef_gem.  Chef 11 does not include the 'compile_time'
+# attribute for chef_gem resources.
+#
+chef_gem_binary = File.join(Chef::Config.embedded_dir,'bin','gem')
+
+gem_package 'sequel' do
+  gem_binary chef_gem_binary
 end
 
 if launch == 'gmysql'  
-  chef_gem 'mysql2' do
-    compile_time false
+  gem_package 'mysql2' do
+    gem_binary chef_gem_binary
   end
 elsif launch == 'gpgsql'
   begin
@@ -27,7 +34,7 @@ elsif launch == 'gsqlite3'
   [ 'libsqlite3-dev', 'sqlite3' ].each do |pkg|
     package pkg
   end
-  chef_gem 'sqlite3' do
-    compile_time false
+  gem_package 'sqlite3' do
+    gem_binary chef_gem_binary
   end
 end
