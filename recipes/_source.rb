@@ -36,7 +36,7 @@ pdns_filepath = "#{pdns_basepath}/#{pdns_filename}"
 pdns_source_dir = pdns_dir(pdns_filename)
 
 remote_file pdns_filepath do
-  source lazy { node['pdns'][flavor]['source']['url'] }
+  source node['pdns'][flavor]['source']['url']
   action :create_if_missing
 end
 
