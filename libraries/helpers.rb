@@ -58,7 +58,7 @@ end
 
 def pdns_source_module_requirements
   modules = node['pdns']['authoritative']['backends']
-  required_packages = []
+  required_packages = %w(autoconf automake bison flex g++ git libboost-all-dev libtool make pkg-config ragel)
   modules.each do |mod|
     case mod
     when 'gpgsql'
