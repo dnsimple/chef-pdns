@@ -20,7 +20,8 @@
 flavor = node['pdns']['flavor']
 
 # Set the bind config if we're launching with that
-if node['pdns']['authoritative']['config']['launch'] == 'bind'
+if node['pdns']['authoritative']['config']['launch'] &&
+   node['pdns']['authoritative']['config']['launch'].split(',').include?('bind')
   node.default['pdns']['authoritative']['config']['bind_config'] = '/etc/powerdns/bind-backend.conf'
 end
 
