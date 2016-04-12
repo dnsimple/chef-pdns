@@ -44,6 +44,8 @@ def pdns_package_module_requirements
       required_packages << 'pdns-backend-pgsql'
     when 'gmysql'
       required_packages << 'pdns-backend-mysql'
+    when 'gsqlite3'
+      required_packages << 'pdns-backend-sqlite3'
     when 'random'
       # Random isn't available on Ubuntu
       next
