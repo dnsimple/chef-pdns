@@ -17,8 +17,13 @@
 # limitations under the License.
 #
 
-default['pdns']['recursor']['config_dir'] = '/etc/powerdns'
-default['pdns']['recursor']['config']['config_dir'] = '/etc/powerdns'
+if node[:platform_family].include?("rhel")
+  default['pdns']['recursor']['config_dir'] = ' /etc/pdns-recursor'
+  default['pdns']['recursor']['config']['config_dir'] = '/etc/pdns-recursor'
+else
+  default['pdns']['recursor']['config_dir'] = '/etc/powerdns'
+  default['pdns']['recursor']['config']['config_dir'] = '/etc/powerdns'
+end
 
 default['pdns']['recursor']['config']['allow_from'] = [
   '127.0.0.0/8',
