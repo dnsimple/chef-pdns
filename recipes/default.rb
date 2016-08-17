@@ -17,6 +17,9 @@
 # limitations under the License.
 #
 
+group node['pdns']['group']
+user node['pdns']['user']
+
 build_method = node['pdns']['build_method']
 
 include_recipe "pdns::_#{build_method}"
