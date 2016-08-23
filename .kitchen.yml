@@ -6,6 +6,7 @@ driver_config:
 platforms:
 - name: ubuntu-14.04
 - name: ubuntu-12.04
+- name: bento/centos-7.2
 
 suites:
 - name: recursor_package
@@ -20,6 +21,8 @@ suites:
     - recipe[apt::default]
     - recipe[pdns::default]
     - recipe[pdns_test::recursor]
+  excludes: 
+    - bento/centos-7.2
   attributes:
     pdns:
       build_method: source
@@ -29,6 +32,8 @@ suites:
     - recipe[apt::default]
     - recipe[pdns::default]
     - recipe[pdns_test::bind_backend]
+  excludes: 
+    - bento/centos-7.2
   attributes:
     pdns:
       build_method: package
@@ -39,6 +44,8 @@ suites:
     - recipe[apt::default]
     - recipe[pdns::default]
     - recipe[pdns_test::bind_backend]
+  excludes: 
+    - bento/centos-7.2
   attributes:
     pdns:
       build_method: source
@@ -49,6 +56,8 @@ suites:
     - recipe[apt::default]
     - recipe[postgresql::server]
     - recipe[pdns::default]
+  excludes: 
+    - bento/centos-7.2
   attributes:
     pdns:
       build_method: package
@@ -69,6 +78,8 @@ suites:
     - recipe[postgresql::server]
     - recipe[pdns::load_schema_pg]
     - recipe[pdns::default]
+  excludes: 
+    - bento/centos-7.2
   attributes:
     pdns:
       build_method: source
@@ -91,6 +102,8 @@ suites:
     - recipe[apt::default]
     - recipe[pdns_test::pipe_backend]
     - recipe[pdns::default]
+  excludes: 
+    - bento/centos-7.2
   attributes:
     pdns:
       build_method: package
@@ -107,6 +120,8 @@ suites:
     - recipe[apt::default]
     - recipe[pdns_test::pipe_backend]
     - recipe[pdns::default]
+  excludes: 
+    - bento/centos-7.2
   attributes:
     pdns:
       build_method: source
@@ -122,6 +137,8 @@ suites:
   run_list:
     - recipe[apt::default]
     - recipe[pdns::default]
+  excludes: 
+    - bento/centos-7.2
   attributes:
     pdns:
       build_method: package
@@ -131,6 +148,8 @@ suites:
   run_list:
     - recipe[apt::default]
     - recipe[pdns::default]
+  excludes: 
+    - bento/centos-7.2
   attributes:
     pdns:
       build_method: source
