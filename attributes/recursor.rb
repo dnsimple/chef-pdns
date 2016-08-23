@@ -18,7 +18,7 @@
 #
 
 if node[:platform_family].include?("rhel")
-  default['pdns']['recursor']['config_dir'] = ' /etc/pdns-recursor'
+  default['pdns']['recursor']['config_dir'] = '/etc/pdns-recursor'
   default['pdns']['recursor']['config']['config_dir'] = '/etc/pdns-recursor'
 else
   default['pdns']['recursor']['config_dir'] = '/etc/powerdns'
