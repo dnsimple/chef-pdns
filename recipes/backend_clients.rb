@@ -5,7 +5,6 @@
 
 include_recipe 'apt'
 include_recipe 'build-essential'
-launch = node['pdns']['authoritative']['config']['launch']
 
 #
 # For Chef 11.x compatibility, it is important to use gem_package
@@ -17,6 +16,8 @@ chef_gem_binary = File.join(Chef::Config.embedded_dir,'bin','gem')
 gem_package 'sequel' do
   gem_binary chef_gem_binary
 end
+
+launch = node['pdns']['authoritative']['config']['launch']
 
 if launch == 'gmysql'  
   gem_package 'mysql2' do
