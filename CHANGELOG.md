@@ -1,3 +1,21 @@
+# 2.3.0 / 2016-09-09
+
+## Warning
+* In PowerDNS 3.4.10 the default for any-to-tcp has been changed to 'yes'
+  * https://doc.powerdns.com/3/authoritative/upgrading/#3xx-to-3410
+
+## Bug fixes
+
+* Update authoritative to 3.4.10 to fix PowerDNS Security Advisory 2016-01
+  * https://doc.powerdns.com/md/security/powerdns-advisory-2016-01/
+  * Crafted queries can cause unexpected backend load
+* update source_url and issues_url
+
+## Enhancements
+
+* Add a new Rakefile for testing
+* Clean up docs a little
+
 # 2.2.1 / 2016-03-03
 
 ## Bug Fixes
