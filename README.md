@@ -39,7 +39,7 @@ Key                             | Type     | Description                        
 Key                                 | Type     | Description                                           | Default
 ------------------------------------| ---------|-------------------------------------------------------|---------
 `node['pdns']['source']['path']`    | String   | The base path to setting up the source installation   | /opt
-`node['pdns']['source']['version']` | String   | Version of source server or resolver based on 'flavor'| 3.4.7 or 3.7.3
+`node['pdns']['source']['version']` | String   | Version of source server or resolver based on 'flavor'| 3.4.10 or 3.7.3
 `node['pdns']['source']['url']`     | String   | URL to the PowerDNS Server Source Package             | https://downloads.powerdns.com/releases/pdns-[recursor?]-[version].tar.bz2
 
 ### package
@@ -77,7 +77,7 @@ Key                                                           | Type     | Descr
 `node['pdns']['slave']['config']['version_string']`           | String   | What powerdns answers when queried for its version over DNS       | powerdns
 `node['pdns']['slave']['config']['master']`                   | Boolean  | Operate in master mode                                            | false
 `node['pdns']['slave']['config']['slave']`                    | Boolean  | Operate as a slave to a PowerDNS master server                    | true
-`node['pdns']['authoritative']['config']['guardian']`        | Boolean  | Run within a guardian process                                    | true
+`node['pdns']['authoritative']['config']['guardian']`         | Boolean  | Run within a guardian process                                    | true
 `node['pdns']['slave']['config']['slave_cycle_interval']`     | String   | Seconds slave checks of domains with unknown status               | '60'
 `node['pdns']['slave']['config']['disable_axfr']`             | Boolean  | Do not allow zone transfers                                       | true
 
@@ -139,7 +139,7 @@ There are several combinations of backends and flavors available, currently a fe
  - Resolver                           (package and source)
  - Slave                              (package and source)
 
-## TODO
+## TODO
 
  - Add MySQL backend
  - Add SQLite backend
