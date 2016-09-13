@@ -32,8 +32,15 @@ end
 
 service_name = flavor == 'recursor' ? 'pdns-recursor' : 'pdns'
 
-service service_name do
-  provider Chef::Provider::Service::Init::Debian
-  supports status: true, restart: true, reload: true
-  action [:enable, :start]
+if node[:platform_family].include?("rhel")
+  service service_name do
+    supports status: true, restart: true, reload: true
+    action [:enable, :start]
+  end
+else
+  service service_name do
+    provider Chef::Provider::Service::Init::Debian
+    supports status: true, restart: true, reload: true
+    action [:enable, :start]
+  end
 end
