@@ -1,3 +1,9 @@
+# 2.4.0 / 2016-09-13
+
+## Enhancements
+
+* Add partial support for CentOS/REHL (recursor) PR #36
+
 # 2.3.0 / 2016-09-09
 
 ## Warning
