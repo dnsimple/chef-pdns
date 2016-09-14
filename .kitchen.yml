@@ -1,5 +1,9 @@
 ---
-driver_plugin: vagrant
+driver:
+  name: vagrant
+
+provisioner:
+  name: chef_zero
 
 platforms:
 - name: ubuntu-14.04
@@ -19,7 +23,7 @@ suites:
     - recipe[apt::default]
     - recipe[pdns::default]
     - recipe[pdns_test::recursor]
-  excludes: 
+  excludes:
     - bento/centos-7.2
   attributes:
     pdns:
@@ -30,7 +34,7 @@ suites:
     - recipe[apt::default]
     - recipe[pdns::default]
     - recipe[pdns_test::bind_backend]
-  excludes: 
+  excludes:
     - bento/centos-7.2
   attributes:
     pdns:
@@ -42,7 +46,7 @@ suites:
     - recipe[apt::default]
     - recipe[pdns::default]
     - recipe[pdns_test::bind_backend]
-  excludes: 
+  excludes:
     - bento/centos-7.2
   attributes:
     pdns:
@@ -54,7 +58,7 @@ suites:
     - recipe[apt::default]
     - recipe[postgresql::server]
     - recipe[pdns::default]
-  excludes: 
+  excludes:
     - bento/centos-7.2
   attributes:
     pdns:
@@ -76,7 +80,7 @@ suites:
     - recipe[postgresql::server]
     - recipe[pdns::load_schema_pg]
     - recipe[pdns::default]
-  excludes: 
+  excludes:
     - bento/centos-7.2
   attributes:
     pdns:
@@ -100,7 +104,7 @@ suites:
     - recipe[apt::default]
     - recipe[pdns_test::pipe_backend]
     - recipe[pdns::default]
-  excludes: 
+  excludes:
     - bento/centos-7.2
   attributes:
     pdns:
@@ -118,7 +122,7 @@ suites:
     - recipe[apt::default]
     - recipe[pdns_test::pipe_backend]
     - recipe[pdns::default]
-  excludes: 
+  excludes:
     - bento/centos-7.2
   attributes:
     pdns:
@@ -135,7 +139,7 @@ suites:
   run_list:
     - recipe[apt::default]
     - recipe[pdns::default]
-  excludes: 
+  excludes:
     - bento/centos-7.2
   attributes:
     pdns:
@@ -146,7 +150,7 @@ suites:
   run_list:
     - recipe[apt::default]
     - recipe[pdns::default]
-  excludes: 
+  excludes:
     - bento/centos-7.2
   attributes:
     pdns:
