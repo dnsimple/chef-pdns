@@ -1,3 +1,8 @@
+# 2.4.1 / 2016-09-14
+
+## Bug Fixes
+* Update download link to correct one for 3.4.10
+
 # 2.4.0 / 2016-09-13
 
 ## Enhancements
