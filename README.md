@@ -30,7 +30,7 @@ The different combinations of install method and functionality are handled by th
 Key                             | Type     | Description                                         | Default
 --------------------------------| ---------|-----------------------------------------------------|---------
 `node['pdns']['build_method']`  | String   | Type of installation: 'package' or 'source'         | package
-`node['pdns']['flavor']`        | String   | Functionality: 'resolver', 'authoritative', 'slave' | recursor
+`node['pdns']['flavor']`        | String   | Functionality: 'recursor', 'authoritative', 'slave' | recursor
 `node['pdns']['user']`          | String   | User to setuid the pdns daemons                     | pdns
 `node['pdns']['group']`         | String   | Group to setuid the pdns daemons                    | pdns
 
@@ -136,7 +136,7 @@ There are several combinations of backends and flavors available, currently a fe
  - Authoritative / bind backend       (package and source)
  - Authoritative / PostgreSQL backend (package and source)
  - Authoritative / pipe backend       (package and source)
- - Resolver                           (package and source)
+ - Recursor                           (package and source)
  - Slave                              (package and source)
 
 ## TODO
