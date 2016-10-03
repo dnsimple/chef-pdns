@@ -19,7 +19,7 @@
 
 default['pdns']['build_method'] = 'package'
 default['pdns']['flavor'] = 'recursor'
-if node['pdns']['flavor'] == 'recursor' && node[:platform_family].include?("rhel")
+if node['pdns']['flavor'] == 'recursor' && node[:platform_family].include?('rhel')
   default['pdns']['user'] = 'pdns-recursor'
   default['pdns']['group'] = 'pdns-recursor'
 else
