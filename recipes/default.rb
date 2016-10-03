@@ -24,7 +24,7 @@ group node['pdns']['group']
 
 build_method = node['pdns']['build_method']
 
-if node[:platform_family].include?('rhel')
+if node['platform_family'].include?('rhel')
   include_recipe 'yum-epel'
 end
 include_recipe "pdns::_#{build_method}"

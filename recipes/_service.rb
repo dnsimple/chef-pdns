@@ -32,7 +32,7 @@ end
 
 service_name = flavor == 'recursor' ? 'pdns-recursor' : 'pdns'
 
-if node[:platform_family].include?('rhel')
+if node['platform_family'].include?('rhel')
   service service_name do
     supports status: true, restart: true, reload: true
     action [:enable, :start]

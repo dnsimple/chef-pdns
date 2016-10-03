@@ -17,7 +17,7 @@
 # limitations under the License.
 #
 
-if node[:platform_family].include?('rhel')
+if node['platform_family'].include?('rhel')
   default['pdns']['recursor']['config_dir'] = '/etc/pdns-recursor'
   default['pdns']['recursor']['config']['config_dir'] = '/etc/pdns-recursor'
 else
