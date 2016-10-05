@@ -1,12 +1,8 @@
-name             'pdns_test'
-maintainer       'Aetrion, LLC'
-maintainer_email 'cookbooks@chef.io'
+name             'test'
+maintainer       'Aetrion, LLC DBA DNSimple'
+maintainer_email 'support@dnsimple.com'
 license          'Apache 2.0'
-description      'Installs/Configures pdns'
-long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
-version          '1.0.0'
+description      'A test fixture cookbook for the pdns cookbook'
+version          '0.0.1'
 
-supports 'ubuntu', '= 12.04'
-supports 'ubuntu', '= 14.04'
-
-depends 'resolver'
+depends 'pdns'
