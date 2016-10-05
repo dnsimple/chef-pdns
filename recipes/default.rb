@@ -17,16 +17,14 @@
 # limitations under the License.
 #
 
+# user node['pdns']['user']
+# group node['pdns']['group']
 
+# build_method = node['pdns']['build_method']
 
-user node['pdns']['user']
-group node['pdns']['group']
-
-build_method = node['pdns']['build_method']
-
-if node['platform_family'].include?('rhel')
-  include_recipe 'yum-epel'
-end
-include_recipe "pdns::_#{build_method}"
-include_recipe 'pdns::_config'
-include_recipe 'pdns::_service'
+# if node['platform_family'].include?('rhel')
+#   include_recipe 'yum-epel'
+# end
+# include_recipe "pdns::_#{build_method}"
+# include_recipe 'pdns::_config'
+# include_recipe 'pdns::_service'
