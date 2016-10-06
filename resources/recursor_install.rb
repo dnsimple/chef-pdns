@@ -21,6 +21,19 @@ property :instance_name, String, name_property: true
 property :version, String, default: '4.0.3'
 
 action :install do
+  apt_repository 'powerdns-recursor' do
+    uri 'http://repo.powerdns.com/ubuntu'
+    distribution 'trusty-rec-40'
+    arch 'amd64'
+    components ['main']
+    key 'https://repo.powerdns.com/FD380FBB-pub.asc'
+  end
+
+  apt_preference 'pdns-*' do
+    pin          'origin repo.powerdns.com'
+    pin_priority '600'
+  end
+
   package 'pdns-recursor' do
     version new_resource.version
   end
