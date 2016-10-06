@@ -18,7 +18,7 @@
 #
 
 property :instance_name, String, name_property: true
-property :version, String, default: '4.0.3'
+property :version, String, default: '4.0.3-1pdns.trusty'
 
 action :install do
   apt_repository 'powerdns-recursor' do
