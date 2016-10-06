@@ -4,14 +4,13 @@ maintainer_email 'ops@dnsimple.com'
 license          'Apache 2.0'
 description      'Installs/Configures PowerDNS Recursor and Authoritative server'
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
-version          '2.4.1'
-source_url       'https://github.com/dnsimple/pdns' if respond_to?(:source_url)
-issues_url       'https://github.com/dnsimple/pdns/issues' if respond_to?(:issues_url)
+version          '2.4.2'
+source_url       'https://github.com/dnsimple/pdns'
+issues_url       'https://github.com/dnsimple/pdns/issues'
 
-supports 'ubuntu', '= 12.04'
-supports 'ubuntu', '= 14.04'
+chef_version '>= 12.1'
 
-depends 'build-essential'
-depends 'resolvconf'
-depends 'database'
-depends 'yum-epel'
+supports 'ubuntu', '>= 12.04'
+
+depends 'apt'
+depends 'compat_resource', '>= 12.14'
