@@ -2,7 +2,7 @@ name             'pdns'
 maintainer       'Aetrion, LLC DBA DNSimple'
 maintainer_email 'ops@dnsimple.com'
 license          'Apache 2.0'
-description      'Installs/Configures pdns'
+description      'Installs/Configures PowerDNS Recursor and Authoritative server'
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
 version          '2.4.1'
 source_url       'https://github.com/dnsimple/pdns' if respond_to?(:source_url)
