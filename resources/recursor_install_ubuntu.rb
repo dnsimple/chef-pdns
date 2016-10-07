@@ -17,7 +17,7 @@
 # limitations under the License.
 #
 
-resource_name :recursor_install
+resource_name :pdns_recursor_install
 
 provides :recursor_install, platform: 'ubuntu'
 
