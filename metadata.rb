@@ -11,6 +11,9 @@ issues_url       'https://github.com/dnsimple/pdns/issues'
 chef_version '>= 12.1'
 
 supports 'ubuntu', '>= 14.04'
+supports 'debian', '>= 8'
+supports 'centos', '>= 6'
 
 depends 'apt'
+depends 'yum'
 depends 'compat_resource', '>= 12.14'
