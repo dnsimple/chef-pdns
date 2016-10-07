@@ -19,7 +19,9 @@
 
 resource_name :pdns_recursor_install
 
-provides :recursor_install, platform: 'ubuntu'
+provides :recursor_install, platform: 'ubuntu' do |node|
+  node['platform_version'].to_f >= 14.04
+end
 
 property :instance_name, String, name_property: true
 property :version, [String, nil], default: nil
@@ -27,7 +29,7 @@ property :version, [String, nil], default: nil
 action :install do
   apt_repository 'powerdns-recursor' do
     uri 'http://repo.powerdns.com/ubuntu'
-    distribution 'trusty-rec-40'
+    distribution "#{node['lsb']['codename']}-rec-40"
     arch 'amd64'
     components ['main']
     key 'https://repo.powerdns.com/FD380FBB-pub.asc'

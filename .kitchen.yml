@@ -9,8 +9,9 @@ verifier:
   name: inspec
 
 platforms:
+  - name: ubuntu-16.04
+  - name: ubuntu-15.10
   - name: ubuntu-14.04
-  # - name: ubuntu-12.04
   # - name: bento/centos-7.2
 
 suites:
