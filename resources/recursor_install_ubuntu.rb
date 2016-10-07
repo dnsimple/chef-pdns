@@ -17,6 +17,10 @@
 # limitations under the License.
 #
 
+resource_name :recursor_install
+
+provides :recursor_install, platform: 'ubuntu'
+
 property :instance_name, String, name_property: true
 property :version, [String, nil], default: nil
 
