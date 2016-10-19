@@ -32,7 +32,7 @@ action :install do
     description 'PowerDNS repository for PowerDNS Recursor - version 4.0.X'
     baseurl 'http://repo.powerdns.com/centos/$basearch/$releasever/rec-40'
     gpgkey 'https://repo.powerdns.com/FD380FBB-pub.asc'
-    priority 90
+    priority '90'
     includepkgs 'pdns*'
     action :create
   end
@@ -41,7 +41,7 @@ action :install do
     description 'PowerDNS repository for PowerDNS Recursor - version 4.0.X debug symbols'
     baseurl 'http://repo.powerdns.com/centos/$basearch/$releasever/rec-40/debug'
     gpgkey 'https://repo.powerdns.com/FD380FBB-pub.asc'
-    priority 90
+    priority '90'
     includepkgs 'pdns*'
     action :create
     not_if { new_resource.debug }
