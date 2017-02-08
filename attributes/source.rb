@@ -19,7 +19,7 @@
 
 default['pdns']['source']['path'] = '/opt'
 
-default['pdns']['recursor']['source']['version'] = '3.7.3'
-default['pdns']['recursor']['source']['url'] = 'https://downloads.powerdns.com/releases/pdns-recursor-3.7.3.tar.bz2'
-default['pdns']['authoritative']['source']['version'] = '3.4.10'
-default['pdns']['authoritative']['source']['url'] = 'https://downloads.powerdns.com/releases/pdns-3.4.10.tar.bz2'
+default['pdns']['recursor']['source']['version'] = '3.7.4'
+default['pdns']['recursor']['source']['url'] = 'https://downloads.powerdns.com/releases/pdns-recursor-3.7.4.tar.bz2'
+default['pdns']['authoritative']['source']['version'] = '3.4.11'
+default['pdns']['authoritative']['source']['url'] = 'https://downloads.powerdns.com/releases/pdns-3.4.11.tar.bz2'
