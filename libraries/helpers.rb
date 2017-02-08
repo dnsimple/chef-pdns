@@ -44,6 +44,8 @@ def pdns_package_module_requirements
       required_packages << 'pdns-backend-pgsql'
     when 'gmysql'
       required_packages << 'pdns-backend-mysql'
+    when 'gsqlite3'
+      required_packages << 'pdns-backend-sqlite3'
     when 'random'
       # Random isn't available on Ubuntu
       next
@@ -58,7 +60,7 @@ end
 
 def pdns_source_module_requirements
   modules = node['pdns']['authoritative']['backends']
-  required_packages = []
+  required_packages = %w(autoconf automake bison flex g++ git libboost-all-dev libtool make pkg-config ragel)
   modules.each do |mod|
     case mod
     when 'gpgsql'

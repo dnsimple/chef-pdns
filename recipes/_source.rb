@@ -18,6 +18,7 @@
 #
 flavor = node['pdns']['flavor']
 version = node['pdns'][flavor]['source']['version']
+major_version = version.to_i
 
 include_recipe 'build-essential'
 
@@ -37,7 +38,7 @@ pdns_filepath = "#{pdns_basepath}/#{pdns_filename}"
 pdns_source_dir = pdns_dir(pdns_filename)
 
 remote_file pdns_filepath do
-  source lazy { node['pdns'][flavor]['source']['url'] }
+  source node['pdns'][flavor]['source']['url']
   action :create_if_missing
 end
 
@@ -67,11 +68,13 @@ if [ 'slave', 'authoritative' ].include? flavor
   modules = "--with-modules='#{node['pdns']['authoritative']['backends'].join(' ')}' "
   binary_string = 'pdns_server'
 
-  execute 'pdns: bootstrap' do
-    # This insanity is documented in the README
-    command './bootstrap && ./bootstrap'
-    cwd pdns_source_dir
-    not_if "/usr/local/sbin/#{binary_string} --version 2>&1 | grep #{version}"
+  if major_version < 4
+    execute 'pdns: bootstrap' do
+      # This insanity is documented in the README
+      command './bootstrap && ./bootstrap'
+      cwd pdns_source_dir
+      not_if "/usr/local/sbin/#{binary_string} --version 2>&1 | grep #{version}"
+    end
   end
 
   pdns_source_module_requirements.each do |pkg|
