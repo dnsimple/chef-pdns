@@ -25,6 +25,7 @@ package 'libtool'
 package 'pkg-config'
 package 'libboost-all-dev'
 package 'ragel'
+package 'libssl-dev'
 
 # Base install directory
 pdns_basepath = node['pdns']['source']['path']
