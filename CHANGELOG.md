@@ -1,3 +1,14 @@
+# 2.5.0 / 2017-02-08
+
+## Maintenance
+
+* Updating to latest pdns 3.4.11
+* Updating to latest recursor 3.7.4
+
+## Bug fixes
+
+* Adding libssl-dev as dependency for source installs
+
 # 2.4.1 / 2016-09-14
 
 ## Bug Fixes
