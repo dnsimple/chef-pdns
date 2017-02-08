@@ -21,12 +21,12 @@ flavor = node['pdns']['flavor']
 
 # Set the bind config if we're launching with that
 if node['pdns']['authoritative']['config']['launch'] == 'bind'
-  node.default['pdns']['authoritative']['config']['bind_config'] = '/etc/powerdns/bind-backend.conf'
+  node.default['pdns']['authoritative']['config']['bind_config'] = "#{node['pdns'][flavor]['config']['config_dir']}/bind-backend.conf"
 end
 
 # This attribute is only required in authoritative package installs
 if node['pdns']['build_method'] == 'package'
-  node.default['pdns']['authoritative']['config']['include-dir']='/etc/powerdns/pdns.d'
+  node.default['pdns']['authoritative']['config']['include-dir']="#{node['pdns'][flavor]['config']['config_dir']}/pdns.d"
 end
 
 config_file_path = "#{node['pdns'][flavor]['config']['config_dir']}/pdns.conf"
@@ -37,7 +37,14 @@ if flavor == 'recursor'
   service_name = 'pdns-recursor'
 end
 
-file '/etc/powerdns/pdns.d/pdns.simplebind.conf' do
+directory "#{node['pdns'][flavor]['config']['config_dir']}/pdns.d" do
+  owner 'root'
+  group 'root'
+  mode '0755'
+  action :create
+end
+
+file "#{node['pdns'][flavor]['config']['config_dir']}/pdns.d/pdns.simplebind.conf" do
   action :delete
   only_if { node['pdns']['build_method'] == 'package' }
 end
