@@ -20,7 +20,14 @@
 default['pdns']['authoritative']['backends'] = %w( bind )
 default['pdns']['authoritative']['config']['launch'] = 'bind'
 
-default['pdns']['authoritative']['config']['config_dir'] = '/etc/powerdns'
+case node['platform']
+  when 'debian', 'ubuntu'
+    default['pdns']['authoritative']['config']['config_dir'] = '/etc/powerdns'
+  when 'windows'
+    #
+  when 'redhat', 'centos', 'fedora', 'scientific', 'amazon'
+    default['pdns']['authoritative']['config']['config_dir'] = '/etc/pdns'
+end
 default['pdns']['authoritative']['config']['setgid'] = 'pdns'
 default['pdns']['authoritative']['config']['setuid'] = 'pdns'
 default['pdns']['authoritative']['config']['version_string'] = 'powerdns'
