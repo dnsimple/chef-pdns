@@ -1,9 +1,5 @@
 require 'spec_helper'
 
-
-
-
-
 describe 'test::recursor_install' do
   context 'on ubuntu platform' do
     let(:ubuntu_runner) do
