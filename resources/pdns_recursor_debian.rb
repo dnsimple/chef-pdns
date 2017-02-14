@@ -17,13 +17,13 @@
 # limitations under the License.
 #
 
-resource_name :pdns_recursor_install_debian
+resource_name :pdns_recursor_debian
 
-provides :pdns_recursor_install, platform: 'ubuntu' do |node|
+provides :pdns_recursor, platform: 'ubuntu' do |node|
   node['platform_version'].to_f >= 14.04
 end
 
-provides :pdns_recursor_install, platform: 'debian' do |node|
+provides :pdns_recursor, platform: 'debian' do |node|
   node['platform_version'].to_i >= 8
 end
 
@@ -44,7 +44,15 @@ action :install do
     pin_priority '600'
   end
 
+  apt_package 'pdns-recursor' do
+    action :install
+    version new_resource.version
+  end
+end
+
+action :remove do
   package 'pdns-recursor' do
     version new_resource.version
+    action :remove
   end
 end
