@@ -17,9 +17,9 @@
 # limitations under the License.
 #
 
-resource_name :pdns_recursor_install_rhel
+resource_name :pdns_recursor_rhel
 
-provides :pdns_recursor_install, platform: 'centos' do |node|
+provides :pdns_recursor, platform: 'centos' do |node|
   node['platform_version'].to_i >= 6
 end
 
@@ -47,7 +47,7 @@ action :install do
     not_if { new_resource.debug }
   end
 
-  package 'pdns-recursor' do
+  yum_package 'pdns-recursor' do
     version new_resource.version
   end
 end
