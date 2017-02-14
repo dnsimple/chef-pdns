@@ -21,7 +21,7 @@ describe 'test::recursor' do
     end
 
     it 'installs pdns package' do
-      expect(chef_run).to install_apt_package('pdns-recursor').with(version: '3.7.4')
+      expect(chef_run).to install_apt_package('pdns-recursor').with(version: version)
     end
 
     it 'converges successfully' do
