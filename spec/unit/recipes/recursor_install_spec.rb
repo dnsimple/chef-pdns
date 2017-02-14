@@ -1,5 +1,9 @@
 require 'spec_helper'
 
+
+
+
+
 describe 'test::recursor_install' do
   context 'on ubuntu platform' do
     let(:runner) do
@@ -23,12 +27,36 @@ describe 'test::recursor_install' do
         .with(pin: 'origin repo.powerdns.com', pin_priority: '600')
     end
 
-    it 'installs pdns package' do
+    it 'installs pdns recursor package' do
       expect(chef_run).to install_apt_package('pdns-recursor').with(version: version)
     end
 
     it 'converges successfully' do
       expect { chef_run }.to_not raise_error
+    end
+  end
+
+  context 'on rhel platform' do
+    let(:rhel_runner) do
+      ChefSpec::SoloRunner.new(
+      platform: 'centos',
+      version: '6.8',
+      step_into: ['pdns_recursor'])
+    end
+
+    let(:chef_run) { rhel_runner.converge(described_recipe) }
+    let(:version) { '3.7.4' }
+
+    it 'adds yum repository powerdns-rec-40' do
+      expect(chef_run).to create_yum_repository('powerdns-rec-40')
+    end
+
+    it 'adds yum repository powerdns-rec-40-debuginfo' do
+      expect(chef_run).to create_yum_repository('powerdns-rec-40-debuginfo')
+    end
+
+    it 'installs pdns recursor package' do
+      expect(chef_run).to install_yum_package('pdns-recursor').with(version: version)
     end
   end
 end
