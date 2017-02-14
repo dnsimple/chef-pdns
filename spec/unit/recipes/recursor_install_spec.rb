@@ -6,14 +6,14 @@ require 'spec_helper'
 
 describe 'test::recursor_install' do
   context 'on ubuntu platform' do
-    let(:runner) do
+    let(:ubuntu_runner) do
       ChefSpec::SoloRunner.new(
         platform: 'ubuntu',
         version: '14.04',
         step_into: ['pdns_recursor'])
     end
 
-    let(:chef_run) { runner.converge(described_recipe) }
+    let(:chef_run) { ubuntu_runner.converge(described_recipe) }
     let(:version) { '3.7.4' }
 
     # Chef gets node['lsb']['codename'] even if it is not set as an attribute
