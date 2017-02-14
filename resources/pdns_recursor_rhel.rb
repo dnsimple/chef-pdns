@@ -51,3 +51,10 @@ action :install do
     version new_resource.version
   end
 end
+
+action :remove do
+  yum_package 'pdns-recursor' do
+    action :remove
+    version new_resource.version
+  end
+end
