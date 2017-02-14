@@ -17,4 +17,4 @@
 # limitations under the License.
 #
 
-pdns_recursor_install 'myrecursor'
+
