@@ -12,12 +12,15 @@ describe 'test::recursor' do
     let(:chef_run) { runner.converge(described_recipe) }
     let(:version) { '3.7.4' }
 
+    # Chef gets node['lsb']['codename'] even if it is not set as an attribute
     it 'adds apt repository' do
       expect(chef_run).to add_apt_repository('powerdns-recursor')
+        .with(uri: 'http://repo.powerdns.com/ubuntu', distribution: 'trusty-rec-40')
     end
 
     it 'creates apt pin for pdns' do
       expect(chef_run).to add_apt_preference('pdns-*')
+        .with(pin: 'origin repo.powerdns.com', pin_priority: '600')
     end
 
     it 'installs pdns package' do
