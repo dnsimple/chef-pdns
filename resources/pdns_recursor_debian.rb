@@ -51,8 +51,8 @@ action :install do
 end
 
 action :remove do
-  package 'pdns-recursor' do
-    version new_resource.version
+  apt_package 'pdns-recursor' do
     action :remove
+    version new_resource.version
   end
 end
