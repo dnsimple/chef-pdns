@@ -10,7 +10,7 @@ describe 'test::recursor_install' do
     end
 
     let(:chef_run) { ubuntu_runner.converge(described_recipe) }
-    let(:version) { '3.7.4' }
+    let(:version) { '4.0.4-1pdns.trusty' }
 
     # Chef gets node['lsb']['codename'] even if it is not set as an attribute
     it 'adds apt repository' do
@@ -37,11 +37,17 @@ describe 'test::recursor_install' do
       ChefSpec::SoloRunner.new(
       platform: 'centos',
       version: '6.8',
-      step_into: ['pdns_recursor'])
+      step_into: ['pdns_recursor']) do |node|
+        node.automatic['centos-release']['version'] = '6'
+      end
     end
 
     let(:chef_run) { rhel_runner.converge(described_recipe) }
-    let(:version) { '3.7.4' }
+    let(:version) { '4.0.4-1pdns.el6' }
+
+    it 'installs epel-release package' do
+      expect(chef_run).to install_yum_package('epel-release')
+    end
 
     it 'adds yum repository powerdns-rec-40' do
       expect(chef_run).to create_yum_repository('powerdns-rec-40')
