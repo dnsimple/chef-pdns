@@ -27,15 +27,15 @@ describe 'test::recursor_remove' do
       platform: 'centos',
       version: '6.8',
       step_into: ['pdns_recursor']) do |node|
-        node.automatic['centos-release']['version'] = '6'
+        node.automatic['packages']['centos-release']['version'] = '6'
       end
     end
 
     let(:chef_run) { rhel_runner.converge(described_recipe) }
     let(:version) { '4.0.4-1pdns.el6' }
 
-    it 'removes pdns package without version' do
-      expect(chef_run).to remove_yum_package('pdns-recursor')
+    it 'removes pdns package with version' do
+      expect(chef_run).to remove_yum_package('pdns-recursor').with(version: version)
     end
 
     it 'converges successfully' do

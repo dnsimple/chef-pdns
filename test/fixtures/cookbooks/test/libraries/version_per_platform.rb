@@ -5,6 +5,6 @@ def version_per_platform
   when 'ubuntu'
     "4.0.4-1pdns.#{node['lsb']['codename']}"
   when 'centos'
-    "4.0.4-1pdns.el#{node['centos-release']['version']}"
+    "4.0.4-1pdns.el#{node['packages']['centos-release']['version']}"
   end
 end
