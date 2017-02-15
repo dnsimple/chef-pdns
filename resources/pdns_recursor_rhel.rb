@@ -28,6 +28,15 @@ property :version, [String, nil], default: nil
 property :debug, [true, false], default: false
 
 action :install do
+
+  # We take advantage of the yum_repository call bellow that will reload yum sources
+  # and will make epel repository available for the pdns-recursor dependency 'protobuf'
+
+  yum_package 'epel-release' do
+    action :install
+    only_if { node['platform_version'].to_i == 6 }
+  end
+
   yum_repository 'powerdns-rec-40' do
     description 'PowerDNS repository for PowerDNS Recursor - version 4.0.X'
     baseurl 'http://repo.powerdns.com/centos/$basearch/$releasever/rec-40'
