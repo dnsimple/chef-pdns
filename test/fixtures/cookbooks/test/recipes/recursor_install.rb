@@ -1,4 +1,4 @@
 pdns_recursor 'a_pdns_recursor' do
   action :install
-  version '3.7.4'
+  version version_per_platform
 end
