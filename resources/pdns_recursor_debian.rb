@@ -48,6 +48,12 @@ action :install do
     action :install
     version new_resource.version
   end
+
+  service 'pdns-recursor' do
+    action :enable
+    pattern 'pdns_recursor'
+    supports restart: true, reload: true, 'force-reload': true, 'force-stop':true, status: true
+  end
 end
 
 action :remove do

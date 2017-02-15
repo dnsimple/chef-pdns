@@ -27,6 +27,10 @@ describe 'test::recursor_install' do
       expect(chef_run).to install_apt_package('pdns-recursor').with(version: version)
     end
 
+    it 'creates pdns_recursor service' do
+      expect(chef_run).to enable_service('pdns-recursor').with(pattern: 'pdns_recursor')
+    end
+
     it 'converges successfully' do
       expect { chef_run }.to_not raise_error
     end
@@ -38,7 +42,7 @@ describe 'test::recursor_install' do
       platform: 'centos',
       version: '6.8',
       step_into: ['pdns_recursor']) do |node|
-        node.automatic['centos-release']['version'] = '6'
+        node.automatic['packages']['centos-release']['version'] = '6'
       end
     end
 
@@ -59,6 +63,10 @@ describe 'test::recursor_install' do
 
     it 'installs pdns recursor package' do
       expect(chef_run).to install_yum_package('pdns-recursor').with(version: version)
+    end
+
+    it 'converges successfully' do
+      expect { chef_run }.to_not raise_error
     end
   end
 end
