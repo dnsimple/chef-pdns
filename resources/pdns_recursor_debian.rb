@@ -32,7 +32,7 @@ property :version, [String, nil], default: nil
 
 action :install do
   apt_repository 'powerdns-recursor' do
-    uri 'http://repo.powerdns.com/ubuntu'
+    uri "http://repo.powerdns.com/#{node['platform']}"
     distribution "#{node['lsb']['codename']}-rec-40"
     arch 'amd64'
     components ['main']
