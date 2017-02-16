@@ -65,6 +65,10 @@ describe 'test::recursor_install' do
       expect(chef_run).to install_yum_package('pdns-recursor').with(version: version)
     end
 
+    it 'creates pdns_recursor service' do
+      expect(chef_run).to enable_service('pdns-recursor').with(pattern: 'pdns_recursor')
+    end
+
     it 'converges successfully' do
       expect { chef_run }.to_not raise_error
     end
