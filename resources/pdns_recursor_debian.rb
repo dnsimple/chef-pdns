@@ -50,7 +50,7 @@ action :install do
   end
 
   service 'pdns-recursor' do
-    action :enable
+    action [:enable, :start]
     pattern 'pdns_recursor'
     supports restart: true, reload: true, 'force-reload': true, 'force-stop':true, status: true
   end
