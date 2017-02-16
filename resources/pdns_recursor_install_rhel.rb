@@ -17,7 +17,7 @@
 # limitations under the License.
 #
 
-resource_name :pdns_recursor_rhel
+resource_name :pdns_recursor_install_rhel
 
 provides :pdns_recursor, platform: 'centos' do |node|
   node['platform_version'].to_i >= 6
@@ -59,15 +59,9 @@ action :install do
   yum_package 'pdns-recursor' do
     version new_resource.version
   end
-
-  service 'pdns-recursor' do
-    action [:enable, :start]
-    pattern 'pdns_recursor'
-    supports restart: true, reload: true, 'force-reload': true, 'force-stop':true, status: true
-  end
 end
 
-action :remove do
+action :uninstall do
   yum_package 'pdns-recursor' do
     action :remove
     version new_resource.version

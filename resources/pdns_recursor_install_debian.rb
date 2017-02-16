@@ -17,7 +17,7 @@
 # limitations under the License.
 #
 
-resource_name :pdns_recursor_debian
+resource_name :pdns_recursor_install_debian
 
 provides :pdns_recursor, platform: 'ubuntu' do |node|
   node['platform_version'].to_f >= 14.04
@@ -48,15 +48,9 @@ action :install do
     action :install
     version new_resource.version
   end
-
-  service 'pdns-recursor' do
-    action [:enable, :start]
-    pattern 'pdns_recursor'
-    supports restart: true, reload: true, 'force-reload': true, 'force-stop':true, status: true
-  end
 end
 
-action :remove do
+action :uninstall do
   apt_package 'pdns-recursor' do
     action :remove
     version new_resource.version
