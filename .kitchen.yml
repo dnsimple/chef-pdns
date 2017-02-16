@@ -18,5 +18,5 @@ platforms:
 suites:
   - name: recursor
     run_list:
-      - recipe[test::recursor_install]
+      - recipe[test::default]
     attributes:
