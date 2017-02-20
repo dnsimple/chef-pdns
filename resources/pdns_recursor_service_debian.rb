@@ -29,7 +29,7 @@ end
 
 property :instance_name, String, name_property: true
 
-action :install do
+action :enable do
   service 'pdns-recursor' do
     action [:enable, :start]
     pattern 'pdns_recursor'
