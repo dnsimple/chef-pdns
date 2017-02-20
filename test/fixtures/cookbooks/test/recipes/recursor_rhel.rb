@@ -3,3 +3,6 @@ pdns_recursor 'a_pdns_recursor' do
   version version_per_platform
 end
 
+pdns_recursor_service 'a_pdns_recursor_service' do
+  action :enable
+end
