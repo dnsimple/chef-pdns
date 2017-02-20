@@ -31,8 +31,7 @@ describe 'test::recursor_rhel' do
     end
 
     it 'enables pdns_recursor service' do
-      expect(chef_run).to enable_service('pdns-recursor')
-      #.with(pattern: 'pdns_recursor')
+      expect(chef_run).to enable_service('pdns-recursor').with(pattern: 'pdns_recursor')
     end
 
     it 'converges successfully' do
