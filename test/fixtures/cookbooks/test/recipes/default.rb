@@ -17,4 +17,4 @@
 # limitations under the License.
 #
 
-include_recipe "test::recursor_install_#{node['platform_family']"
+include_recipe "test::recursor_install_#{node['platform_family']}"
