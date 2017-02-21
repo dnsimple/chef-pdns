@@ -16,13 +16,3 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-
-default['pdns']['build_method'] = 'package'
-default['pdns']['flavor'] = 'recursor'
-if node['pdns']['flavor'] == 'recursor' && node['platform_family'].include?('rhel')
-  default['pdns']['user'] = 'pdns-recursor'
-  default['pdns']['group'] = 'pdns-recursor'
-else
-  default['pdns']['user'] = 'pdns'
-  default['pdns']['group'] = 'pdns'
-end
