@@ -15,16 +15,21 @@ describe 'test::recursor_debian' do
     # Chef gets node['lsb']['codename'] even if it is not set as an attribute
     it 'adds apt repository' do
       expect(chef_run).to add_apt_repository('powerdns-recursor')
-        .with(uri: 'http://repo.powerdns.com/ubuntu', distribution: 'trusty-rec-40')
+      .with(uri: 'http://repo.powerdns.com/ubuntu', distribution: 'trusty-rec-40')
     end
 
     it 'creates apt pin for pdns' do
       expect(chef_run).to add_apt_preference('pdns-*')
-        .with(pin: 'origin repo.powerdns.com', pin_priority: '600')
+      .with(pin: 'origin repo.powerdns.com', pin_priority: '600')
     end
 
     it 'installs pdns recursor package' do
       expect(chef_run).to install_apt_package('pdns-recursor').with(version: version)
+    end
+
+    it 'creates pdns config directory' do
+      expect(chef_run).to create_directory('/etc/pdns-recursor')
+      .with(owner: 'root', group: 'root', mode: '0755')
     end
 
     it 'enables pdns_recursor service' do

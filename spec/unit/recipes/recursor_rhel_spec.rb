@@ -4,9 +4,9 @@ describe 'test::recursor_rhel' do
   context 'on rhel platform' do
     let(:rhel_runner) do
       ChefSpec::SoloRunner.new(
-      platform: 'centos',
-      version: '6.8',
-      step_into: ['pdns_recursor', 'pdns_recursor_service']) do |node|
+        platform: 'centos',
+        version: '6.8',
+        step_into: ['pdns_recursor', 'pdns_recursor_service']) do |node|
         node.automatic['packages']['centos-release']['version'] = '6'
       end
     end
@@ -28,6 +28,11 @@ describe 'test::recursor_rhel' do
 
     it 'installs pdns recursor package' do
       expect(chef_run).to install_yum_package('pdns-recursor').with(version: version)
+    end
+
+    it 'creates pdns config directory' do
+      expect(chef_run).to create_directory('/etc/pdns-recursor')
+      .with(owner: 'root', group: 'root', mode: '0755')
     end
 
     it 'enables pdns_recursor service' do
