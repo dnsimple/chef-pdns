@@ -19,11 +19,11 @@
 
 resource_name :pdns_recursor_install_debian
 
-provides :pdns_recursor, platform: 'ubuntu' do |node|
+provides :pdns_recursor_install, platform: 'ubuntu' do |node|
   node['platform_version'].to_f >= 14.04
 end
 
-provides :pdns_recursor, platform: 'debian' do |node|
+provides :pdns_recursor_install, platform: 'debian' do |node|
   node['platform_version'].to_i >= 8
 end
 
