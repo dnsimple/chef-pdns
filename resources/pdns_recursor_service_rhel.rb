@@ -17,9 +17,9 @@
 # limitations under the License.
 #
 
-resource_name :pdns_recursor_service_rhel
+resource_name :recursor_service_rhel
 
-provides :pdns_recursor_service, platform: 'centos' do |node|
+provides :recursor_service, platform: 'centos' do |node|
   node['platform_version'].to_i >= 6
 end
 
