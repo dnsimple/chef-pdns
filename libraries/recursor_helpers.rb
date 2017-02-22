@@ -25,15 +25,6 @@ def default_config_directory
   end
 end
 
-def default_tunables_directory
-  case node['platform_family']
-  when 'debian'
-    "#{default_config_directory}/recursor-tunables"
-  when 'rhel'
-    "#{default_config_directory}/tunables"
-  end
-end
-
 def default_run_user
   case node['platform_family']
   when 'debian'

@@ -32,11 +32,6 @@ describe 'test::recursor_debian' do
       .with(owner: 'root', group: 'root', mode: '0755')
     end
 
-    it 'creates pdns recursor tunables dir' do
-      expect(chef_run).to create_directory('/etc/powerdns/recursor-tunables')
-      .with(owner: 'root', group: 'root', mode: '0755')
-    end
-
     it 'creates pdns recursor unix user' do
       expect(chef_run).to create_user('pdns')
       .with(home: '/var/spool/powerdns', shell: '/bin/false', system: true)
