@@ -6,7 +6,7 @@ describe 'test::recursor_debian' do
       ChefSpec::SoloRunner.new(
         platform: 'ubuntu',
         version: '14.04',
-        step_into: ['pdns_recursor', 'pdns_recursor_service'])
+        step_into: ['pdns_recursor_install', 'pdns_recursor_config', 'pdns_recursor_service'])
     end
 
     let(:chef_run) { ubuntu_runner.converge(described_recipe) }
@@ -28,12 +28,28 @@ describe 'test::recursor_debian' do
     end
 
     it 'creates pdns config directory' do
-      expect(chef_run).to create_directory('/etc/pdns-recursor')
+      expect(chef_run).to create_directory('/etc/powerdns')
       .with(owner: 'root', group: 'root', mode: '0755')
     end
 
-    it 'enables pdns_recursor service' do
+    it 'creates pdns recursor tunables dir' do
+      expect(chef_run).to create_directory('/etc/powerdns/recursor-tunables')
+      .with(owner: 'root', group: 'root', mode: '0755')
+    end
+
+    it 'creates pdns recursor unix user' do
+      expect(chef_run).to create_user('pdns')
+      .with(home: '/var/spool/powerdns', shell: '/bin/false', system: true)
+    end
+
+    it 'creates a pdns recursor unix group' do
+      expect(chef_run).to create_group('pdns')
+      .with(members: ['pdns'], system: true)
+    end
+
+    it 'enables and starts pdns_recursor service' do
       expect(chef_run).to enable_service('pdns-recursor').with(pattern: 'pdns_recursor')
+      expect(chef_run).to start_service('pdns-recursor').with(pattern: 'pdns_recursor')
     end
 
     it 'converges successfully' do
