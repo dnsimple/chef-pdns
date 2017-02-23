@@ -24,7 +24,7 @@ describe group(default_recursor_user) do
 end
 
 describe command('dig @127.0.0.1 dnsimple.com') do
-  its('stdout') { should match(//) }
+  its('stdout') { should match(/208.93.64.253/) }
 end
 
 ## TO-DO
