@@ -1,0 +1,27 @@
+<% if @config_dir %>
+config-dir= <%= @config_dir %>
+<% end %>
+
+<% if @setgid %>
+setgid=<%= @setgid %>
+<% end %>
+
+<% if @setuid %>
+setuid=<%= @setuid %>
+<% end %>
+
+<% @variables.sort.each do |key, value| %>
+<% next if value.nil? %>
+<%= key.gsub('_', '-') %>=<%=
+  case value
+  when TrueClass
+    'yes'
+  when FalseClass
+    'no'
+  when Array
+    value.join(',')
+  else
+    value
+  end
+%>
+<% end %>
