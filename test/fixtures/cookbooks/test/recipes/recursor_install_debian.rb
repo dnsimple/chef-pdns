@@ -11,4 +11,3 @@ pdns_recursor_config 'a_pdns_recursor' do
   action :create
   variables({})
 end
-
