@@ -33,6 +33,6 @@ action :enable do
   service 'pdns-recursor' do
     action [:enable, :start]
     pattern 'pdns_recursor'
-    supports restart: true, reload: true, 'force-reload': true, 'force-stop':true, status: true
+    supports restart: true, 'force-reload': true, 'force-stop':true, status: true
   end
 end
