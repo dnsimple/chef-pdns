@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'test::recursor_debian' do
+describe 'test::recursor_install_debian' do
   context 'on ubuntu platform' do
     let(:ubuntu_runner) do
       ChefSpec::SoloRunner.new(
