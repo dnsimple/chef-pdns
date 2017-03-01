@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'test::recursor_install_debian' do
+describe 'test::recursor_install_single' do
   context 'on ubuntu platform' do
     let(:ubuntu_runner) do
       ChefSpec::SoloRunner.new(
@@ -27,6 +27,11 @@ describe 'test::recursor_install_debian' do
       expect(chef_run).to install_apt_package('pdns-recursor').with(version: version)
     end
 
+    it 'enables and starts pdns_recursor service' do
+      expect(chef_run).to enable_service('pdns-recursor').with(pattern: 'pdns_recursor')
+      expect(chef_run).to start_service('pdns-recursor').with(pattern: 'pdns_recursor')
+    end
+
     it 'creates pdns config directory' do
       expect(chef_run).to create_directory('/etc/powerdns')
       .with(owner: 'root', group: 'root', mode: '0755')
@@ -40,11 +45,6 @@ describe 'test::recursor_install_debian' do
     it 'creates a pdns recursor unix group' do
       expect(chef_run).to create_group('pdns')
       .with(members: ['pdns'], system: true)
-    end
-
-    it 'enables and starts pdns_recursor service' do
-      expect(chef_run).to enable_service('pdns-recursor').with(pattern: 'pdns_recursor')
-      expect(chef_run).to start_service('pdns-recursor').with(pattern: 'pdns_recursor')
     end
 
     it 'creates a recursor main config' do
