@@ -10,7 +10,7 @@ setuid=<%= @setuid %>
 
 <% @variables.sort.each do |key, value| %>
 <% next if value.nil? %>
-<%= key.gsub('_', '-') %>=<%=
+<%= key.to_s.gsub('_', '-') %>=<%=
   case value
   when TrueClass
     'yes'
