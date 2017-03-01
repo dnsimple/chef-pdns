@@ -69,7 +69,7 @@ action :create do
     cookbook new_resource.cookbook
     owner 'root'
     group 'root'
-    mode '0644'
+    mode '0640'
     variables(instances_dir: recursor_instances_dir)
     # notifies :reload, 'service[pdns-recursor]'
   end
@@ -86,7 +86,7 @@ action :create do
     cookbook new_resource.cookbook
     owner 'root'
     group 'root'
-    mode 0640
+    mode '0640'
     variables(
       config_dir: recursor_instances_dir,
       setuid: new_resource.setuid,

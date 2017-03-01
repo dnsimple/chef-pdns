@@ -47,6 +47,21 @@ describe 'test::recursor_install_debian' do
       expect(chef_run).to start_service('pdns-recursor').with(pattern: 'pdns_recursor')
     end
 
+    it 'creates a recursor main config' do
+      expect(chef_run).to create_template('/etc/powerdns/recursor.conf')
+      .with(owner: 'root', group: 'root', mode: '0640')
+    end
+
+    it 'creates a recursor.d config directory' do
+      expect(chef_run).to create_directory('/etc/powerdns/recursor.d')
+      .with(owner: 'root', group: 'root', mode: '0755')
+    end
+
+    it 'creates a recursor instance config' do
+      expect(chef_run).to create_template('/etc/powerdns/recursor.d/a_pdns_recursor.conf')
+      .with(owner: 'root', group: 'root', mode: '0640')
+    end
+
     it 'converges successfully' do
       expect { chef_run }.to_not raise_error
     end
