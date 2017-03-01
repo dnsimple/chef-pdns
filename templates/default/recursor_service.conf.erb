@@ -1,6 +1,9 @@
 <% if @config_dir %>
 config-dir= <%= @config_dir %>
 <% end %>
+<% if @socket_dir %>
+socket-dir=<%= @socket_dir %>
+<% end %>
 <% if @setgid %>
 setgid=<%= @setgid %>
 <% end %>
