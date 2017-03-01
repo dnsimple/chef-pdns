@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'test::recursor_rhel' do
+describe 'test::recursor_install_rhel' do
   context 'on rhel platform' do
     let(:rhel_runner) do
       ChefSpec::SoloRunner.new(
