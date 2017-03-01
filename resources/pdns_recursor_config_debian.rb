@@ -29,6 +29,7 @@ end
 
 property :instance_name, String, name_property: true
 property :config_dir, String, default: lazy { default_config_directory }
+property :socket_dir, String, default: lazy { |resource| "/var/run/#{resource.instance_name}" }
 property :run_group, String, default: lazy { default_run_user }
 property :run_user, String, default: lazy { default_run_user }
 property :run_user_home, String, default: lazy { default_user_attributes[:home] }
@@ -42,7 +43,7 @@ property :cookbook, [String,nil], default: 'pdns'
 property :variables, [Hash], default: {}
 
 action :create do
-  recursor_instances_dir = "#{new_resource.config_dir}/#{new_resource.instances_dir}"
+  recursor_instance_dir = "#{new_resource.config_dir}/#{new_resource.instances_dir}/#{new_resource.instance_name}"
 
   directory new_resource.config_dir do
     owner 'root'
@@ -64,35 +65,35 @@ action :create do
     action :create
   end
 
-  template "#{new_resource.config_dir}/recursor.conf" do
-    source 'recursor.conf.erb'
-    cookbook new_resource.cookbook
-    owner 'root'
-    group 'root'
-    mode '0640'
-    variables(instances_dir: recursor_instances_dir)
-    # notifies :reload, 'service[pdns-recursor]'
-  end
-
-  directory recursor_instances_dir do
-    owner 'root'
-    group 'root'
+  directory new_resource.socket_dir do
+    owner new_resource.run_user
+    group new_resource.run_group
     mode '0755'
+    recursive true
     action :create
   end
 
-  template "#{recursor_instances_dir}/#{new_resource.instance_name}.conf" do
+  directory recursor_instance_dir do
+    owner 'root'
+    group 'root'
+    mode '0755'
+    recursive true
+    action :create
+  end
+
+  template "#{recursor_instance_dir}/recursor.conf" do
     source new_resource.source
     cookbook new_resource.cookbook
     owner 'root'
     group 'root'
     mode '0640'
     variables(
-      config_dir: recursor_instances_dir,
+      config_dir: recursor_instance_dir,
+      socket_dir: new_resource.socket_dir,
       setuid: new_resource.setuid,
       setgid: new_resource.setgid,
       variables: new_resource.variables
       )
-    # notifies :reload, 'service[pdns-recursor]'
+    # notifies :restart, 'service[pdns-recursor]'
   end
 end
