@@ -20,3 +20,7 @@ suites:
     run_list:
       - recipe[test::recursor]
     attributes:
+  - name: recursor-multi
+    run_list:
+      - recipe[test::recursor_install_multi]
+    attributes:
