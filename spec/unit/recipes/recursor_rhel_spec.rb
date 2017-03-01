@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'test::recursor_install_rhel' do
+describe 'test::recursor_install_single' do
   context 'on rhel platform' do
     let(:rhel_runner) do
       ChefSpec::SoloRunner.new(
@@ -30,13 +30,38 @@ describe 'test::recursor_install_rhel' do
       expect(chef_run).to install_yum_package('pdns-recursor').with(version: version)
     end
 
+    it 'enables pdns_recursor service' do
+      expect(chef_run).to enable_service('pdns-recursor').with(pattern: 'pdns_recursor')
+    end
+
     it 'creates pdns config directory' do
       expect(chef_run).to create_directory('/etc/pdns-recursor')
       .with(owner: 'root', group: 'root', mode: '0755')
     end
 
-    xit 'enables pdns_recursor service' do
-      expect(chef_run).to enable_service('pdns-recursor').with(pattern: 'pdns_recursor')
+    it 'creates pdns recursor unix user' do
+      expect(chef_run).to create_user('pdns-recursor')
+      .with(home: '/', shell: '/sbin/nologin', system: true)
+    end
+
+    it 'creates a pdns recursor unix group' do
+      expect(chef_run).to create_group('pdns-recursor')
+      .with(members: ['pdns-recursor'], system: true)
+    end
+
+    it 'creates a recursor main config' do
+      expect(chef_run).to create_template('/etc/powerdns-recursor/recursor.conf')
+      .with(owner: 'root', group: 'root', mode: '0640')
+    end
+
+    it 'creates a recursor.d config directory' do
+      expect(chef_run).to create_directory('/etc/powerdns-recursor/recursor.d')
+      .with(owner: 'root', group: 'root', mode: '0755')
+    end
+
+    it 'creates a recursor instance config' do
+      expect(chef_run).to create_template('/etc/powerdns-recursor/recursor.d/a_pdns_recursor.conf')
+      .with(owner: 'root', group: 'root', mode: '0640')
     end
 
     it 'converges successfully' do
