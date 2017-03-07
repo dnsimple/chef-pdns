@@ -46,15 +46,60 @@ action :enable do
       instance_name: new_resource.instance_name,
       instance_dir: recursor_instance_dir,
       socket_dir: new_resource.socket_dir
-    )
+      )
     cookbook new_resource.cookbook
     action :create
   end
 
   service "pdns-recursor-#{new_resource.instance_name}" do
     service_name 'pdns-recursor'
-    action [:enable, :start]
     pattern 'pdns_recursor'
     supports restart: true, 'force-reload': true, 'force-stop':true, status: true
+    action :enable
+  end
+end
+
+action :start do
+  service "pdns-recursor-#{new_resource.instance_name}" do
+    service_name 'pdns-recursor'
+    pattern 'pdns_recursor'
+    supports restart: true, 'force-reload': true, 'force-stop':true, status: true
+    action :start
+  end
+end
+
+action :stop do
+  service "pdns-recursor-#{new_resource.instance_name}" do
+    service_name 'pdns-recursor'
+    pattern 'pdns_recursor'
+    supports restart: true, 'force-reload': true, 'force-stop':true, status: true
+    action :stop
+  end
+end
+
+action :restart do
+  service "pdns-recursor-#{new_resource.instance_name}" do
+    service_name 'pdns-recursor'
+    pattern 'pdns_recursor'
+    supports restart: true, 'force-reload': true, 'force-stop':true, status: true
+    action :restart
+  end
+end
+
+action :'force-reload' do
+  service "pdns-recursor-#{new_resource.instance_name}" do
+    service_name 'pdns-recursor'
+    pattern 'pdns_recursor'
+    supports restart: true, 'force-reload': true, 'force-stop':true, status: true
+    action :'force-reload'
+  end
+end
+
+action :'force-stop' do
+  service "pdns-recursor-#{new_resource.instance_name}" do
+    service_name 'pdns-recursor'
+    pattern 'pdns_recursor'
+    supports restart: true, 'force-reload': true, 'force-stop':true, status: true
+    action :'force-stop'
   end
 end
