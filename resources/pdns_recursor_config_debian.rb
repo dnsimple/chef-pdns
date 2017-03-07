@@ -94,6 +94,5 @@ action :create do
       setgid: new_resource.setgid,
       variables: new_resource.variables
       )
-    # notifies :restart, 'service[pdns-recursor]'
   end
 end
