@@ -47,18 +47,13 @@ describe 'test::recursor_install_single' do
       .with(members: ['pdns'], system: true)
     end
 
-    it 'creates a recursor main config' do
-      expect(chef_run).to create_template('/etc/powerdns/recursor.conf')
-      .with(owner: 'root', group: 'root', mode: '0640')
-    end
-
     it 'creates a recursor.d config directory' do
-      expect(chef_run).to create_directory('/etc/powerdns/recursor.d')
+      expect(chef_run).to create_directory('/etc/powerdns/recursor.d/a_pdns_recursor')
       .with(owner: 'root', group: 'root', mode: '0755')
     end
 
     it 'creates a recursor instance config' do
-      expect(chef_run).to create_template('/etc/powerdns/recursor.d/a_pdns_recursor.conf')
+      expect(chef_run).to create_template('/etc/powerdns/recursor.d/a_pdns_recursor/recursor.conf')
       .with(owner: 'root', group: 'root', mode: '0640')
     end
 
