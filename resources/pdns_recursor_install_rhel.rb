@@ -59,13 +59,6 @@ action :install do
   yum_package 'pdns-recursor' do
     version new_resource.version
   end
-
-  directory '/etc/pdns-recursor' do
-    owner 'root'
-    group 'root'
-    mode '0755'
-    action :create
-  end
 end
 
 action :uninstall do
