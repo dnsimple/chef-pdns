@@ -17,14 +17,18 @@
 # limitations under the License.
 #
 
-resource_name :pdns_recursor_config_debian
+resource_name :pdns_recursor_config
 
-provides :pdns_recursor_config, platform: 'ubuntu' do |node|
+provides :pdns_recursor_config, platform: 'ubuntu' do |node| #~FC005
   node['platform_version'].to_f >= 14.04
 end
 
-provides :pdns_recursor_config, platform: 'debian' do |node|
+provides :pdns_recursor_config, platform: 'debian' do |node| #~FC005
   node['platform_version'].to_i >= 8
+end
+
+provides :pdns_recursor_config, platform: 'centos' do |node| #~FC005
+  node['platform_version'].to_i >= 6
 end
 
 property :instance_name, String, name_property: true
