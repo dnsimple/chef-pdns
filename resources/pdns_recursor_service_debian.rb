@@ -54,7 +54,7 @@ action :enable do
   service "pdns-recursor-#{new_resource.instance_name}" do
     service_name 'pdns-recursor'
     pattern 'pdns_recursor'
-    supports restart: true, 'force-reload': true, 'force-stop':true, status: true
+    supports restart: true, status: true
     action :enable
   end
 end
@@ -63,7 +63,7 @@ action :start do
   service "pdns-recursor-#{new_resource.instance_name}" do
     service_name 'pdns-recursor'
     pattern 'pdns_recursor'
-    supports restart: true, 'force-reload': true, 'force-stop':true, status: true
+    supports restart: true, status: true
     action :start
   end
 end
@@ -72,7 +72,7 @@ action :stop do
   service "pdns-recursor-#{new_resource.instance_name}" do
     service_name 'pdns-recursor'
     pattern 'pdns_recursor'
-    supports restart: true, 'force-reload': true, 'force-stop':true, status: true
+    supports restart: true, status: true
     action :stop
   end
 end
@@ -81,25 +81,9 @@ action :restart do
   service "pdns-recursor-#{new_resource.instance_name}" do
     service_name 'pdns-recursor'
     pattern 'pdns_recursor'
-    supports restart: true, 'force-reload': true, 'force-stop':true, status: true
+    supports restart: true, status: true
     action :restart
   end
 end
 
-action :'force-reload' do
-  service "pdns-recursor-#{new_resource.instance_name}" do
-    service_name 'pdns-recursor'
-    pattern 'pdns_recursor'
-    supports restart: true, 'force-reload': true, 'force-stop':true, status: true
-    action :'force-reload'
-  end
-end
 
-action :'force-stop' do
-  service "pdns-recursor-#{new_resource.instance_name}" do
-    service_name 'pdns-recursor'
-    pattern 'pdns_recursor'
-    supports restart: true, 'force-reload': true, 'force-stop':true, status: true
-    action :'force-stop'
-  end
-end
