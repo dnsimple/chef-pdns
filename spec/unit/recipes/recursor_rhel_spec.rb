@@ -30,12 +30,13 @@ describe 'test::recursor_install_single' do
       expect(chef_run).to install_yum_package('pdns-recursor').with(version: version)
     end
 
-    it 'enables pdns_recursor service' do
+    it 'enables and starts pdns_recursor service' do
       expect(chef_run).to enable_service('pdns-recursor').with(pattern: 'pdns_recursor')
+      expect(chef_run).to start_service('pdns-recursor').with(pattern: 'pdns_recursor')
     end
 
     it 'creates pdns config directory' do
-      expect(chef_run).to create_directory('/etc/pdns-recursor')
+      expect(chef_run).to create_directory('/etc/powerdns-recursor')
       .with(owner: 'root', group: 'root', mode: '0755')
     end
 
@@ -49,18 +50,13 @@ describe 'test::recursor_install_single' do
       .with(members: ['pdns-recursor'], system: true)
     end
 
-    it 'creates a recursor main config' do
-      expect(chef_run).to create_template('/etc/powerdns-recursor/recursor.conf')
-      .with(owner: 'root', group: 'root', mode: '0640')
-    end
-
     it 'creates a recursor.d config directory' do
-      expect(chef_run).to create_directory('/etc/powerdns-recursor/recursor.d')
+      expect(chef_run).to create_directory('/etc/powerdns-recursor/recursor.d/a_pdns_recursor')
       .with(owner: 'root', group: 'root', mode: '0755')
     end
 
     it 'creates a recursor instance config' do
-      expect(chef_run).to create_template('/etc/powerdns-recursor/recursor.d/a_pdns_recursor.conf')
+      expect(chef_run).to create_template('/etc/powerdns-recursor/recursor.d/a_pdns_recursor/recursor.conf')
       .with(owner: 'root', group: 'root', mode: '0640')
     end
 
