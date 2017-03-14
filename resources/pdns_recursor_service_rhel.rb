@@ -24,11 +24,60 @@ provides :pdns_recursor_service, platform: 'centos' do |node|
 end
 
 property :instance_name, String, name_property: true
+property :cookbook, [String,nil], default: 'pdns'
+property :source, [String,nil], default: 'recursor.init.debian.erb'
+property :config_dir, String, default: lazy { default_config_directory }
+property :socket_dir, String, default: lazy { |resource| "/var/run/#{resource.instance_name}" }
+property :instances_dir, String, default: 'recursor.d'
 
 action :enable do
-  service 'pdns-recursor' do
-    action [:enable, :start]
+  recursor_instance_dir = "#{new_resource.config_dir}/#{new_resource.instances_dir}/#{new_resource.instance_name}"
+
+  template "/etc/init.d/#{new_resource.instance_name}" do
+    source new_resource.source
+    owner 'root'
+    group 'root'
+    mode '0755'
+    variables(
+      instance_name: new_resource.instance_name,
+      instance_dir: recursor_instance_dir,
+      socket_dir: new_resource.socket_dir
+      )
+    cookbook new_resource.cookbook
+    action :create
+  end
+
+  service "pdns-recursor-#{new_resource.instance_name}" do
+    service_name 'pdns-recursor'
     pattern 'pdns_recursor'
-    supports restart: true, reload: true, 'force-reload': true, 'force-stop':true, status: true
+    supports restart: true, status: true
+    action :enable
+  end
+end
+
+action :start do
+  service "pdns-recursor-#{new_resource.instance_name}" do
+    service_name 'pdns-recursor'
+    pattern 'pdns_recursor'
+    supports restart: true, status: true
+    action :start
+  end
+end
+
+action :stop do
+  service "pdns-recursor-#{new_resource.instance_name}" do
+    service_name 'pdns-recursor'
+    pattern 'pdns_recursor'
+    supports restart: true, status: true
+    action :stop
+  end
+end
+
+action :restart do
+  service "pdns-recursor-#{new_resource.instance_name}" do
+    service_name 'pdns-recursor'
+    pattern 'pdns_recursor'
+    supports restart: true, status: true
+    action :restart
   end
 end
