@@ -12,6 +12,10 @@ describe 'test::recursor_install_single' do
     let(:chef_run) { ubuntu_runner.converge(described_recipe) }
     let(:version) { '4.0.4-1pdns.trusty' }
 
+    #
+    # Tests for the install resource
+    #
+
     # Chef gets node['lsb']['codename'] even if it is not set as an attribute
     it 'adds apt repository' do
       expect(chef_run).to add_apt_repository('powerdns-recursor')
@@ -27,10 +31,22 @@ describe 'test::recursor_install_single' do
       expect(chef_run).to install_apt_package('pdns-recursor').with(version: version)
     end
 
+    #
+    # Tests for the service resource
+    #
+
+    it 'creates a specific init script' do
+      expect(chef_run).to create_template('/etc/init.d/a_pdns_recursor')
+    end
+
     it 'enables and starts pdns_recursor service' do
       expect(chef_run).to enable_service('pdns-recursor').with(pattern: 'pdns_recursor')
       expect(chef_run).to start_service('pdns-recursor').with(pattern: 'pdns_recursor')
     end
+
+    #
+    # Tests for the config resource
+    #
 
     it 'creates pdns config directory' do
       expect(chef_run).to create_directory('/etc/powerdns')
@@ -45,6 +61,10 @@ describe 'test::recursor_install_single' do
     it 'creates a pdns recursor unix group' do
       expect(chef_run).to create_group('pdns')
       .with(members: ['pdns'], system: true)
+    end
+
+    it 'creates a pdns recursor socket directory' do
+      expect(chef_run).to create_directory('/var/run/a_pdns_recursor')
     end
 
     it 'creates a recursor.d config directory' do

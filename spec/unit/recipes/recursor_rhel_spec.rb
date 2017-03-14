@@ -14,6 +14,10 @@ describe 'test::recursor_install_single' do
     let(:chef_run) { rhel_runner.converge(described_recipe) }
     let(:version) { '4.0.4-1pdns.el6' }
 
+    #
+    # Tests for the install resource
+    #
+
     it 'installs epel-release package' do
       expect(chef_run).to install_yum_package('epel-release')
     end
@@ -30,10 +34,22 @@ describe 'test::recursor_install_single' do
       expect(chef_run).to install_yum_package('pdns-recursor').with(version: version)
     end
 
+    #
+    # Tests for the service resource
+    #
+
+    it 'creates a specific init script' do
+      expect(chef_run).to create_template('/etc/init.d/a_pdns_recursor')
+    end
+
     it 'enables and starts pdns_recursor service' do
       expect(chef_run).to enable_service('pdns-recursor').with(pattern: 'pdns_recursor')
       expect(chef_run).to start_service('pdns-recursor').with(pattern: 'pdns_recursor')
     end
+
+    #
+    # Tests for the config resource
+    #
 
     it 'creates pdns config directory' do
       expect(chef_run).to create_directory('/etc/powerdns-recursor')
@@ -48,6 +64,10 @@ describe 'test::recursor_install_single' do
     it 'creates a pdns recursor unix group' do
       expect(chef_run).to create_group('pdns-recursor')
       .with(members: ['pdns-recursor'], system: true)
+    end
+
+    it 'creates a pdns recursor socket directory' do
+      expect(chef_run).to create_directory('/var/run/a_pdns_recursor')
     end
 
     it 'creates a recursor.d config directory' do
