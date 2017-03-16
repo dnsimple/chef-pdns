@@ -17,7 +17,7 @@
 # limitations under the License.
 #
 
-resource_name :pdns_recursor_service_debian
+resource_name :pdns_recursor_service_sysvinit_debian
 
 provides :pdns_recursor_service, platform: 'ubuntu' do |node|
   node['platform_version'].to_f >= 14.04
