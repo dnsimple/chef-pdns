@@ -17,7 +17,7 @@
 # limitations under the License.
 #
 
-resource_name :pdns_recursor_service_sysvinit_debian
+resource_name :pdns_recursor_service_debian_sysvinit
 
 provides :pdns_recursor_service, platform: 'ubuntu' do |node|
   node['platform_version'].to_f >= 14.04
@@ -52,6 +52,7 @@ action :enable do
   end
 
   service "pdns-recursor-#{new_resource.instance_name}" do
+    provider Chef::Provider::Service::Init::Debian
     service_name 'pdns-recursor'
     pattern 'pdns_recursor'
     supports restart: true, status: true
@@ -61,6 +62,7 @@ end
 
 action :start do
   service "pdns-recursor-#{new_resource.instance_name}" do
+    provider Chef::Provider::Service::Init::Debian
     service_name 'pdns-recursor'
     pattern 'pdns_recursor'
     supports restart: true, status: true
@@ -70,6 +72,7 @@ end
 
 action :stop do
   service "pdns-recursor-#{new_resource.instance_name}" do
+    provider Chef::Provider::Service::Init::Debian
     service_name 'pdns-recursor'
     pattern 'pdns_recursor'
     supports restart: true, status: true
@@ -79,6 +82,7 @@ end
 
 action :restart do
   service "pdns-recursor-#{new_resource.instance_name}" do
+    provider Chef::Provider::Service::Init::Debian
     service_name 'pdns-recursor'
     pattern 'pdns_recursor'
     supports restart: true, status: true
