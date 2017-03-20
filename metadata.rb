@@ -16,4 +16,3 @@ supports 'centos', '>= 6'
 
 depends 'apt'
 depends 'yum'
-depends 'compat_resource', '>= 12.14'
