@@ -4,7 +4,13 @@ Installs and configures PowerDNS.
 
 ## Requirements
 
-This cookbook is compatible with Chef versions >= 12.5. 
+IMPORTANT: Please read the Compatibility Notes version below since there is breaking changes between 2 and 3 versions of this cookbook.
+
+### Compatibility Notes
+
+**This cookbook is being completely rewritten, transitioning from an attribute centric design to a newer resource based design. The current 3.0 version the resource only supports recursors, being the authoritative server the next feature, destined for the 3.1 release which will be released soon. If you want to keep your authoritative PowerDNS installs pin your cookbook to the latest 2.5.0 version.**
+
+The current version of this cookbook is only compatible with Chef >= 12.5. 
 
 ### Platforms:
 
