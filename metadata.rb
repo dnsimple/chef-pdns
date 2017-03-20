@@ -8,7 +8,7 @@ version          '2.5.0'
 source_url       'https://github.com/dnsimple/pdns' if respond_to?(:source_url)
 issues_url       'https://github.com/dnsimple/pdns/issues' if respond_to?(:issues_url)
 
-chef_version '>= 12.1'
+chef_version '>= 12.5'
 
 supports 'ubuntu', '>= 14.04'
 supports 'debian', '>= 8'
