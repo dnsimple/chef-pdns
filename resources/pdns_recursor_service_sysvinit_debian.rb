@@ -19,6 +19,8 @@
 
 resource_name :pdns_recursor_service_debian_sysvinit
 
+provides :pdns_recursor_service_sysvinit
+
 provides :pdns_recursor_service, platform: 'ubuntu' do |node|
   node['platform_version'].to_f >= 14.04
 end
@@ -30,6 +32,7 @@ end
 property :instance_name, String, name_property: true
 property :cookbook, [String,nil], default: 'pdns'
 property :source, [String,nil], default: 'recursor.init.debian.erb'
+
 property :config_dir, String, default: lazy { default_config_directory }
 property :socket_dir, String, default: lazy { |resource| "/var/run/#{resource.instance_name}" }
 property :instances_dir, String, default: 'recursor.d'
