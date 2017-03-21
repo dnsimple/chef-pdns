@@ -24,3 +24,7 @@ suites:
     run_list:
       - recipe[test::recursor_install_multi]
     attributes:
+  - name: authoritative
+    run_list:
+      - recipe[test::authoritative_install_single]
+    attributes:
