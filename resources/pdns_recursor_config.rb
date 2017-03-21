@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: pdns
-# Resources:: recursor_config_debian
+# Resources:: pdns_recursor_config
 #
 # Copyright 2016, Aetrion, LLC DBA DNSimple
 #
