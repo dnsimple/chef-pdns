@@ -32,10 +32,10 @@ provides :pdns_recursor_config, platform: 'centos' do |node| #~FC005
 end
 
 property :instance_name, String, name_property: true
-property :config_dir, String, default: lazy { default_config_directory }
+property :config_dir, String, default: lazy { default_recursor_config_directory }
 property :socket_dir, String, default: lazy { |resource| "/var/run/#{resource.instance_name}" }
-property :run_group, String, default: lazy { default_run_user }
-property :run_user, String, default: lazy { default_run_user }
+property :run_group, String, default: lazy { default_recursor_run_user }
+property :run_user, String, default: lazy { default_recursor_run_user }
 property :run_user_home, String, default: lazy { default_user_attributes[:home] }
 property :run_user_shell, String, default: lazy { default_user_attributes[:shell] }
 property :setuid, String, default: lazy { |resource| resource.run_user }

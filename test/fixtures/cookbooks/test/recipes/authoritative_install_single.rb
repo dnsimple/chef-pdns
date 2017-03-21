@@ -7,6 +7,6 @@ end
 #   action [:enable, :start]
 # end
 
-# pdns_authoritative_config 'a_pdns_authoritative' do
-#   action :create
-# end
+pdns_authoritative_config 'a_pdns_authoritative' do
+  action :create
+end
