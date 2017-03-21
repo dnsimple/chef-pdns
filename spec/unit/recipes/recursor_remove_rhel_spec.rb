@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'test::recursor_remove' do
+describe 'pdns_test::recursor_remove' do
   context 'on rhel platform' do
     let(:rhel_runner) do
       ChefSpec::SoloRunner.new(

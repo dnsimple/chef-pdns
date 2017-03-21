@@ -2,4 +2,4 @@ source 'https://supermarket.chef.io'
 
 metadata
 
-cookbook 'test', path: 'test/fixtures/cookbooks/test'
+cookbook 'pdns_test', path: 'test/fixtures/cookbooks/pdns_test'

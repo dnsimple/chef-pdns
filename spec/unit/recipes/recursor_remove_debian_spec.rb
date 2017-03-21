@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'test::recursor_remove' do
+describe 'pdns_test::recursor_remove' do
   context 'on ubuntu platform' do
     let(:ubuntu_runner) do
       ChefSpec::SoloRunner.new(

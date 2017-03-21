@@ -1,4 +1,4 @@
-name             'test'
+name             'pdns_test'
 maintainer       'Aetrion, LLC DBA DNSimple'
 maintainer_email 'support@dnsimple.com'
 license          'Apache 2.0'

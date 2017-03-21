@@ -33,7 +33,7 @@ IMPORTANT: Please read the Compatibility Notes version below since there is brea
 
 ## Usage
 
-Use the `pdns_recursor_install`, `pdns_recursor_config`, and `pdns_recursor_service` resources in your wrapper cookbooks to install, configure, and define PowerDNS recursors. Set the different properties on the resources according to your install and configuration needs. You can see a good example on this on `test/fixtures/cookbooks/test/recipes_recursor_install_single.rb`
+Use the `pdns_recursor_install`, `pdns_recursor_config`, and `pdns_recursor_service` resources in your wrapper cookbooks to install, configure, and define PowerDNS recursors. Set the different properties on the resources according to your install and configuration needs. You can see a good example on this on `test/fixtures/cookbooks/pdns_test/recipes_recursor_install_single.rb`
 
 Some properties need to set consistently accross `pdns_recursor_config` and `pdns_recursor_service`. They will be noted in their specific sections with a (C). 
 
