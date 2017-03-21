@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: pdns
-# Libraries:: helpers
+# Libraries:: recursor_helpers
 #
 # Copyright 2014, Aetrion, LLC.
 #
