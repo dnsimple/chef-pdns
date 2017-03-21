@@ -1,8 +1,8 @@
 #
 # Cookbook Name:: pdns
-# Resources:: recursor_install
+# Resources:: pdns_recursor_install
 #
-# Copyright 2016, Aetrion, LLC DBA DNSimple
+# Copyright 2017, Aetrion, LLC DBA DNSimple
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
