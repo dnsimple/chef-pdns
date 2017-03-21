@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'test::recursor_install_single' do
+describe 'pdns_test::recursor_install_single' do
   context 'on ubuntu platform' do
     let(:ubuntu_runner) do
       ChefSpec::SoloRunner.new(
