@@ -26,5 +26,5 @@ suites:
     attributes:
   - name: authoritative
     run_list:
-      - recipe[test::authoritative_install_single]
+      - recipe[pdns_test::authoritative_install_single]
     attributes:
