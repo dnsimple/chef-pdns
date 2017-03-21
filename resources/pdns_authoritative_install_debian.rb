@@ -31,7 +31,7 @@ property :instance_name, String, name_property: true
 property :version, [String, nil], default: nil
 
 action :install do
-  apt_repository 'powerdns-recursor' do
+  apt_repository 'powerdns-authoritative' do
     uri "http://repo.powerdns.com/#{node['platform']}"
     distribution "#{node['lsb']['codename']}-auth-40"
     arch 'amd64'
