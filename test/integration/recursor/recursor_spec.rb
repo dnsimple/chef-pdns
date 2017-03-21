@@ -1,4 +1,4 @@
-Dir['test/libraries/*.rb'].each { |f| require File.expand_path(f) }
+require File.expand_path('test/libraries/helpers.rb')
 
 describe package('pdns-recursor') do
   it { should be_installed }
