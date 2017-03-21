@@ -1,6 +1,6 @@
 pdns_recursor_install 'a_pdns_recursor' do
   action :install
-  version version_per_platform
+  version recursor_version_per_platform
 end
 
 pdns_recursor_service 'a_pdns_recursor' do
@@ -13,7 +13,7 @@ end
 
 pdns_recursor_install 'another_pdns_recursor' do
   action :install
-  version version_per_platform
+  version recursor_version_per_platform
 end
 
 pdns_recursor_service 'another_pdns_recursor' do
