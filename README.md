@@ -1,6 +1,6 @@
 # PowerDNS Community Cookbook
 
-Installs and configures PowerDNS.
+Provides resources for installing and configuring both PowerDNS authoritative and recursor. It uses the official PowerDNS repositories for packages and installs the appropiate configuration for your platform's init system.
 
 ## Requirements
 
@@ -10,13 +10,15 @@ IMPORTANT: Please read the Compatibility Notes version below since there is brea
 
 **This cookbook is being completely rewritten, transitioning from an attribute centric design to a newer resource based design. The current 3.0 version the resource only supports recursors, being the authoritative server the next feature, destined for the 3.1 release which will be released soon. If you want to keep your authoritative PowerDNS installs pin your cookbook to the latest 2.5.0 version.**
 
-The current version of this cookbook is only compatible with Chef >= 12.5. 
-
 ### Platforms:
 
 * Ubuntu (14.04, 16.04)
 * Debian (8)
 * CentOS (6.8, 7.2)
+
+### Chef:
+
+- Chef 12.5+
 
 ### Required Cookbooks:
 
@@ -31,11 +33,11 @@ The current version of this cookbook is only compatible with Chef >= 12.5.
 
 ## Usage
 
-Use the `pdns_recursor_install`, `pdns_recursor_config`, and `pdns_recursor_service` resources in your wrapper cookbooks to install, configure, and define PowerDNS recursors.
+Use the `pdns_recursor_install`, `pdns_recursor_config`, and `pdns_recursor_service` resources in your wrapper cookbooks to install, configure, and define PowerDNS recursors. Set the different properties on the resources according to your install and configuration needs. You can see a good example on this on `test/fixtures/cookbooks/test/recipes_recursor_install_single.rb`
 
-Set the different properties of the resources according to your current needs. Some properties needs to set consistently accross `pdns_recursor_config` and `pdns_recursor_service`. They will be noted in their specific sections with a (C). 
+Some properties need to set consistently accross `pdns_recursor_config` and `pdns_recursor_service`. They will be noted in their specific sections with a (C). 
 
-Most of the properties are optional and have sane defaults, so they are only recommend for heavy customized installs.
+Most of the properties are optional and have sane defaults, so they are only recommended for customized installs.
 
 ### pdns_recursor_install
 
@@ -46,7 +48,7 @@ Installs PowerDNS recursor 4.X series using PowerDNS official repository in the 
 - `version`: Which version is installed, defaults to the latest version available in the repository.
 - `debug`: (CentOS only), installs debug-symbols from PowerDNS debug repository.
 
-#### Example
+#### Usage Example
 
 Install a 4. powerdns instance named 'my-recursor' on ubuntu 14.04:
 
@@ -66,9 +68,9 @@ Sets up a PowerDNS recursor instance using the appropiate init system (SysV Init
 - `instances_dir` (C): Directory under the recursor config path that holds recursor instances.
 - `socket_dir`: Directory where sockets are created.
 
-#### Example
+#### Usage Example
 
-Configure a PowerDNS recursor service instance called 'my-recursor' with a custom template named `my-recursor.erb`
+Configure a PowerDNS recursor service instance named 'my-recursor' in your wrapper cookbook for Acme Corp with a custom template named `my-recursor.erb`
 
     pdns_recursor_service 'my-recursor' do
       source 'my-recursor.erb'
@@ -93,9 +95,9 @@ Creates a PowerDNS recursor configuration.
 - `run_user_home`: Home of the Unix user that runs the recursor.
 - `run_user_shell`: Shell of the Unix user that runs the recursor.
 
-#### Example
+#### Usage Example
 
-Create a PowerDNS recursor configuration named 'my-recursor' with a custom template named `my-recursor.erb` and a few attributes:
+Create a PowerDNS recursor configuration named 'my-recursor' in your wrapper cookbook for Acme Corp which uses a custom template named `my-recursor.erb` and a few attributes:
 
     pdns_recursor_config 'my-recursor' do
       source 'my-recursor.erb'
