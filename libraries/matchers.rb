@@ -11,7 +11,7 @@ if defined?(ChefSpec)
     ChefSpec::Matchers::ResourceMatcher.new(:pdns_recursor, :service, resource_name)
   end
 
-  def pdns_recursor_remove(resource_name)
+  def pdns_recursor_uninstall(resource_name)
     ChefSpec::Matchers::ResourceMatcher.new(:pdns_recursor, :remove, resource_name)
   end
 end
