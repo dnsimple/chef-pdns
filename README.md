@@ -106,7 +106,6 @@ Create a PowerDNS recursor configuration named 'my-recursor' with a custom templ
 
 License & Authors
 -----------------
-- Author:: Joshua Timberman (<joshua@chef.io>)
 - Author:: Aaron Kalin (<aaron.kalin@dnsimple.com>)
 - Author:: Jacobo García (<jacobo.garcia@dnsimple.com>)
 - Author:: Anthony Eden (<anthony.eden@dnsimple.com>)
