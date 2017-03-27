@@ -29,6 +29,7 @@ end
 
 property :instance_name, String, name_property: true
 property :version, [String, nil], default: nil
+property :debug, [true, false], default: false
 
 action :install do
   apt_repository 'powerdns-authoritative' do
@@ -48,11 +49,21 @@ action :install do
     action :install
     version new_resource.version
   end
+
+  apt_package 'pdns-server-dbg' do
+    action :install
+    only_if { new_resource.debug }
+  end
 end
 
 action :uninstall do
   apt_package 'pdns-server' do
     action :remove
     version new_resource.version
+  end
+
+  apt_package 'pdns-server-dbg' do
+    action :remove
+    only_if { new_resource.debug }
   end
 end
