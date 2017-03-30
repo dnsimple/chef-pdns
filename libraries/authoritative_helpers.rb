@@ -34,3 +34,29 @@ def default_authoritative_run_user
     'pdns'
   end
 end
+
+def backend_package_per_platform
+  return 'pdns-backend-geo'      if node['platform_family'] == 'debian' && new_resource.instance_name == 'geo'
+  return 'pdns-backend-ldap'     if node['platform_family'] == 'debian' && new_resource.instance_name == 'ldap'
+  return 'pdns-backend-mysql '   if node['platform_family'] == 'debian' && new_resource.instance_name == 'mysql'
+  return 'pdns-backend-pgsql'    if node['platform_family'] == 'debian' && new_resource.instance_name == 'postgresql'
+  return 'pdns-backend-pipe'     if node['platform_family'] == 'debian' && new_resource.instance_name == 'pipe'
+  return 'pdns-backend-sqlite3'  if node['platform_family'] == 'debian' && new_resource.instance_name == 'sqlite'
+  return 'pdns-backend-geoip'    if node['platform_family'] == 'debian' && new_resource.instance_name == 'geoip'
+  return 'pdns-backend-lua'      if node['platform_family'] == 'debian' && new_resource.instance_name == 'lua'
+  return 'pdns-backend-mydns'    if node['platform_family'] == 'debian' && new_resource.instance_name == 'mydns'
+  return 'pdns-backend-odbc'     if node['platform_family'] == 'debian' && new_resource.instance_name == 'odbc'
+  return 'pdns-backend-opendbx'  if node['platform_family'] == 'debian' && new_resource.instance_name == 'opendbx'
+  return 'pdns-backend-remote'   if node['platform_family'] == 'debian' && new_resource.instance_name == 'remote'
+  return 'pdns-backend-tinydns'  if node['platform_family'] == 'debian' && new_resource.instance_name == 'tinydns'
+
+  return 'pdns-backend-geo'        if node['platform_family'] == 'rhel' && new_resource.instance_name == 'geo'
+  return 'pdns-backend-ldap'       if node['platform_family'] == 'rhel' && new_resource.instance_name == 'ldap'
+  return 'pdns-backend-lua'        if node['platform_family'] == 'rhel' && new_resource.instance_name == 'lua'
+  return 'pdns-backend-mydns'      if node['platform_family'] == 'rhel' && new_resource.instance_name == 'mydns'
+  return 'pdns-backend-mysql'      if node['platform_family'] == 'rhel' && new_resource.instance_name == 'mysql'
+  return 'pdns-backend-pipe'       if node['platform_family'] == 'rhel' && new_resource.instance_name == 'pipe'
+  return 'pdns-backend-postgresql' if node['platform_family'] == 'rhel' && new_resource.instance_name == 'postgresql'
+  return 'pdns-backend-remote'     if node['platform_family'] == 'rhel' && new_resource.instance_name == 'remote'
+  return 'pdns-backend-sqlite'     if node['platform_family'] == 'rhel' && new_resource.instance_name == 'sqlite'
+end
