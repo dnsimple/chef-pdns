@@ -34,28 +34,27 @@ property :cookbook, [String,nil], default: 'pdns'
 property :source, [String,nil], default: 'authoritative.init.debian.erb'
 property :config_dir, String, default: lazy { default_authoritative_config_directory }
 property :socket_dir, String, default: lazy { |resource| "/var/run/#{resource.instance_name}" }
-property :instances_dir, String, default: 'recursor.d'
 
 action :enable do
-  recursor_instance_dir = "#{new_resource.config_dir}/#{new_resource.instances_dir}/#{new_resource.instance_name}"
+  service 'pdns' do
+    provider Chef::Provider::Service::Init::Debian
+    action [:stop, :disable]
+  end
 
-  template "/etc/init.d/#{new_resource.instance_name}" do
+  template "/etc/init.d/pdns-authoritative-#{new_resource.instance_name}" do
     source new_resource.source
     owner 'root'
     group 'root'
     mode '0755'
     variables(
-      instance_name: new_resource.instance_name,
-      instance_dir: recursor_instance_dir,
       socket_dir: new_resource.socket_dir
       )
     cookbook new_resource.cookbook
     action :create
   end
 
-  service "pdns-authoritative-#{new_resource.instance_name}" do
+  service new_resource.instance_name do
     provider Chef::Provider::Service::Init::Debian
-    service_name 'pdns'
     pattern 'pdns_server'
     supports restart: true, status: true
     action :enable
@@ -63,9 +62,8 @@ action :enable do
 end
 
 action :start do
-  service "pdns-recursor-#{new_resource.instance_name}" do
+  service new_resource.instance_name do
     provider Chef::Provider::Service::Init::Debian
-    service_name 'pdns'
     pattern 'pdns_server'
     supports restart: true, status: true
     action :start
@@ -73,7 +71,7 @@ action :start do
 end
 
 action :stop do
-  service "pdns-authoritative-#{new_resource.instance_name}" do
+  service new_resource.instance_name do
     provider Chef::Provider::Service::Init::Debian
     service_name 'pdns'
     pattern 'pdns_server'
@@ -83,9 +81,8 @@ action :stop do
 end
 
 action :restart do
-  service "pdns-authoritative-#{new_resource.instance_name}" do
+  service new_resource.instance_name do
     provider Chef::Provider::Service::Init::Debian
-    service_name 'pdns'
     pattern 'pdns_server'
     supports restart: true, status: true
     action :restart
