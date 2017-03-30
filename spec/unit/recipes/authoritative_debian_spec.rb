@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'pdns_test::authoritative_install_single' do
+describe 'pdns_test::authoritative_install_single_bind' do
   context 'on ubuntu platform' do
     let(:ubuntu_runner) do
       ChefSpec::SoloRunner.new(
@@ -35,13 +35,13 @@ describe 'pdns_test::authoritative_install_single' do
     # Tests for the service resource
     #
 
-    xit 'creates a specific init script' do
-      expect(chef_run).to create_template('/etc/init.d/a_pdns_authoritative')
+    it 'creates a specific init script' do
+      expect(chef_run).to create_template('/etc/init.d/pdns-authoritative-server-01')
     end
 
-    xit 'enables and starts pdns_authoritative service' do
-      expect(chef_run).to enable_service('pdns-authoritative').with(pattern: 'pdns_server')
-      expect(chef_run).to start_service('pdns-authoritative').with(pattern: 'pdns_server')
+    it 'enables and starts pdns_authoritative service' do
+      expect(chef_run).to enable_service('server-01').with(pattern: 'pdns_server')
+      expect(chef_run).to restart_service('server-01').with(pattern: 'pdns_server')
     end
 
     #
@@ -67,13 +67,8 @@ describe 'pdns_test::authoritative_install_single' do
       expect(chef_run).to create_directory('/var/run/a_pdns_authoritative')
     end
 
-    xit 'creates a authoritative.d config directory' do
-      expect(chef_run).to create_directory('/etc/powerdns/authoritative.d/a_pdns_authoritative')
-      .with(owner: 'root', group: 'root', mode: '0755')
-    end
-
-    xit 'creates a authoritative instance config' do
-      expect(chef_run).to create_template('/etc/powerdns/authoritative.d/a_pdns_authoritative/authoritative.conf')
+    it 'creates a authoritative instance config' do
+      expect(chef_run).to create_template('/etc/powerdns/pdns-authoritative-server-01.conf')
       .with(owner: 'root', group: 'root', mode: '0640')
     end
 
