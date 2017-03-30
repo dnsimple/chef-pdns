@@ -24,7 +24,15 @@ suites:
     run_list:
       - recipe[pdns_test::recursor_install_multi]
     attributes:
-  - name: authoritative
+  - name: authoritative-bind
     run_list:
-      - recipe[pdns_test::authoritative_install_single]
+      - recipe[pdns_test::authoritative_install_single_bind]
+    attributes:
+  - name: authoritative-postgres
+    run_list:
+      - recipe[pdns_test::authoritative_install_single_postgres]
+    attributes:
+  - name: authoritative-multi
+    run_list:
+      - recipe[pdns_test::authoritative_install_multi]
     attributes:
