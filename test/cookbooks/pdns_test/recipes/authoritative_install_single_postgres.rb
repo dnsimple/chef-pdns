@@ -9,8 +9,8 @@ end
 
 pdns_authoritative_config 'server-01' do
   action :create
+  launch ['gpgsql']
   variables(
-    launch: ['gpgsql'],
     gpgsql_host: '127.0.0.1',
     gpgsql_user: 'pdns',
     gpgsql_port: 5432,
