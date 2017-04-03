@@ -22,7 +22,7 @@ describe group(default_run_user) do
 end
 
 describe processes('pdns_server-authoritative-server-01-instance') do
-  its ('users') { should eq ["#{default_run_user}"] }
+  its ('users') { should eq [default_run_user] }
 end
 
 describe command('dig chaos txt version.bind @127.0.0.1 +short') do
