@@ -21,20 +21,20 @@ example.org.           172800  IN      NS      ns1.example.org.
 smoke.example.org.     172800  IN      A       127.0.0.123
 EOF
 
-cookbook_file '/etc/powerdns/bindbackend.conf' do
-  source test_zonefile
-  owner 'group'
-  group 'group'
+file '/etc/powerdns/bindbackend.conf' do
+  content test_zonefile
+  owner 'pdns'
+  group 'pdns'
   mode '0750'
 end
 
-cookbook_file '/etc/powerdns/example.org.zone' do
-  source test_zone
-  owner 'group'
-  group 'group'
+file '/etc/powerdns/example.org.zone' do
+  content test_zone
+  owner 'pdns'
+  group 'pdns'
   mode '0750'
 end
 
 pdns_authoritative_service 'server-01' do
-  action :restart
+  action :start
 end
