@@ -10,6 +10,9 @@ setgid=<%= @setgid %>
 <% if @setuid %>
 setuid=<%= @setuid %>
 <% end %>
+<% if @launch %>
+launch=<%= @launch.join(',') %>
+<% end %>
 
 <% @variables.sort.each do |key, value| %>
 <% next if value.nil? %>

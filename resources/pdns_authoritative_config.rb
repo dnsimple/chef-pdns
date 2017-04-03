@@ -32,6 +32,7 @@ provides :pdns_authoritative_config, platform: 'centos' do |node| #~FC005
 end
 
 property :instance_name, String, name_property: true
+property :launch, [Array,nil], default: ['bind']
 property :config_dir, String, default: lazy { default_authoritative_config_directory }
 property :socket_dir, String, default: lazy { |resource| "/var/run/#{resource.instance_name}" }
 property :run_group, String, default: lazy { default_authoritative_run_user }
@@ -44,7 +45,7 @@ property :setgid, String, default: lazy { |resource| resource.run_group }
 property :instances_dir, [String,nil], default: 'authoritative.d'
 property :source, [String,nil], default: 'authoritative_service.conf.erb'
 property :cookbook, [String,nil], default: 'pdns'
-property :variables, [Hash], default: {}
+property :variables, [Hash], default: lazy { |resource| { bind_config:  "#{resource.config_dir}/bindbackend.conf" } }
 
 action :create do
   authoritative_instance_dir = "#{new_resource.config_dir}/#{new_resource.instances_dir}/#{new_resource.instance_name}"
@@ -93,6 +94,7 @@ action :create do
     mode '0640'
     variables(
       config_dir: authoritative_instance_dir,
+      launch: new_resource.launch,
       socket_dir: new_resource.socket_dir,
       setuid: new_resource.setuid,
       setgid: new_resource.setgid,
