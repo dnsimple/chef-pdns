@@ -53,7 +53,7 @@ action :enable do
     action :create
   end
 
-  service new_resource.instance_name do
+  service "pdns-authoritative-#{new_resource.instance_name}" do
     provider Chef::Provider::Service::Init::Debian
     pattern 'pdns_server'
     supports restart: true, status: true
@@ -62,7 +62,7 @@ action :enable do
 end
 
 action :start do
-  service new_resource.instance_name do
+  service "pdns-authoritative-#{new_resource.instance_name}" do
     provider Chef::Provider::Service::Init::Debian
     pattern 'pdns_server'
     supports restart: true, status: true
@@ -71,9 +71,8 @@ action :start do
 end
 
 action :stop do
-  service new_resource.instance_name do
+  service "pdns-authoritative-#{new_resource.instance_name}" do
     provider Chef::Provider::Service::Init::Debian
-    service_name 'pdns'
     pattern 'pdns_server'
     supports restart: true, status: true
     action :stop
@@ -81,7 +80,7 @@ action :stop do
 end
 
 action :restart do
-  service new_resource.instance_name do
+  service "pdns-authoritative-#{new_resource.instance_name}" do
     provider Chef::Provider::Service::Init::Debian
     pattern 'pdns_server'
     supports restart: true, status: true
