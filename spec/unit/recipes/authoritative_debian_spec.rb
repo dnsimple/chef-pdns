@@ -40,8 +40,8 @@ describe 'pdns_test::authoritative_install_single_bind' do
     end
 
     it 'enables and starts pdns_authoritative service' do
-      expect(chef_run).to enable_service('server-01').with(pattern: 'pdns_server')
-      expect(chef_run).to restart_service('server-01').with(pattern: 'pdns_server')
+      expect(chef_run).to enable_service('pdns-authoritative-server-01').with(pattern: 'pdns_server')
+      expect(chef_run).to start_service('pdns-authoritative-server-01').with(pattern: 'pdns_server')
     end
 
     #
