@@ -1,30 +1,30 @@
-pdns_authoritative_install 'a-pdns-authoritative' do
+pdns_authoritative_install 'server-01' do
   action :install
   version authoritative_version_per_platform
 end
 
-pdns_authoritative_service 'a-pdns-authoritative' do
+pdns_authoritative_service 'server-01' do
   action :enable
 end
 
-pdns_authoritative_config 'a-pdns-authoritative' do
+pdns_authoritative_config 'server-01' do
   action :create
 end
 
-pdns_authoritative_service 'a-pdns-authoritative' do
+pdns_authoritative_service 'server-01' do
   action :restart
 end
 
-pdns_authoritative_install 'another-pdns-authoritative' do
+pdns_authoritative_install 'server-02' do
   action :install
   version authoritative_version_per_platform
 end
 
-pdns_authoritative_service 'another-pdns-authoritative' do
+pdns_authoritative_service 'server-02' do
   action :enable
 end
 
-pdns_authoritative_config 'another-pdns-authoritative' do
+pdns_authoritative_config 'server-02' do
   action :create
   run_user 'another-pdns'
   run_group 'another-pdns'
@@ -34,6 +34,6 @@ pdns_authoritative_config 'another-pdns-authoritative' do
   )
 end
 
-pdns_authoritative_service 'another-pdns-authoritative' do
+pdns_authoritative_service 'server-02' do
   action :restart
 end
