@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: pdns
-# Resources:: pdns_recursor_service
+# Resources:: pdns_authoritative_service
 #
 # Copyright 2017, Aetrion, LLC DBA DNSimple
 #
@@ -17,23 +17,23 @@
 # limitations under the License.
 #
 
-resource_name :pdns_recursor_service_rhel_sysvinit
+resource_name :pdns_authoritative_service_rhel_sysvinit
 
-provides :pdns_recursor_service_sysvinit
+provides :pdns_authoritative_service_sysvinit
 
-provides :pdns_recursor_service, platform: 'centos' do |node|
+provides :pdns_authoritative_service, platform: 'centos' do |node|
   node['platform_version'].to_i == 6
 end
 
 property :instance_name, String, name_property: true
 property :cookbook, [String,nil], default: 'pdns'
-property :source, [String,nil], default: 'recursor.init.rhel.erb'
-property :config_dir, String, default: lazy { default_recursor_config_directory }
+property :source, [String,nil], default: 'authoritative.init.rhel.erb'
+property :config_dir, String, default: lazy { default_authoritative_config_directory }
 property :socket_dir, String, default: lazy { |resource| "/var/run/#{resource.instance_name}" }
-property :instances_dir, String, default: 'recursor.d'
+property :instances_dir, String, default: 'authoritative.d'
 
 action :enable do
-  recursor_instance_dir = "#{new_resource.config_dir}/#{new_resource.instances_dir}/#{new_resource.instance_name}"
+  authoritative_instance_dir = "#{new_resource.config_dir}/#{new_resource.instances_dir}/#{new_resource.instance_name}"
 
   template "/etc/init.d/#{new_resource.instance_name}" do
     source new_resource.source
@@ -42,43 +42,43 @@ action :enable do
     mode '0755'
     variables(
       instance_name: new_resource.instance_name,
-      instance_dir: recursor_instance_dir,
+      instance_dir: authoritative_instance_dir,
       socket_dir: new_resource.socket_dir
       )
     cookbook new_resource.cookbook
     action :create
   end
 
-  service "pdns-recursor-#{new_resource.instance_name}" do
-    service_name 'pdns-recursor'
-    pattern 'pdns_recursor'
+  service "pdns-authoritative-#{new_resource.instance_name}" do
+    service_name 'pdns-authoritative'
+    pattern 'pdns_server'
     supports restart: true, status: true
     action :enable
   end
 end
 
 action :start do
-  service "pdns-recursor-#{new_resource.instance_name}" do
-    service_name 'pdns-recursor'
-    pattern 'pdns_recursor'
+  service "pdns-authoritative-#{new_resource.instance_name}" do
+    service_name 'pdns-authoritative'
+    pattern 'pdns_server'
     supports restart: true, status: true
     action :start
   end
 end
 
 action :stop do
-  service "pdns-recursor-#{new_resource.instance_name}" do
-    service_name 'pdns-recursor'
-    pattern 'pdns_recursor'
+  service "pdns-authoritative-#{new_resource.instance_name}" do
+    service_name 'pdns-authoritative'
+    pattern 'pdns_server'
     supports restart: true, status: true
     action :stop
   end
 end
 
 action :restart do
-  service "pdns-recursor-#{new_resource.instance_name}" do
-    service_name 'pdns-recursor'
-    pattern 'pdns_recursor'
+  service "pdns-authoritative-#{new_resource.instance_name}" do
+    service_name 'pdns-authoritative'
+    pattern 'pdns_server'
     supports restart: true, status: true
     action :restart
   end
