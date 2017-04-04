@@ -30,19 +30,19 @@ property :cookbook, [String,nil], default: 'pdns'
 property :source, [String,nil], default: 'authoritative.init.rhel.erb'
 property :config_dir, String, default: lazy { default_authoritative_config_directory }
 property :socket_dir, String, default: lazy { |resource| "/var/run/#{resource.instance_name}" }
-property :instances_dir, String, default: 'authoritative.d'
 
 action :enable do
-  authoritative_instance_dir = "#{new_resource.config_dir}/#{new_resource.instances_dir}/#{new_resource.instance_name}"
+  service 'pdns' do
+    provider Chef::Provider::Service::Init::Redhat
+    action [:stop, :disable]
+  end
 
-  template "/etc/init.d/#{new_resource.instance_name}" do
+  template "/etc/init.d/pdns-authoritative-#{new_resource.instance_name}" do
     source new_resource.source
     owner 'root'
     group 'root'
     mode '0755'
     variables(
-      instance_name: new_resource.instance_name,
-      instance_dir: authoritative_instance_dir,
       socket_dir: new_resource.socket_dir
       )
     cookbook new_resource.cookbook
@@ -50,7 +50,7 @@ action :enable do
   end
 
   service "pdns-authoritative-#{new_resource.instance_name}" do
-    service_name 'pdns-authoritative'
+    provider Chef::Provider::Service::Init::Redhat
     pattern 'pdns_server'
     supports restart: true, status: true
     action :enable
@@ -59,7 +59,7 @@ end
 
 action :start do
   service "pdns-authoritative-#{new_resource.instance_name}" do
-    service_name 'pdns-authoritative'
+    provider Chef::Provider::Service::Init::Redhat
     pattern 'pdns_server'
     supports restart: true, status: true
     action :start
@@ -68,7 +68,7 @@ end
 
 action :stop do
   service "pdns-authoritative-#{new_resource.instance_name}" do
-    service_name 'pdns-authoritative'
+    provider Chef::Provider::Service::Init::Redhat
     pattern 'pdns_server'
     supports restart: true, status: true
     action :stop
@@ -77,7 +77,7 @@ end
 
 action :restart do
   service "pdns-authoritative-#{new_resource.instance_name}" do
-    service_name 'pdns-authoritative'
+    provider Chef::Provider::Service::Init::Redhat
     pattern 'pdns_server'
     supports restart: true, status: true
     action :restart
