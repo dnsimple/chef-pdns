@@ -25,10 +25,6 @@ provides :pdns_authoritative_service, platform: 'ubuntu' do |node|
   node['platform_version'].to_f == 14.04
 end
 
-provides :pdns_authoritative_service, platform: 'debian' do |node|
-  node['platform_version'].to_i >= 8
-end
-
 property :instance_name, String, name_property: true
 property :cookbook, [String,nil], default: 'pdns'
 property :source, [String,nil], default: 'authoritative.init.debian.erb'
