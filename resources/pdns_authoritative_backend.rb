@@ -20,7 +20,7 @@
 resource_name :pdns_authoritative_backend
 
 provides :pdns_authoritative_backend, platform: 'ubuntu' do |node| #~FC005
-  node['platform_version'].to_f >= 14.04
+  node['platform_version'].to_f == 14.04
 end
 
 provides :pdns_authoritative_backend, platform: 'debian' do |node| #~FC005

@@ -22,7 +22,7 @@ resource_name :pdns_authoritative_service_debian_sysvinit
 provides :pdns_authoritative_service_sysvinit
 
 provides :pdns_authoritative_service, platform: 'ubuntu' do |node|
-  node['platform_version'].to_f >= 14.04
+  node['platform_version'].to_f == 14.04
 end
 
 provides :pdns_authoritative_service, platform: 'debian' do |node|
