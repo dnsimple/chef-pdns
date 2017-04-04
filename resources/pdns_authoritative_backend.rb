@@ -23,7 +23,7 @@ provides :pdns_authoritative_backend, platform: 'ubuntu' do |node| #~FC005
   node['platform_version'].to_f == 14.04
 end
 
-provides :pdns_authoritative_install, platform: 'centos' do |node| #~FC005
+provides :pdns_authoritative_backend, platform: 'centos' do |node| #~FC005
   node['platform_version'].to_i >= 6
 end
 
