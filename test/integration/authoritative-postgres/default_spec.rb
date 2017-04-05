@@ -26,7 +26,7 @@ describe processes('pdns_server-authoritative-server-01-instance') do
 end
 
 describe command('dig chaos txt version.bind @127.0.0.1 +short') do
-  its('stdout.chomp') { should match('"PowerDNS Authoritative Server 4.0.3 (built Jan 17 2017 09:06:22 by root@d087975b3e20)"') }
+  its('stdout.chomp') { should match(/"PowerDNS Authoritative Server 4.0.3/) }
 end
 
 describe command('dig @127.0.0.1 smoke.example.org') do
