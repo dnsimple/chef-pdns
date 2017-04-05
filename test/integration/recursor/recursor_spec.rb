@@ -9,16 +9,16 @@ describe port(53) do
   its('processes') { should include 'pdns_recursor' }
 end
 
-describe user(default_recusor_run_user) do
+describe user(default_recursor_run_user) do
   it { should exist }
 end
 
-describe group(default_recusor_run_user) do
+describe group(default_recursor_run_user) do
   it { should exist }
 end
 
 describe processes('pdns_recursor') do
-  its ('users') { should eq [default_recusor_run_user] }
+  its ('users') { should eq [default_recursor_run_user] }
 end
 
 describe command('dig @127.0.0.1 dnsimple.com') do

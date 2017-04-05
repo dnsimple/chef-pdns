@@ -9,16 +9,16 @@ describe port(53) do
   its('processes') { should match([/pdns_server/]) }
 end
 
-describe user('pdns') do
+describe user(default_authoritative_run_user) do
   it { should exist }
 end
 
-describe group('pdns') do
+describe group(default_authoritative_run_user) do
   it { should exist }
 end
 
 describe processes('pdns_server-authoritative-server-01-instance') do
-  its ('users') { should eq ['pdns'] }
+  its ('users') { should eq [default_authoritative_run_user] }
 end
 
 describe command('dig chaos txt version.bind @127.0.0.1 +short') do
