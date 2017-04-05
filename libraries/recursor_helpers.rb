@@ -1,8 +1,8 @@
 #
 # Cookbook Name:: pdns
-# Recipe:: default
+# Libraries:: helpers
 #
-# Copyright 2014-2016, Aetrion, LLC.
+# Copyright 2014, Aetrion, LLC.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -16,3 +16,29 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+def default_config_directory
+  case node['platform_family']
+  when 'debian'
+    '/etc/powerdns'
+  when 'rhel'
+    '/etc/powerdns-recursor'
+  end
+end
+
+def default_run_user
+  case node['platform_family']
+  when 'debian'
+    'pdns'
+  when 'rhel'
+    'pdns-recursor'
+  end
+end
+
+def default_user_attributes
+  case node['platform_family']
+  when 'debian'
+    { home: '/var/spool/powerdns', shell: '/bin/false' }
+  when 'rhel'
+    { home: '/', shell: '/sbin/nologin' }
+  end
+end
