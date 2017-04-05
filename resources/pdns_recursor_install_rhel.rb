@@ -64,6 +64,5 @@ end
 action :uninstall do
   yum_package 'pdns-recursor' do
     action :remove
-    version new_resource.version
   end
 end
