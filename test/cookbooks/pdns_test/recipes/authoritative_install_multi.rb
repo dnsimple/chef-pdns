@@ -1,3 +1,5 @@
+package 'bind-utils' if node['platform_family'] == 'rhel'
+
 pdns_authoritative_install 'server-01' do
   action :install
   version authoritative_version_per_platform
