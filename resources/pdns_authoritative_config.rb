@@ -42,14 +42,11 @@ property :run_user_shell, String, default: lazy { default_user_attributes[:shell
 property :setuid, String, default: lazy { |resource| resource.run_user }
 property :setgid, String, default: lazy { |resource| resource.run_group }
 
-property :instances_dir, [String,nil], default: 'authoritative.d'
 property :source, [String,nil], default: 'authoritative_service.conf.erb'
 property :cookbook, [String,nil], default: 'pdns'
 property :variables, [Hash], default: lazy { |resource| { bind_config:  "#{resource.config_dir}/bindbackend.conf" } }
 
 action :create do
-  authoritative_instance_dir = "#{new_resource.config_dir}/#{new_resource.instances_dir}/#{new_resource.instance_name}"
-
   directory new_resource.config_dir do
     owner 'root'
     group 'root'
@@ -78,14 +75,6 @@ action :create do
     action :create
   end
 
-  directory authoritative_instance_dir do
-    owner 'root'
-    group 'root'
-    mode '0755'
-    recursive true
-    action :create
-  end
-
   template "#{new_resource.config_dir}/pdns-authoritative-#{new_resource.instance_name}.conf" do
     source new_resource.source
     cookbook new_resource.cookbook
@@ -93,7 +82,6 @@ action :create do
     group 'root'
     mode '0640'
     variables(
-      config_dir: authoritative_instance_dir,
       launch: new_resource.launch,
       socket_dir: new_resource.socket_dir,
       setuid: new_resource.setuid,
