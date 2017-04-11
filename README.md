@@ -175,6 +175,8 @@ end
 
 Creates a init service to manage a PowerDNS authoritative instance. This service supports all the regular actions (start, stop, restart, etc.). Check the compatibility section to see which init services are supported.
 
+*Important:* services not restarted or reloaded automatically on config changes in this cookbook, you need to add this in your wrapper cookbook if you desire this functionality, the `pdns_authoritative_service` cookbook provides actions to do it.
+
 #### Properties
 
 | Name           | Class       |  Default value                                        | Consistent? |
@@ -237,7 +239,10 @@ Install a 4. powerdns instance named 'my-recursor' on ubuntu 14.04:
 
 ### pdns_recursor_service
 
-Sets up a PowerDNS recursor instance using the appropiate init system (SysV Init for now).
+Sets up a PowerDNS recursor instance using the appropiate init system .
+
+*Important:* services not restarted or reloaded automatically on config changes in this cookbook, you need to add this in your wrapper cookbook if you desire this functionality, the `pdns_recursor_service` cookbook provides actions to do it.
+
 
 #### Properties
 
