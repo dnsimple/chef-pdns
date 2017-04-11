@@ -4,7 +4,13 @@ Provides resources for installing and configuring both PowerDNS authoritative an
 
 ## Requirements
 
-IMPORTANT: Please read the Compatibility Notes version below since there is breaking changes between 2 and 3 versions of this cookbook.
+IMPORTANT: Please read the Deprecations and Compatibility Notes sections below since there is breaking changes between 2 and 3 versions of this cookbook.
+
+### Deprecations
+
+  - The recipe and attribute based way of setting different PowerDNS installs is completely deprecated, there is not  attributes in the newest version of this cookbok and just a simple empty `default` recipe.
+  - `pdnsrecord` and `domainrecord` resources have been deprecated since they were coupled with sqlite3 backend.
+  - Ubuntu 12.02 support has been removed, if you want this platform to be supported PRs are welcome, see Contributing  section at the end of this document.
 
 ### Compatibility Notes
 
