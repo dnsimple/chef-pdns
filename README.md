@@ -21,7 +21,6 @@ TLDR:
 BREAKING CHANGES, Please pin your PowerDNS installs pin your cookbook to the latest 2.5.0 version. We also advise to read this document carefully.
 **
 
-
 The current version of the cookbook provides basic support for recursors and authoritative servers with a handful of platforms, backends and init systems supported. You can find what is supported in this table:
 
 
@@ -196,7 +195,9 @@ end
 
 ### pdns_authoritative_backend
 
-Installs one backend package for the PowerDNS authoritative server. You'll still need to install and configure the backend itself in your wrapper cookbook.
+Installs one backend package for the PowerDNS authoritative server. You'll still need to install and configure the backend itself in your wrapper cookbook. You can see the list of available backends supported in every platform in `libraries/authoritative_helpers.rb` 
+
+Please review [PowerDNS documentation section](https://doc.powerdns.com/) to understand specific naming and settings for every backend since they differ.
 
 #### Properties
 
