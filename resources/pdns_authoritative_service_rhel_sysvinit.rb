@@ -22,7 +22,7 @@ resource_name :pdns_authoritative_service_rhel_sysvinit
 provides :pdns_authoritative_service_sysvinit
 
 provides :pdns_authoritative_service, platform: 'centos' do |node|
-  node['platform_version'].to_i == 6
+  node['platform_version'].to_i >= 6
 end
 
 property :instance_name, String, name_property: true
