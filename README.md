@@ -40,7 +40,7 @@ The current version of the cookbook provides basic support for recursors and aut
 
 ### Init Systems:
 
-Only SysVinit is supported for now, Systemd is next, and along it other platforms such us Debian 8, Ubuntu 16.04 and CentOS 7.2 will be available.
+Only SysVinit is supported for now, Systemd is next to come.
 
 ### Required Cookbooks:
 
