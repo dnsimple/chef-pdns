@@ -23,6 +23,10 @@ provides :pdns_authoritative_install, platform: 'ubuntu' do |node|
   node['platform_version'].to_f == 14.04
 end
 
+provides :pdns_authoritative_install, platform: 'debian' do |node|
+  node['platform_version'].to_i >= 8
+end
+
 property :instance_name, String, name_property: true
 property :version, [String, nil], default: nil
 property :debug, [true, false], default: false

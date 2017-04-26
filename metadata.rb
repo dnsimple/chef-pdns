@@ -11,7 +11,8 @@ issues_url       'https://github.com/dnsimple/chef-pdns/issues'
 chef_version '>= 12.5'
 
 supports 'ubuntu', '= 14.04'
-supports 'centos', '= 6.8'
+supports 'debian', '>= 8'
+supports 'centos', '>= 6'
 
 depends 'apt'
 depends 'yum'
