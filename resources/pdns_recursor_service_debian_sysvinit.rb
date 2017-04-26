@@ -22,7 +22,7 @@ resource_name :pdns_recursor_service_debian_sysvinit
 provides :pdns_recursor_service_sysvinit
 
 provides :pdns_recursor_service, platform: 'ubuntu' do |node|
-  node['platform_version'].to_f == 14.04
+  node['platform_version'].to_f >= 14.04
 end
 
 provides :pdns_recursor_service, platform: 'debian' do |node|

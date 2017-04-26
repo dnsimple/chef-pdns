@@ -20,7 +20,7 @@
 resource_name :pdns_authoritative_install_debian
 
 provides :pdns_authoritative_install, platform: 'ubuntu' do |node|
-  node['platform_version'].to_f == 14.04
+  node['platform_version'].to_f >= 14.04
 end
 
 provides :pdns_authoritative_install, platform: 'debian' do |node|
