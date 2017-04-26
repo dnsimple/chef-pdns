@@ -22,7 +22,7 @@ resource_name :pdns_recursor_service_rhel_sysvinit
 provides :pdns_recursor_service_sysvinit
 
 provides :pdns_recursor_service, platform: 'centos' do |node|
-  node['platform_version'].to_i == 6
+  node['platform_version'].to_i >= 6
 end
 
 property :instance_name, String, name_property: true
