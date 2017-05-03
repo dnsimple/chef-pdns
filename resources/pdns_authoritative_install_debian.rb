@@ -2,7 +2,7 @@
 # Cookbook Name:: pdns
 # Resources:: pdns_authoritative_install_debian
 #
-# Copyright 2016, Aetrion, LLC DBA DNSimple
+# Copyright 2014-2017 Aetrion LLC. dba DNSimple
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.

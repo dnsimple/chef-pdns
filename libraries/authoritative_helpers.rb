@@ -2,7 +2,7 @@
 # Cookbook Name:: pdns
 # Libraries:: authoritive_helpers
 #
-# Copyright 2014, Aetrion, LLC.
+# Copyright 2014-2017 Aetrion LLC. dba DNSimple
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
