@@ -10,7 +10,7 @@ IMPORTANT: Please read the Deprecations and Compatibility Notes sections below s
 
   - The recipe and attribute based way of setting different PowerDNS installs is completely deprecated, there are no  attributes in the newest version of this cookbok neither recipes to add to the run list.
   - `pdnsrecord` and `domainrecord` resources have been deprecated since they were coupled with sqlite3 backend.
-  - Ubuntu 12.02 support has been removed, if you want this platform to be supported PRs are welcome, see Contributing  section at the end of this document.
+  - Ubuntu 12.02 support has been removed, if you want this platform to be supported PRs are welcome, see the CONTRIBUTING.md file.
 
 ### Compatibility Notes
 
@@ -304,7 +304,12 @@ Create a PowerDNS recursor configuration named 'my-recursor' in your wrapper coo
 
 ## Contributing
 
-We are happy to accept contributions to this cookbook in form of bug fixes, new backends, init services, or platform support. We believe that barriers to contributing to this cookbook has been lowered since the release of the 3.0, resource based version. Please use the normal PR workflow for contributing. We will favour PRs with tests for the changes, we use both Chefspec and Inspec testing framewowrks.
+There is an specific file for contributing guidelines on this cokbook: CONTRIBUTING.md
+
+## Testing
+
+There is an specific file for testing guidelines on this cokbook: TESTING.md
+
 
 License & Authors
 -----------------
