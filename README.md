@@ -4,17 +4,17 @@ Provides resources for installing and configuring both PowerDNS authoritative an
 
 ## Requirements
 
-IMPORTANT: Please read the Deprecations and Compatibility Notes sections below since there is breaking changes between 2 and 3 versions of this cookbook.
+IMPORTANT: Please read the Deprecations and Compatibility Notes sections below since there are breaking changes between versions 2 and 3 of this cookbook.
 
 ### Deprecations
 
-  - The recipe and attribute based way of setting different PowerDNS installs is completely deprecated, there is not  attributes in the newest version of this cookbok and just a simple empty `default` recipe.
+  - The recipe and attribute based way of setting different PowerDNS installs is completely deprecated, there are no  attributes in the newest version of this cookbok neither recipes to add to the run list.
   - `pdnsrecord` and `domainrecord` resources have been deprecated since they were coupled with sqlite3 backend.
   - Ubuntu 12.02 support has been removed, if you want this platform to be supported PRs are welcome, see Contributing  section at the end of this document.
 
 ### Compatibility Notes
 
-**This cookbook is being completely rewritten, transitioning from an attribute centric design to a newer resource based design. 
+**This cookbook has been completely rewritten, transitioning from an attribute recipe based design to a newer resource based design. 
 
 TLDR: 
 
@@ -53,7 +53,7 @@ Only SysVinit is supported for now, Systemd is next to come.
 
 ## Usage
 
-Combine the different resources in order to install, configure and manage your PowerDNS instances. This is a list of resouces that can be used:
+Combine the different resources in order to install, configure, and manage your PowerDNS instances. This is a list of resouces that can be used:
 
   | Resource                            | Functionality                                     |
   |-------------------------------------|---------------------------------------------------|
@@ -65,15 +65,15 @@ Combine the different resources in order to install, configure and manage your P
   | pdns_recursor_config                | Configures a recursor instance                    |
   | pdns_recursor_service               | Manages a a recursor instance                     | 
 
-To fully configure an authoritative server you need to add at least 3 resources to your run list, `pdns_authoritative_install`, `pdns_authoritative_config` and `pdns_authoritative_service`. If you want to install any backend than the default (bind) for the authoritative server you need to add a fourth resource: `pdns_authoritative_backend`. There is a some good usage examples on `test/cookbooks/pdns_test/recipes/`.
+To fully configure an authoritative server you need to add at least 3 resources to your recipe, `pdns_authoritative_install`, `pdns_authoritative_config` and `pdns_authoritative_service`. If you want to install any backend other than the default (bind) for the authoritative server you need to add a fourth resource: `pdns_authoritative_backend`. There are some good usage examples in `test/cookbooks/pdns_test/recipes/`.
 
-For a recursor use the `pdns_recursor_install`, `pdns_recursor_config`, and `pdns_recursor_service` resources in your wrapper cookbooks to install, configure, and define PowerDNS recursors. Set the different properties on the resources according to your install and configuration needs. You can see a good example on this on `test/cookbooks/pdns_test/recipes_recursor_install_single.rb`
+For a recursor use the `pdns_recursor_install`, `pdns_recursor_config`, and `pdns_recursor_service` resources in your wrapper cookbooks to install, configure, and define PowerDNS recursors. Set the different properties on the resources according to your install and configuration needs. You can see a good example on this in `test/cookbooks/pdns_test/recipes_recursor_install_single.rb`
 
 For advanced use it is recommended to take a look at the chef resources themselves.
 
 ### Properties
 
-PowerDNS uses hyphens `-` in their configuration files, chef resources and ruby symbols don't get very well with hyphens, so using underscore `_` in this cookbook for properties is required and will be tranlated automatically to hyphens in the configuration templates, example:
+PowerDNS uses hyphens `-` in their configuration files, chef resources and ruby symbols don't work very well with hyphens, so using underscore `_` in this cookbook for properties is required and will be tranlated automatically to hyphens in the configuration templates, example:
 
 ```
 pdns_authoritative_config 'server-01' do
@@ -89,7 +89,7 @@ pdns_authoritative_config 'server-01' do
 end
 ```
 
-Will become in `/etc/powerdns/pdns-authoritative-server-01.conf`: 
+Will create a file named `/etc/powerdns/pdns-authoritative-server-01.conf`: 
 
 ```
 launch ['gpgsql']
@@ -100,10 +100,10 @@ gpgsql-dbname=pdns
 gpgsql-password=wadus
 ```
 
-Most properties are simple ruby strings, but there is another cases that need attention.
-Properties specified as elements in arrays will be splitted up (see split ruby method) and separated by commas.
+Most properties are simple ruby strings, but there is another cases that require special attention.
+Properties specified as elements in arrays will be split up (see split ruby method) and separated by commas.
 Boolean properties will be always translated to 'yes' or 'no'.
-Some properties need to set consistently accross resources, they will be noted in their specific sections. 
+Some properties need to be set consistently accross resources, they will be noted in their specific sections. 
 Most of the properties are optional and have sane defaults, so they are only recommended for customized installs.
 
 ### pdns_authoritative_install
@@ -148,7 +148,7 @@ Creates a PowerDNS recursor configuration, there is a fixed set of required prop
 | setgid         | String     | resource.run_group | No |
 | source         | String,nil | 'authoritative_service.conf.erb' | No |
 | cookbook       | String,nil | 'pdns' | No |
-| variables      | Hash]      | { bind_config:  "#{resource.config_dir}/bindbackend.conf" } | No |
+| variables      | Hash       | { bind_config:  "#{resource.config_dir}/bindbackend.conf" } | No |
 
 #### Usage Example
 
@@ -175,7 +175,7 @@ end
 
 Creates a init service to manage a PowerDNS authoritative instance. This service supports all the regular actions (start, stop, restart, etc.). Check the compatibility section to see which init services are supported.
 
-*Important:* services not restarted or reloaded automatically on config changes in this cookbook, you need to add this in your wrapper cookbook if you desire this functionality, the `pdns_authoritative_service` cookbook provides actions to do it.
+*Important:* services are not restarted or reloaded automatically on config changes in this cookbook, you need to add this in your wrapper cookbook if you desire this functionality, the `pdns_authoritative_service` cookbook provides actions to do it.
 
 #### Properties
 
