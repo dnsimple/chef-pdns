@@ -1,4 +1,4 @@
-name             'chef-pdns'
+name             'pdns'
 maintainer       'Aetrion, LLC DBA DNSimple'
 maintainer_email 'ops@dnsimple.com'
 license          'Apache 2.0'
