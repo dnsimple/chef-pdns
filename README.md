@@ -47,6 +47,9 @@ Installs PowerDNS recursor 4.X series using PowerDNS official repository in the 
 
 - `version`: Which version is installed, defaults to the latest version available in the repository.
 - `debug`: (CentOS only), installs debug-symbols from PowerDNS debug repository.
+- `baseurl`: (CentOS only), set the PowerDNS repository URL (Default: 'http://repo.powerdns.com/centos/$basearch/$releasever/rec-40')
+- `gpgkey`: (CentOS only), set the PowerDNS repository gpg key URL (Default: 'https://repo.powerdns.com/FD380FBB-pub.asc')
+- `baseurl_debug`: (CentOS only), set the PowerDNS debug repository URL (Default: 'http://repo.powerdns.com/centos/$basearch/$releasever/rec-40/debug')
 
 #### Usage Example
 
