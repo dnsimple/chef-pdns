@@ -26,6 +26,9 @@ end
 property :instance_name, String, name_property: true
 property :version, [String, nil], default: nil
 property :debug, [true, false], default: false
+property :baseurl, String, default: 'http://repo.powerdns.com/centos/$basearch/$releasever/auth-40'
+property :gpgkey, String, default: 'https://repo.powerdns.com/CBC8B383-pub.asc'
+property :baseurl_debug, String, default: 'http://repo.powerdns.com/centos/$basearch/$releasever/auth-40/debug'
 
 action :install do
   yum_package 'epel-release' do
@@ -33,19 +36,21 @@ action :install do
     only_if { node['platform_version'].to_i == 6 }
   end
 
-  yum_repository 'powerdns-auth-40' do
-    description 'PowerDNS repository for PowerDNS Authoritative - version 4.0.X'
-    baseurl 'http://repo.powerdns.com/centos/$basearch/$releasever/auth-40'
-    gpgkey 'https://repo.powerdns.com/FD380FBB-pub.asc'
+  repository_version = new_resource.baseurl.split('/').last
+
+  yum_repository "powerdns-#{repository_version}" do
+    description "PowerDNS repository for PowerDNS Authoritative - #{repository_version}"
+    baseurl new_resource.baseurl
+    gpgkey new_resource.gpgkey
     priority '90'
     includepkgs 'pdns*'
     action :create
   end
 
-  yum_repository 'powerdns-auth-40-debuginfo' do
-    description 'PowerDNS repository for PowerDNS Authoritative - version 4.0.X debug symbols'
-    baseurl 'http://repo.powerdns.com/centos/$basearch/$releasever/auth-40/debug'
-    gpgkey 'https://repo.powerdns.com/FD380FBB-pub.asc'
+  yum_repository "powerdns-#{repository_version}-debuginfo" do
+    description "PowerDNS repository for PowerDNS Authoritative - #{repository_version} debug symbols"
+    baseurl new_resource.baseurl_debug
+    gpgkey new_resource.gpgkey
     priority '90'
     includepkgs 'pdns*'
     action :create
