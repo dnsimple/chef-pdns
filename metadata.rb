@@ -16,3 +16,4 @@ supports 'centos', '>= 6'
 
 depends 'apt'
 depends 'yum'
+depends 'systemd'

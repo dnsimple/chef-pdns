@@ -41,13 +41,11 @@ property :run_user_shell, String, default: lazy { default_user_attributes[:shell
 property :setuid, String, default: lazy { |resource| resource.run_user }
 property :setgid, String, default: lazy { |resource| resource.run_group }
 
-property :instances_dir, [String,nil], default: 'recursor.d'
 property :source, [String,nil], default: 'recursor_service.conf.erb'
 property :cookbook, [String,nil], default: 'pdns'
 property :variables, [Hash], default: {}
 
 action :create do
-  recursor_instance_dir = "#{new_resource.config_dir}/#{new_resource.instances_dir}/#{new_resource.instance_name}"
 
   directory new_resource.config_dir do
     owner 'root'
@@ -77,22 +75,13 @@ action :create do
     action :create
   end
 
-  directory recursor_instance_dir do
-    owner 'root'
-    group 'root'
-    mode '0755'
-    recursive true
-    action :create
-  end
-
-  template "#{recursor_instance_dir}/recursor.conf" do
+  template "#{new_resource.config_dir}/recursor-#{new_resource.instance_name}.conf" do
     source new_resource.source
     cookbook new_resource.cookbook
     owner 'root'
     group 'root'
     mode '0640'
     variables(
-      config_dir: recursor_instance_dir,
       socket_dir: new_resource.socket_dir,
       setuid: new_resource.setuid,
       setgid: new_resource.setgid,
