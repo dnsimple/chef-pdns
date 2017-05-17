@@ -30,8 +30,8 @@ provides :pdns_authoritative_service, platform: 'debian' do |node|
 end
 
 property :instance_name, String, name_property: true
-property :cookbook, [String,nil], default: 'pdns'
-property :source, [String,nil], default: 'authoritative.init.debian.erb'
+property :cookbook, String, default: 'pdns'
+property :source, String, default: 'authoritative.init.debian.erb'
 property :config_dir, String, default: lazy { default_authoritative_config_directory }
 property :socket_dir, String, default: lazy { |resource| "/var/run/#{resource.instance_name}" }
 
