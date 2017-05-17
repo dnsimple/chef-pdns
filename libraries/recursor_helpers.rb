@@ -21,7 +21,7 @@ def default_recursor_config_directory
   when 'debian'
     '/etc/powerdns'
   when 'rhel'
-    '/etc/powerdns-recursor'
+    '/etc/pdns-recursor'
   end
 end
 
@@ -41,4 +41,8 @@ def default_user_attributes
   when 'rhel'
     { home: '/', shell: '/sbin/nologin' }
   end
+end
+
+def recursor_instance_service_name(name = nil)
+  %W[pdns_recursor #{name}].join('-')
 end
