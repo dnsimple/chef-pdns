@@ -66,10 +66,6 @@ describe 'pdns_test::authoritative_install_single_bind' do
       .with(members: ['pdns'], system: true)
     end
 
-    xit 'creates a pdns authoritative socket directory' do
-      expect(chef_run).to create_directory('/var/run/pdns-authoritative-server-01')
-    end
-
     it 'creates a authoritative instance config' do
       expect(chef_run).to create_template('/etc/pdns/pdns-authoritative-server-01.conf')
       .with(owner: 'root', group: 'root', mode: '0640')
