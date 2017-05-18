@@ -117,6 +117,9 @@ Installs PowerDNS authoritative server 4.X series using PowerDNS official reposi
 | instance_name | String      | name_property  | Yes|
 | version       | String, nil | nil            | No |
 | debug         | true, false | false          | No |
+| baseurl (CentOS only) | String      | http://repo.powerdns.com/centos/$basearch/$releasever/rec-40 | No |
+| gpgkeys (CentOS only) | String      |  https://repo.powerdns.com/FD380FBB-pub.asc | No |
+| baseurl_debug (CentOS only) | String | http://repo.powerdns.com/centos/$basearch/$releasever/rec-40/debug | No |
 
 #### Usage example
 
@@ -207,6 +210,10 @@ Please review [PowerDNS documentation section](https://doc.powerdns.com/) to und
 |----------------|------------|-----------------|-------------|
 | instance_name  | String     | name_property   | No |
 | version        | String, nil| nil             | No |
+| debug         | true, false | false          | No |
+| baseurl (CentOS only) | String      | http://repo.powerdns.com/centos/$basearch/$releasever/auth-40 | No |
+| gpgkeys (CentOS only) | String      |  https://repo.powerdns.com/CBC8B383-pub.asc | No |
+| baseurl_debug (CentOS only) | String | http://repo.powerdns.com/centos/$basearch/$releasever/auth-40/debug | No |
 
 #### Usage Example
 
