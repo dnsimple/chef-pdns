@@ -20,7 +20,7 @@ before_script:
 - chef gem install stove
 - chef gem install dnsimple
 
-script: chef exec rake
+script: chef exec rake travis
 
 notifications:
   email: false
