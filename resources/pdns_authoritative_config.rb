@@ -1,8 +1,8 @@
 #
 # Cookbook Name:: pdns
-# Resources:: pdns_recursor_config
+# Resources:: pdns_authoritative_config
 #
-# Copyright 2017, Aetrion, LLC DBA DNSimple
+# Copyright 2016-2017 Aetrion LLC. dba DNSimple
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,38 +17,36 @@
 # limitations under the License.
 #
 
-resource_name :pdns_recursor_config
+resource_name :pdns_authoritative_config
 
-provides :pdns_recursor_config, platform: 'ubuntu' do |node| #~FC005
+provides :pdns_authoritative_config, platform: 'ubuntu' do |node| #~FC005
   node['platform_version'].to_f >= 14.04
 end
 
-provides :pdns_recursor_config, platform: 'debian' do |node| #~FC005
+provides :pdns_authoritative_config, platform: 'debian' do |node| #~FC005
   node['platform_version'].to_i >= 8
 end
 
-provides :pdns_recursor_config, platform: 'centos' do |node| #~FC005
+provides :pdns_authoritative_config, platform: 'centos' do |node| #~FC005
   node['platform_version'].to_i >= 6
 end
 
 property :instance_name, String, name_property: true
-property :config_dir, String, default: lazy { default_recursor_config_directory }
+property :launch, Array, default: ['bind']
+property :config_dir, String, default: lazy { default_authoritative_config_directory }
 property :socket_dir, String, default: lazy { |resource| "/var/run/#{resource.instance_name}" }
-property :run_group, String, default: lazy { default_recursor_run_user }
-property :run_user, String, default: lazy { default_recursor_run_user }
+property :run_group, String, default: lazy { default_authoritative_run_user }
+property :run_user, String, default: lazy { default_authoritative_run_user }
 property :run_user_home, String, default: lazy { default_user_attributes[:home] }
 property :run_user_shell, String, default: lazy { default_user_attributes[:shell] }
 property :setuid, String, default: lazy { |resource| resource.run_user }
 property :setgid, String, default: lazy { |resource| resource.run_group }
 
-property :instances_dir, [String,nil], default: 'recursor.d'
-property :source, [String,nil], default: 'recursor_service.conf.erb'
-property :cookbook, [String,nil], default: 'pdns'
-property :variables, [Hash], default: {}
+property :source, String, default: 'authoritative_service.conf.erb'
+property :cookbook, String, default: 'pdns'
+property :variables, Hash, default: lazy { |resource| { bind_config:  "#{resource.config_dir}/bindbackend.conf" } }
 
 action :create do
-  recursor_instance_dir = "#{new_resource.config_dir}/#{new_resource.instances_dir}/#{new_resource.instance_name}"
-
   directory new_resource.config_dir do
     owner 'root'
     group 'root'
@@ -77,22 +75,14 @@ action :create do
     action :create
   end
 
-  directory recursor_instance_dir do
-    owner 'root'
-    group 'root'
-    mode '0755'
-    recursive true
-    action :create
-  end
-
-  template "#{recursor_instance_dir}/recursor.conf" do
+  template "#{new_resource.config_dir}/pdns-authoritative-#{new_resource.instance_name}.conf" do
     source new_resource.source
     cookbook new_resource.cookbook
     owner 'root'
     group 'root'
     mode '0640'
     variables(
-      config_dir: recursor_instance_dir,
+      launch: new_resource.launch,
       socket_dir: new_resource.socket_dir,
       setuid: new_resource.setuid,
       setgid: new_resource.setgid,

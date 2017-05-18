@@ -4,21 +4,43 @@ Provides resources for installing and configuring both PowerDNS authoritative an
 
 ## Requirements
 
-IMPORTANT: Please read the Compatibility Notes version below since there is breaking changes between 2 and 3 versions of this cookbook.
+IMPORTANT: Please read the Deprecations and Compatibility Notes sections below since there are breaking changes between versions 2 and 3 of this cookbook.
+
+### Deprecations
+
+  - The recipe and attribute based way of setting different PowerDNS installs is completely deprecated, there are no  attributes in the newest version of this cookbok neither recipes to add to the run list.
+  - `pdnsrecord` and `domainrecord` resources have been deprecated since they were coupled with sqlite3 backend.
+  - Ubuntu 12.02 support has been removed, if you want this platform to be supported PRs are welcome, see the CONTRIBUTING.md file.
 
 ### Compatibility Notes
 
-**This cookbook is being completely rewritten, transitioning from an attribute centric design to a newer resource based design. The current 3.0 version the resource only supports recursors, being the authoritative server the next feature, destined for the 3.1 release which will be released soon. If you want to keep your authoritative PowerDNS installs pin your cookbook to the latest 2.5.0 version.**
+**This cookbook has been completely rewritten, transitioning from an attribute recipe based design to a newer resource based design. 
+
+TLDR: 
+
+BREAKING CHANGES, Please pin your PowerDNS installs pin your cookbook to the latest 2.5.0 version. We also advise to read this document carefully.
+**
+
+The current version of the cookbook provides basic support for recursors and authoritative servers with a handful of platforms, backends and init systems supported. You can find what is supported in this table:
+
+
+| Platform | Backends         | Init Systems |
+|----------|------------------|--------------|
+| Debian   | bind, postgresql | SysVinit     |
+| CentOS   | bind, postgresql | SysVinit     |
 
 ### Platforms:
 
-* Ubuntu (14.04, 16.04)
-* Debian (8)
-* CentOS (6.8, 7.2)
+* Ubuntu (14.04)
+* CentOS (6.8)
 
 ### Chef:
 
 - Chef 12.5+
+
+### Init Systems:
+
+Only SysVinit is supported for now, Systemd is next to come.
 
 ### Required Cookbooks:
 
@@ -27,17 +49,174 @@ IMPORTANT: Please read the Compatibility Notes version below since there is brea
 
 ### Suggested Cookbooks:
 
-* mysql (for the MySQL backend)
-* sqlite (for the SQLite backend)
 * postgres (for the PostgreSQL backend)
 
 ## Usage
 
-Use the `pdns_recursor_install`, `pdns_recursor_config`, and `pdns_recursor_service` resources in your wrapper cookbooks to install, configure, and define PowerDNS recursors. Set the different properties on the resources according to your install and configuration needs. You can see a good example on this on `test/cookbooks/pdns_test/recipes_recursor_install_single.rb`
+Combine the different resources in order to install, configure, and manage your PowerDNS instances. This is a list of resouces that can be used:
 
-Some properties need to set consistently accross `pdns_recursor_config` and `pdns_recursor_service`. They will be noted in their specific sections with a (C). 
+  | Resource                            | Functionality                                     |
+  |-------------------------------------|---------------------------------------------------|
+  | pdns_authoritative_install          | Installs an authoritative server                  |
+  | pdns_authoritative_config           | Configures an authoritative instance              |
+  | pdns_authoritative_service          | Manages an authoritative instance                 |
+  | pdns_authoritative_backend          | Installs authoritative backend                    |
+  | pdns_recursor_install               | Installs a recusor                                |
+  | pdns_recursor_config                | Configures a recursor instance                    |
+  | pdns_recursor_service               | Manages a a recursor instance                     | 
 
+To fully configure an authoritative server you need to add at least 3 resources to your recipe, `pdns_authoritative_install`, `pdns_authoritative_config` and `pdns_authoritative_service`. If you want to install any backend other than the default (bind) for the authoritative server you need to add a fourth resource: `pdns_authoritative_backend`. There are some good usage examples in `test/cookbooks/pdns_test/recipes/`.
+
+For a recursor use the `pdns_recursor_install`, `pdns_recursor_config`, and `pdns_recursor_service` resources in your wrapper cookbooks to install, configure, and define PowerDNS recursors. Set the different properties on the resources according to your install and configuration needs. You can see a good example on this in `test/cookbooks/pdns_test/recipes_recursor_install_single.rb`
+
+For advanced use it is recommended to take a look at the chef resources themselves.
+
+### Properties
+
+PowerDNS uses hyphens `-` in their configuration files, chef resources and ruby symbols don't work very well with hyphens, so using underscore `_` in this cookbook for properties is required and will be tranlated automatically to hyphens in the configuration templates, example:
+
+```
+pdns_authoritative_config 'server-01' do
+  action :create
+  launch ['gpgsql']
+  variables(
+    gpgsql_host: '127.0.0.1',
+    gpgsql_user: 'pdns',
+    gpgsql_port: 5432,
+    gpgsql_dbname: 'pdns',
+    gpgsql_password: 'wadus'
+    )
+end
+```
+
+Will create a file named `/etc/powerdns/pdns-authoritative-server-01.conf`: 
+
+```
+launch ['gpgsql']
+gpgsql-host=127.0.0.1
+gpgsql-user=pdns
+gpgsql-port=5432
+gpgsql-dbname=pdns
+gpgsql-password=wadus
+```
+
+Most properties are simple ruby strings, but there is another cases that require special attention.
+Properties specified as elements in arrays will be split up (see split ruby method) and separated by commas.
+Boolean properties will be always translated to 'yes' or 'no'.
+Some properties need to be set consistently accross resources, they will be noted in their specific sections. 
 Most of the properties are optional and have sane defaults, so they are only recommended for customized installs.
+
+### pdns_authoritative_install
+
+Installs PowerDNS authoritative server 4.X series using PowerDNS official repository in the supported platforms.
+
+#### Properties
+
+| Name          | Class       |  Default value | Consistent?|
+|---------------|-------------|----------------|------------|
+| instance_name | String      | name_property  | Yes|
+| version       | String, nil | nil            | No |
+| debug         | true, false | false          | No |
+
+#### Usage example
+
+Install a PowerDNS authoritative server package named `server-01` with the latest version available in the repository.
+
+```
+pdns_authoritative_install 'server-01' do
+  action :install
+end
+```
+
+### pdns_authoritative_config
+
+Creates a PowerDNS recursor configuration, there is a fixed set of required properties (listed below) but most of the configuration is left to the user freely, every property set in the `variables` hash property will be rendered in the config template. Remember that using underscores `_` for property names is required and it's translated to hyphens `-` in configuration templates.
+
+#### Properties
+
+| Name           | Class      |  Default value  | Consistent? |
+|----------------|------------|-----------------|-------------|
+| instance_name  | String     | name_property   | Yes         |
+| launch         | Array, nil | ['bind']        | No          |
+| config_dir     | String     | see `default_authoritative_config_directory` helper method | Yes |
+| socket_dir     | String     | "/var/run/#{resource.instance_name}" | Yes | 
+| run_group      | String     | see `default_authoritative_run_user` helper method  | No |
+| run_user       | String     | see `default_authoritative_run_user` helper method  | No |
+| run_user_home  | String     | see `default_user_attributes` helper method | No |
+| run_user_shell | String     | see `default_user_attributes` helper method | No |
+| setuid         | String     | resource.run_user | No |
+| setgid         | String     | resource.run_group | No |
+| source         | String,nil | 'authoritative_service.conf.erb' | No |
+| cookbook       | String,nil | 'pdns' | No |
+| variables      | Hash       | { bind_config:  "#{resource.config_dir}/bindbackend.conf" } | No |
+
+#### Usage Example
+
+Create a PowerDNS authoritative configuration file named `server-01`:
+
+```
+pdns_authoritative_config 'server-01' do
+  action :create
+  launch ['gpgsql']
+  variables(
+    gpgsql_host: '127.0.0.1',
+    gpgsql_user: 'pdns',
+    gpgsql_port: 5432,
+    gpgsql_dbname: 'pdns',
+    gpgsql_password: 'wadus',
+    allow_axfr_ips: [ '127.0.0.0/8', '::1', '195.234.23,34'],
+    api: true,
+    api-_eadonly: true
+    )
+end
+```
+
+### pdns_authoritative_service
+
+Creates a init service to manage a PowerDNS authoritative instance. This service supports all the regular actions (start, stop, restart, etc.). Check the compatibility section to see which init services are supported.
+
+*Important:* services are not restarted or reloaded automatically on config changes in this cookbook, you need to add this in your wrapper cookbook if you desire this functionality, the `pdns_authoritative_service` cookbook provides actions to do it.
+
+#### Properties
+
+| Name           | Class       |  Default value                                        | Consistent? |
+|----------------|-------------|-------------------------------------------------------|-------------|
+| instance_name  | String      | name_property                                         | Yes |
+| cookbook       | String, nil | 'pdns'                                                | No |
+| source         | String, nil | 'authoritative.init.debian.erb'                       | No |
+| config_dir | String     | see `default_authoritative_config_directory` helper method | Yes |
+| socket_dir | String     | lazy { |resource| "/var/run/#{resource.instance_name}" }   | Yes |
+
+#### Usage example
+
+```
+pdns_authoritative_service 'server-01' do
+  action [:enable, :start]
+end
+```
+
+### pdns_authoritative_backend
+
+Installs one backend package for the PowerDNS authoritative server. You'll still need to install and configure the backend itself in your wrapper cookbook. You can see the list of available backends supported in every platform in `libraries/authoritative_helpers.rb` 
+
+Please review [PowerDNS documentation section](https://doc.powerdns.com/) to understand specific naming and settings for every backend since they differ.
+
+#### Properties
+
+| Name           | Class      |  Default value  | Consistent? |
+|----------------|------------|-----------------|-------------|
+| instance_name  | String     | name_property   | No |
+| version        | String, nil| nil             | No |
+
+#### Usage Example
+
+Install a PostgreSQL backend for the PowerDNS authoritative server:
+
+```
+pdns_authoritative_backend 'postgresql' do
+  action :install
+end
+```
 
 ### pdns_recursor_install
 
@@ -45,8 +224,10 @@ Installs PowerDNS recursor 4.X series using PowerDNS official repository in the 
 
 #### Properties
 
-- `version`: Which version is installed, defaults to the latest version available in the repository.
-- `debug`: (CentOS only), installs debug-symbols from PowerDNS debug repository.
+| Name           | Class       |  Default value  | Consistent? |
+|----------------|-------------|-----------------|-------------|
+| version        | String      | name_property   | Yes         |
+| debug          | True, False | String, nil     | No          |
 
 #### Usage Example
 
@@ -58,9 +239,21 @@ Install a 4. powerdns instance named 'my-recursor' on ubuntu 14.04:
 
 ### pdns_recursor_service
 
-Sets up a PowerDNS recursor instance using the appropiate init system (SysV Init for now).
+Sets up a PowerDNS recursor instance using the appropiate init system .
+
+*Important:* services not restarted or reloaded automatically on config changes in this cookbook, you need to add this in your wrapper cookbook if you desire this functionality, the `pdns_recursor_service` cookbook provides actions to do it.
+
 
 #### Properties
+
+| Name           | Class      |  Default value                                        | Consistent? |
+|----------------|------------|-------------------------------------------------------|-------------|
+| instance_name  | String     | name_property                                         | Yes         |  
+| cookbook       | String,nil | 'pdns'                                                | No          |
+| source         | String,nil | 'recursor.init.debian.erb'                            | No          |
+| config_dir     | String     | see `default_recursor_config_directory` helper method | Yes         |
+| socket_dir     | String     | "/var/run/#{resource.instance_name}"                  | Yes         |
+| instances_dir  | String     | 'recursor.d'                                          | Yes         |
 
 - `cookbook` (C): Cookbook for a custom configuration template.
 - `source` (C): Name of the recursor custom template.
@@ -83,17 +276,21 @@ Creates a PowerDNS recursor configuration.
 
 #### Properties
 
-- `config_dir` (C): Path of the recursor configuration directory.
-- `socket_dir` (C): Directory where sockets are created.
-- `instances_dir` (C): Directory under the recursor config path that holds recursor instances.
-- `source` (C): Name of the recursor custom template.
-- `socket_dir` (C): Directory where sockets are created.
-- `cookbook` (C): Cookbook for a custom configuration template
-- `variables`: Variables for the configuration template.
-- `run_group`: Unix group that runs the recursor.
-- `run_user`: Unix user that runs the recursor.
-- `run_user_home`: Home of the Unix user that runs the recursor.
-- `run_user_shell`: Shell of the Unix user that runs the recursor.
+|           | Name           | Class       |  Default value                                         | Consistent? |
+|----------------|-------------|--------------------------------------------------------|-------------|
+| instance_name  | String      | name_property                                          | Yes         | 
+| config_dir     | String      | see `default_recursor_config_directory` helper method  | Yes         |
+| socket_dir     | String      | /var/run/#{resource.instance_name}                     | Yes         |
+| run_group      | String      | see `default_recursor_run_user` helper method          | No          |
+| run_user       | String      | see `default_recursor_run_user` helper method          | No          | 
+| run_user_home  | String      | see `default_user_attributes` helper method            | No          |
+| run_user_shell | String      | see `default_user_attributes` helper method            | No          |
+| setuid         | String      | resource.run_user                                      | No          |
+| setgid         | String      | resource.run_group                                     | No          | 
+| instances_dir  | String, nil | 'recursor.d'                                           | Yes         |
+| source         | String, nil | 'recursor_service.conf.erb'                            | No          |
+| cookbook       | String, nil | 'pdns'                                                 | No          |
+| variables      | Hash        | {}                                                     | No          |
 
 #### Usage Example
 
@@ -104,6 +301,14 @@ Create a PowerDNS recursor configuration named 'my-recursor' in your wrapper coo
       cookbook 'acme-pdns-recursor'
       variables(client-tcp-timeout: '20', loglevel: '5', network-timeout: '2000')
     end
+
+## Contributing
+
+There is an specific file for contributing guidelines on this cokbook: CONTRIBUTING.md
+
+## Testing
+
+There is an specific file for testing guidelines on this cokbook: TESTING.md
 
 
 License & Authors

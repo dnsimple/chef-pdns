@@ -1,8 +1,8 @@
 #
 # Cookbook Name:: pdns
-# Libraries:: helpers
+# Libraries:: recursor_helpers
 #
-# Copyright 2014, Aetrion, LLC.
+# Copyright 2014-2017 Aetrion LLC. dba DNSimple
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -16,7 +16,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-def default_config_directory
+def default_recursor_config_directory
   case node['platform_family']
   when 'debian'
     '/etc/powerdns'
@@ -25,7 +25,7 @@ def default_config_directory
   end
 end
 
-def default_run_user
+def default_recursor_run_user
   case node['platform_family']
   when 'debian'
     'pdns'
