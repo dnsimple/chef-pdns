@@ -4,14 +4,13 @@ dist: trusty
 addons:
   apt:
     sources:
-      - chef-stable-precise
+      - chef-stable-trusty
     packages:
       - chefdk
 
 env:
   global:
   - KITCHEN_LOCAL_YAML=.kitchen.docker.yml
-  - secure: IfD/3A3IPxozFCSTlI5q6PIr1D78WupjhZVU5RlvDRsuajZuhCJHYHQvD1SI0cLAE+MG3XPhg8BXbPDtHGPCpNKybEFhWlRU9tghTxpzijMBvImBVPNzo8otn8ywvpw1XSFHKd79dFj1SRZqWbEFW4G/JFHarxl9svggyrfMTx8=
 
 install: echo "skip bundle install"
 
@@ -26,4 +25,4 @@ script: chef exec rake
 notifications:
   email: false
   slack:
-    secure: S/tClOuaGnhxdCkyc3WT0kWy9fP4a9dI7Ha0Pk0sjC0Fy1+0V/AShxwfgzJdGlzvbsRlCXmkE8W4BEQmZ0HjiPZgrvOx9mxv1krbBaO+eZDiSJIv2NgkgbwcxfraD+V3s4Mo8q3/FtS27diBOOUip4xqETsAIx0X86ZjHcb21ew=
+    secure: "dJySJ4LWsx6C9+rDKyt07d57pFwJX/aycW2K9AM7DzujEU/EomIIswXD1zU1znQUUmxc87OdTOIJq7vo6uVTlG0aiN34RGOn7s25os0S3GEVeEOHsJou2pKxK0TjmBbsg+nSMudzet/1UJ9pIDgjg8RY7/GLjEiEU6T/CNbya7M="
