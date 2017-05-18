@@ -27,12 +27,7 @@ def default_authoritative_config_directory
 end
 
 def default_authoritative_run_user
-  case node['platform_family']
-  when 'debian'
-    'pdns'
-  when 'rhel'
-    'pdns'
-  end
+  'pdns'
 end
 
 def backend_package_per_platform
