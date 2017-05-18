@@ -2,6 +2,10 @@
 
 Provides resources for installing and configuring both PowerDNS authoritative and recursor. It uses the official PowerDNS repositories for packages and installs the appropiate configuration for your platform's init system.
 
+## Build Status
+
+[![Build Status](https://travis-ci.org/dnsimple/chef-pdns.png?branch=master)](https://travis-ci.org/dnsimple/chef-dnsimple)
+
 ## Requirements
 
 IMPORTANT: Please read the Deprecations and Compatibility Notes sections below since there are breaking changes between versions 2 and 3 of this cookbook.
