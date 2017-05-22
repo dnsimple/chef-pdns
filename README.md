@@ -14,9 +14,9 @@ IMPORTANT: Please read the Deprecations and Compatibility Notes sections below s
 
 ### Compatibility Notes
 
-**This cookbook has been completely rewritten, transitioning from an attribute recipe based design to a newer resource based design. 
+**This cookbook has been completely rewritten, transitioning from an attribute recipe based design to a newer resource based design.
 
-TLDR: 
+TLDR:
 
 BREAKING CHANGES, Please pin your PowerDNS installs pin your cookbook to the latest 2.5.0 version. We also advise to read this document carefully.
 **
@@ -63,7 +63,7 @@ Combine the different resources in order to install, configure, and manage your 
   | pdns_authoritative_backend          | Installs authoritative backend                    |
   | pdns_recursor_install               | Installs a recusor                                |
   | pdns_recursor_config                | Configures a recursor instance                    |
-  | pdns_recursor_service               | Manages a a recursor instance                     | 
+  | pdns_recursor_service               | Manages a a recursor instance                     |
 
 To fully configure an authoritative server you need to add at least 3 resources to your recipe, `pdns_authoritative_install`, `pdns_authoritative_config` and `pdns_authoritative_service`. If you want to install any backend other than the default (bind) for the authoritative server you need to add a fourth resource: `pdns_authoritative_backend`. There are some good usage examples in `test/cookbooks/pdns_test/recipes/`.
 
@@ -89,7 +89,7 @@ pdns_authoritative_config 'server-01' do
 end
 ```
 
-Will create a file named `/etc/powerdns/pdns-authoritative-server-01.conf`: 
+Will create a file named `/etc/powerdns/pdns-authoritative-server-01.conf`:
 
 ```
 launch ['gpgsql']
@@ -103,7 +103,7 @@ gpgsql-password=wadus
 Most properties are simple ruby strings, but there is another cases that require special attention.
 Properties specified as elements in arrays will be split up (see split ruby method) and separated by commas.
 Boolean properties will be always translated to 'yes' or 'no'.
-Some properties need to be set consistently accross resources, they will be noted in their specific sections. 
+Some properties need to be set consistently accross resources, they will be noted in their specific sections.
 Most of the properties are optional and have sane defaults, so they are only recommended for customized installs.
 
 ### pdns_authoritative_install
@@ -139,7 +139,7 @@ Creates a PowerDNS recursor configuration, there is a fixed set of required prop
 | instance_name  | String     | name_property   | Yes         |
 | launch         | Array, nil | ['bind']        | No          |
 | config_dir     | String     | see `default_authoritative_config_directory` helper method | Yes |
-| socket_dir     | String     | "/var/run/#{resource.instance_name}" | Yes | 
+| socket_dir     | String     | "/var/run/#{resource.instance_name}" | Yes |
 | run_group      | String     | see `default_authoritative_run_user` helper method  | No |
 | run_user       | String     | see `default_authoritative_run_user` helper method  | No |
 | run_user_home  | String     | see `default_user_attributes` helper method | No |
@@ -197,7 +197,7 @@ end
 
 ### pdns_authoritative_backend
 
-Installs one backend package for the PowerDNS authoritative server. You'll still need to install and configure the backend itself in your wrapper cookbook. You can see the list of available backends supported in every platform in `libraries/authoritative_helpers.rb` 
+Installs one backend package for the PowerDNS authoritative server. You'll still need to install and configure the backend itself in your wrapper cookbook. You can see the list of available backends supported in every platform in `libraries/authoritative_helpers.rb`
 
 Please review [PowerDNS documentation section](https://doc.powerdns.com/) to understand specific naming and settings for every backend since they differ.
 
@@ -250,15 +250,13 @@ Sets up a PowerDNS recursor instance using the appropiate init system .
 |----------------|------------|-------------------------------------------------------|-------------|
 | instance_name  | String     | name_property                                         | Yes         |  
 | cookbook       | String,nil | 'pdns'                                                | No          |
-| source         | String,nil | 'recursor.init.debian.erb'                            | No          |
+| source         | String,nil | 'recursor.init.#{node['platform_family']}.erb'                            | No          |
 | config_dir     | String     | see `default_recursor_config_directory` helper method | Yes         |
 | socket_dir     | String     | "/var/run/#{resource.instance_name}"                  | Yes         |
-| instances_dir  | String     | 'recursor.d'                                          | Yes         |
 
 - `cookbook` (C): Cookbook for a custom configuration template.
 - `source` (C): Name of the recursor custom template.
 - `config_dir` (C): Path of the recursor configuration directory.
-- `instances_dir` (C): Directory under the recursor config path that holds recursor instances.
 - `socket_dir`: Directory where sockets are created.
 
 #### Usage Example
@@ -278,19 +276,29 @@ Creates a PowerDNS recursor configuration.
 
 |           | Name           | Class       |  Default value                                         | Consistent? |
 |----------------|-------------|--------------------------------------------------------|-------------|
-| instance_name  | String      | name_property                                          | Yes         | 
+| instance_name  | String      | name_property                                          | Yes         |
 | config_dir     | String      | see `default_recursor_config_directory` helper method  | Yes         |
 | socket_dir     | String      | /var/run/#{resource.instance_name}                     | Yes         |
 | run_group      | String      | see `default_recursor_run_user` helper method          | No          |
-| run_user       | String      | see `default_recursor_run_user` helper method          | No          | 
+| run_user       | String      | see `default_recursor_run_user` helper method          | No          |
 | run_user_home  | String      | see `default_user_attributes` helper method            | No          |
 | run_user_shell | String      | see `default_user_attributes` helper method            | No          |
 | setuid         | String      | resource.run_user                                      | No          |
-| setgid         | String      | resource.run_group                                     | No          | 
-| instances_dir  | String, nil | 'recursor.d'                                           | Yes         |
+| setgid         | String      | resource.run_group                                     | No          |
 | source         | String, nil | 'recursor_service.conf.erb'                            | No          |
 | cookbook       | String, nil | 'pdns'                                                 | No          |
 | variables      | Hash        | {}                                                     | No          |
+
+- `config_dir` (C): Path of the recursor configuration directory.
+- `socket_dir` (C): Directory where sockets are created.
+- `source` (C): Name of the recursor custom template.
+- `socket_dir` (C): Directory where sockets are created.
+- `cookbook` (C): Cookbook for a custom configuration template
+- `variables`: Variables for the configuration template.
+- `run_group`: Unix group that runs the recursor.
+- `run_user`: Unix user that runs the recursor.
+- `run_user_home`: Home of the Unix user that runs the recursor.
+- `run_user_shell`: Shell of the Unix user that runs the recursor.
 
 #### Usage Example
 
