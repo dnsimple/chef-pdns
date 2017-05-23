@@ -37,7 +37,6 @@ property :socket_dir, String, default: lazy { |resource| "/var/run/#{resource.in
 
 action :enable do
   service 'pdns' do
-    provider Chef::Provider::Service::Init::Debian
     action [:stop, :disable]
   end
 
