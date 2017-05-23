@@ -47,7 +47,7 @@ action :enable do
     mode '0755'
     variables(
       socket_dir: new_resource.socket_dir,
-      provides: new_resource.instance_name
+      provides: "pdns-authoritative-#{new_resource.instance_name}"
       )
     cookbook new_resource.cookbook
     action :create
