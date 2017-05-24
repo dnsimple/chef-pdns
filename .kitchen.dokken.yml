@@ -13,9 +13,36 @@ verifier:
   name: inspec
 
 platforms:
-- name: debian-8
-  driver:
-    image: debian:8
-    intermediate_instructions:
-      - RUN /usr/bin/apt-get update
-      - RUN /usr/bin/apt-get install apt-transport-https lsb-release procps net-tools dnsutils -y
+  - name: ubuntu-14.04
+    driver:
+      image: ubuntu-upstart:14.04
+      intermediate_instructions:
+        - RUN /usr/bin/apt-get update
+        - RUN /usr/bin/apt-get install apt-transport-https lsb-release net-tools lsof dnsutils -y
+
+  - name: ubuntu-16.04
+    driver:
+      image: ubuntu:16.04
+      intermediate_instructions:
+        - RUN /usr/bin/apt-get update
+        - RUN /usr/bin/apt-get install apt-transport-https lsb-release net-tools lsof dnsutils -y
+
+  - name: centos-6
+    driver:
+      image: centos:6
+      intermediate_instructions:
+        - RUN yum -y install which initscripts lsof net-tools
+
+  - name: centos-7
+    driver:
+      image: centos:7
+      intermediate_instructions:
+        - RUN yum -y install lsof which net-tools
+
+  - name: debian-8
+    driver:
+      image: debian:8
+      intermediate_instructions:
+        - RUN /usr/bin/apt-get update
+        - RUN /usr/bin/apt-get install apt-transport-https lsb-release net-tools lsof dnsutils -y
+
