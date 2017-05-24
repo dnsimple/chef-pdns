@@ -10,13 +10,13 @@ addons:
 
 env:
   global:
-  - KITCHEN_LOCAL_YAML=.kitchen.docker.yml
+  - KITCHEN_LOCAL_YAML=.kitchen.dokken.yml
 
 install: echo "skip bundle install"
 
 before_script:
 - eval "$(/opt/chefdk/bin/chef shell-init bash)"
-- chef gem install kitchen-docker
+- chef gem install kitchen-dokken
 - chef gem install stove
 - chef gem install dnsimple
 
