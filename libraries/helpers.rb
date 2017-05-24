@@ -16,31 +16,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-module PdnsRecursorResource
+module PdnsResource
   module Helpers
-    def systemd_name(name = nil)
-      "pdns-recursor@#{name}"
-    end
-
-    def sysvinit_name(name = nil)
-      "pdns_recursor-#{name}"
-    end
-
-    def default_recursor_config_directory
+    def default_user_attributes
       case node['platform_family']
       when 'debian'
-        '/etc/powerdns'
+        { home: '/var/spool/powerdns', shell: '/bin/false' }
       when 'rhel'
-        '/etc/pdns-recursor'
-      end
-    end
-
-    def default_recursor_run_user
-      case node['platform_family']
-      when 'debian'
-        'pdns'
-      when 'rhel'
-        'pdns-recursor'
+        { home: '/', shell: '/sbin/nologin' }
       end
     end
   end

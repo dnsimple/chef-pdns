@@ -16,6 +16,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+include ::PdnsResource::Helpers
 
 resource_name :pdns_authoritative_config
 
@@ -88,5 +89,11 @@ action :create do
       setgid: new_resource.setgid,
       variables: new_resource.variables
       )
+  end
+end
+
+action_class.class_eval do
+  def whyrun_supported?
+    true
   end
 end

@@ -16,19 +16,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+include ::PdnsResource::Helpers
+include ::PdnsRecursorResource::Helpers
 
 resource_name :pdns_recursor_service_sysvinit
 
-provides :pdns_recursor_service, platform: 'ubuntu' do |node| #~FC005
-  node['platform_version'].to_f >= 14.04
-end
-
-provides :pdns_recursor_service, platform: 'debian' do |node| #~FC005
-  node['platform_version'].to_i >= 8
-end
-
-provides :pdns_recursor_service, platform: 'centos' do |node| #~FC005
-  node['platform_version'].to_i >= 6
+provides :pdns_recursor_service, os: 'linux' do |_node|
+  Chef::Platform::ServiceHelpers.service_resource_providers.include?(:debian) ||
+    Chef::Platform::ServiceHelpers.service_resource_providers.include?(:redhat)
 end
 
 property :instance_name, String, name_property: true
@@ -37,8 +32,17 @@ property :config_dir, String, default: lazy { default_recursor_config_directory 
 property :source, [String,nil], default: lazy { "recursor.init.#{node['platform_family']}.erb" }
 property :socket_dir, String, default: lazy { |resource| "/var/run/#{resource.instance_name}" }
 
+
 action :enable do
-  service_name = recursor_instance_service_name(new_resource.instance_name)
+  # To make sure the default package doesn't start any "pdns_recursor" daemon
+  # because the default service could stop all other instances
+  service 'pdns-recursor' do
+    supports restart: true, status: true
+    action [:disable, :stop]
+    only_if { ::File.exist?('/var/run/pdns_recursor.pid') }
+  end
+
+  service_name = sysvinit_name(new_resource.instance_name)
 
   template "/etc/init.d/#{service_name}" do
     source new_resource.source
@@ -55,12 +59,6 @@ action :enable do
     action :create
   end
 
-  # To make sure the default package doesn't start any "pdns_recursor" daemon
-  service 'pdns-recursor' do
-    action [:disable, :stop]
-    only_if { node['platform_family'] == 'debian' }
-  end
-
   service service_name do
     supports restart: true, status: true
     action :enable
@@ -69,22 +67,28 @@ action :enable do
 end
 
 action :start do
-  service recursor_instance_service_name(new_resource.instance_name) do
+  service sysvinit_name(new_resource.instance_name) do
     supports restart: true, status: true
     action :start
   end
 end
 
 action :stop do
-  service recursor_instance_service_name(new_resource.instance_name) do
+  service sysvinit_name(new_resource.instance_name) do
     supports restart: true, status: true
     action :stop
   end
 end
 
 action :restart do
-  service recursor_instance_service_name(new_resource.instance_name) do
+  service sysvinit_name(new_resource.instance_name) do
     supports restart: true, status: true
     action :restart
+  end
+end
+
+action_class.class_eval do
+  def whyrun_supported?
+    true
   end
 end

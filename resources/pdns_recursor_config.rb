@@ -16,6 +16,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+include ::PdnsResource::Helpers
+include ::PdnsRecursorResource::Helpers
 
 resource_name :pdns_recursor_config
 
@@ -70,7 +72,10 @@ action :create do
   directory new_resource.socket_dir do
     owner new_resource.run_user
     group new_resource.run_group
-    mode '0755'
+    # When using service_manager the 'socket-dir' has to be writable for the 'set-gid'
+    # in order to start the service:
+    # Issue: https://github.com/PowerDNS/pdns/issues/4826
+    mode '0775'
     recursive true
     action :create
   end
@@ -87,5 +92,11 @@ action :create do
       setgid: new_resource.setgid,
       variables: new_resource.variables
       )
+  end
+end
+
+action_class.class_eval do
+  def whyrun_supported?
+    true
   end
 end

@@ -35,17 +35,27 @@ describe 'pdns_test::recursor_install_multi' do
     # Tests for the service resource
     #
 
-    it 'creates a specific init script' do
-      mock_service_resource_providers(%i{debian redhat upstart})
+    it 'creates a specific init script (SysVinit)' do
+      mock_service_resource_providers(%i{debian upstart})
       expect(chef_run).to create_template('/etc/init.d/pdns_recursor-server-01')
     end
 
-    it 'enables and starts pdns_recursor service' do
-      mock_service_resource_providers(%i{debian redhat upstart})
+    it 'enables and starts pdns_recursor service (SysVinit)' do
+      mock_service_resource_providers(%i{debian upstart})
       expect(chef_run).to enable_service('pdns_recursor-server-01')
       expect(chef_run).to start_service('pdns_recursor-server-01')
     end
 
+    it 'should not creates any specific init script (Systemd)' do
+      mock_service_resource_providers(%i{systemd})
+      expect(chef_run).not_to create_template('/etc/init.d/pdns_recursor-server-01')
+    end
+
+    it 'enables and starts pdns_recursor instance (Systemd)' do
+      mock_service_resource_providers(%i{systemd})
+      expect(chef_run).to enable_service('pdns-recursor@server-01')
+      expect(chef_run).to start_service('pdns-recursor@server-01')
+    end
     #
     # Tests for the config resource
     #
@@ -79,4 +89,3 @@ describe 'pdns_test::recursor_install_multi' do
     end
   end
 end
-

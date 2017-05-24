@@ -16,6 +16,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+include ::PdnsRecursorResource::Helpers
 
 resource_name :pdns_recursor_install_rhel
 
@@ -64,5 +65,11 @@ end
 action :uninstall do
   yum_package 'pdns-recursor' do
     action :remove
+  end
+end
+
+action_class.class_eval do
+  def whyrun_supported?
+    true
   end
 end

@@ -44,7 +44,8 @@ The current version of the cookbook provides basic support for recursors and aut
 
 ### Init Systems:
 
-Only SysVinit is supported for now, Systemd is next to come.
+Only `SysVinit` is supported for "pdns-authoritative".
+`SysVinit` and `Systemd` are supported for "pdns-recursor".
 
 ### Required Cookbooks:
 
@@ -253,15 +254,15 @@ Sets up a PowerDNS recursor instance using the appropiate init system .
 | Name           | Class      |  Default value                                        | Consistent? |
 |----------------|------------|-------------------------------------------------------|-------------|
 | instance_name  | String     | name_property                                         | Yes         |  
-| cookbook       | String,nil | 'pdns'                                                | No          |
-| source         | String,nil | 'recursor.init.#{node['platform_family']}.erb'                            | No          |
 | config_dir     | String     | see `default_recursor_config_directory` helper method | Yes         |
-| socket_dir     | String     | "/var/run/#{resource.instance_name}"                  | Yes         |
+| cookbook (SysVinit)      | String,nil | 'pdns'                                                | No          |
+| source  (SysVinit)       | String,nil | 'recursor.init.#{node['platform_family']}.erb'                            | No          |
+| socket_dir (SysVinit)    | String     | "/var/run/#{resource.instance_name}" | Yes     |
 
-- `cookbook` (C): Cookbook for a custom configuration template.
-- `source` (C): Name of the recursor custom template.
-- `config_dir` (C): Path of the recursor configuration directory.
-- `socket_dir`: Directory where sockets are created.
+- `config_dir`: Path of the recursor configuration directory.
+- `cookbook`: Cookbook for a custom configuration template (Applied only when using SysVinit).
+- `source`: Name of the recursor custom template (Applied only when using SysVinit).
+- `socket_dir`: Directory where sockets are created (Applied only when using SysVinit).
 
 #### Usage Example
 

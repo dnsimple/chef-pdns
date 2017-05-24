@@ -16,6 +16,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+include ::PdnsResource::Helpers
 
 resource_name :pdns_authoritative_service_rhel_sysvinit
 
@@ -81,5 +82,11 @@ action :restart do
     pattern 'pdns_server'
     supports restart: true, status: true
     action :restart
+  end
+end
+
+action_class.class_eval do
+  def whyrun_supported?
+    true
   end
 end
