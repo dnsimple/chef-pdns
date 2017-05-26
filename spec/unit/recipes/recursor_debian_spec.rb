@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'pdns_test::recursor_install_single' do
+describe 'pdns_test::recursor_install_multi' do
   context 'on ubuntu platform' do
     let(:ubuntu_runner) do
       ChefSpec::SoloRunner.new(
@@ -36,12 +36,12 @@ describe 'pdns_test::recursor_install_single' do
     #
 
     it 'creates a specific init script' do
-      expect(chef_run).to create_template('/etc/init.d/a_pdns_recursor')
+      expect(chef_run).to create_template('/etc/init.d/server-01')
     end
 
     it 'enables and starts pdns_recursor service' do
-      expect(chef_run).to enable_service('pdns-recursor').with(pattern: 'pdns_recursor')
-      expect(chef_run).to start_service('pdns-recursor').with(pattern: 'pdns_recursor')
+      expect(chef_run).to enable_service('pdns-recursor-server-01').with(pattern: 'pdns_recursor')
+      expect(chef_run).to start_service('pdns-recursor-server-01').with(pattern: 'pdns_recursor')
     end
 
     #
@@ -64,16 +64,16 @@ describe 'pdns_test::recursor_install_single' do
     end
 
     it 'creates a pdns recursor socket directory' do
-      expect(chef_run).to create_directory('/var/run/a_pdns_recursor')
+      expect(chef_run).to create_directory('/var/run/server-01')
     end
 
     it 'creates a recursor.d config directory' do
-      expect(chef_run).to create_directory('/etc/powerdns/recursor.d/a_pdns_recursor')
+      expect(chef_run).to create_directory('/etc/powerdns/recursor.d/server-01')
       .with(owner: 'root', group: 'root', mode: '0755')
     end
 
     it 'creates a recursor instance config' do
-      expect(chef_run).to create_template('/etc/powerdns/recursor.d/a_pdns_recursor/recursor.conf')
+      expect(chef_run).to create_template('/etc/powerdns/recursor.d/server-01/recursor.conf')
       .with(owner: 'root', group: 'root', mode: '0640')
     end
 

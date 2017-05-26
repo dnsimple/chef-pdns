@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'pdns_test::authoritative_install_single_bind' do
+describe 'pdns_test::authoritative_install_multi' do
   context 'on rhel platform' do
     let(:rhel_runner) do
       ChefSpec::SoloRunner.new(

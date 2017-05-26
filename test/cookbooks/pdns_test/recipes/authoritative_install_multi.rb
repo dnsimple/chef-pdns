@@ -55,9 +55,9 @@ file "#{default_authoritative_config_directory}/example.org.zone" do
 end
 
 pdns_authoritative_service 'server-01' do
-  action :restart
+  action :start
 end
 
 pdns_authoritative_service 'server-02' do
-  action :restart
+  action :start
 end
