@@ -1,0 +1,28 @@
+sudo: required
+dist: trusty
+
+addons:
+  apt:
+    sources:
+      - chef-stable-trusty
+    packages:
+      - chefdk
+
+env:
+  global:
+  - KITCHEN_LOCAL_YAML=.kitchen.dokken.yml
+
+install: echo "skip bundle install"
+
+before_script:
+- eval "$(/opt/chefdk/bin/chef shell-init bash)"
+- chef gem install kitchen-dokken
+- chef gem install stove
+- chef gem install dnsimple
+
+script: chef exec rake travis
+
+notifications:
+  email: false
+  slack:
+    secure: "dJySJ4LWsx6C9+rDKyt07d57pFwJX/aycW2K9AM7DzujEU/EomIIswXD1zU1znQUUmxc87OdTOIJq7vo6uVTlG0aiN34RGOn7s25os0S3GEVeEOHsJou2pKxK0TjmBbsg+nSMudzet/1UJ9pIDgjg8RY7/GLjEiEU6T/CNbya7M="

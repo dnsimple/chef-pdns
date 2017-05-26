@@ -37,7 +37,6 @@ property :socket_dir, String, default: lazy { |resource| "/var/run/#{resource.in
 
 action :enable do
   service 'pdns' do
-    provider Chef::Provider::Service::Init::Debian
     action [:stop, :disable]
   end
 
@@ -47,7 +46,8 @@ action :enable do
     group 'root'
     mode '0755'
     variables(
-      socket_dir: new_resource.socket_dir
+      socket_dir: new_resource.socket_dir,
+      provides: "pdns-authoritative-#{new_resource.instance_name}"
       )
     cookbook new_resource.cookbook
     action :create

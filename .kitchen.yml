@@ -11,28 +11,23 @@ verifier:
 platforms:
   - name: ubuntu-16.04
   - name: ubuntu-14.04
-  - name: debian-8.5
-  - name: centos-6.8
-  - name: centos-7.2
+  - name: debian-8
+  - name: centos-6
+  - name: centos-7
 
 suites:
-  - name: recursor
-    run_list:
-      - recipe[pdns_test::recursor_install_single]
-    attributes:
   - name: recursor-multi
     run_list:
+      - recipe[pdns_test::inspec_dependencies]
       - recipe[pdns_test::recursor_install_multi]
-    attributes:
-  - name: authoritative-bind
-    run_list:
-      - recipe[pdns_test::authoritative_install_single_bind]
     attributes:
   - name: authoritative-postgres
     run_list:
+      - recipe[pdns_test::inspec_dependencies]
       - recipe[pdns_test::authoritative_install_single_postgres]
     attributes:
   - name: authoritative-multi
     run_list:
+      - recipe[pdns_test::inspec_dependencies]
       - recipe[pdns_test::authoritative_install_multi]
     attributes:
