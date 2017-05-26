@@ -1,26 +1,22 @@
-pdns_recursor_install 'a_pdns_recursor' do
+pdns_recursor_install 'server-01' do
   action :install
   version recursor_version_per_platform
 end
 
-pdns_recursor_service 'a_pdns_recursor' do
-  action :enable
-end
-
-pdns_recursor_config 'a_pdns_recursor' do
+pdns_recursor_config 'server-01' do
   action :create
 end
 
-pdns_recursor_install 'another_pdns_recursor' do
+pdns_recursor_service 'server-01' do
+  action [:enable, :start]
+end
+
+pdns_recursor_install 'server-02' do
   action :install
   version recursor_version_per_platform
 end
 
-pdns_recursor_service 'another_pdns_recursor' do
-  action :enable
-end
-
-pdns_recursor_config 'another_pdns_recursor' do
+pdns_recursor_config 'server-02' do
   action :create
   run_user 'another-pdns'
   run_group 'another-pdns'
@@ -28,4 +24,8 @@ pdns_recursor_config 'another_pdns_recursor' do
   variables(
     'local-port': '54'
   )
+end
+
+pdns_recursor_service 'server-02' do
+  action [:enable, :start]
 end
