@@ -23,19 +23,15 @@ describe group(default_recursor_run_user) do
 end
 
 describe processes('pdns_recursor') do
-  its ('users') { should eq [default_recursor_run_user] }
-end
-
-describe processes('pdns_recursor') do
-  its ('users') { should eq [default_recursor_run_user] }
+  its ('users') { should eq [default_recursor_run_user, 'another-pdns'] }
 end
 
 describe command('dig -p 53 chaos txt version.bind @127.0.0.1 +short') do
-  its('stdout.chomp') { should match(/"PowerDNS Authoritative Server 4.0.3/) }
+  its('stdout.chomp') { should match(/"PowerDNS Recursor 4.0.4/) }
 end
 
 describe command('dig -p 54 chaos txt version.bind @127.0.0.1 +short') do
-  its('stdout.chomp') { should match(/"PowerDNS Authoritative Server 4.0.3/) }
+  its('stdout.chomp') { should match(/"PowerDNS Recursor 4.0.4/) }
 end
 
 describe command('dig -p 53 @127.0.0.1 dnsimple.com') do
