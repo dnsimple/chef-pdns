@@ -18,7 +18,6 @@ before_script:
 - eval "$(/opt/chefdk/bin/chef shell-init bash)"
 - chef gem install kitchen-dokken
 - chef gem install stove
-- chef gem install dnsimple
 
 script: chef exec rake travis
 
