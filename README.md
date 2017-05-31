@@ -265,7 +265,7 @@ Creates a init service to manage a PowerDNS authoritative instance. This service
 | cookbook       | String, nil | 'pdns'                                                | No |
 | source         | String, nil | 'authoritative.init.debian.erb'                       | No |
 | config_dir | String     | see `default_authoritative_config_directory` helper method | Yes |
-| socket_dir | String     | lazy { |resource| "/var/run/#{resource.instance_name}" }   | Yes |
+| socket_dir | String     | "/var/run/#{instance_name}"   | Yes |
 
 #### Usage example
 

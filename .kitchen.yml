@@ -4,6 +4,12 @@ driver:
 
 provisioner:
   name: chef_zero
+  # On CentOS 6, restart the 'postgres' database could fail the first time so
+  # let's try twice before failing:
+  # https://github.com/sous-chefs/postgresql/issues/421
+  retry_on_exit_code:
+    - 1
+  max_retries: 2
 
 verifier:
   name: inspec
@@ -13,6 +19,7 @@ platforms:
   - name: ubuntu-14.04
   - name: debian-8.7
   - name: centos-6.7
+  - name: centos-6.9
   - name: centos-7.2
 
 suites:
@@ -27,11 +34,13 @@ suites:
       - recipe[pdns_test::authoritative_install_multi]
     attributes:
   - name: authoritative-postgres
-    includes: [
-      'centos-7',
-      'debian-8',
-      'ubuntu-14.04',
-      'ubuntu-16.04'
+    # On CentOS 6, restart the 'postgres' database could fail the first time so
+    # let's try twice before failing:
+    # https://github.com/sous-chefs/postgresql/issues/421
+    excludes: [
+      'centos-6.7',
+      'centos-6.9',
+      'centos-6', # for dokken
     ]
     run_list:
       - recipe[pdns_test::inspec_dependencies]

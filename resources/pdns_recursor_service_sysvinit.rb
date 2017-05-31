@@ -16,21 +16,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-include ::PdnsResource::Helpers
-include ::PdnsRecursorResource::Helpers
+include ::Pdns::PdnsRecursorHelpers
 
 resource_name :pdns_recursor_service_sysvinit
 
-provides :pdns_recursor_service, platform: 'centos' do |node| # ~FC005
-  node['platform_version'].to_i >= 6
-end
-
-provides :pdns_recursor_service, platform: 'ubuntu' do |node|
-  node['platform_version'].to_f >= 14.04
-end
-
-provides :pdns_recursor_service, platform: 'debian' do |node|
-  node['platform_version'].to_i >= 8
+provides :pdns_recursor_service, os: 'linux' do |node|
+  %w[debian rhel].include?(node['platform_family'])
 end
 
 property :instance_name, String, name_property: true

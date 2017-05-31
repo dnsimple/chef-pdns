@@ -4,6 +4,7 @@ describe 'pdns_test::recursor_install_multi' do
   context 'on rhel platform' do
     let(:rhel_runner) do
       ChefSpec::SoloRunner.new(
+        os: 'linux',
         platform: 'centos',
         version: '6.8',
         step_into: ['pdns_recursor_install', 'pdns_recursor_config', 'pdns_recursor_service']) do |node|
@@ -13,6 +14,18 @@ describe 'pdns_test::recursor_install_multi' do
 
     let(:chef_run) { rhel_runner.converge(described_recipe) }
     let(:version) { '4.0.5-1pdns.el6' }
+
+    let(:rhel_runner_7) do
+      ChefSpec::SoloRunner.new(
+        os: 'linux',
+        platform: 'centos',
+        version: '7.2.1511',
+        step_into: ['pdns_recursor_install', 'pdns_recursor_config', 'pdns_recursor_service']) do |node|
+        node.automatic['packages']['centos-release']['version'] = '7'
+      end
+    end
+
+    let(:chef_run_7) { rhel_runner_7.converge(described_recipe) }
 
     #
     # Tests for the install resource
@@ -38,26 +51,22 @@ describe 'pdns_test::recursor_install_multi' do
     # Tests for the service resource
     #
 
-    it 'creates a specific init script (SysVinit)' do
-      mock_service_resource_providers(%i{redhat upstart})
-      expect(chef_run).to create_template('/etc/init.d/pdns-recursor_server_01')
+    it '[sysvinit] creates a specific init script' do
+      expect(chef_run).to create_template('/etc/init.d/pdns_recursor-server_01')
     end
 
-    it 'enables and starts pdns_recursor service (SysVinit)' do
-      mock_service_resource_providers(%i{redhat upstart})
-      expect(chef_run).to enable_service('pdns-recursor_server_01')
-      expect(chef_run).to start_service('pdns-recursor_server_01')
+    it '[sysvinit] enables and starts pdns_recursor service' do
+      expect(chef_run).to enable_service('pdns_recursor-server_01')
+      expect(chef_run).to start_service('pdns_recursor-server_01')
     end
 
-    it 'should not creates a specific init script (Systemd)' do
-      mock_service_resource_providers(%i{redhat systemd})
-      expect(chef_run).not_to create_template('/etc/init.d/pdns-recursor_server_01')
+    it '[systemd] should not creates a specific init script' do
+      expect(chef_run_7).not_to create_template('/etc/init.d/pdns_recursor-server_01')
     end
 
-    it 'enables and starts pdns_recursor instance (Systemd)' do
-      mock_service_resource_providers(%i{redhat systemd})
-      expect(chef_run).to enable_service('pdns-recursor@server_01')
-      expect(chef_run).to start_service('pdns-recursor@server_01')
+    it '[systemd] enables and starts pdns_recursor instance' do
+      expect(chef_run_7).to enable_service('pdns-recursor@server_01')
+      expect(chef_run_7).to start_service('pdns-recursor@server_01')
     end
 
     #

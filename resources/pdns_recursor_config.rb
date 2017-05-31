@@ -16,8 +16,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-include ::PdnsResource::Helpers
-include ::PdnsRecursorResource::Helpers
+include ::Pdns::PdnsRecursorHelpers
 
 resource_name :pdns_recursor_config
 

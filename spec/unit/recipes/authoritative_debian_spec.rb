@@ -4,6 +4,7 @@ describe 'pdns_test::authoritative_install_multi' do
   context 'on ubuntu platform' do
     let(:ubuntu_runner) do
       ChefSpec::SoloRunner.new(
+        os: 'linux',
         platform: 'ubuntu',
         version: '14.04',
         step_into: ['pdns_authoritative_install', 'pdns_authoritative_config', 'pdns_authoritative_service'])
@@ -12,6 +13,15 @@ describe 'pdns_test::authoritative_install_multi' do
     let(:chef_run) { ubuntu_runner.converge(described_recipe) }
     let(:version) { '4.0.4-1pdns.trusty' }
 
+    let(:ubuntu_runner_1604) do
+      ChefSpec::SoloRunner.new(
+        os: 'linux',
+        platform: 'ubuntu',
+        version: '16.04',
+        step_into: ['pdns_authoritative_install', 'pdns_authoritative_config', 'pdns_authoritative_service'])
+    end
+
+    let(:chef_run_1604) { ubuntu_runner_1604.converge(described_recipe) }
     #
     # Tests for the install resource
     #
@@ -35,13 +45,22 @@ describe 'pdns_test::authoritative_install_multi' do
     # Tests for the service resource
     #
 
-    it 'creates a specific init script' do
-      expect(chef_run).to create_template('/etc/init.d/pdns-authoritative_server_01')
+    it '[sysvinit] creates a specific init script' do
+      expect(chef_run).to create_link('/etc/init.d/pdns_authoritative-server_01').with(to: 'pdns')
     end
 
-    it 'enables and starts pdns_authoritative service' do
-      expect(chef_run).to enable_service('pdns-authoritative_server_01').with(pattern: 'pdns_server')
-      expect(chef_run).to start_service('pdns-authoritative_server_01').with(pattern: 'pdns_server')
+    it '[sysvinit] enables and starts pdns_authoritative service' do
+      expect(chef_run).to enable_service('pdns_authoritative-server_01')
+      expect(chef_run).to start_service('pdns_authoritative-server_01')
+    end
+
+    it '[systemd] should not creates a specific init script' do
+      expect(chef_run_1604).not_to create_link('/etc/init.d/pdns_authoritative-server_01').with(to: 'pdns')
+    end
+
+    it '[systemd] enables and starts pdns_authoritative instance' do
+      expect(chef_run_1604).to enable_service('pdns@server_01')
+      expect(chef_run_1604).to start_service('pdns@server_01')
     end
 
     #
@@ -64,7 +83,7 @@ describe 'pdns_test::authoritative_install_multi' do
     end
 
     it 'creates a authoritative instance config' do
-      expect(chef_run).to create_template('/etc/powerdns/pdns-authoritative_server_01.conf')
+      expect(chef_run).to create_template('/etc/powerdns/pdns-server_01.conf')
       .with(owner: 'root', group: 'root', mode: '0640')
     end
 

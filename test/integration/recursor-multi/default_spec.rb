@@ -22,9 +22,8 @@ describe group(default_recursor_run_user) do
   it { should exist }
 end
 
-describe processes('pdns_recursor') do
-  its ('users') { should eq [default_recursor_run_user, 'another-pdns'] }
-end
+check_process_name('server_01', default_recursor_run_user, 'recursor')
+check_process_name('server_02', 'another-pdns', 'recursor')
 
 describe command('dig -p 53 chaos txt version.bind @127.0.0.1 +short') do
   its('stdout.chomp') { should match(/"PowerDNS Recursor 4.0.5/) }

@@ -16,7 +16,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-include ::PdnsResource::Helpers
+include ::Pdns::PdnsAuthoritativeHelpers
 
 resource_name :pdns_authoritative_config
 
@@ -34,12 +34,12 @@ end
 
 property :instance_name, String, name_property: true
 property :launch, Array, default: ['bind']
-property :config_dir, String, default: lazy { default_authoritative_config_directory }
-property :socket_dir, String, default: lazy { |resource| "/var/run/#{resource.instance_name}" }
+property :config_dir, String, default: lazy { default_authoritative_config_directory(node['platform_family']) }
 property :run_group, String, default: lazy { default_authoritative_run_user }
 property :run_user, String, default: lazy { default_authoritative_run_user }
 property :run_user_home, String, default: lazy { default_user_attributes[:home] }
 property :run_user_shell, String, default: lazy { default_user_attributes[:shell] }
+property :socket_dir, String, default: lazy { |resource| "/var/run/#{resource.instance_name}" }
 property :setuid, String, default: lazy { |resource| resource.run_user }
 property :setgid, String, default: lazy { |resource| resource.run_group }
 
@@ -71,12 +71,15 @@ action :create do
   directory new_resource.socket_dir do
     owner new_resource.run_user
     group new_resource.run_group
-    mode '0755'
+    # Because of the DynListener creation before dropping privileges, the
+    # socket-directory has to be '0777' for now
+    # Issue: https://github.com/PowerDNS/pdns/issues/4826
+    mode Chef::Platform::ServiceHelpers.service_resource_providers.include?(:systemd) ? '0777' : '0755'
     recursive true
     action :create
   end
 
-  template "#{new_resource.config_dir}/pdns-authoritative_#{new_resource.instance_name}.conf" do
+  template "#{new_resource.config_dir}/pdns-#{new_resource.instance_name}.conf" do
     source new_resource.source
     cookbook new_resource.cookbook
     owner 'root'
