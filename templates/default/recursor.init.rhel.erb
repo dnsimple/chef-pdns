@@ -7,29 +7,37 @@
 # chkconfig:    - 49 51
 #
 # description:  PowerDNS Recursor is a non authoritative/recursing DNS server
-# processname:  pdns-recursor
-# config: /etc/pdns-recursor/recursor.conf
-# pidfile: /var/run/pdns_recursor.pid
+# processname:  <%= @service_name %>
+# config: <%= ::File.join(@config_dir, "#{@service_name}.conf") %>
+# pidfile: <%= ::File.join('/', 'var', 'run', @pdns_virtual_instance, "#{@service_name}.pid") %>
 #
 
 # source function library
 . /etc/rc.d/init.d/functions
 
+
 RETVAL=0
+PROGNAME=<%= @service_name %>
+PIDFILE=<%= ::File.join('/', 'var', 'run', @pdns_virtual_instance, "#{@service_name}.pid") %>
+# When using "--config-name" for pdns, pdns_recursor already prefix every
+# resource by 'pdns_recursor-'.
+EXTRAOPTS="--config-name=<%= @pdns_virtual_instance %> --config-dir=<%= @config_dir %>"
+
+pdns_recursor="/usr/sbin/pdns_recursor ${EXTRAOPTS}"
 
 start() {
-  echo -n $"Starting pdns-recursor: "
-  daemon /usr/sbin/pdns_recursor --daemon 2>/dev/null
+  echo -n $"Starting pdns-recursor virtual instance '<%= @pdns_virtual_instance %>': "
+  daemon ${pdns_recursor} --daemon 2>/dev/null
   RETVAL=$?
   echo
-  [ $RETVAL -eq 0 ] && touch /var/lock/subsys/pdns-recursor
+  [ $RETVAL -eq 0 ] && touch /var/lock/subsys/<%= @service_name %>
 }
 
 stop() {
-  echo -n $"Stopping pdns-recursor: "
-  killproc pdns_recursor
+  echo -n $"Stopping pdns-recursor virtual instance '<%= @pdns_virtual_instance %>': "
+  killproc -p ${PIDFILE} "${pdns_recursor}"
   echo
-  [ $RETVAL -eq 0 ] && rm -f /var/lock/subsys/pdns-recursor && rm -f /var/run/pdns_recursor.controlsocket
+  [ $RETVAL -eq 0 ] && rm -f /var/lock/subsys/<%= @service_name %> && rm -f <%= ::File.join(@socket_dir, "#{@service_name}.controlsocket") %>
 }
 
 restart() {
@@ -51,7 +59,7 @@ case "$1" in
   [ -f /var/lock/subsys/pdns-recursor ] && restart
   ;;
   status)
-  status pdns_recursor
+  status -p ${PIDFILE} pdns_recursor
   RETVAL=$?
   ;;
   *)

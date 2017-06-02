@@ -16,78 +16,79 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+include ::PdnsResource::Helpers
+include ::PdnsRecursorResource::Helpers
 
-resource_name :pdns_recursor_service_debian_sysvinit
+resource_name :pdns_recursor_service_sysvinit
 
-provides :pdns_recursor_service_sysvinit
-
-provides :pdns_recursor_service, platform: 'ubuntu' do |node|
-  node['platform_version'].to_f >= 14.04
-end
-
-provides :pdns_recursor_service, platform: 'debian' do |node|
-  node['platform_version'].to_i >= 8
+provides :pdns_recursor_service, os: 'linux' do |_node|
+  Chef::Platform::ServiceHelpers.service_resource_providers.include?(:debian) ||
+    Chef::Platform::ServiceHelpers.service_resource_providers.include?(:redhat)
 end
 
 property :instance_name, String, name_property: true
 property :cookbook, [String,nil], default: 'pdns'
-property :source, [String,nil], default: 'recursor.init.debian.erb'
 property :config_dir, String, default: lazy { default_recursor_config_directory }
+property :source, [String,nil], default: lazy { "recursor.init.#{node['platform_family']}.erb" }
 property :socket_dir, String, default: lazy { |resource| "/var/run/#{resource.instance_name}" }
-property :instances_dir, String, default: 'recursor.d'
+
 
 action :enable do
-  recursor_instance_dir = "#{new_resource.config_dir}/#{new_resource.instances_dir}/#{new_resource.instance_name}"
+  # To make sure the default package doesn't start any "pdns_recursor" daemon
+  # because the default service could stop all other instances
+  service 'pdns-recursor' do
+    supports restart: true, status: true
+    action [:disable, :stop]
+    only_if { ::File.exist?('/var/run/pdns_recursor.pid') }
+  end
 
-  template "/etc/init.d/#{new_resource.instance_name}" do
+  service_name = sysvinit_name(new_resource.instance_name)
+
+  template "/etc/init.d/#{service_name}" do
     source new_resource.source
     owner 'root'
     group 'root'
     mode '0755'
     variables(
-      instance_name: new_resource.instance_name,
-      instance_dir: recursor_instance_dir,
-      socket_dir: new_resource.socket_dir
+      pdns_virtual_instance: new_resource.instance_name,
+      service_name: service_name,
+      config_dir: new_resource.config_dir,
+      socket_dir: new_resource.socket_dir,
       )
     cookbook new_resource.cookbook
     action :create
   end
 
-  service "pdns-recursor-#{new_resource.instance_name}" do
-    provider Chef::Provider::Service::Init::Debian
-    service_name 'pdns-recursor'
-    pattern 'pdns_recursor'
+  service service_name do
     supports restart: true, status: true
     action :enable
   end
+
 end
 
 action :start do
-  service "pdns-recursor-#{new_resource.instance_name}" do
-    provider Chef::Provider::Service::Init::Debian
-    service_name 'pdns-recursor'
-    pattern 'pdns_recursor'
+  service sysvinit_name(new_resource.instance_name) do
     supports restart: true, status: true
     action :start
   end
 end
 
 action :stop do
-  service "pdns-recursor-#{new_resource.instance_name}" do
-    provider Chef::Provider::Service::Init::Debian
-    service_name 'pdns-recursor'
-    pattern 'pdns_recursor'
+  service sysvinit_name(new_resource.instance_name) do
     supports restart: true, status: true
     action :stop
   end
 end
 
 action :restart do
-  service "pdns-recursor-#{new_resource.instance_name}" do
-    provider Chef::Provider::Service::Init::Debian
-    service_name 'pdns-recursor'
-    pattern 'pdns_recursor'
+  service sysvinit_name(new_resource.instance_name) do
     supports restart: true, status: true
     action :restart
+  end
+end
+
+action_class.class_eval do
+  def whyrun_supported?
+    true
   end
 end

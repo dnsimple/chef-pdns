@@ -38,13 +38,26 @@ describe 'pdns_test::recursor_install_multi' do
     # Tests for the service resource
     #
 
-    it 'creates a specific init script' do
-      expect(chef_run).to create_template('/etc/init.d/server-01')
+    it 'creates a specific init script (SysVinit)' do
+      mock_service_resource_providers(%i{redhat upstart})
+      expect(chef_run).to create_template('/etc/init.d/pdns_recursor-server-01')
     end
 
-    it 'enables and starts pdns_recursor service' do
-      expect(chef_run).to enable_service('pdns-recursor-server-01').with(pattern: 'pdns_recursor')
-      expect(chef_run).to start_service('pdns-recursor-server-01').with(pattern: 'pdns_recursor')
+    it 'enables and starts pdns_recursor service (SysVinit)' do
+      mock_service_resource_providers(%i{redhat upstart})
+      expect(chef_run).to enable_service('pdns_recursor-server-01')
+      expect(chef_run).to start_service('pdns_recursor-server-01')
+    end
+
+    it 'should not creates a specific init script (Systemd)' do
+      mock_service_resource_providers(%i{redhat systemd})
+      expect(chef_run).not_to create_template('/etc/init.d/pdns_recursor-server-01')
+    end
+
+    it 'enables and starts pdns_recursor instance (Systemd)' do
+      mock_service_resource_providers(%i{redhat systemd})
+      expect(chef_run).to enable_service('pdns-recursor@server-01')
+      expect(chef_run).to start_service('pdns-recursor@server-01')
     end
 
     #
@@ -52,7 +65,7 @@ describe 'pdns_test::recursor_install_multi' do
     #
 
     it 'creates pdns config directory' do
-      expect(chef_run).to create_directory('/etc/powerdns-recursor')
+      expect(chef_run).to create_directory('/etc/pdns-recursor')
       .with(owner: 'root', group: 'root', mode: '0755')
     end
 
@@ -70,13 +83,8 @@ describe 'pdns_test::recursor_install_multi' do
       expect(chef_run).to create_directory('/var/run/server-01')
     end
 
-    it 'creates a recursor.d config directory' do
-      expect(chef_run).to create_directory('/etc/powerdns-recursor/recursor.d/server-01')
-      .with(owner: 'root', group: 'root', mode: '0755')
-    end
-
     it 'creates a recursor instance config' do
-      expect(chef_run).to create_template('/etc/powerdns-recursor/recursor.d/server-01/recursor.conf')
+      expect(chef_run).to create_template('/etc/pdns-recursor/recursor-server-01.conf')
       .with(owner: 'root', group: 'root', mode: '0640')
     end
 

@@ -16,6 +16,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+include ::PdnsResource::Helpers
+include ::PdnsRecursorResource::Helpers
 
 resource_name :pdns_recursor_config
 
@@ -41,13 +43,11 @@ property :run_user_shell, String, default: lazy { default_user_attributes[:shell
 property :setuid, String, default: lazy { |resource| resource.run_user }
 property :setgid, String, default: lazy { |resource| resource.run_group }
 
-property :instances_dir, [String,nil], default: 'recursor.d'
 property :source, [String,nil], default: 'recursor_service.conf.erb'
 property :cookbook, [String,nil], default: 'pdns'
 property :variables, [Hash], default: {}
 
 action :create do
-  recursor_instance_dir = "#{new_resource.config_dir}/#{new_resource.instances_dir}/#{new_resource.instance_name}"
 
   directory new_resource.config_dir do
     owner 'root'
@@ -72,31 +72,31 @@ action :create do
   directory new_resource.socket_dir do
     owner new_resource.run_user
     group new_resource.run_group
-    mode '0755'
+    # When using service_manager the 'socket-dir' has to be writable for the 'set-gid'
+    # in order to start the service:
+    # Issue: https://github.com/PowerDNS/pdns/issues/4826
+    mode '0775'
     recursive true
     action :create
   end
 
-  directory recursor_instance_dir do
-    owner 'root'
-    group 'root'
-    mode '0755'
-    recursive true
-    action :create
-  end
-
-  template "#{recursor_instance_dir}/recursor.conf" do
+  template "#{new_resource.config_dir}/recursor-#{new_resource.instance_name}.conf" do
     source new_resource.source
     cookbook new_resource.cookbook
     owner 'root'
     group 'root'
     mode '0640'
     variables(
-      config_dir: recursor_instance_dir,
       socket_dir: new_resource.socket_dir,
       setuid: new_resource.setuid,
       setgid: new_resource.setgid,
       variables: new_resource.variables
       )
+  end
+end
+
+action_class.class_eval do
+  def whyrun_supported?
+    true
   end
 end
