@@ -1,22 +1,22 @@
-pdns_recursor_install 'server-01' do
+pdns_recursor_install 'server_01' do
   action :install
   version recursor_version_per_platform
 end
 
-pdns_recursor_config 'server-01' do
+pdns_recursor_config 'server_01' do
   action :create
 end
 
-pdns_recursor_service 'server-01' do
+pdns_recursor_service 'server_01' do
   action [:enable, :start]
 end
 
-pdns_recursor_install 'server-02' do
+pdns_recursor_install 'server_02' do
   action :install
   version recursor_version_per_platform
 end
 
-pdns_recursor_config 'server-02' do
+pdns_recursor_config 'server_02' do
   action :create
   run_user 'another-pdns'
   run_group 'another-pdns'
@@ -26,6 +26,6 @@ pdns_recursor_config 'server-02' do
   )
 end
 
-pdns_recursor_service 'server-02' do
+pdns_recursor_service 'server_02' do
   action [:enable, :start]
 end

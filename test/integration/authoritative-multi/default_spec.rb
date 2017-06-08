@@ -22,11 +22,11 @@ describe group(default_authoritative_run_user) do
   it { should exist }
 end
 
-describe processes('pdns_server-authoritative-server-01-instance') do
+describe processes('pdns_server-authoritative_server_01-instance') do
   its ('users') { should eq [default_authoritative_run_user] }
 end
 
-describe processes('pdns_server-authoritative-server-02-instance') do
+describe processes('pdns_server-authoritative_server_02-instance') do
   its ('users') { should eq ['another-pdns'] }
 end
 

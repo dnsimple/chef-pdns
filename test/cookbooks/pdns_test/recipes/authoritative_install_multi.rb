@@ -1,26 +1,26 @@
-pdns_authoritative_install 'server-01' do
+pdns_authoritative_install 'server_01' do
   action :install
   version authoritative_version_per_platform
 end
 
-pdns_authoritative_service 'server-01' do
+pdns_authoritative_service 'server_01' do
   action :enable
 end
 
-pdns_authoritative_config 'server-01' do
+pdns_authoritative_config 'server_01' do
   action :create
 end
 
-pdns_authoritative_install 'server-02' do
+pdns_authoritative_install 'server_02' do
   action :install
   version authoritative_version_per_platform
 end
 
-pdns_authoritative_service 'server-02' do
+pdns_authoritative_service 'server_02' do
   action :enable
 end
 
-pdns_authoritative_config 'server-02' do
+pdns_authoritative_config 'server_02' do
   action :create
   run_user 'another-pdns'
   run_group 'another-pdns'
@@ -54,10 +54,10 @@ file "#{default_authoritative_config_directory}/example.org.zone" do
   mode '0750'
 end
 
-pdns_authoritative_service 'server-01' do
+pdns_authoritative_service 'server_01' do
   action :start
 end
 
-pdns_authoritative_service 'server-02' do
+pdns_authoritative_service 'server_02' do
   action :start
 end
