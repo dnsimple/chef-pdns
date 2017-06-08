@@ -23,7 +23,7 @@ module PdnsRecursorResource
     end
 
     def sysvinit_name(name = nil)
-      "pdns_recursor-#{name}"
+      "pdns-recursor_#{name}"
     end
 
     def default_recursor_config_directory

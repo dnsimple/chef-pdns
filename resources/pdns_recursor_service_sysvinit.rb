@@ -63,7 +63,6 @@ action :enable do
     supports restart: true, status: true
     action :enable
   end
-
 end
 
 action :start do
