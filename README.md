@@ -33,6 +33,7 @@ The current version of the cookbook provides basic support for recursors and aut
 | Debian   | bind, postgresql | SysVinit     |
 | CentOS   | bind, postgresql | SysVinit     |
 
+
 ### Platforms:
 
 * Ubuntu (14.04)
@@ -81,7 +82,7 @@ For advanced use it is recommended to take a look at the chef resources themselv
 PowerDNS uses hyphens `-` in their configuration files, chef resources and ruby symbols don't work very well with hyphens, so using underscore `_` in this cookbook for properties is required and will be tranlated automatically to hyphens in the configuration templates, example:
 
 ```
-pdns_authoritative_config 'server-01' do
+pdns_authoritative_config 'server_01' do
   action :create
   launch ['gpgsql']
   variables(
@@ -94,7 +95,7 @@ pdns_authoritative_config 'server-01' do
 end
 ```
 
-Will create a file named `/etc/powerdns/pdns-authoritative-server-01.conf`:
+Will create a file named `/etc/powerdns/pdns-authoritative_server_01.conf`:
 
 ```
 launch ['gpgsql']
@@ -128,7 +129,7 @@ Installs PowerDNS authoritative server 4.X series using PowerDNS official reposi
 Install a PowerDNS authoritative server package named `server-01` with the latest version available in the repository.
 
 ```
-pdns_authoritative_install 'server-01' do
+pdns_authoritative_install 'server_01' do
   action :install
 end
 ```
@@ -160,7 +161,7 @@ Creates a PowerDNS recursor configuration, there is a fixed set of required prop
 Create a PowerDNS authoritative configuration file named `server-01`:
 
 ```
-pdns_authoritative_config 'server-01' do
+pdns_authoritative_config 'server_01' do
   action :create
   launch ['gpgsql']
   variables(
@@ -195,7 +196,7 @@ Creates a init service to manage a PowerDNS authoritative instance. This service
 #### Usage example
 
 ```
-pdns_authoritative_service 'server-01' do
+pdns_authoritative_service 'server_01' do
   action [:enable, :start]
 end
 ```
@@ -236,9 +237,9 @@ Installs PowerDNS recursor 4.X series using PowerDNS official repository in the 
 
 #### Usage Example
 
-Install a 4. powerdns instance named 'my-recursor' on ubuntu 14.04:
+Install a 4. powerdns instance named 'my_recursor' on ubuntu 14.04:
 
-    pdns_recursor_install 'my-recursor' do
+    pdns_recursor_install 'my_recursor' do
       version '4.0.4-1pdns.trusty'
     end
 
@@ -266,9 +267,9 @@ Sets up a PowerDNS recursor instance using the appropiate init system .
 
 #### Usage Example
 
-Configure a PowerDNS recursor service instance named 'my-recursor' in your wrapper cookbook for Acme Corp with a custom template named `my-recursor.erb`
+Configure a PowerDNS recursor service instance named 'my_recursor' in your wrapper cookbook for Acme Corp with a custom template named `my-recursor.erb`
 
-    pdns_recursor_service 'my-recursor' do
+    pdns_recursor_service 'my_recursor' do
       source 'my-recursor.erb'
       cookbook 'acme-pdns-recursor'
     end
@@ -307,13 +308,21 @@ Creates a PowerDNS recursor configuration.
 
 #### Usage Example
 
-Create a PowerDNS recursor configuration named 'my-recursor' in your wrapper cookbook for Acme Corp which uses a custom template named `my-recursor.erb` and a few attributes:
+Create a PowerDNS recursor configuration named 'my_recursor' in your wrapper cookbook for Acme Corp which uses a custom template named `my-recursor.erb` and a few attributes:
 
-    pdns_recursor_config 'my-recursor' do
+    pdns_recursor_config 'my_recursor' do
       source 'my-recursor.erb'
       cookbook 'acme-pdns-recursor'
       variables(client-tcp-timeout: '20', loglevel: '5', network-timeout: '2000')
     end
+
+#### Virtual Hosting
+
+PowerDNS supports virtual hosting: running many instances of PowerDNS on different ports on the same machine. This is done by a few clever hacks on the init scripts that allow to specify different config files for each instance. This cookbook leverages this functionality in both recursor and authoritative.
+
+[PowerDNS recommends a specific naming schema](https://doc.powerdns.com/md/authoritative/running/) authoritative for virtual hosting. Specifically it does not allow hyphens (-) on the init scripts beyond the first which is provided by the init script (`/etc/init.d/pdns-`).
+
+We have adopted the convention of using underscores (_) in the name attributes of underscores in order to comply with this requirement.
 
 ## Contributing
 
