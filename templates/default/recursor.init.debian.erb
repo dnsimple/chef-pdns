@@ -25,7 +25,7 @@ DESC="PowerDNS recursor"
 NAME=pdns_recursor
 INSTANCE_NAME=<%= @pdns_virtual_instance %>
 DAEMON=/usr/sbin/$NAME
-CONFIG_FILE=<%= ::File.join(@config_dir, "#{@service_name}.conf") %>
+CONFIG_FILE=<%= ::File.join(@config_dir, "recursor-#{@pdns_virtual_instance}.conf") %>
 CONFIG_DIR=<%= @config_dir %>
 
 # Derive the socket-dir setting from $CONFIG_FILE
@@ -34,7 +34,7 @@ PIDDIR=$(awk -F= '/^socket-dir=/ {print $2}' $CONFIG_FILE)
 if [ -z "$PIDDIR" ]; then PIDDIR=/var/run; fi
   # The binary "pdns_recursor" handles its own pidfile according the following
   # schema: pdns_recursor-<VIRTUAL_INSTANCE_NAME>
-  PIDFILE=<%= ::File.join('$PIDDIR', @pdns_virtual_instance, "#{@service_name}.pid") %>
+  PIDFILE="${PIDDIR}/pdns_recursor-${INSTANCE_NAME}.pid"
 
 # Gracefully exit if the package has been removed.
 test -x $DAEMON || exit 0
