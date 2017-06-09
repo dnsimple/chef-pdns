@@ -33,7 +33,7 @@ end
 def backend_package_per_platform
   return 'pdns-backend-geo'      if node['platform_family'] == 'debian' && new_resource.instance_name == 'geo'
   return 'pdns-backend-ldap'     if node['platform_family'] == 'debian' && new_resource.instance_name == 'ldap'
-  return 'pdns-backend-mysql '   if node['platform_family'] == 'debian' && new_resource.instance_name == 'mysql'
+  return 'pdns-backend-mysql'   if node['platform_family'] == 'debian' && new_resource.instance_name == 'mysql'
   return 'pdns-backend-pgsql'    if node['platform_family'] == 'debian' && new_resource.instance_name == 'postgresql'
   return 'pdns-backend-pipe'     if node['platform_family'] == 'debian' && new_resource.instance_name == 'pipe'
   return 'pdns-backend-sqlite3'  if node['platform_family'] == 'debian' && new_resource.instance_name == 'sqlite'
