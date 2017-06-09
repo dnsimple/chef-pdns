@@ -21,9 +21,16 @@ include ::PdnsRecursorResource::Helpers
 
 resource_name :pdns_recursor_service_sysvinit
 
-provides :pdns_recursor_service, os: 'linux' do |_node|
-  Chef::Platform::ServiceHelpers.service_resource_providers.include?(:debian) ||
-    Chef::Platform::ServiceHelpers.service_resource_providers.include?(:redhat)
+provides :pdns_recursor_service, platform: 'centos' do |node| # ~FC005
+  node['platform_version'].to_i >= 6
+end
+
+provides :pdns_recursor_service, platform: 'ubuntu' do |node|
+  node['platform_version'].to_f >= 14.04
+end
+
+provides :pdns_recursor_service, platform: 'debian' do |node|
+  node['platform_version'].to_i >= 8
 end
 
 property :instance_name, String, name_property: true
