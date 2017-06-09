@@ -39,12 +39,12 @@ describe 'pdns_test::authoritative_install_multi' do
     #
 
     it 'creates a specific init script' do
-      expect(chef_run).to create_template('/etc/init.d/pdns-authoritative-server-01')
+      expect(chef_run).to create_template('/etc/init.d/pdns-authoritative_server_01')
     end
 
     it 'enables and starts pdns_authoritative service' do
-      expect(chef_run).to enable_service('pdns-authoritative-server-01').with(pattern: 'pdns_server')
-      expect(chef_run).to start_service('pdns-authoritative-server-01').with(pattern: 'pdns_server')
+      expect(chef_run).to enable_service('pdns-authoritative_server_01').with(pattern: 'pdns_server')
+      expect(chef_run).to start_service('pdns-authoritative_server_01').with(pattern: 'pdns_server')
     end
 
     #
@@ -67,7 +67,7 @@ describe 'pdns_test::authoritative_install_multi' do
     end
 
     it 'creates a authoritative instance config' do
-      expect(chef_run).to create_template('/etc/pdns/pdns-authoritative-server-01.conf')
+      expect(chef_run).to create_template('/etc/pdns/pdns-authoritative_server_01.conf')
       .with(owner: 'root', group: 'root', mode: '0640')
     end
 
