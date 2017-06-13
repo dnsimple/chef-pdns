@@ -33,11 +33,73 @@ The current version of the cookbook provides basic support for recursors and aut
 | Debian   | bind, postgresql | SysVinit     |
 | CentOS   | bind, postgresql | SysVinit     |
 
+IMPORTANT:
+
+Versions 3.0 to 3.2 of this cookbook has used a different naming schema for init scripts and config files.
+
+In order to conform with PowerDNS specifications for its [virtual hosting](#virtual-hosting) features, we have changed the way of naming init scripts and config files. PowerDNS advices not to use hyphens `-` on init scripts, after their own prefixes (which uses hyphens).
+
+If you are upgrading from one of those versions here are some recomendations to migrate to newer versions.
+
+- Authoritative:
+
+What has changed inside the resources:
+
+Services declaration change on (3.0.0 to 3.2.0) from: `service 'pdns-authoritative-<your-resource-name>' do`
+To (> 3.3.0): `service "pdns-authoritative_#{new_resource.instance_name}" do`
+
+Configuration files change on (3.0.0 to 3.2.0) from: `template "pdns-authoritative-#{new_resource.instance_name}.conf" do`
+To (> 3.3.0): `template "pdns-authoritative_#{new_resource.instance_name}.conf" do `
+
+Init scripts change on (3.0.0 to 3.2.0) from: `template "/etc/init.d/pdns-authoritative-#{new_resource.instance_name}" do`
+To (> 3.3.0): `template "/etc/init.d/pdns-authoritative_#{new_resource.instance_name}" do`
+
+One way of fixing this is to add to your recipe a block of code similar to the one below this lines, this will delete the outdated configuration files.
+
+```
+service 'pdns-authoritative-<your-resource-name>' do
+  action :disable
+end
+
+file 'pdns-authoritative-<your-resource-name>.conf' do
+  action :delete
+end
+
+file '/etc/init.d/pdns-authoritative-<your-resource-name>' do
+  action :delete
+end
+```
+
+- Recursor
+
+What has changed inside the resources:
+
+Services declaration change on (3.0.0 to 3.2.0) from: `service 'pdns-recursor-<your-resource-name>' do`
+To (> 3.3.0): `service "pdns-recursor_#{new_resource.instance_name}" do`
+
+Init scripts change on (3.0.0 to 3.2.0) from: `template "/etc/init.d/pdns-recursor-#{new_resource.instance_name}" do`
+To (> 3.3.0): `template "/etc/init.d/pdns-recursor_#{new_resource.instance_name}" do`
+
+For the recursor it's the same, you'll need to add something like this to your recipe:
+
+```
+service 'pdns_recursor-<your-resource-name>' do
+  action :disable
+end
+
+file '/etc/init.d/pdns_recursor-<your-resource-name>' dp
+  action :delete
+end
+```
+
+- Final Note
+
+If you decide to follow the convention recommended by PDNS for Virtual Hosting, and you want to change the hyphens used for underscore, you'll need to additionally delete or rename some configuration files as you would normally do when changing the name on a chef resource.
 
 ### Platforms:
 
-* Ubuntu (14.04)
-* CentOS (6.8)
+- Ubuntu (14.04)
+- CentOS (6.8)
 
 ### Chef:
 
@@ -50,12 +112,12 @@ Only `SysVinit` is supported for "pdns-authoritative".
 
 ### Required Cookbooks:
 
-* apt
-* yum
+- apt
+- yum
 
 ### Suggested Cookbooks:
 
-* postgres (for the PostgreSQL backend)
+- postgres (for the PostgreSQL backend)
 
 ## Usage
 
@@ -254,7 +316,7 @@ Sets up a PowerDNS recursor instance using the appropiate init system .
 
 | Name           | Class      |  Default value                                        | Consistent? |
 |----------------|------------|-------------------------------------------------------|-------------|
-| instance_name  | String     | name_property                                         | Yes         |  
+| instance_name  | String     | name_property                                         | Yes         |
 | config_dir     | String     | see `default_recursor_config_directory` helper method | Yes         |
 | cookbook (SysVinit)      | String,nil | 'pdns'                                                | No          |
 | source  (SysVinit)       | String,nil | 'recursor.init.#{node['platform_family']}.erb'                            | No          |
