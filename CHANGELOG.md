@@ -1,3 +1,44 @@
+# 3.3.0 / 2017-14-06
+
+## Enhancements
+
+* Recursor latest version 4.0.5
+* Updated README
+
+## Bug Fixes
+
+* Correcting naming conventions on init scripts that were not following PowerDNS considerations for virtual hosting.
+* Fixing tests
+
+# 3.2.0 / 2017-02-06
+
+## Enhancements
+
+* Added systemd support for recursors
+
+## Bug Fixes
+
+* Stop and Disable the service 'pdns-recursor' as soon as new instance
+is created
+
+# 3.1.0 / 2017-01-06
+
+## Enhancements
+
+* Expanding ChefSpec matchers
+
+# 3.0.0 / 2017-29-05
+
+## Enhancements
+
+* Complete rewrite of the cookbook 
+* Using official PowerDNS apt repositories
+* Using Chef 12.5+ resources to create PowerDNS installs and settings for recursors and authoritatives.
+* ChefSpec and Inspec Tests
+* Centos 6, 7 Support
+* Ubuntu 14.04, 16.04 Support
+* Debian 8 support
+
 # 2.5.0 / 2017-02-08
 
 ## Maintenance
