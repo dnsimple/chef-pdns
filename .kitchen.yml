@@ -21,13 +21,19 @@ suites:
       - recipe[pdns_test::inspec_dependencies]
       - recipe[pdns_test::recursor_install_multi]
     attributes:
-  - name: authoritative-postgres
-    run_list:
-      - recipe[pdns_test::inspec_dependencies]
-      - recipe[pdns_test::authoritative_install_single_postgres]
-    attributes:
   - name: authoritative-multi
     run_list:
       - recipe[pdns_test::inspec_dependencies]
       - recipe[pdns_test::authoritative_install_multi]
+    attributes:
+  - name: authoritative-postgres
+    includes: [
+      'centos-7',
+      'debian-8',
+      'ubuntu-14.04',
+      'ubuntu-16.04'
+    ]
+    run_list:
+      - recipe[pdns_test::inspec_dependencies]
+      - recipe[pdns_test::authoritative_install_single_postgres]
     attributes:

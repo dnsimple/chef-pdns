@@ -41,20 +41,20 @@ action :enable do
     action [:stop, :disable]
   end
 
-  template "/etc/init.d/pdns-authoritative-#{new_resource.instance_name}" do
+  template "/etc/init.d/pdns-authoritative_#{new_resource.instance_name}" do
     source new_resource.source
     owner 'root'
     group 'root'
     mode '0755'
     variables(
       socket_dir: new_resource.socket_dir,
-      provides: "pdns-authoritative-#{new_resource.instance_name}"
+      provides: "pdns-authoritative_#{new_resource.instance_name}"
       )
     cookbook new_resource.cookbook
     action :create
   end
 
-  service "pdns-authoritative-#{new_resource.instance_name}" do
+  service "pdns-authoritative_#{new_resource.instance_name}" do
     provider Chef::Provider::Service::Init::Debian
     pattern 'pdns_server'
     supports restart: true, status: true
@@ -63,7 +63,7 @@ action :enable do
 end
 
 action :start do
-  service "pdns-authoritative-#{new_resource.instance_name}" do
+  service "pdns-authoritative_#{new_resource.instance_name}" do
     provider Chef::Provider::Service::Init::Debian
     pattern 'pdns_server'
     supports restart: true, status: true
@@ -72,7 +72,7 @@ action :start do
 end
 
 action :stop do
-  service "pdns-authoritative-#{new_resource.instance_name}" do
+  service "pdns-authoritative_#{new_resource.instance_name}" do
     provider Chef::Provider::Service::Init::Debian
     pattern 'pdns_server'
     supports restart: true, status: true
@@ -81,7 +81,7 @@ action :stop do
 end
 
 action :restart do
-  service "pdns-authoritative-#{new_resource.instance_name}" do
+  service "pdns-authoritative_#{new_resource.instance_name}" do
     provider Chef::Provider::Service::Init::Debian
     pattern 'pdns_server'
     supports restart: true, status: true

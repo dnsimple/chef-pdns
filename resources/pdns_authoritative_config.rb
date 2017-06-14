@@ -76,7 +76,7 @@ action :create do
     action :create
   end
 
-  template "#{new_resource.config_dir}/pdns-authoritative-#{new_resource.instance_name}.conf" do
+  template "#{new_resource.config_dir}/pdns-authoritative_#{new_resource.instance_name}.conf" do
     source new_resource.source
     cookbook new_resource.cookbook
     owner 'root'

@@ -33,10 +33,85 @@ The current version of the cookbook provides basic support for recursors and aut
 | Debian   | bind, postgresql | SysVinit     |
 | CentOS   | bind, postgresql | SysVinit     |
 
+IMPORTANT:
+
+Versions 3.0 to 3.2 of this cookbook has used a different naming schema for init scripts and config files.
+
+In order to conform with PowerDNS specifications for its [virtual hosting](#virtual-hosting) features, we have changed the way of naming init scripts and config files. PowerDNS advices not to use hyphens `-` on init scripts, after their own prefixes (which uses hyphens).
+
+If you are upgrading from one of those versions here are some recomendations to migrate to newer versions.
+
+- Authoritative:
+
+What has changed inside the resources:
+
+Services declaration change on (3.0.0 to 3.2.0) from: `service 'pdns-authoritative-<your-resource-name>' do`
+To (> 3.3.0): `service "pdns-authoritative_#{new_resource.instance_name}" do`
+
+Configuration files change on (3.0.0 to 3.2.0) from: `template "pdns-authoritative-#{new_resource.instance_name}.conf" do`
+To (> 3.3.0): `template "pdns-authoritative_#{new_resource.instance_name}.conf" do `
+
+Init scripts change on (3.0.0 to 3.2.0) from: `template "/etc/init.d/pdns-authoritative-#{new_resource.instance_name}" do`
+To (> 3.3.0): `template "/etc/init.d/pdns-authoritative_#{new_resource.instance_name}" do`
+
+One way of fixing this is to add to your recipe a block of code similar to the one below this lines, this will delete the outdated configuration files.
+
+```
+execute 'service pdns-authoritative-<your-resource-name> stop' do
+  action :run
+  only_if { ::File.exists? '/etc/init.d/pdns-authoritative-<your-resource-name>' }
+end
+
+execute '/usr/sbin/update-rc.d -f pdns-authoritative-<your-resource-name> remove' do
+  action :run
+  only_if { ::File.exists? '/etc/init.d/pdns-authoritative-<your-resource-name>' }
+end
+
+file 'pdns-authoritative-<your-resource-name>.conf' do
+  action :delete
+end
+
+file '/etc/init.d/pdns-authoritative-<your-resource-name>' do
+  action :delete
+end
+```
+
+- Recursor
+
+What has changed inside the resources:
+
+Services declaration change on (3.0.0 to 3.2.0) from: `service 'pdns-recursor-<your-resource-name>' do`
+To (> 3.3.0): `service "pdns-recursor_#{new_resource.instance_name}" do`
+
+Init scripts change on (3.0.0 to 3.2.0) from: `template "/etc/init.d/pdns-recursor-#{new_resource.instance_name}" do`
+To (> 3.3.0): `template "/etc/init.d/pdns-recursor_#{new_resource.instance_name}" do`
+
+For the recursor it's the same, you'll need to add something like this to your recipe:
+
+```
+execute 'service pdns_recursor-<your-resource-name> stop' do
+  action :run
+  only_if { ::File.exists? '/etc/init.d/pdns_recursor-<your-resource-name>' }
+end
+
+execute '/usr/sbin/update-rc.d -f pdns_recursor-<your-resource-name> remove' do
+  action :run
+  only_if { ::File.exists? '/etc/init.d/pdns_recursor-<your-resource-name>' }
+end
+
+file '/etc/init.d/pdns_recursor-<your-resource-name>' dp
+  action :delete
+end
+```
+
+- Final Note
+
+If you decide to follow the convention recommended by PDNS for Virtual Hosting, and you want to change the hyphens used for underscore, you'll need to additionally delete or rename some configuration files as you would normally do when changing the name on a chef resource.
+
 ### Platforms:
 
-* Ubuntu (14.04)
-* CentOS (6.8)
+- Ubuntu (14.04)
+- CentOS (6.8)
 
 ### Chef:
 
@@ -49,12 +124,12 @@ Only `SysVinit` is supported for "pdns-authoritative".
 
 ### Required Cookbooks:
 
-* apt
-* yum
+- apt
+- yum
 
 ### Suggested Cookbooks:
 
-* postgres (for the PostgreSQL backend)
+- postgres (for the PostgreSQL backend)
 
 ## Usage
 
@@ -81,7 +156,7 @@ For advanced use it is recommended to take a look at the chef resources themselv
 PowerDNS uses hyphens `-` in their configuration files, chef resources and ruby symbols don't work very well with hyphens, so using underscore `_` in this cookbook for properties is required and will be tranlated automatically to hyphens in the configuration templates, example:
 
 ```
-pdns_authoritative_config 'server-01' do
+pdns_authoritative_config 'server_01' do
   action :create
   launch ['gpgsql']
   variables(
@@ -94,7 +169,7 @@ pdns_authoritative_config 'server-01' do
 end
 ```
 
-Will create a file named `/etc/powerdns/pdns-authoritative-server-01.conf`:
+Will create a file named `/etc/powerdns/pdns-authoritative_server_01.conf`:
 
 ```
 launch ['gpgsql']
@@ -128,7 +203,7 @@ Installs PowerDNS authoritative server 4.X series using PowerDNS official reposi
 Install a PowerDNS authoritative server package named `server-01` with the latest version available in the repository.
 
 ```
-pdns_authoritative_install 'server-01' do
+pdns_authoritative_install 'server_01' do
   action :install
 end
 ```
@@ -160,7 +235,7 @@ Creates a PowerDNS recursor configuration, there is a fixed set of required prop
 Create a PowerDNS authoritative configuration file named `server-01`:
 
 ```
-pdns_authoritative_config 'server-01' do
+pdns_authoritative_config 'server_01' do
   action :create
   launch ['gpgsql']
   variables(
@@ -195,7 +270,7 @@ Creates a init service to manage a PowerDNS authoritative instance. This service
 #### Usage example
 
 ```
-pdns_authoritative_service 'server-01' do
+pdns_authoritative_service 'server_01' do
   action [:enable, :start]
 end
 ```
@@ -236,9 +311,9 @@ Installs PowerDNS recursor 4.X series using PowerDNS official repository in the 
 
 #### Usage Example
 
-Install a 4. powerdns instance named 'my-recursor' on ubuntu 14.04:
+Install a 4. powerdns instance named 'my_recursor' on ubuntu 14.04:
 
-    pdns_recursor_install 'my-recursor' do
+    pdns_recursor_install 'my_recursor' do
       version '4.0.4-1pdns.trusty'
     end
 
@@ -253,7 +328,7 @@ Sets up a PowerDNS recursor instance using the appropiate init system .
 
 | Name           | Class      |  Default value                                        | Consistent? |
 |----------------|------------|-------------------------------------------------------|-------------|
-| instance_name  | String     | name_property                                         | Yes         |  
+| instance_name  | String     | name_property                                         | Yes         |
 | config_dir     | String     | see `default_recursor_config_directory` helper method | Yes         |
 | cookbook (SysVinit)      | String,nil | 'pdns'                                                | No          |
 | source  (SysVinit)       | String,nil | 'recursor.init.#{node['platform_family']}.erb'                            | No          |
@@ -266,9 +341,9 @@ Sets up a PowerDNS recursor instance using the appropiate init system .
 
 #### Usage Example
 
-Configure a PowerDNS recursor service instance named 'my-recursor' in your wrapper cookbook for Acme Corp with a custom template named `my-recursor.erb`
+Configure a PowerDNS recursor service instance named 'my_recursor' in your wrapper cookbook for Acme Corp with a custom template named `my-recursor.erb`
 
-    pdns_recursor_service 'my-recursor' do
+    pdns_recursor_service 'my_recursor' do
       source 'my-recursor.erb'
       cookbook 'acme-pdns-recursor'
     end
@@ -307,13 +382,21 @@ Creates a PowerDNS recursor configuration.
 
 #### Usage Example
 
-Create a PowerDNS recursor configuration named 'my-recursor' in your wrapper cookbook for Acme Corp which uses a custom template named `my-recursor.erb` and a few attributes:
+Create a PowerDNS recursor configuration named 'my_recursor' in your wrapper cookbook for Acme Corp which uses a custom template named `my-recursor.erb` and a few attributes:
 
-    pdns_recursor_config 'my-recursor' do
+    pdns_recursor_config 'my_recursor' do
       source 'my-recursor.erb'
       cookbook 'acme-pdns-recursor'
       variables(client-tcp-timeout: '20', loglevel: '5', network-timeout: '2000')
     end
+
+#### Virtual Hosting
+
+PowerDNS supports virtual hosting: running many instances of PowerDNS on different ports on the same machine. This is done by a few clever hacks on the init scripts that allow to specify different config files for each instance. This cookbook leverages this functionality in both recursor and authoritative.
+
+[PowerDNS recommends a specific naming schema](https://doc.powerdns.com/md/authoritative/running/) authoritative for virtual hosting. Specifically it does not allow hyphens (-) on the init scripts beyond the first which is provided by the init script (`/etc/init.d/pdns-`).
+
+We have adopted the convention of using underscores (_) in the name attributes of underscores in order to comply with this requirement.
 
 ## Contributing
 
