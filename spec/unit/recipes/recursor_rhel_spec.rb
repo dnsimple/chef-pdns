@@ -12,7 +12,7 @@ describe 'pdns_test::recursor_install_multi' do
     end
 
     let(:chef_run) { rhel_runner.converge(described_recipe) }
-    let(:version) { '4.0.4-1pdns.el6' }
+    let(:version) { '4.0.5-1pdns.el6' }
 
     #
     # Tests for the install resource
