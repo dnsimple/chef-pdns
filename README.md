@@ -57,8 +57,14 @@ To (> 3.3.0): `template "/etc/init.d/pdns-authoritative_#{new_resource.instance_
 One way of fixing this is to add to your recipe a block of code similar to the one below this lines, this will delete the outdated configuration files.
 
 ```
-service 'pdns-authoritative-<your-resource-name>' do
-  action :disable
+execute 'service pdns-authoritative-<your-resource-name> stop' do
+  action :run
+  only_if { ::File.exists? '/etc/init.d/pdns-authoritative-<your-resource-name>' }
+end
+
+execute '/usr/sbin/update-rc.d -f pdns-authoritative-<your-resource-name> remove' do
+  action :run
+  only_if { ::File.exists? '/etc/init.d/pdns-authoritative-<your-resource-name>' }
 end
 
 file 'pdns-authoritative-<your-resource-name>.conf' do
@@ -83,8 +89,14 @@ To (> 3.3.0): `template "/etc/init.d/pdns-recursor_#{new_resource.instance_name}
 For the recursor it's the same, you'll need to add something like this to your recipe:
 
 ```
-service 'pdns_recursor-<your-resource-name>' do
-  action :disable
+execute 'service pdns_recursor-<your-resource-name> stop' do
+  action :run
+  only_if { ::File.exists? '/etc/init.d/pdns_recursor-<your-resource-name>' }
+end
+
+execute '/usr/sbin/update-rc.d -f pdns_recursor-<your-resource-name> remove' do
+  action :run
+  only_if { ::File.exists? '/etc/init.d/pdns_recursor-<your-resource-name>' }
 end
 
 file '/etc/init.d/pdns_recursor-<your-resource-name>' dp
