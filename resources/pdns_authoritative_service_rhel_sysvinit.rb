@@ -78,7 +78,7 @@ action :stop do
 end
 
 action :restart do
-  service "pdns-authoritative-#{new_resource.instance_name}" do
+  service "pdns-authoritative_#{new_resource.instance_name}" do
     provider Chef::Provider::Service::Init::Redhat
     pattern 'pdns_server'
     supports restart: true, status: true
