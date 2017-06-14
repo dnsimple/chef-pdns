@@ -27,11 +27,11 @@ describe processes('pdns_recursor') do
 end
 
 describe command('dig -p 53 chaos txt version.bind @127.0.0.1 +short') do
-  its('stdout.chomp') { should match(/"PowerDNS Recursor 4.0.4/) }
+  its('stdout.chomp') { should match(/"PowerDNS Recursor 4.0.5/) }
 end
 
 describe command('dig -p 54 chaos txt version.bind @127.0.0.1 +short') do
-  its('stdout.chomp') { should match(/"PowerDNS Recursor 4.0.4/) }
+  its('stdout.chomp') { should match(/"PowerDNS Recursor 4.0.5/) }
 end
 
 describe command('dig -p 53 @127.0.0.1 dnsimple.com') do
@@ -41,4 +41,3 @@ end
 describe command('dig -p 54 @127.0.0.1 dnsimple.com') do
   its('stdout') { should match(/208.93.64.253/) }
 end
-
