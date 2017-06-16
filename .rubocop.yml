@@ -1,2 +1,4 @@
 Style/SymbolProc:
   Enabled: false
+Metrics/LineLength:
+    Max: 100

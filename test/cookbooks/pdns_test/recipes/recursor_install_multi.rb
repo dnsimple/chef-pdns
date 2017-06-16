@@ -8,6 +8,8 @@ end
 
 pdns_recursor_install 'server_02' do
   action :install
+  debug true
+  version recursor_version_per_platform
 end
 
 pdns_recursor_config 'server_02' do
@@ -21,9 +23,9 @@ pdns_recursor_config 'server_02' do
 end
 
 pdns_recursor_service '' do
-  action [:enable, :start]
+  action %i[enable start]
 end
 
 pdns_recursor_service 'server_02' do
-  action [:enable, :start]
+  action %i[enable start]
 end

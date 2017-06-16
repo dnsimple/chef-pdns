@@ -227,7 +227,14 @@ Installs PowerDNS recursor 4.X series using PowerDNS official repository in the 
 | Name           | Class       |  Default value  | Consistent? |
 |----------------|-------------|-----------------|-------------|
 | version        | String      | name_property   | Yes         |
-| debug          | True, False | String, nil     | No          |
+| uri (Debian)   | String      |  "http://repo.powerdns.com/#{node['platform']}"    | No          |
+| distribution (Debian)   | String      |  "#{node['lsb']['codename']}-rec-40"    | No          |
+| key (Debian)   | String      |  "https://repo.powerdns.com/FD380FBB-pub.asc"    | No          |
+| baseurl (CentOS)   | String      |  Pdns::Helpers::REDHAT_URL['rec']['baseurl']    | No          |
+| gpgkey (CentOS)   | String      |   Pdns::Helpers::REDHAT_URL['rec']['gpgkey']  | No          |
+| baseurl_debug (CentOS)   | String      |  Pdns::Helpers::REDHAT_URL['rec']['baseurl_debug']  | No          |
+| debug (CentOS)   | Boolean      |  No    | No          |
+
 
 #### Usage Example
 

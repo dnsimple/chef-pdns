@@ -118,3 +118,38 @@ module Pdns
     end
   end
 end
+
+module Pdns
+  # Common helper for PowerDNS cookbook
+  module Helpers
+    unless constants.include? :REDHAT_URL
+      REDHAT_URL = Mash.new(
+        auth: {
+          baseurl: 'http://repo.powerdns.com/centos/$basearch/$releasever/auth-40',
+          gpgkey: 'https://repo.powerdns.com/CBC8B383-pub.asc',
+          baseurl_debug: 'http://repo.powerdns.com/centos/$basearch/$releasever/auth-40/debug'
+        },
+        rec: {
+          baseurl: 'http://repo.powerdns.com/centos/$basearch/$releasever/rec-40',
+          gpgkey: 'https://repo.powerdns.com/FD380FBB-pub.asc',
+          baseurl_debug: 'http://repo.powerdns.com/centos/$basearch/$releasever/rec-40/debug'
+        }
+      ).freeze
+    end
+
+    def repository_name(url = REDHAT_URL['auth']['baseurl'], name = '')
+      "powerdns-#{url.split('/').last}-#{name}"
+    end
+
+    def copy_properties_to(to, *properties)
+      properties = self.class.properties.keys if properties.empty?
+      properties.each do |p|
+        # If the property is set on from, and exists on to, set the
+        # property on to
+        if to.class.properties.include?(p) && property_is_set?(p)
+          to.send(p, send(p))
+        end
+      end
+    end
+  end
+end
