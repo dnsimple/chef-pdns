@@ -11,15 +11,27 @@ addons:
 env:
   global:
   - KITCHEN_LOCAL_YAML=.kitchen.dokken.yml
+  matrix:
+  # Lint + chefspec tests
+  - TASK="quick"
+  # Split up the test-kitchen run to avoid exceeding 50 minutes:
+  - TASK="integration:dokken" ACTION="test" KITCHEN_REGEXP=recursor CONCURRENCY="2"
+  - TASK="integration:dokken" ACTION="test" KITCHEN_REGEXP=authoritative-multi CONCURRENCY="2"
+  - TASK="integration:dokken" ACTION="test" KITCHEN_REGEXP=postgres CONCURRENCY="2"
+
+matrix:
+  fast_finish: true
 
 install: echo "skip bundle install"
 
 before_script:
 - eval "$(/opt/chefdk/bin/chef shell-init bash)"
-- chef gem install kitchen-dokken
+  # Dokken network creation is failing on travis.
+  # Ref: https://github.com/someara/kitchen-dokken/issues/112
+- chef gem install kitchen-dokken -v '<= 2.1.10'
 - chef gem install stove
 
-script: chef exec rake travis
+script: chef exec rake "$TASK[$KITCHEN_REGEXP, $CONCURRENCY, $ACTION]"
 
 notifications:
   email: false
