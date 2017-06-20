@@ -1,3 +1,9 @@
+# 3.3.1 / 2017-20-06
+
+## Bug Fixes
+
+* Fixing MySQL package name for debian
+
 # 3.3.0 / 2017-14-06
 
 ## Enhancements
