@@ -8,25 +8,42 @@
 #
 # description:  PowerDNS Recursor is a non authoritative/recursing DNS server
 # processname:  <%= @service_name %>
-# config: <%= ::File.join(@config_dir, "#{@service_name}.conf") %>
-# pidfile: <%= ::File.join('/', 'var', 'run', @pdns_virtual_instance, "#{@service_name}.pid") %>
+# config: <%= ::File.join(@config_dir, "recursor-#{@pdns_virtual_instance}.conf") %>
+# pidfile: <%= ::File.join(@socket_dir, "pdns_recursor-#{@pdns_virtual_instance}.pid") %>
 #
 
 # source function library
 . /etc/rc.d/init.d/functions
 
-
 RETVAL=0
 PROGNAME=<%= @service_name %>
-PIDFILE=<%= ::File.join('/', 'var', 'run', @pdns_virtual_instance, "#{@service_name}.pid") %>
+CONFIG_FILE=<%= ::File.join(@config_dir, "recursor-#{@pdns_virtual_instance}.conf") %>
+INSTANCE_NAME=<%= @pdns_virtual_instance %>
+
+# Derive the socket-dir setting from $CONFIG_FILE
+# or fall back to the default /var/run if not specified there.
+PIDDIR=$(awk -F= '/^socket-dir=/ {print $2}' $CONFIG_FILE)
+if [ -z "$PIDDIR" ]; then PIDDIR=/var/run; fi
+  # The binary "pdns_recursor" handles its own pidfile according the following
+  # schema: pdns_recursor-<VIRTUAL_INSTANCE_NAME>
+  PIDFILE="${PIDDIR}/pdns_recursor-${INSTANCE_NAME}.pid"
+
 # When using "--config-name" for pdns, pdns_recursor already prefix every
 # resource by 'pdns_recursor-'.
 EXTRAOPTS="--config-name=<%= @pdns_virtual_instance %> --config-dir=<%= @config_dir %>"
 
 pdns_recursor="/usr/sbin/pdns_recursor ${EXTRAOPTS}"
 
+create_socket_dir() {
+  if [ ! -d $PIDDIR ]; then
+    mkdir -p $PIDDIR
+    chmod 0755 $PIDDIR
+  fi
+}
+
 start() {
   echo -n $"Starting pdns-recursor virtual instance '<%= @pdns_virtual_instance %>': "
+  create_socket_dir
   daemon ${pdns_recursor} --daemon 2>/dev/null
   RETVAL=$?
   echo
