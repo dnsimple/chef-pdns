@@ -41,12 +41,11 @@ property :socket_dir, String, default: lazy { |resource| "/var/run/#{resource.in
 
 
 action :enable do
-  # To make sure the default package doesn't start any "pdns_recursor" daemon
-  # because the default service could stop all other instances
+  # Some sysvint systems start the default pdns-recursor after installations
+  # We make sure to disable it which also stops the service in some platforms
   service 'pdns-recursor' do
     supports restart: true, status: true
-    action [:disable, :stop]
-    only_if { ::File.exist?('/var/run/pdns_recursor.pid') }
+    action :disable
   end
 
   service_name = sysvinit_name(new_resource.instance_name)
