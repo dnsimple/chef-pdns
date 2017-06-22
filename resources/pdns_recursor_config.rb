@@ -69,17 +69,6 @@ action :create do
     action :create
   end
 
-  directory new_resource.socket_dir do
-    owner new_resource.run_user
-    group new_resource.run_group
-    # When using service_manager the 'socket-dir' has to be writable for the 'set-gid'
-    # in order to start the service:
-    # Issue: https://github.com/PowerDNS/pdns/issues/4826
-    mode '0775'
-    recursive true
-    action :create
-  end
-
   template "#{new_resource.config_dir}/recursor-#{new_resource.instance_name}.conf" do
     source new_resource.source
     cookbook new_resource.cookbook
