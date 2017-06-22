@@ -75,10 +75,6 @@ describe 'pdns_test::recursor_install_multi' do
       .with(members: ['pdns'], system: true)
     end
 
-    it 'creates a pdns recursor socket directory' do
-      expect(chef_run).to create_directory('/var/run/server_01')
-    end
-
     it 'creates a recursor instance' do
       expect(chef_run).to create_template('/etc/powerdns/recursor-server_01.conf')
       .with(owner: 'root', group: 'root', mode: '0640')
