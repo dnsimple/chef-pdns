@@ -10,7 +10,7 @@ describe 'pdns_test::authoritative_install_multi' do
     end
 
     let(:chef_run) { ubuntu_runner.converge(described_recipe) }
-    let(:version) { '4.0.3-1pdns.trusty' }
+    let(:version) { '4.0.4-1pdns.trusty' }
 
     #
     # Tests for the install resource
@@ -73,4 +73,3 @@ describe 'pdns_test::authoritative_install_multi' do
     end
   end
 end
-
