@@ -44,10 +44,18 @@ if [ -r /etc/default/pdns-recursor ]; then
   . /etc/default/pdns-recursor
 fi
 
+create_socket_dir() {
+  if [ ! -d $PIDDIR ]; then
+    mkdir -p $PIDDIR
+    chmod 0755 $PIDDIR
+  fi
+}
+
 start() {
 # Return
 #  0 if daemon has been started / was already running
 #  >0 if daemon could not be started
+  create_socket_dir
   start-stop-daemon --start --oknodo --quiet --pidfile $PIDFILE --exec $DAEMON --test > /dev/null || return 0
   start-stop-daemon --start --oknodo --quiet --pidfile $PIDFILE --exec $DAEMON -- --daemon=yes --config-name=${INSTANCE_NAME} --config-dir=${CONFIG_DIR} || return 2
 }
