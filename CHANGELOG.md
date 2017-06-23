@@ -1,3 +1,9 @@
+# 3.3.2 / 2017-20-06
+
+## Bug Fixes
+
+* Recursor init script should create pid directory on start if it does not exist.
+
 # 3.3.1 / 2017-20-06
 
 ## Bug Fixes
