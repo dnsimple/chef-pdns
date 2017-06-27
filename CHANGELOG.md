@@ -1,16 +1,23 @@
-# 3.3.2 / 2017-20-06
+# 3.4.0 / 2017-06-27
+
+## Maintenance
+
+* Split the rake file into differents pieces
+* Add concurrency for kitchen tests.
+
+# 3.3.2 / 2017-06-20
 
 ## Bug Fixes
 
 * Recursor init script should create pid directory on start if it does not exist.
 
-# 3.3.1 / 2017-20-06
+# 3.3.1 / 2017-06-20
 
 ## Bug Fixes
 
 * Fixing MySQL package name for debian
 
-# 3.3.0 / 2017-14-06
+# 3.3.0 / 2017-06-14
 
 ## Enhancements
 
@@ -22,7 +29,7 @@
 * Correcting naming conventions on init scripts that were not following PowerDNS considerations for virtual hosting.
 * Fixing tests
 
-# 3.2.0 / 2017-02-06
+# 3.2.0 / 2017-06-02
 
 ## Enhancements
 
@@ -33,13 +40,13 @@
 * Stop and Disable the service 'pdns-recursor' as soon as new instance
 is created
 
-# 3.1.0 / 2017-01-06
+# 3.1.0 / 2017-06-01
 
 ## Enhancements
 
 * Expanding ChefSpec matchers
 
-# 3.0.0 / 2017-29-05
+# 3.0.0 / 2017-05-29
 
 ## Enhancements
 
@@ -62,12 +69,12 @@ is created
 
 * Adding libssl-dev as dependency for source installs
 
-# 2.4.1 / 2016-09-14
+# 2.4.1 / 2016-14-09
 
 ## Bug Fixes
 * Update download link to correct one for 3.4.10
 
-# 2.4.0 / 2016-09-13
+# 2.4.0 / 2016-13-09
 
 ## Enhancements
 
@@ -124,7 +131,7 @@ is created
 
 * Updated some copyrights and trimmed a bunch of whitespace
 
-# 2.1.0 / 2016-01-11
+# 2.1.0 / 2016-11-01
 
 ### Enhancements
 
