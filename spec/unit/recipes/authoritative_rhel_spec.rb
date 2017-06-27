@@ -12,7 +12,7 @@ describe 'pdns_test::authoritative_install_multi' do
     end
 
     let(:chef_run) { rhel_runner.converge(described_recipe) }
-    let(:version) { '4.0.3-1pdns.el6' }
+    let(:version) { '4.0.4-1pdns.el6' }
 
     #
     # Tests for the install resource

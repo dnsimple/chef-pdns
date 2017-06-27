@@ -31,10 +31,10 @@ describe processes('pdns_server-authoritative_server_02-instance') do
 end
 
 describe command('dig -p 53 chaos txt version.bind @127.0.0.1 +short') do
-  its('stdout.chomp') { should match(/"PowerDNS Authoritative Server 4.0.3/) }
+  its('stdout.chomp') { should match(/"PowerDNS Authoritative Server 4.0.4/) }
 end
 
 describe command('dig -p 54 chaos txt version.bind @127.0.0.1 +short') do
-  its('stdout.chomp') { should match(/"PowerDNS Authoritative Server 4.0.3/) }
+  its('stdout.chomp') { should match(/"PowerDNS Authoritative Server 4.0.4/) }
 end
 
