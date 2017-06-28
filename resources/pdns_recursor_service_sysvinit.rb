@@ -45,6 +45,7 @@ action :enable do
   # Some distros start pdns-recursor after installing it, we want to stop it
   # The behavior of the init script on CentOS 6 causes a bug so we skip it there
   # (see https://github.com/dnsimple/chef-pdns/issues/77#issuecomment-311644973)
+
   service 'pdns-recursor' do
     supports restart: true, status: true
     action :stop
