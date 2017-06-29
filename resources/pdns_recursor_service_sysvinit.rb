@@ -45,16 +45,14 @@ action :enable do
   # Some distros start pdns-recursor after installing it, we want to stop it
   # The behavior of the init script on CentOS 6 causes a bug so we skip it there
   # (see https://github.com/dnsimple/chef-pdns/issues/77#issuecomment-311644973)
-  service 'pdns-recursor' do
-    supports restart: true, status: true
-    action :stop
-    only_if { node['platform_family'] == 'debian' }
-  end
-
   # We want to prevent the default recursor to start on boot
+
+  pdns_recursor_actions = [:disable]
+  pdns_recursor_actions = pdns_recursor_actions.unshift(:stop) if node['platform_family'] == 'debian'
+
   service 'pdns-recursor' do
     supports restart: true, status: true
-    action :disable
+    action pdns_default_actions
   end
 
   service_name = sysvinit_name(new_resource.instance_name)
