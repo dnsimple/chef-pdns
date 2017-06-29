@@ -1,3 +1,10 @@
+# 3.4.1 / 2017-06-28
+
+## Bug Fixes
+
+* Stopping the default recursor on `pdns_recursor_service` for sysvinit.
+  Fixes: https://github.com/dnsimple/chef-pdns/issues/77
+
 # 3.4.0 / 2017-06-27
 
 ## Maintenance

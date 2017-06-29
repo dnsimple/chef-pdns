@@ -41,11 +41,18 @@ property :socket_dir, String, default: lazy { |resource| "/var/run/#{resource.in
 
 
 action :enable do
-  # Some sysvint systems start the default pdns-recursor after installations
-  # We make sure to disable it which also stops the service in some platforms
+
+  # Some distros start pdns-recursor after installing it, we want to stop it
+  # The behavior of the init script on CentOS 6 causes a bug so we skip it there
+  # (see https://github.com/dnsimple/chef-pdns/issues/77#issuecomment-311644973)
+  # We want to prevent the default recursor to start on boot
+
+  pdns_recursor_actions = [:disable]
+  pdns_recursor_actions = pdns_recursor_actions.unshift(:stop) if node['platform_family'] == 'debian'
+
   service 'pdns-recursor' do
     supports restart: true, status: true
-    action :disable
+    action pdns_recursor_actions
   end
 
   service_name = sysvinit_name(new_resource.instance_name)
