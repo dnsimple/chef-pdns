@@ -52,7 +52,7 @@ action :enable do
 
   service 'pdns-recursor' do
     supports restart: true, status: true
-    action pdns_default_actions
+    action pdns_recursor_actions
   end
 
   service_name = sysvinit_name(new_resource.instance_name)
