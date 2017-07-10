@@ -21,7 +21,7 @@ include ::Pdns::PdnsAuthoritativeHelpers
 resource_name :pdns_authoritative_service_sysvinit
 
 provides :pdns_authoritative_service, os: 'linux' do |node|
-  %w[debian rhel].include?(node['platform_family'])
+  %w[ubuntu debian centos].include?(node['platform'])
 end
 
 property :instance_name, String, name_property: true

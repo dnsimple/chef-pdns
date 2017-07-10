@@ -21,7 +21,7 @@ include ::Pdns::PdnsRecursorHelpers
 resource_name :pdns_recursor_service_sysvinit
 
 provides :pdns_recursor_service, os: 'linux' do |node|
-  %w[debian rhel].include?(node['platform_family'])
+  %w[debian ubuntu centos].include?(node['platform'])
 end
 
 property :instance_name, String, name_property: true
@@ -30,14 +30,11 @@ property :config_dir, String, default: lazy { default_recursor_config_directory 
 property :source, [String,nil], default: lazy { "recursor.init.#{node['platform_family']}.erb" }
 property :socket_dir, String, default: lazy { |resource| "/var/run/#{resource.instance_name}" }
 
-
 action :enable do
-
   # Some distros start pdns-recursor after installing it, we want to stop it
   # The behavior of the init script on CentOS 6 causes a bug so we skip it there
   # (see https://github.com/dnsimple/chef-pdns/issues/77#issuecomment-311644973)
   # We want to prevent the default recursor to start on boot
-
   pdns_recursor_actions = [:disable]
   pdns_recursor_actions = pdns_recursor_actions.unshift(:stop) if node['platform_family'] == 'debian'
 
