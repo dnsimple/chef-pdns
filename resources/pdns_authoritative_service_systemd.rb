@@ -20,22 +20,9 @@ include ::Pdns::PdnsAuthoritativeHelpers
 
 resource_name :pdns_authoritative_service_systemd
 
-# Inspired by
-# https://github.com/chef/inspec/blob/master/lib/resources/service.rb#L104
 provides :pdns_authoritative_service, os: 'linux' do |node|
-  case node['platform']
-  when 'ubuntu'
-    node['platform_version'].to_f >= 15.04
-  when 'debian'
-    node['platform_version'].to_i > 7
-  when 'redhat', 'centos', 'oracle'
-    node['platform_version'].to_i >= 7
-  when 'fedora'
-    node['platform_version'].to_i >= 15
-  end
+  Chef::Platform::ServiceHelpers.service_resource_providers.include?(:systemd)
 end
-# The following helper could also be used
-# Chef::Platform::ServiceHelpers.service_resource_providers.include?(:systemd)
 
 property :instance_name, String, name_property: true
 property :config_dir, String, default: lazy { default_authoritative_config_directory }
