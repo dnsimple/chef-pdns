@@ -21,43 +21,30 @@ verifier:
 platforms:
   - name: ubuntu-14.04
     driver:
-      image: ubuntu:14.04
-      intermediate_instructions:
-        - RUN /usr/bin/apt-get update
-        - RUN /usr/bin/apt-get install apt-transport-https lsb-release procps net-tools lsof dnsutils -y
+      image: dokken/ubuntu-14.04
 
   - name: ubuntu-16.04
     driver:
-      image: ubuntu:16.04
+      image: dokken/ubuntu-16.04
       pid_one_command: /bin/systemd
-      volumes:
-        - /sys/fs/cgroup:/sys/fs/cgroup:ro # required by systemd
-      intermediate_instructions:
-        - RUN /usr/bin/apt-get update
-        - RUN /usr/bin/apt-get install apt-transport-https lsb-release procps net-tools lsof dnsutils -y
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro # required by systemd
 
   - name: centos-6
     driver:
-      image: centos:6
-      intermediate_instructions:
-        - RUN yum -y install lsof which initscripts net-tools wget net-tools
+      image: dokken/centos-6
 
   - name: centos-7
     driver:
-      image: centos:7
-      pid_one_command: /usr/lib/systemd/systemd
+      image: dokken/centos-7
       platform: rhel
-      volumes:
-        - /sys/fs/cgroup:/sys/fs/cgroup:ro # required by systemd
-      intermediate_instructions:
-         - RUN yum -y install lsof which systemd-sysv initscripts wget net-tools
+      pid_one_command: /usr/lib/systemd/systemd
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro # required by systemd
 
   - name: debian-8
     driver:
-      image: debian:8
+      image: dokken/debian-8
       pid_one_command: /bin/systemd
-      volumes:
+    volumes:
         - /sys/fs/cgroup:/sys/fs/cgroup:ro # required by systemd
-      intermediate_instructions:
-        - RUN /usr/bin/apt-get update
-        - RUN /usr/bin/apt-get install apt-transport-https lsb-release procps net-tools lsof dnsutils -y
