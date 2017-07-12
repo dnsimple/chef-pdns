@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: pdns
-# Libraries:: recursor_helpers
+# Libraries:: helpers
 #
 # Copyright 2014-2017 Aetrion LLC. dba DNSimple
 #
