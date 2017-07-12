@@ -12,7 +12,7 @@ describe 'pdns_test::authoritative_install_multi' do
       end
     end
 
-    let(:chef_run) { ubuntu_runner.converge(described_recipe) }
+    let(:chef_run) { rhel_runner.converge(described_recipe) }
 
     #
     # Tests for the install resource
