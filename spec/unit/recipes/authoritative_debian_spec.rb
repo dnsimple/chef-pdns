@@ -4,8 +4,8 @@ describe 'pdns_test::authoritative_install_multi' do
   context 'on ubuntu platform' do
     let(:ubuntu_runner) do
       ChefSpec::SoloRunner.new(
-        os: 'linux',
         platform: 'ubuntu',
+        os: 'linux',
         version: '14.04',
         step_into: %w(pdns_authoritative_install pdns_authoritative_config pdns_authoritative_service))
     end
