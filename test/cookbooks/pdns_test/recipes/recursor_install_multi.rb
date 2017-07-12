@@ -20,7 +20,7 @@ pdns_recursor_config 'server_02' do
   run_group 'another-pdns'
   run_user_home '/var/lib/another-pdns'
   variables(
-    'local-port': '54'
+    'local-port' => '54'
   )
 end
 

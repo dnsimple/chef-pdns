@@ -20,7 +20,7 @@ include ::Pdns::PdnsRecursorHelpers
 
 resource_name :pdns_recursor_service_systemd
 
-provides :pdns_recursor_service, os: 'linux' do |node|
+provides :pdns_recursor_service, os: 'linux' do |_node|
   Chef::Platform::ServiceHelpers.service_resource_providers.include?(:systemd)
 end
 
@@ -39,7 +39,6 @@ action :enable do
     supports restart: true, status: true
     action :enable
   end
-
 end
 
 action :start do

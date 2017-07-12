@@ -15,7 +15,7 @@ pdns_authoritative_config 'server_01' do
     gpgsql_port: 5432,
     gpgsql_dbname: 'pdns',
     gpgsql_password: 'wadus'
-    )
+  )
 end
 
 pdns_authoritative_backend 'postgresql' do

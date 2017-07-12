@@ -29,7 +29,6 @@ property :version, [String, nil], default: nil
 property :debug, [true, false], default: false
 
 action :install do
-
   # We take advantage of the yum_repository call bellow that will reload yum sources
   # and will make epel repository available for the pdns-recursor dependency 'protobuf'
 

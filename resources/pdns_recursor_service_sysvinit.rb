@@ -21,13 +21,13 @@ include ::Pdns::PdnsRecursorHelpers
 resource_name :pdns_recursor_service_sysvinit
 
 provides :pdns_recursor_service, os: 'linux' do |node|
-  %w[debian ubuntu centos].include?(node['platform'])
+  %w(debian ubuntu centos).include?(node['platform'])
 end
 
 property :instance_name, String, name_property: true
-property :cookbook, [String,nil], default: 'pdns'
+property :cookbook, [String, nil], default: 'pdns'
 property :config_dir, String, default: lazy { default_recursor_config_directory }
-property :source, [String,nil], default: lazy { "recursor.init.#{node['platform_family']}.erb" }
+property :source, [String, nil], default: lazy { "recursor.init.#{node['platform_family']}.erb" }
 property :socket_dir, String, default: lazy { |resource| "/var/run/#{resource.instance_name}" }
 
 action :enable do
@@ -54,8 +54,8 @@ action :enable do
       pdns_virtual_instance: new_resource.instance_name,
       service_name: service_name,
       config_dir: new_resource.config_dir,
-      socket_dir: new_resource.socket_dir,
-      )
+      socket_dir: new_resource.socket_dir
+    )
     cookbook new_resource.cookbook
     action :create
   end

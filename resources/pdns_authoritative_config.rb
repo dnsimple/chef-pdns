@@ -20,15 +20,15 @@ include ::Pdns::PdnsAuthoritativeHelpers
 
 resource_name :pdns_authoritative_config
 
-provides :pdns_authoritative_config, platform: 'ubuntu' do |node| #~FC005
+provides :pdns_authoritative_config, platform: 'ubuntu' do |node| # ~FC005
   node['platform_version'].to_f >= 14.04
 end
 
-provides :pdns_authoritative_config, platform: 'debian' do |node| #~FC005
+provides :pdns_authoritative_config, platform: 'debian' do |node| # ~FC005
   node['platform_version'].to_i >= 8
 end
 
-provides :pdns_authoritative_config, platform: 'centos' do |node| #~FC005
+provides :pdns_authoritative_config, platform: 'centos' do |node| # ~FC005
   node['platform_version'].to_i >= 6
 end
 
@@ -40,12 +40,12 @@ property :run_user, String, default: lazy { default_authoritative_run_user }
 property :run_user_home, String, default: lazy { default_user_attributes[:home] }
 property :run_user_shell, String, default: lazy { default_user_attributes[:shell] }
 property :socket_dir, String, default: lazy { |resource| "/var/run/#{resource.instance_name}" }
-property :setuid, String, default: lazy { |resource| resource.run_user }
-property :setgid, String, default: lazy { |resource| resource.run_group }
+property :setuid, String, default: lazy(&:run_user)
+property :setgid, String, default: lazy(&:run_group)
 
 property :source, String, default: 'authoritative_service.conf.erb'
 property :cookbook, String, default: 'pdns'
-property :variables, Hash, default: lazy { |resource| { bind_config:  "#{resource.config_dir}/bindbackend.conf" } }
+property :variables, Hash, default: lazy { |resource| { bind_config: "#{resource.config_dir}/bindbackend.conf" } }
 
 action :create do
   directory new_resource.config_dir do
@@ -91,7 +91,7 @@ action :create do
       setuid: new_resource.setuid,
       setgid: new_resource.setgid,
       variables: new_resource.variables
-      )
+    )
   end
 end
 

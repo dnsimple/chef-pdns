@@ -20,7 +20,7 @@ include ::Pdns::PdnsAuthoritativeHelpers
 
 resource_name :pdns_authoritative_service_systemd
 
-provides :pdns_authoritative_service, os: 'linux' do |node|
+provides :pdns_authoritative_service, os: 'linux' do |_node|
   Chef::Platform::ServiceHelpers.service_resource_providers.include?(:systemd)
 end
 
