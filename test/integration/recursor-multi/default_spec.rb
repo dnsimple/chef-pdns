@@ -26,11 +26,11 @@ check_process_name('server_01', default_recursor_run_user, 'recursor')
 check_process_name('server_02', 'another-pdns', 'recursor')
 
 describe command('dig -p 53 chaos txt version.bind @127.0.0.1 +short') do
-  its('stdout.chomp') { should match(/"PowerDNS Recursor 4.\d.\d/) }
+  its('stdout.chomp') { should match(/"PowerDNS Recursor 4\.\d\.\d/) }
 end
 
 describe command('dig -p 54 chaos txt version.bind @127.0.0.1 +short') do
-  its('stdout.chomp') { should match(/"PowerDNS Recursor 4.\d.\d/) }
+  its('stdout.chomp') { should match(/"PowerDNS Recursor 4\.\d\.\d/) }
 end
 
 describe command('dig -p 53 @127.0.0.1 dnsimple.com') do
