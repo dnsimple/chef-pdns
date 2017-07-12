@@ -24,7 +24,7 @@ end
 check_process_name('server_01', default_authoritative_run_user)
 
 describe command('dig chaos txt version.bind @127.0.0.1 +short') do
-  its('stdout.chomp') { should match(/"PowerDNS Authoritative Server 4.\d.\d/) }
+  its('stdout.chomp') { should match(/"PowerDNS Authoritative Server 4\.\d\.\d/) }
 end
 
 describe command('dig @127.0.0.1 smoke.example.org') do

@@ -11,7 +11,6 @@ describe 'pdns_test::recursor_install_multi' do
     end
 
     let(:chef_run) { ubuntu_runner.converge(described_recipe) }
-    let(:version) { '4.0.5-1pdns.trusty' }
 
     let(:ubuntu_runner_1604) do
       ChefSpec::SoloRunner.new(
@@ -38,7 +37,7 @@ describe 'pdns_test::recursor_install_multi' do
     end
 
     it 'installs pdns recursor package' do
-      expect(chef_run).to install_apt_package('pdns-recursor').with(version: version)
+      expect(chef_run).to install_apt_package('pdns-recursor')
     end
 
     #

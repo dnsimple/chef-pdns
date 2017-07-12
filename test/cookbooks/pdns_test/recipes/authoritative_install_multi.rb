@@ -1,6 +1,5 @@
 pdns_authoritative_install 'server_01' do
   action :install
-  version authoritative_version_per_platform
 end
 
 pdns_authoritative_service 'server_01' do
@@ -13,7 +12,6 @@ end
 
 pdns_authoritative_install 'server_02' do
   action :install
-  version authoritative_version_per_platform
 end
 
 pdns_authoritative_service 'server_02' do

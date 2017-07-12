@@ -13,7 +13,6 @@ describe 'pdns_test::recursor_install_multi' do
     end
 
     let(:chef_run) { rhel_runner.converge(described_recipe) }
-    let(:version) { '4.0.5-1pdns.el6' }
 
     let(:rhel_runner_7) do
       ChefSpec::SoloRunner.new(
@@ -28,7 +27,7 @@ describe 'pdns_test::recursor_install_multi' do
     let(:chef_run_7) { rhel_runner_7.converge(described_recipe) }
 
     #
-    # Tests for the install resource
+    # Tests for the install resource
     #
 
     it 'installs epel-release package' do
@@ -44,11 +43,11 @@ describe 'pdns_test::recursor_install_multi' do
     end
 
     it 'installs pdns recursor package' do
-      expect(chef_run).to install_yum_package('pdns-recursor').with(version: version)
+      expect(chef_run).to install_yum_package('pdns-recursor')
     end
 
     #
-    # Tests for the service resource
+    # Tests for the service resource
     #
 
     it '[sysvinit] creates a specific init script' do
