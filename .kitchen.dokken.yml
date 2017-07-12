@@ -22,11 +22,17 @@ platforms:
   - name: ubuntu-14.04
     driver:
       image: dokken/ubuntu-14.04
+      intermediate_instructions:
+      - RUN /usr/bin/apt-get update
+      - RUN /usr/bin/apt-get install dnsutils -y
 
   - name: ubuntu-16.04
     driver:
       image: dokken/ubuntu-16.04
       pid_one_command: /bin/systemd
+      intermediate_instructions:
+          - RUN /usr/bin/apt-get update
+          - RUN /usr/bin/apt-get install dnsutils -y
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro # required by systemd
 
@@ -46,5 +52,8 @@ platforms:
     driver:
       image: dokken/debian-8
       pid_one_command: /bin/systemd
+      intermediate_instructions:
+          - RUN /usr/bin/apt-get update
+          - RUN /usr/bin/apt-get install dnsutils -y
     volumes:
         - /sys/fs/cgroup:/sys/fs/cgroup:ro # required by systemd
