@@ -33,7 +33,6 @@ property :variables, String
 action :enable do
   service 'pdns' do
     action [:stop, :disable]
-    only_if { ::File.exist?('/var/run/pdns.pid') }
   end
 
   sysvinit_script = ::File.join('/etc/init.d', sysvinit_name(new_resource.instance_name))
