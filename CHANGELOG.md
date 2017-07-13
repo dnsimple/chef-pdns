@@ -1,3 +1,13 @@
+# 3.5.0 / 2017-07-13
+
+## Enhancements
+
+* Systemd support for authoritative
+
+## Maintenance
+
+* Improving documentation for backends for an edge case that break chef.
+
 # 3.4.1 / 2017-06-29
 
 ## Bug Fixes
