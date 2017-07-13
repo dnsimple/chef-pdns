@@ -2,8 +2,8 @@ pdns_authoritative_install 'server_01' do
   action :install
 end
 
-pdns_authoritative_service 'server_01' do
-  action :enable
+pdns_authoritative_backend 'postgresql' do
+  action :install
 end
 
 pdns_authoritative_config 'server_01' do
@@ -18,8 +18,8 @@ pdns_authoritative_config 'server_01' do
   )
 end
 
-pdns_authoritative_backend 'postgresql' do
-  action :install
+pdns_authoritative_service 'server_01' do
+  action [:enable, :start]
 end
 
 include_recipe 'postgresql::server'
@@ -57,8 +57,4 @@ execute add_zone do
   user 'root'
   not_if 'pdnsutil --config-name server_01 list-zone example.org | grep example.org'
   action :run
-end
-
-pdns_authoritative_service 'server_01' do
-  action :restart
 end
