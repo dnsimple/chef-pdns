@@ -25,9 +25,9 @@ provides :pdns_recursor_service, os: 'linux' do |node|
 end
 
 property :instance_name, String, name_property: true
-property :cookbook, %w(String NilClass), default: 'pdns'
+property :cookbook, [String, NilClass], default: 'pdns'
 property :config_dir, String, default: lazy { default_recursor_config_directory }
-property :source, %w(String NilClass), default: lazy { "recursor.init.#{node['platform_family']}.erb" }
+property :source, [String, NilClass], default: lazy { "recursor.init.#{node['platform_family']}.erb" }
 property :socket_dir, String, default: lazy { |resource| "/var/run/#{resource.instance_name}" }
 
 action :enable do

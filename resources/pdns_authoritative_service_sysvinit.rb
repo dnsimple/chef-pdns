@@ -25,8 +25,8 @@ provides :pdns_authoritative_service, os: 'linux' do |node|
 end
 
 property :instance_name, String, name_property: true
-property :cookbook, %w(String NilClass), default: 'pdns'
-property :source, %w(String NilClass)
+property :cookbook, [String, NilClass], default: 'pdns'
+property :source, [String, NilClass]
 property :config_dir, String, default: lazy { default_authoritative_config_directory }
 property :variables, String
 
