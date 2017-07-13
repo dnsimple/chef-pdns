@@ -16,7 +16,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-include ::PdnsRecursorResource::Helpers
+include ::Pdns::PdnsRecursorHelpers
 
 resource_name :pdns_recursor_install_rhel
 
@@ -29,7 +29,6 @@ property :version, [String, nil], default: nil
 property :debug, [true, false], default: false
 
 action :install do
-
   # We take advantage of the yum_repository call bellow that will reload yum sources
   # and will make epel repository available for the pdns-recursor dependency 'protobuf'
 

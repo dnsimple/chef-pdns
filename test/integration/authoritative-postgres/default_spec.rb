@@ -21,12 +21,10 @@ describe group(default_authoritative_run_user) do
   it { should exist }
 end
 
-describe processes('pdns_server-authoritative_server_01-instance') do
-  its ('users') { should eq [default_authoritative_run_user] }
-end
+check_process_name('server_01', default_authoritative_run_user)
 
 describe command('dig chaos txt version.bind @127.0.0.1 +short') do
-  its('stdout.chomp') { should match(/"PowerDNS Authoritative Server 4.0.4/) }
+  its('stdout.chomp') { should match(/"PowerDNS Authoritative Server 4\.\d\.\d/) }
 end
 
 describe command('dig @127.0.0.1 smoke.example.org') do

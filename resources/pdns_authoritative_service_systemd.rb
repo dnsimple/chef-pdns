@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: pdns
-# Resources:: pdns_recursor_service
+# Resources:: pdns_authoritative_service
 #
 # Copyright 2017, Aetrion, LLC DBA DNSimple
 #
@@ -16,23 +16,20 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-include ::Pdns::PdnsRecursorHelpers
+include ::Pdns::PdnsAuthoritativeHelpers
 
-resource_name :pdns_recursor_service_systemd
+resource_name :pdns_authoritative_service_systemd
 
-provides :pdns_recursor_service, os: 'linux' do |_node|
+provides :pdns_authoritative_service, os: 'linux' do |_node|
   Chef::Platform::ServiceHelpers.service_resource_providers.include?(:systemd)
 end
 
 property :instance_name, String, name_property: true
-property :config_dir, String, default: lazy { default_recursor_config_directory }
+property :config_dir, String, default: lazy { default_authoritative_config_directory }
 
 action :enable do
-  # To make sure the default package doesn't start any "pdns_recursor" daemon
-  # because the default service could stop all other instances
-  service 'pdns-recursor' do
-    supports restart: true, status: true
-    action [:disable, :stop]
+  service 'pdns' do
+    action [:stop, :disable]
   end
 
   service systemd_name(new_resource.instance_name) do

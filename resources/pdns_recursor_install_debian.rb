@@ -16,7 +16,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-include ::PdnsRecursorResource::Helpers
+include ::Pdns::PdnsRecursorHelpers
 
 resource_name :pdns_recursor_install_debian
 

@@ -24,7 +24,7 @@ namespace :integration do
   def run_kitchen(action, regexp, concurrency, loader_config = {}, destroy = 'always')
     require 'kitchen'
     Kitchen.logger = Kitchen.default_file_logger
-    config = { loader: Kitchen::Loader::YAML.new(loader_config), destroy: destroy}
+    config = { loader: Kitchen::Loader::YAML.new(loader_config), destroy: destroy }
 
     call_threaded(
       kitchen_instances(regexp, config),
@@ -57,7 +57,7 @@ namespace :integration do
       args.action,
       args.regexp,
       args.concurrency.to_i,
-      local_config: ENV['KITCHEN_LOCAL_YAML'],
+      local_config: ENV['KITCHEN_LOCAL_YAML']
     )
   end
 end

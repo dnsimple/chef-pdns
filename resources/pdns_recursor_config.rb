@@ -16,20 +16,19 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-include ::PdnsResource::Helpers
-include ::PdnsRecursorResource::Helpers
+include ::Pdns::PdnsRecursorHelpers
 
 resource_name :pdns_recursor_config
 
-provides :pdns_recursor_config, platform: 'ubuntu' do |node| #~FC005
+provides :pdns_recursor_config, platform: 'ubuntu' do |node| # ~FC005
   node['platform_version'].to_f >= 14.04
 end
 
-provides :pdns_recursor_config, platform: 'debian' do |node| #~FC005
+provides :pdns_recursor_config, platform: 'debian' do |node| # ~FC005
   node['platform_version'].to_i >= 8
 end
 
-provides :pdns_recursor_config, platform: 'centos' do |node| #~FC005
+provides :pdns_recursor_config, platform: 'centos' do |node| # ~FC005
   node['platform_version'].to_i >= 6
 end
 
@@ -43,12 +42,11 @@ property :run_user_shell, String, default: lazy { default_user_attributes[:shell
 property :setuid, String, default: lazy { |resource| resource.run_user }
 property :setgid, String, default: lazy { |resource| resource.run_group }
 
-property :source, [String,nil], default: 'recursor_service.conf.erb'
-property :cookbook, [String,nil], default: 'pdns'
+property :source, [String, nil], default: 'recursor_service.conf.erb'
+property :cookbook, [String, nil], default: 'pdns'
 property :variables, [Hash], default: {}
 
 action :create do
-
   directory new_resource.config_dir do
     owner 'root'
     group 'root'
@@ -91,7 +89,7 @@ action :create do
       setuid: new_resource.setuid,
       setgid: new_resource.setgid,
       variables: new_resource.variables
-      )
+    )
   end
 end
 

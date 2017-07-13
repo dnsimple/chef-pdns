@@ -16,37 +16,25 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-include ::PdnsResource::Helpers
-include ::PdnsRecursorResource::Helpers
+include ::Pdns::PdnsRecursorHelpers
 
 resource_name :pdns_recursor_service_sysvinit
 
-provides :pdns_recursor_service, platform: 'centos' do |node| # ~FC005
-  node['platform_version'].to_i >= 6
-end
-
-provides :pdns_recursor_service, platform: 'ubuntu' do |node|
-  node['platform_version'].to_f >= 14.04
-end
-
-provides :pdns_recursor_service, platform: 'debian' do |node|
-  node['platform_version'].to_i >= 8
+provides :pdns_recursor_service, os: 'linux' do |node|
+  %w(debian ubuntu centos).include?(node['platform'])
 end
 
 property :instance_name, String, name_property: true
-property :cookbook, [String,nil], default: 'pdns'
+property :cookbook, [String, NilClass], default: 'pdns'
 property :config_dir, String, default: lazy { default_recursor_config_directory }
-property :source, [String,nil], default: lazy { "recursor.init.#{node['platform_family']}.erb" }
+property :source, [String, NilClass], default: lazy { "recursor.init.#{node['platform_family']}.erb" }
 property :socket_dir, String, default: lazy { |resource| "/var/run/#{resource.instance_name}" }
 
-
 action :enable do
-
   # Some distros start pdns-recursor after installing it, we want to stop it
   # The behavior of the init script on CentOS 6 causes a bug so we skip it there
   # (see https://github.com/dnsimple/chef-pdns/issues/77#issuecomment-311644973)
   # We want to prevent the default recursor to start on boot
-
   pdns_recursor_actions = [:disable]
   pdns_recursor_actions = pdns_recursor_actions.unshift(:stop) if node['platform_family'] == 'debian'
 
@@ -66,8 +54,8 @@ action :enable do
       pdns_virtual_instance: new_resource.instance_name,
       service_name: service_name,
       config_dir: new_resource.config_dir,
-      socket_dir: new_resource.socket_dir,
-      )
+      socket_dir: new_resource.socket_dir
+    )
     cookbook new_resource.cookbook
     action :create
   end

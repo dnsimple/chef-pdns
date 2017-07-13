@@ -104,7 +104,7 @@ file '/etc/init.d/pdns_recursor-<your-resource-name>' dp
 end
 ```
 
-- Final Note
+- Final Note
 
 If you decide to follow the convention recommended by PDNS for Virtual Hosting, and you want to change the hyphens used for underscore, you'll need to additionally delete or rename some configuration files as you would normally do when changing the name on a chef resource.
 
@@ -190,7 +190,7 @@ Most of the properties are optional and have sane defaults, so they are only rec
 
 Installs PowerDNS authoritative server 4.X series using PowerDNS official repository in the supported platforms.
 
-#### Properties
+#### Properties
 
 | Name          | Class       |  Default value | Consistent?|
 |---------------|-------------|----------------|------------|
@@ -212,7 +212,7 @@ end
 
 Creates a PowerDNS recursor configuration, there is a fixed set of required properties (listed below) but most of the configuration is left to the user freely, every property set in the `variables` hash property will be rendered in the config template. Remember that using underscores `_` for property names is required and it's translated to hyphens `-` in configuration templates.
 
-#### Properties
+#### Properties
 
 | Name           | Class      |  Default value  | Consistent? |
 |----------------|------------|-----------------|-------------|
@@ -230,7 +230,7 @@ Creates a PowerDNS recursor configuration, there is a fixed set of required prop
 | cookbook       | String,nil | 'pdns' | No |
 | variables      | Hash       | { bind_config:  "#{resource.config_dir}/bindbackend.conf" } | No |
 
-#### Usage Example
+#### Usage Example
 
 Create a PowerDNS authoritative configuration file named `server-01`:
 
@@ -257,7 +257,7 @@ Creates a init service to manage a PowerDNS authoritative instance. This service
 
 *Important:* services are not restarted or reloaded automatically on config changes in this cookbook, you need to add this in your wrapper cookbook if you desire this functionality, the `pdns_authoritative_service` cookbook provides actions to do it.
 
-#### Properties
+#### Properties
 
 | Name           | Class       |  Default value                                        | Consistent? |
 |----------------|-------------|-------------------------------------------------------|-------------|
@@ -265,9 +265,9 @@ Creates a init service to manage a PowerDNS authoritative instance. This service
 | cookbook       | String, nil | 'pdns'                                                | No |
 | source         | String, nil | 'authoritative.init.debian.erb'                       | No |
 | config_dir | String     | see `default_authoritative_config_directory` helper method | Yes |
-| socket_dir | String     | lazy { |resource| "/var/run/#{resource.instance_name}" }   | Yes |
+| socket_dir | String     | "/var/run/#{instance_name}"   | Yes |
 
-#### Usage example
+#### Usage example
 
 ```
 pdns_authoritative_service 'server_01' do
@@ -281,7 +281,9 @@ Installs one backend package for the PowerDNS authoritative server. You'll still
 
 Please review [PowerDNS documentation section](https://doc.powerdns.com/) to understand specific naming and settings for every backend since they differ.
 
-#### Properties
+**Important**: it is advised to use the `pdns_authoritative_backend` resource right after the `pdns_authoritative_install` resource and before any `pdns_authoritative_service` resources. It may result in a broken chef run due to the way apt handles apt-triggers that start the default pdns service when installiung a backend.
+
+#### Properties
 
 | Name           | Class      |  Default value  | Consistent? |
 |----------------|------------|-----------------|-------------|
@@ -298,7 +300,7 @@ pdns_authoritative_backend 'postgresql' do
 end
 ```
 
-### pdns_recursor_install
+### pdns_recursor_install
 
 Installs PowerDNS recursor 4.X series using PowerDNS official repository in the supported platforms.
 
