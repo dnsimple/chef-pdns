@@ -25,10 +25,10 @@ provides :pdns_authoritative_service, os: 'linux' do |node|
 end
 
 property :instance_name, String, name_property: true
-property :cookbook, %w(String NilClass) #TODO: back to default property
+property :cookbook, %w(String NilClass), default: 'pdns'
 property :source, %w(String NilClass)
 property :config_dir, String, default: lazy { default_authoritative_config_directory }
-property :variables, String #TODO: add default
+property :variables, String
 
 action :enable do
   service 'pdns' do
@@ -46,7 +46,6 @@ action :enable do
       variables(
         variables: new_resource.variables
       )
-      cookbook new_resource.cookbook unless new_resource.cookbook.nil?
       action :create
     end
   else
