@@ -25,13 +25,14 @@ provides :pdns_authoritative_service, os: 'linux' do |node|
 end
 
 property :instance_name, String, name_property: true
-property :cookbook, %w(String NilClass)
+property :cookbook, %w(String NilClass) #TODO: back to default property
 property :source, %w(String NilClass)
 property :config_dir, String, default: lazy { default_authoritative_config_directory }
-property :variables, String
+property :variables, String #TODO: add default
 
 action :enable do
   service 'pdns' do
+    supports restart: true, status: true
     action [:stop, :disable]
   end
 
