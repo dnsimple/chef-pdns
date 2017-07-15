@@ -65,7 +65,7 @@ describe 'pdns_test::authoritative_install_multi' do
 
     it 'creates a authoritative instance config' do
       expect(chef_run).to create_template('/etc/powerdns/pdns-authoritative_server_01.conf')
-        .with(owner: 'root', group: 'root', mode: '0640')
+        .with(owner: 'root', group: 'root', mode: '0440')
     end
 
     it 'converges successfully' do
