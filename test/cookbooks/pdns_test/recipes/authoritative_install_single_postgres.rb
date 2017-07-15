@@ -48,13 +48,13 @@ end
 execute 'psql -d pdns < /var/tmp/schema_postgres.sql' do
   user 'postgres'
   action :run
-  not_if 'psql -t -d pdns -c "select \'public.domains\'::regclass;"', user: 'postgres'
+  not_if 'psql -t -d pdns -c "SELECT \'public.domains\'::regclass;"', user: 'postgres'
 end
 
-add_zone = 'pdnsutil --config-name server_01 create-zone example.org ns1.example.org && pdnsutil  --config-name server_01 add-record example.org smoke A 127.0.0.123'
+add_zone = 'pdnsutil --config-name authoritative_server_01 create-zone example.org ns1.example.org && pdnsutil --config-name authoritative_server_01 add-record example.org smoke A 127.0.0.123'
 
 execute add_zone do
   user 'root'
-  not_if 'pdnsutil --config-name server_01 list-zone example.org | grep example.org'
+  not_if 'pdnsutil --config-name authoritative_server_01 list-zone example.org | grep example.org'
   action :run
 end

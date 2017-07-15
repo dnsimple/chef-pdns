@@ -79,12 +79,12 @@ action :create do
     action :create
   end
 
-  template "#{new_resource.config_dir}/pdns-#{new_resource.instance_name}.conf" do
+  template "#{new_resource.config_dir}/pdns-authoritative_#{new_resource.instance_name}.conf" do
     source new_resource.source
     cookbook new_resource.cookbook
     owner 'root'
     group 'root'
-    mode '0640'
+    mode '0440'
     variables(
       launch: new_resource.launch,
       socket_dir: new_resource.socket_dir,

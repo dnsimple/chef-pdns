@@ -1,9 +1,7 @@
+config_dir = ::Pdns::PdnsAuthoritativeHelpers.default_authoritative_config_directory(node['platform_family'])
+
 pdns_authoritative_install 'server_01' do
   action :install
-end
-
-pdns_authoritative_service 'server_01' do
-  action :enable
 end
 
 pdns_authoritative_config 'server_01' do
@@ -14,21 +12,23 @@ pdns_authoritative_install 'server_02' do
   action :install
 end
 
-pdns_authoritative_service 'server_02' do
-  action :enable
-end
-
 pdns_authoritative_config 'server_02' do
   action :create
   run_user 'another-pdns'
   run_group 'another-pdns'
   run_user_home '/var/lib/another-pdns'
   variables(
-    'local-port' => '54'
+    'local-port' => '54',
+    'bind_config' => "#{config_dir}/bindbackend.conf"
   )
 end
 
-config_dir = ::Pdns::PdnsAuthoritativeHelpers.default_authoritative_config_directory(node['platform_family'])
+group 'pdns' do
+  action :modify
+  members 'another-pdns'
+  append true
+end
+
 test_zonefile = <<-EOF
 zone "example.org" { type master; file "#{config_dir}/example.org.zone"; };
 EOF
@@ -54,9 +54,9 @@ file "#{config_dir}/example.org.zone" do
 end
 
 pdns_authoritative_service 'server_01' do
-  action :start
+  action [:enable, :start]
 end
 
 pdns_authoritative_service 'server_02' do
-  action :start
+  action [:enable, :start]
 end

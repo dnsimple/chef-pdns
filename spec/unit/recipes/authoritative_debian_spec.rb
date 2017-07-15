@@ -36,12 +36,12 @@ describe 'pdns_test::authoritative_install_multi' do
     #
 
     it '[sysvinit] creates a specific init script' do
-      expect(chef_run).to create_link('/etc/init.d/pdns_authoritative-server_01').with(to: 'pdns')
+      expect(chef_run).to create_link('/etc/init.d/pdns-authoritative_server_01').with(to: 'pdns')
     end
 
     it '[sysvinit] enables and starts pdns_authoritative service' do
-      expect(chef_run).to enable_service('pdns_authoritative-server_01')
-      expect(chef_run).to start_service('pdns_authoritative-server_01')
+      expect(chef_run).to enable_service('pdns-authoritative_server_01')
+      expect(chef_run).to start_service('pdns-authoritative_server_01')
     end
 
     #
@@ -64,8 +64,8 @@ describe 'pdns_test::authoritative_install_multi' do
     end
 
     it 'creates a authoritative instance config' do
-      expect(chef_run).to create_template('/etc/powerdns/pdns-server_01.conf')
-        .with(owner: 'root', group: 'root', mode: '0640')
+      expect(chef_run).to create_template('/etc/powerdns/pdns-authoritative_server_01.conf')
+        .with(owner: 'root', group: 'root', mode: '0440')
     end
 
     it 'converges successfully' do
