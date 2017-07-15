@@ -31,6 +31,12 @@ pdns_authoritative_config 'server_02' do
   )
 end
 
+group 'pdns' do
+  action :modify
+  members 'another-pdns'
+  append true
+end
+
 test_zonefile = <<-EOF
 zone "example.org" { type master; file "#{config_dir}/example.org.zone"; };
 EOF
