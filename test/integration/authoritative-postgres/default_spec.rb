@@ -28,5 +28,5 @@ describe command('dig chaos txt version.bind @127.0.0.1 +short') do
 end
 
 describe command('dig @127.0.0.1 smoke.example.org') do
-  its('stdout.chomp') { should match(/127.0.0.123/) }
+  its('stdout.chomp') { should match(/127\.0\.0\.123/) }
 end
