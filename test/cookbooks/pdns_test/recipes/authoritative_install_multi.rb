@@ -4,20 +4,12 @@ pdns_authoritative_install 'server_01' do
   action :install
 end
 
-pdns_authoritative_service 'server_01' do
-  action :enable
-end
-
 pdns_authoritative_config 'server_01' do
   action :create
 end
 
 pdns_authoritative_install 'server_02' do
   action :install
-end
-
-pdns_authoritative_service 'server_02' do
-  action :enable
 end
 
 pdns_authoritative_config 'server_02' do
@@ -62,9 +54,9 @@ file "#{config_dir}/example.org.zone" do
 end
 
 pdns_authoritative_service 'server_01' do
-  action :start
+  action [:enable, :start]
 end
 
 pdns_authoritative_service 'server_02' do
-  action :start
+  action [:enable, :start]
 end
