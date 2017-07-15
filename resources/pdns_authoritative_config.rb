@@ -84,7 +84,7 @@ action :create do
     cookbook new_resource.cookbook
     owner 'root'
     group 'root'
-    mode '0640'
+    mode '0440'
     variables(
       launch: new_resource.launch,
       socket_dir: new_resource.socket_dir,
