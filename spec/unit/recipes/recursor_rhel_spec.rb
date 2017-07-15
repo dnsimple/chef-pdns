@@ -39,12 +39,12 @@ describe 'pdns_test::recursor_install_multi' do
     #
 
     it '[sysvinit] creates a specific init script' do
-      expect(chef_run).to create_template('/etc/init.d/pdns_recursor-server_01')
+      expect(chef_run).to create_template('/etc/init.d/pdns-recursor_server_01')
     end
 
     it '[sysvinit] enables and starts pdns_recursor service' do
-      expect(chef_run).to enable_service('pdns_recursor-server_01')
-      expect(chef_run).to start_service('pdns_recursor-server_01')
+      expect(chef_run).to enable_service('pdns-recursor_server_01')
+      expect(chef_run).to start_service('pdns-recursor_server_01')
     end
 
     #
