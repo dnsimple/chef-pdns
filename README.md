@@ -4,7 +4,7 @@ Provides resources for installing and configuring both PowerDNS authoritative an
 
 ## Build Status
 
-[![Build Status](https://travis-ci.org/dnsimple/chef-dnsimple.svg?branch=master)](https://travis-ci.org/dnsimple/chef-dnsimple)
+[![Build Status](https://travis-ci.org/dnsimple/chef-pdns.svg?branch=master)](https://travis-ci.org/dnsimple/chef-pdns)
 
 ## Requirements
 
