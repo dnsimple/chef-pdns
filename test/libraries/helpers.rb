@@ -59,6 +59,7 @@ def systemd_is_init?
   end
 end
 
+# TODO: remove this method by fixing its call and coming back to regular inspec
 def check_process_name(instance_name = 'server01', user_name = 'pdns', type = 'authoritative')
   if systemd_is_init?
     describe processes(instance_name) do
