@@ -8,6 +8,22 @@ RSpec.describe Pdns::PdnsAuthoritativeHelpers do
     DummyClass.new
   end
 
+  describe '#authoritative_instance_config' do
+    context 'without a name' do
+      let(:instance) { nil }
+      it 'returns the default configuration' do
+        expect(subject.authoritative_instance_config(instance)).to eq 'pdns.conf'
+      end
+    end
+
+    context 'with a name' do
+      let(:instance) { 'foo' }
+      it 'returns the config with a virtual instance name' do
+        expect(subject.authoritative_instance_config(instance)).to eq('pdns-foo.conf')
+      end
+    end
+  end
+
   describe '#sysvinit_name' do
     context 'without a name' do
       let(:instance) { nil }
@@ -31,6 +47,22 @@ RSpec.describe Pdns::PdnsRecursorHelpers do
       include Pdns::PdnsRecursorHelpers
     end
     DummyClass.new
+  end
+
+  describe '#recursor_instance_config' do
+    context 'without a name' do
+      let(:instance) { nil }
+      it 'returns the default configuration' do
+        expect(subject.recursor_instance_config(instance)).to eq 'pdns-recursor.conf'
+      end
+    end
+
+    context 'with a name' do
+      let(:instance) { 'foo' }
+      it 'returns the config with a virtual instance name' do
+        expect(subject.recursor_instance_config(instance)).to eq('pdns-recursor-foo.conf')
+      end
+    end
   end
 
   describe '#sysvinit_name' do
