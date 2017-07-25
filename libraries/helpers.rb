@@ -37,7 +37,7 @@ module Pdns
       "pdns-recursor@#{name}"
     end
 
-    def sysvinit_name(name = nil)
+    def sysvinit_name(name = '')
       if name
         "pdns-recursor-#{name}"
       else
@@ -62,6 +62,14 @@ module Pdns
         '/etc/pdns-recursor'
       end
     end
+
+    def recursor_instance_config(name = '')
+      if name
+        "pdns-recursor-#{name}.conf"
+      else
+        "pdns-recursor.conf"
+      end
+    end
   end
 
   # Helpers method for authoritative feature
@@ -72,11 +80,19 @@ module Pdns
       "pdns@#{name}"
     end
 
-    def sysvinit_name(name = nil)
-      if name
-        "pdns-#{name}"
+    def sysvinit_name(name = '')
+      if name.empty?
+        'pdns'
       else
-        "pdns"
+        "pdns-#{name}"
+      end
+    end
+
+    def authoritative_instance_config(name = '')
+      if name.empty?
+        'pdns.conf'
+      else
+        "pdns-#{name}.conf"
       end
     end
 
