@@ -38,7 +38,7 @@ module Pdns
     end
 
     def sysvinit_name(name = nil)
-      "pdns_recursor-#{name}"
+      "pdns-recursor_#{name}"
     end
 
     def default_recursor_run_user
@@ -69,7 +69,11 @@ module Pdns
     end
 
     def sysvinit_name(name = nil)
-      "pdns_authoritative-#{name}"
+      if name
+        "pdns-#{name}"
+      else
+        "pdns"
+      end
     end
 
     def default_authoritative_run_user
