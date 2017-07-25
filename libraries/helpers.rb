@@ -38,7 +38,11 @@ module Pdns
     end
 
     def sysvinit_name(name = nil)
-      "pdns-recursor_#{name}"
+      if name
+        "pdns-recursor-#{name}"
+      else
+        'pdns-recursor'
+      end
     end
 
     def default_recursor_run_user
