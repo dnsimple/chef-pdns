@@ -1,21 +1,13 @@
-pdns_authoritative_install 'server_01' do
+pdns_authoritative_install '' do
   action :install
 end
 
-pdns_authoritative_service 'server_01' do
-  action :enable
-end
-
-pdns_authoritative_config 'server_01' do
+pdns_authoritative_config '' do
   action :create
 end
 
 pdns_authoritative_install 'server_02' do
   action :install
-end
-
-pdns_authoritative_service 'server_02' do
-  action :enable
 end
 
 pdns_authoritative_config 'server_02' do
@@ -24,8 +16,15 @@ pdns_authoritative_config 'server_02' do
   run_group 'another-pdns'
   run_user_home '/var/lib/another-pdns'
   variables(
-    'local-port' => '54'
+    'local-port' => '54',
+    'bind-config' => '/etc/powerdns/bindbackend.conf'
   )
+end
+
+group 'pdns' do
+  action :modify
+  members 'another-pdns'
+  append true
 end
 
 config_dir = ::Pdns::PdnsAuthoritativeHelpers.default_authoritative_config_directory(node['platform_family'])
@@ -43,20 +42,20 @@ file "#{config_dir}/bindbackend.conf" do
   content test_zonefile
   owner 'pdns'
   group 'pdns'
-  mode '0750'
+  mode '0440'
 end
 
 file "#{config_dir}/example.org.zone" do
   content test_zone
   owner 'pdns'
   group 'pdns'
-  mode '0750'
+  mode '0440'
 end
 
-pdns_authoritative_service 'server_01' do
-  action :start
+pdns_authoritative_service '' do
+  action [:enable, :start]
 end
 
 pdns_authoritative_service 'server_02' do
-  action :start
+  action [:enable, :start]
 end
