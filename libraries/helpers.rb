@@ -38,10 +38,10 @@ module Pdns
     end
 
     def sysvinit_name(name = '')
-      if name
-        "pdns-recursor-#{name}"
-      else
+      if name.empty?
         'pdns-recursor'
+      else
+        "pdns-recursor-#{name}"
       end
     end
 
@@ -64,10 +64,10 @@ module Pdns
     end
 
     def recursor_instance_config(name = '')
-      if name
-        "pdns-recursor-#{name}.conf"
+      if name.empty?
+        'pdns-recursor.conf'
       else
-        "pdns-recursor.conf"
+        "recursor-#{name}.conf"
       end
     end
   end
