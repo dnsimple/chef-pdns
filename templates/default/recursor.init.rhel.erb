@@ -7,18 +7,28 @@
 # chkconfig:    - 49 51
 #
 # description:  PowerDNS Recursor is a non authoritative/recursing DNS server
-# processname:  <%= @service_name %>
-# config: <%= ::File.join(@config_dir, "recursor-#{@pdns_virtual_instance}.conf") %>
-# pidfile: <%= ::File.join(@socket_dir, "pdns_recursor-#{@pdns_virtual_instance}.pid") %>
+# processname:  pdns_recursor
+# config: /etc/pdns-recursor/recursor.conf
+# pidfile: /var/run/pdns_recursor.pid
 #
 
 # source function library
 . /etc/rc.d/init.d/functions
 
 RETVAL=0
-PROGNAME=<%= @service_name %>
-CONFIG_FILE=<%= ::File.join(@config_dir, "recursor-#{@pdns_virtual_instance}.conf") %>
-INSTANCE_NAME=<%= @pdns_virtual_instance %>
+CONFIG_FILE="/etc/pdns-recursor/pdns-recursor.conf"
+INSTANCE_NAME="pdns-recursor"
+pdns_recursor="/usr/sbin/pdns_recursor"
+
+# Handle instance scripts
+suffix=$(basename $0 | cut -d- -f3- -s)
+
+if [ -n "$suffix" ]; then
+  CONFIG_FILE=/etc/pdns-recursor/recursor-$suffix.conf
+  INSTANCE_NAME=$suffix
+  EXTRAOPTS="--config-name=$INSTANCE_NAME"
+  pdns_recursor="/usr/sbin/pdns_recursor ${EXTRAOPTS}"
+fi
 
 # Derive the socket-dir setting from $CONFIG_FILE
 # or fall back to the default /var/run if not specified there.
@@ -28,12 +38,6 @@ if [ -z "$PIDDIR" ]; then PIDDIR=/var/run; fi
 # schema: pdns_recursor-<VIRTUAL_INSTANCE_NAME>
 PIDFILE="${PIDDIR}/pdns_recursor-${INSTANCE_NAME}.pid"
 
-# When using "--config-name" for pdns, pdns_recursor already prefix every
-# resource by 'pdns_recursor-'.
-EXTRAOPTS="--config-name=<%= @pdns_virtual_instance %> --config-dir=<%= @config_dir %>"
-
-pdns_recursor="/usr/sbin/pdns_recursor ${EXTRAOPTS}"
-
 create_socket_dir() {
   if [ ! -d $PIDDIR ]; then
     mkdir -p $PIDDIR
@@ -42,19 +46,19 @@ create_socket_dir() {
 }
 
 start() {
-  echo -n $"Starting pdns-recursor virtual instance '<%= @pdns_virtual_instance %>': "
+  echo -n $"Starting pdns-recursor virtual instance '$INSTANCE_NAME': "
   create_socket_dir
-  daemon ${pdns_recursor} --daemon 2>/dev/null
+  daemon ${pdns_recursor} --pidfile $PIDFILE --daemon 2>/dev/null
   RETVAL=$?
   echo
-  [ $RETVAL -eq 0 ] && touch /var/lock/subsys/<%= @service_name %>
+  [ $RETVAL -eq 0 ] && touch /var/lock/subsys/$INSTANCE_NAME
 }
 
 stop() {
-  echo -n $"Stopping pdns-recursor virtual instance '<%= @pdns_virtual_instance %>': "
+  echo -n $"Stopping pdns-recursor virtual instance '$INSTANCE_NAME': "
   killproc -p ${PIDFILE} "${pdns_recursor}"
   echo
-  [ $RETVAL -eq 0 ] && rm -f /var/lock/subsys/<%= @service_name %> && rm -f <%= ::File.join(@socket_dir, "#{@service_name}.controlsocket") %>
+  [ $RETVAL -eq 0 ] && rm -f /var/lock/subsys/$INSTANCE_NAME && rm -f $PIDDIR/$INSTANCE_NAME.controlsocket
 }
 
 restart() {
