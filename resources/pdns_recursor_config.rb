@@ -78,7 +78,7 @@ action :create do
     action :create
   end
 
-  template "#{new_resource.config_dir}/recursor-#{new_resource.instance_name}.conf" do
+  template "#{new_resource.config_dir}/#{recursor_instance_config(new_resource.instance_name)}" do
     source new_resource.source
     cookbook new_resource.cookbook
     owner 'root'
