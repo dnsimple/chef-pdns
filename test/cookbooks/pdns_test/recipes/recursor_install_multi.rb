@@ -1,13 +1,9 @@
-pdns_recursor_install 'server_01' do
+pdns_recursor_install '' do
   action :install
 end
 
-pdns_recursor_config 'server_01' do
+pdns_recursor_config '' do
   action :create
-end
-
-pdns_recursor_service 'server_01' do
-  action [:enable, :start]
 end
 
 pdns_recursor_install 'server_02' do
@@ -22,6 +18,10 @@ pdns_recursor_config 'server_02' do
   variables(
     'local-port' => '54'
   )
+end
+
+pdns_recursor_service '' do
+  action [:enable, :start]
 end
 
 pdns_recursor_service 'server_02' do
