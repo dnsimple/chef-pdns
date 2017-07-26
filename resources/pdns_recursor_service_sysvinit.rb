@@ -31,18 +31,18 @@ property :source, [String, NilClass], default: lazy { "recursor.init.#{node['pla
 property :socket_dir, String, default: lazy { |resource| "/var/run/#{resource.instance_name}" }
 
 action :enable do
-   # Some distros start pdns-recursor after installing it, we want to stop it
-   # The behavior of the init script on CentOS 6 causes a bug so we skip it there
-   # (see https://github.com/dnsimple/chef-pdns/issues/77#issuecomment-311644973)
-   # We want to prevent the default recursor to start on boot
-   pdns_recursor_actions = [:disable]
-   pdns_recursor_actions = pdns_recursor_actions.unshift(:stop) if node['platform_family'] == 'debian'
+  # Some distros start pdns-recursor after installing it, we want to stop it
+  # The behavior of the init script on CentOS 6 causes a bug so we skip it there
+  # (see https://github.com/dnsimple/chef-pdns/issues/77#issuecomment-311644973)
+  # We want to prevent the default recursor to start on boot
+  pdns_recursor_actions = [:disable]
+  pdns_recursor_actions = pdns_recursor_actions.unshift(:stop) if node['platform_family'] == 'debian'
 
-   service 'pdns-recursor' do
-     supports restart: true, status: true
-     action pdns_recursor_actions
-     only_if { new_resource.instance_name.empty? }
-   end
+  service 'pdns-recursor' do
+    supports restart: true, status: true
+    action pdns_recursor_actions
+    only_if { new_resource.instance_name.empty? }
+  end
 
   template '/etc/init.d/pdns-recursor' do
     source new_resource.source
