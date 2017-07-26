@@ -33,8 +33,12 @@ module Pdns
   module PdnsRecursorHelpers
     include Pdns::Helpers
 
-    def systemd_name(name = nil)
-      "pdns-recursor@#{name}"
+    def systemd_name(name = '')
+      if name.empty?
+        'pdns-recursor'
+      else
+        "pdns-recursor@#{name}"
+      end
     end
 
     def sysvinit_name(name = '')
@@ -76,8 +80,12 @@ module Pdns
   module PdnsAuthoritativeHelpers
     include Pdns::Helpers
 
-    def systemd_name(name = nil)
-      "pdns@#{name}"
+    def systemd_name(name = '')
+      if name.empty?
+        'pdns'
+      else
+        "pdns@#{name}"
+      end
     end
 
     def sysvinit_name(name = '')
