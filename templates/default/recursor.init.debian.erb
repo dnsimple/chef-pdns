@@ -5,8 +5,9 @@
 # Required-Stop:     $network $remote_fs $syslog
 # Default-Start:     2 3 4 5
 # Default-Stop:      0 1 6
-# Short-Description: PowerDNS Recursor - Recursive DNS Server
-# Description:       PowerDNS Recursor - Recursive DNS Server
+# X-Start-After:     slapd mysql postgresql
+# X-Stop-Before:     slapd mysql postgresql
+# Short-Description: Start the recursor at boot time.
 ### END INIT INFO
 
 #
@@ -23,18 +24,14 @@
 PATH=/sbin:/bin:/usr/sbin:/usr/bin
 DESC="PowerDNS recursor"
 NAME=pdns_recursor
-INSTANCE_NAME=<%= @pdns_virtual_instance %>
 DAEMON=/usr/sbin/$NAME
-CONFIG_FILE=<%= ::File.join(@config_dir, "recursor-#{@pdns_virtual_instance}.conf") %>
-CONFIG_DIR=<%= @config_dir %>
+DAEMON_ARGS=""
 
-# Derive the socket-dir setting from $CONFIG_FILE
+# Derive the socket-dir setting from /etc/powerdns/recursor.conf
 # or fall back to the default /var/run if not specified there.
-PIDDIR=$(awk -F= '/^socket-dir=/ {print $2}' $CONFIG_FILE)
+PIDDIR=$(awk -F= '/^socket-dir=/ {print $2}' /etc/powerdns/recursor.conf)
 if [ -z "$PIDDIR" ]; then PIDDIR=/var/run; fi
-  # The binary "pdns_recursor" handles its own pidfile according the following
-  # schema: pdns_recursor-<VIRTUAL_INSTANCE_NAME>
-  PIDFILE="${PIDDIR}/pdns_recursor-${INSTANCE_NAME}.pid"
+PIDFILE=$PIDDIR/$NAME.pid
 
 # Gracefully exit if the package has been removed.
 test -x $DAEMON || exit 0
@@ -42,6 +39,18 @@ test -x $DAEMON || exit 0
 # Read config file if it is present.
 if [ -r /etc/default/pdns-recursor ]; then
   . /etc/default/pdns-recursor
+fi
+
+# Handle instance scripts
+suffix=$(basename $0 | cut -d- -f3- -s)
+echo $suffix
+if [ -n "$suffix" ]; then
+  SUFFIX="--config-name=$suffix"
+  DAEMON_ARGS="$DAEMON_ARGS $SUFFIX"
+  NAME="$NAME-$suffix"
+  DESC="$DESC (config name $suffix)"
+  PIDDIR=$(awk -F= '/^socket-dir=/ {print $2}' /etc/powerdns/recursor-$suffix.conf)
+  PIDFILE="$PIDDIR/$NAME-$suffix.pid"
 fi
 
 create_socket_dir() {
@@ -57,11 +66,11 @@ start() {
 #  >0 if daemon could not be started
   create_socket_dir
   start-stop-daemon --start --oknodo --quiet --pidfile $PIDFILE --exec $DAEMON --test > /dev/null || return 0
-  start-stop-daemon --start --oknodo --quiet --pidfile $PIDFILE --exec $DAEMON -- --daemon=yes --config-name=${INSTANCE_NAME} --config-dir=${CONFIG_DIR} || return 2
+  start-stop-daemon --start --oknodo --quiet --pidfile $PIDFILE --exec $DAEMON -- $DAEMON_ARGS --daemon=yes || return 2
 }
 
 start_resolvconf() {
-  if [ "X$RESOLVCONF" = "Xyes" ] && [ -x /sbin/resolvconf ]; then
+  if [ -x /sbin/resolvconf ]; then
     echo "nameserver 127.0.0.1" | /sbin/resolvconf -a lo.pdns-recursor
   fi
   return 0
@@ -81,7 +90,7 @@ stop() {
 }
 
 stop_resolvconf() {
-  if [ "X$RESOLVCONF" = "Xyes" ] && [ -x /sbin/resolvconf ]; then
+  if [ -x /sbin/resolvconf ]; then
     /sbin/resolvconf -d lo.pdns-recursor
   fi
   return 0
@@ -170,12 +179,10 @@ case "$1" in
   force-stop)
     killall -v -9 pdns_recursor
     echo "killed"
-  ;;
-  status)
-    status_of_proc -p $PIDFILE $DAEMON $NAME && exit 0 || exit $?
-  ;;
+    ;;
+
   *)
-    echo "Usage: $0 {start|stop|restart|force-reload|force-stop|status}" >&2
+    echo "Usage: $0 {start|stop|restart|force-reload|force-stop}" >&2
     exit 3
   ;;
 esac
