@@ -31,36 +31,37 @@ property :source, [String, NilClass], default: lazy { "recursor.init.#{node['pla
 property :socket_dir, String, default: lazy { |resource| "/var/run/#{resource.instance_name}" }
 
 action :enable do
-  # Some distros start pdns-recursor after installing it, we want to stop it
-  # The behavior of the init script on CentOS 6 causes a bug so we skip it there
-  # (see https://github.com/dnsimple/chef-pdns/issues/77#issuecomment-311644973)
-  # We want to prevent the default recursor to start on boot
-  pdns_recursor_actions = [:disable]
-  pdns_recursor_actions = pdns_recursor_actions.unshift(:stop) if node['platform_family'] == 'debian'
+   # Some distros start pdns-recursor after installing it, we want to stop it
+   # The behavior of the init script on CentOS 6 causes a bug so we skip it there
+   # (see https://github.com/dnsimple/chef-pdns/issues/77#issuecomment-311644973)
+   # We want to prevent the default recursor to start on boot
+   pdns_recursor_actions = [:disable]
+   pdns_recursor_actions = pdns_recursor_actions.unshift(:stop) if node['platform_family'] == 'debian'
 
-  service 'pdns-recursor' do
-    supports restart: true, status: true
-    action pdns_recursor_actions
-  end
+   service 'pdns-recursor' do
+     supports restart: true, status: true
+     action pdns_recursor_actions
+     only_if { new_resource.instance_name.empty? }
+   end
 
-  service_name = sysvinit_name(new_resource.instance_name)
-
-  template "/etc/init.d/#{service_name}" do
+  template '/etc/init.d/pdns-recursor' do
     source new_resource.source
     owner 'root'
     group 'root'
     mode '0755'
-    variables(
-      pdns_virtual_instance: new_resource.instance_name,
-      service_name: service_name,
-      config_dir: new_resource.config_dir,
-      socket_dir: new_resource.socket_dir
-    )
+    variables()
     cookbook new_resource.cookbook
     action :create
+    notifies :restart, 'service[pdns-recursor]'
   end
 
-  service service_name do
+  sysvinit_script = ::File.join('/etc/init.d', sysvinit_name(new_resource.instance_name))
+  link sysvinit_script do
+    to 'pdns-recursor'
+    not_if { new_resource.instance_name.empty? }
+  end
+
+  service sysvinit_name(new_resource.instance_name) do
     supports restart: true, status: true
     action :enable
   end
