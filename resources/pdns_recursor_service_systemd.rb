@@ -33,6 +33,7 @@ action :enable do
   service 'pdns-recursor' do
     supports restart: true, status: true
     action [:disable, :stop]
+    only_if { new_resource.instance_name.empty? }
   end
 
   service systemd_name(new_resource.instance_name) do
