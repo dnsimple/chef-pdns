@@ -22,11 +22,11 @@ describe group(default_recursor_run_user) do
   it { should exist }
 end
 
-describe processes('/usr/sbin/pdns_recursor --daemon=yes') do
+describe processes(Regexp.new(/pdns_recursor\s(?!--config)/)) do
   its('users') { should eq ['pdns'] }
 end
 
-describe processes('/usr/sbin/pdns_recursor --config-name=server_02 --daemon=yes') do
+describe processes(Regexp.new(/pdns_recursor --config-name=server_02/)) do
   its('users') { should eq ['another-pdns'] }
 end
 
