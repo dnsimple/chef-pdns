@@ -21,24 +21,24 @@ INSTANCE_NAME="pdns_recursor"
 pdns_recursor="/usr/sbin/pdns_recursor"
 PROGNAME=pdns-recursor
 
+# Derive the socket-dir setting from $CONFIG_FILE
+# or fall back to the default /var/run if not specified there.
+PIDDIR=$(awk -F= '/^socket-dir=/ {print $2}' $CONFIG_FILE)
+if [ -z "$PIDDIR" ]; then PIDDIR=/var/run; fi
+PIDFILE="${PIDDIR}/${INSTANCE_NAME}.pid"
+
 # Handle instance scripts
 suffix=$(basename $0 | cut -d- -f3- -s)
 
 if [ -n "$suffix" ]; then
   CONFIG_FILE=/etc/pdns-recursor/recursor-$suffix.conf
   INSTANCE_NAME=$suffix
-  EXTRAOPTS="--config-name=$INSTANCE_NAME"
-  pdns_recursor="/usr/sbin/pdns_recursor ${EXTRAOPTS}"
   PROGNAME=pdns-recursor-$suffix
+  PIDFILE="${PIDDIR}/pdns_recursor-${INSTANCE_NAME}.pid"
+  EXTRAOPTS="--config-name=${INSTANCE_NAME}"
+  DAEMONOPTS="--pidfile=${PIDFILE}"
+  pdns_recursor="${DAEMONOPTS} /usr/sbin/pdns_recursor ${EXTRAOPTS}"
 fi
-
-# Derive the socket-dir setting from $CONFIG_FILE
-# or fall back to the default /var/run if not specified there.
-PIDDIR=$(awk -F= '/^socket-dir=/ {print $2}' $CONFIG_FILE)
-if [ -z "$PIDDIR" ]; then PIDDIR=/var/run; fi
-# The binary "pdns_recursor" handles its own pidfile according the following
-# schema: pdns_recursor-<VIRTUAL_INSTANCE_NAME>
-PIDFILE="${PIDDIR}/${INSTANCE_NAME}.pid"
 
 create_socket_dir() {
   if [ ! -d $PIDDIR ]; then
@@ -48,19 +48,19 @@ create_socket_dir() {
 }
 
 start() {
-  echo -n $"Starting pdns-recursor virtual instance '$INSTANCE_NAME': "
+  echo -n $"Starting pdns-recursor virtual instance '${INSTANCE_NAME}': "
   create_socket_dir
   daemon ${pdns_recursor} --daemon 2>/dev/null
   RETVAL=$?
   echo
-  [ $RETVAL -eq 0 ] && touch /var/lock/subsys/pdns-recursor
+  [ $RETVAL -eq 0 ] && touch /var/lock/subsys/${INSTANCE_NAME}
 }
 
 stop() {
-  echo -n $"Stopping pdns-recursor virtual instance '$INSTANCE_NAME': "
+  echo -n $"Stopping pdns-recursor virtual instance '${INSTANCE_NAME}': "
   killproc -p ${PIDFILE} "${pdns_recursor}"
   echo
-  [ $RETVAL -eq 0 ] && rm -f /var/lock/subsys/pdns-recursor && rm -f $PIDDIR/$INSTANCE_NAME.controlsocket
+  [ $RETVAL -eq 0 ] && rm -f /var/lock/subsys/${INSTANCE_NAME} && rm -f ${PIDDIR}/${INSTANCE_NAME}.controlsocket
 }
 
 restart() {
@@ -79,7 +79,7 @@ case "$1" in
   restart
   ;;
   condrestart)
-  [ -f /var/lock/subsys/pdns-recursor ] && restart
+  [ -f /var/lock/subsys/${INSTANCE_NAME} ] && restart
   ;;
   status)
   status -p ${PIDFILE} pdns_recursor
