@@ -54,8 +54,7 @@ action :enable do
     action :create
   end
 
-  sysvinit_script = ::File.join('/etc/init.d', sysvinit_name(new_resource.instance_name))
-  link sysvinit_script do
+  link "/etc/init.d/#{sysvinit_name(new_resource.instance_name)}" do
     to 'pdns-recursor'
     not_if { new_resource.instance_name.empty? }
   end

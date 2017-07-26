@@ -31,7 +31,6 @@ property :config_dir, String, default: lazy { default_authoritative_config_direc
 property :variables, String
 
 action :enable do
-  sysvinit_script = ::File.join('/etc/init.d', sysvinit_name(new_resource.instance_name))
   if new_resource.source
     template sysvinit_script do
       source new_resource.source
@@ -47,7 +46,7 @@ action :enable do
     # Has specified in the PowerDNS documentation, a symlink to the init.d script
     # "pdns" should be enough for setting up a Virtual instance:
     # https://github.com/PowerDNS/pdns/blob/master/docs/markdown/authoritative/running.md#starting-virtual-instances-with-sysv-init-scripts
-    link sysvinit_script do
+    link "/etc/init.d/#{sysvinit_name(new_resource.instance_name)}" do
       to 'pdns'
       not_if { new_resource.instance_name.empty? }
     end
