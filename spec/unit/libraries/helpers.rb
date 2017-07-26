@@ -10,7 +10,7 @@ RSpec.describe Pdns::PdnsAuthoritativeHelpers do
 
   describe '#authoritative_instance_config' do
     context 'without a name' do
-      let(:instance) { nil }
+      let(:instance) { '' }
       it 'returns the default configuration' do
         expect(subject.authoritative_instance_config(instance)).to eq 'pdns.conf'
       end
@@ -26,7 +26,7 @@ RSpec.describe Pdns::PdnsAuthoritativeHelpers do
 
   describe '#sysvinit_name' do
     context 'without a name' do
-      let(:instance) { nil }
+      let(:instance) { '' }
       it 'returns the service name without a specific name' do
         expect(subject.sysvinit_name(instance)).to eq 'pdns'
       end
@@ -51,7 +51,7 @@ RSpec.describe Pdns::PdnsRecursorHelpers do
 
   describe '#recursor_instance_config' do
     context 'without a name' do
-      let(:instance) { nil }
+      let(:instance) { '' }
       it 'returns the default configuration' do
         expect(subject.recursor_instance_config(instance)).to eq 'pdns-recursor.conf'
       end
@@ -60,14 +60,14 @@ RSpec.describe Pdns::PdnsRecursorHelpers do
     context 'with a name' do
       let(:instance) { 'foo' }
       it 'returns the config with a virtual instance name' do
-        expect(subject.recursor_instance_config(instance)).to eq('pdns-recursor-foo.conf')
+        expect(subject.recursor_instance_config(instance)).to eq('recursor-foo.conf')
       end
     end
   end
 
   describe '#sysvinit_name' do
     context 'without a name' do
-      let(:instance) { nil }
+      let(:instance) { '' }
       it 'returns the service name without a specific name' do
         expect(subject.sysvinit_name(instance)).to eq 'pdns-recursor'
       end
