@@ -43,7 +43,7 @@ fi
 
 # Handle instance scripts
 suffix=$(basename $0 | cut -d- -f3- -s)
-echo $suffix
+
 if [ -n "$suffix" ]; then
   SUFFIX="--config-name=$suffix"
   DAEMON_ARGS="$DAEMON_ARGS $SUFFIX"

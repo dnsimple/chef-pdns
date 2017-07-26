@@ -52,7 +52,6 @@ action :enable do
     variables()
     cookbook new_resource.cookbook
     action :create
-    notifies :restart, 'service[pdns-recursor]'
   end
 
   sysvinit_script = ::File.join('/etc/init.d', sysvinit_name(new_resource.instance_name))
