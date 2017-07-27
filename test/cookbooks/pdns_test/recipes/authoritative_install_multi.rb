@@ -10,6 +10,8 @@ pdns_authoritative_install 'server_02' do
   action :install
 end
 
+config_dir = ::Pdns::PdnsAuthoritativeHelpers.default_authoritative_config_directory(node['platform_family'])
+
 pdns_authoritative_config 'server_02' do
   action :create
   run_user 'another-pdns'
@@ -17,7 +19,7 @@ pdns_authoritative_config 'server_02' do
   run_user_home '/var/lib/another-pdns'
   variables(
     'local-port' => '54',
-    'bind-config' => '/etc/powerdns/bindbackend.conf'
+    'bind-config' => "#{config_dir}/bindbackend.conf"
   )
 end
 
@@ -27,7 +29,6 @@ group 'pdns' do
   append true
 end
 
-config_dir = ::Pdns::PdnsAuthoritativeHelpers.default_authoritative_config_directory(node['platform_family'])
 test_zonefile = <<-EOF
 zone "example.org" { type master; file "#{config_dir}/example.org.zone"; };
 EOF
