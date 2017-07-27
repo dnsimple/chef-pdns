@@ -110,17 +110,19 @@ If you decide to follow the convention recommended by PDNS for Virtual Hosting, 
 
 ### Platforms:
 
-- Ubuntu (14.04)
-- CentOS (6.8)
+- Ubuntu 14.04 and newer
+- Debian 8 and newer
+- RHEL 7 and newer
+- CentOS 6.9 and newer
 
 ### Chef:
 
-- Chef 12.5+
+- Chef 12.5 or newer
 
 ### Init Systems:
 
-Only `SysVinit` is supported for "pdns-authoritative".
-`SysVinit` and `Systemd` are supported for "pdns-recursor".
+* SysV
+* systemd
 
 ### Required Cookbooks:
 
