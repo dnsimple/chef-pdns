@@ -32,7 +32,7 @@ property :variables, String
 
 action :enable do
   if new_resource.source
-    template sysvinit_script do
+    template "/etc/init.d/#{sysvinit_name}" do
       source new_resource.source
       owner 'root'
       group 'root'
