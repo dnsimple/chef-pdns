@@ -40,7 +40,6 @@ else
   end
 end
 
-
 describe command('dig -p 53 chaos txt version.bind @127.0.0.1 +short') do
   its('stdout.chomp') { should match(/"PowerDNS Authoritative Server 4\.\d\.\d/) }
 end
