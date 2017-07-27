@@ -1,18 +1,5 @@
 require 'spec_helper'
 
-# RSpec.describe Pdns::Helpers do
-#   subject do
-#     class DummyClass < Chef::Node
-#       include Pdns::Helpers
-#     end
-#     DummyClass.new
-#   end
-
-#   describe '#default_user_attributes' do
-
-
-# end
-
 RSpec.describe Pdns::PdnsRecursorHelpers do
   subject do
     class DummyClass < Chef::Node
@@ -53,9 +40,6 @@ RSpec.describe Pdns::PdnsRecursorHelpers do
     end
   end
 
-  # default_recursor_run_user
-  # default_recursor_config_directory
-
   describe '#recursor_instance_config' do
     context 'without a name' do
       let(:instance) { '' }
@@ -81,7 +65,7 @@ RSpec.describe Pdns::PdnsAuthoritativeHelpers do
     DummyClass.new
   end
 
- describe '#systemd_name' do
+  describe '#systemd_name' do
     context 'without a name' do
       let(:instance) { '' }
       it 'returns the service name without a specific name' do
@@ -128,9 +112,4 @@ RSpec.describe Pdns::PdnsAuthoritativeHelpers do
       end
     end
   end
-
-  # default_authoritative_run_user
-  # backend_package_per_platform
-  # default_authoritative_config_directory
-
 end
