@@ -143,8 +143,8 @@ module Pdns
       }
     end
 
-    def default_authoritative_config_directory(platform_family = 'rhel')
-      case platform_family
+    def default_authoritative_config_directory
+      case node['platform_family']
       when 'debian'
         '/etc/powerdns'
       when 'rhel'

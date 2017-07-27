@@ -178,16 +178,17 @@ RSpec.describe Pdns::PdnsAuthoritativeHelpers do
 
   describe '#default_authoritative_config_directory' do
     context 'when platform is debian' do
-      let(:platform_family) { 'debian' }
       it 'returns the default configuration directory for Debian pdns server' do
-        expect(subject.default_authoritative_config_directory(platform_family)).to eq('/etc/powerdns')
+        allow(subject).to receive(:[]).with('platform_family').and_return('debian')
+        expect(subject.default_authoritative_config_directory).to eq('/etc/powerdns')
       end
     end
 
     context 'when platform is rhel' do
       let(:platform_family) { 'rhel' }
       it 'returns the default configuration directory for RHEL pdns server' do
-        expect(subject.default_authoritative_config_directory(platform_family)).to eq('/etc/pdns')
+        allow(subject).to receive(:[]).with('platform_family').and_return('rhel')
+        expect(subject.default_authoritative_config_directory).to eq('/etc/pdns')
       end
     end
   end

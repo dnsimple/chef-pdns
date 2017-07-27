@@ -34,7 +34,7 @@ end
 
 property :instance_name, String, name_property: true
 property :launch, Array, default: ['bind']
-property :config_dir, String, default: lazy { default_authoritative_config_directory(node['platform_family']) }
+property :config_dir, String, default: lazy { default_authoritative_config_directory }
 property :run_group, String, default: lazy { default_authoritative_run_user }
 property :run_user, String, default: lazy { default_authoritative_run_user }
 property :run_user_home, String, default: lazy { default_user_attributes[:home] }
