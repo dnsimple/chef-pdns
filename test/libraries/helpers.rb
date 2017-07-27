@@ -58,20 +58,3 @@ def systemd_is_init?
     false
   end
 end
-
-# TODO: remove this method by fixing its call and coming back to regular inspec
-def check_process_name(instance_name = 'server01', user_name = 'pdns', type = 'authoritative')
-  if systemd_is_init?
-    describe processes(instance_name) do
-      its('users') { should eq [user_name] }
-    end
-  else
-    instance_name = "#{instance_name}-instance" unless type == 'recursor'
-    # Grep cheat feature
-    # "ps aux | grep '[f]irefox'" will only match the process
-    instance_name[0] = "[#{instance_name[0]}]"
-    describe command("ps axo user:32,command | grep '#{instance_name}' | awk '{print $1}'") do
-      its('stdout.chomp') { should eq user_name }
-    end
-  end
-end
