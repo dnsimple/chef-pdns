@@ -30,7 +30,7 @@ module Pdns
   end
 
   # Helpers method for recursor feature
-  module PdnsRecursorHelpers
+  module RecursorHelpers
     include Pdns::Helpers
 
     def systemd_name(name = '')
@@ -77,7 +77,7 @@ module Pdns
   end
 
   # Helpers method for authoritative feature
-  module PdnsAuthoritativeHelpers
+  module AuthoritativeHelpers
     include Pdns::Helpers
 
     def systemd_name(name = '')

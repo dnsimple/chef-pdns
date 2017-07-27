@@ -25,10 +25,10 @@ RSpec.describe Pdns::Helpers do
   end
 end
 
-RSpec.describe Pdns::PdnsRecursorHelpers do
+RSpec.describe Pdns::RecursorHelpers do
   subject do
     class DummyClass < Chef::Node
-      include Pdns::PdnsRecursorHelpers
+      include Pdns::RecursorHelpers
     end
     DummyClass.new
   end
@@ -114,10 +114,10 @@ RSpec.describe Pdns::PdnsRecursorHelpers do
   end
 end
 
-RSpec.describe Pdns::PdnsAuthoritativeHelpers do
+RSpec.describe Pdns::AuthoritativeHelpers do
   subject do
     class DummyClass < Chef::Node
-      include Pdns::PdnsAuthoritativeHelpers
+      include Pdns::AuthoritativeHelpers
     end
     DummyClass.new
   end

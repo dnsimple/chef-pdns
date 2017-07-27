@@ -16,7 +16,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-include ::Pdns::PdnsRecursorHelpers
 
 resource_name :pdns_recursor_config
 
@@ -32,6 +31,7 @@ provides :pdns_recursor_config, platform: 'centos' do |node| # ~FC005
   node['platform_version'].to_i >= 6
 end
 
+include Pdns::RecursorHelpers
 property :instance_name, String, name_property: true
 property :config_dir, String, default: lazy { default_recursor_config_directory }
 property :socket_dir, String, default: lazy { |resource| "/var/run/#{resource.instance_name}" }

@@ -16,7 +16,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-include ::Pdns::PdnsAuthoritativeHelpers
 
 resource_name :pdns_authoritative_config
 
@@ -32,6 +31,7 @@ provides :pdns_authoritative_config, platform: 'centos' do |node| # ~FC005
   node['platform_version'].to_i >= 6
 end
 
+include Pdns::AuthoritativeHelpers
 property :instance_name, String, name_property: true
 property :launch, Array, default: ['bind']
 property :config_dir, String, default: lazy { default_authoritative_config_directory }

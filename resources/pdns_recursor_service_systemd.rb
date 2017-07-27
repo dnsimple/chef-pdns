@@ -16,7 +16,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-include ::Pdns::PdnsRecursorHelpers
 
 resource_name :pdns_recursor_service_systemd
 
@@ -24,6 +23,7 @@ provides :pdns_recursor_service, os: 'linux' do |_node|
   Chef::Platform::ServiceHelpers.service_resource_providers.include?(:systemd)
 end
 
+include Pdns::RecursorHelpers
 property :instance_name, String, name_property: true
 property :config_dir, String, default: lazy { default_recursor_config_directory }
 

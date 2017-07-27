@@ -16,7 +16,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-include ::Pdns::PdnsRecursorHelpers
 
 resource_name :pdns_recursor_service_sysvinit
 
@@ -24,6 +23,7 @@ provides :pdns_recursor_service, os: 'linux' do |node|
   %w(debian ubuntu centos).include?(node['platform'])
 end
 
+include Pdns::RecursorHelpers
 property :instance_name, String, name_property: true
 property :cookbook, [String, NilClass], default: 'pdns'
 property :config_dir, String, default: lazy { default_recursor_config_directory }

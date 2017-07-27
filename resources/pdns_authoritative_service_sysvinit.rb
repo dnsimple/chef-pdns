@@ -16,7 +16,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-include ::Pdns::PdnsAuthoritativeHelpers
 
 resource_name :pdns_authoritative_service_sysvinit
 
@@ -24,6 +23,7 @@ provides :pdns_authoritative_service, os: 'linux' do |node|
   %w(ubuntu debian centos).include?(node['platform'])
 end
 
+include Pdns::AuthoritativeHelpers
 property :instance_name, String, name_property: true
 property :cookbook, [String, NilClass], default: 'pdns'
 property :source, [String, NilClass]
