@@ -143,8 +143,6 @@ module Pdns
       }
     end
 
-    module_function
-
     def default_authoritative_config_directory(platform_family = 'rhel')
       case platform_family
       when 'debian'
