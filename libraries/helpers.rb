@@ -128,18 +128,16 @@ module Pdns
         },
         'rhel' =>
         {
-          'geo' => 'pdns-backend-geo',
+          'geo' => 'pdns-backend-geoip',
           'ldap' => 'pdns-backend-ldap',
-          'mysql' => 'pdns-backend-mysql',
-          'postgresql' => 'pdns-backend-pgsql',
-          'pipe' => 'pdns-backend-pipe',
-          'sqlite' => 'pdns-backend-sqlite3',
-          'geoip' => 'pdns-backend-geoip',
           'lua' => 'pdns-backend-lua',
           'mydns' => 'pdns-backend-mydns',
+          'mysql' => 'pdns-backend-mysql',
           'odbc' => 'pdns-backend-odbc',
-          'opendbx' => 'pdns-backend-opendbx',
+          'pipe' => 'pdns-backend-pipe',
+          'postgresql' => 'pdns-backend-postgresql',
           'remote' => 'pdns-backend-remote',
+          'sqlite' => 'pdns-backend-sqlite3',
           'tinydns' => 'pdns-backend-tinydns',
         },
       }
