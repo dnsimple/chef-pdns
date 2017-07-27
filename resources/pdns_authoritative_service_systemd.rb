@@ -28,10 +28,6 @@ property :instance_name, String, name_property: true
 property :config_dir, String, default: lazy { default_authoritative_config_directory }
 
 action :enable do
-  service 'pdns' do
-    action [:stop, :disable]
-  end
-
   service systemd_name(new_resource.instance_name) do
     supports restart: true, status: true
     action :enable
