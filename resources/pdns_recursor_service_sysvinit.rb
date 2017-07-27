@@ -28,7 +28,7 @@ property :instance_name, String, name_property: true
 property :cookbook, [String, NilClass], default: 'pdns'
 property :config_dir, String, default: lazy { default_recursor_config_directory }
 property :source, [String, NilClass], default: lazy { "recursor.init.#{node['platform_family']}.erb" }
-property :socket_dir, String, default: lazy { |resource| "/var/run/#{resource.instance_name}" }
+property :variables, Hash, default: {}
 
 action :enable do
   # Some distros start pdns-recursor after installing it, we want to stop it
@@ -49,7 +49,7 @@ action :enable do
     owner 'root'
     group 'root'
     mode '0755'
-    variables()
+    variables(variables: new_resource.variables)
     cookbook new_resource.cookbook
     action :create
   end

@@ -44,7 +44,7 @@ property :setgid, String, default: lazy { |resource| resource.run_group }
 
 property :source, [String, nil], default: 'recursor_service.conf.erb'
 property :cookbook, [String, nil], default: 'pdns'
-property :variables, [Hash], default: {}
+property :variables, Hash, default: {}
 
 action :create do
   directory new_resource.config_dir do

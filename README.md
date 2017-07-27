@@ -334,12 +334,12 @@ Sets up a PowerDNS recursor instance using the appropiate init system .
 | config_dir     | String     | see `default_recursor_config_directory` helper method | Yes         |
 | cookbook (SysVinit)      | String,nil | 'pdns'                                                | No          |
 | source  (SysVinit)       | String,nil | 'recursor.init.#{node['platform_family']}.erb'                            | No          |
-| socket_dir (SysVinit)    | String     | "/var/run/#{resource.instance_name}" | Yes     |
+| variables (SysVinit)    | Hash     | {} | No     |
 
 - `config_dir`: Path of the recursor configuration directory.
 - `cookbook`: Cookbook for a custom configuration template (Applied only when using SysVinit).
 - `source`: Name of the recursor custom template (Applied only when using SysVinit).
-- `socket_dir`: Directory where sockets are created (Applied only when using SysVinit).
+- `variables`: Variables hash to pass to the sysvinit template
 
 #### Usage Example
 
