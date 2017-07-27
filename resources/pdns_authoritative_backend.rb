@@ -36,14 +36,14 @@ property :instance_name, String, name_property: true
 property :version, [String, nil], default: nil
 
 action :install do
-  package backend_package_per_platform[node['platform_family'][new_resource.instance_name]] do
+  package backend_package_per_platform[node['platform_family']][new_resource.instance_name] do
     version new_resource.version
     action :install
   end
 end
 
 action :uninstall do
-  package backend_package_per_platform[node['platform_family'][new_resource.instance_name]] do
+  package backend_package_per_platform[node['platform_family']][new_resource.instance_name] do
     action :remove
   end
 end
