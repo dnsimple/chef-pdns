@@ -17,8 +17,6 @@
 # limitations under the License.
 #
 
-resource_name :pdns_authoritative_service_sysvinit
-
 provides :pdns_authoritative_service, os: 'linux' do |node|
   %w(ubuntu debian centos).include?(node['platform'])
 end

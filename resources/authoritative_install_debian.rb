@@ -1,8 +1,8 @@
 #
 # Cookbook Name:: pdns
-# Resources:: pdns_recursor_install
+# Resources:: pdns_authoritative_install_debian
 #
-# Copyright 2017, Aetrion, LLC DBA DNSimple
+# Copyright 2014-2017 Aetrion LLC. dba DNSimple
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,23 +17,22 @@
 # limitations under the License.
 #
 
-resource_name :pdns_recursor_install_debian
-
-provides :pdns_recursor_install, platform: 'ubuntu' do |node|
+provides :pdns_authoritative_install, platform: 'ubuntu' do |node|
   node['platform_version'].to_f >= 14.04
 end
 
-provides :pdns_recursor_install, platform: 'debian' do |node|
+provides :pdns_authoritative_install, platform: 'debian' do |node|
   node['platform_version'].to_i >= 8
 end
 
 property :instance_name, String, name_property: true
 property :version, [String, nil], default: nil
+property :debug, [true, false], default: false
 
 action :install do
-  apt_repository 'powerdns-recursor' do
+  apt_repository 'powerdns-authoritative' do
     uri "http://repo.powerdns.com/#{node['platform']}"
-    distribution "#{node['lsb']['codename']}-rec-40"
+    distribution "#{node['lsb']['codename']}-auth-40"
     arch 'amd64'
     components ['main']
     key 'https://repo.powerdns.com/FD380FBB-pub.asc'
@@ -44,14 +43,25 @@ action :install do
     pin_priority '600'
   end
 
-  apt_package 'pdns-recursor' do
+  apt_package 'pdns-server' do
     action :install
     version new_resource.version
+  end
+
+  apt_package 'pdns-server-dbg' do
+    action :install
+    only_if { new_resource.debug }
   end
 end
 
 action :uninstall do
-  apt_package 'pdns-recursor' do
+  apt_package 'pdns-server' do
     action :remove
+    version new_resource.version
+  end
+
+  apt_package 'pdns-server-dbg' do
+    action :remove
+    only_if { new_resource.debug }
   end
 end

@@ -17,8 +17,6 @@
 # limitations under the License.
 #
 
-resource_name :pdns_recursor_service_sysvinit
-
 provides :pdns_recursor_service, os: 'linux' do |node|
   %w(debian ubuntu centos).include?(node['platform'])
 end

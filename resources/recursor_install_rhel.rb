@@ -17,8 +17,6 @@
 # limitations under the License.
 #
 
-resource_name :pdns_recursor_install_rhel
-
 provides :pdns_recursor_install, platform: 'centos' do |node|
   node['platform_version'].to_i >= 6
 end

@@ -17,8 +17,6 @@
 # limitations under the License.
 #
 
-resource_name :pdns_recursor_service_systemd
-
 provides :pdns_recursor_service, os: 'linux' do |_node|
   Chef::Platform::ServiceHelpers.service_resource_providers.include?(:systemd)
 end
