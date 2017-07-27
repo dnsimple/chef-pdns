@@ -127,10 +127,6 @@ Only `SysVinit` is supported for "pdns-authoritative".
 - apt
 - yum
 
-### Suggested Cookbooks:
-
-- postgres (for the PostgreSQL backend)
-
 ## Usage
 
 Combine the different resources in order to install, configure, and manage your PowerDNS instances. This is a list of resouces that can be used:
@@ -140,14 +136,13 @@ Combine the different resources in order to install, configure, and manage your 
   | pdns_authoritative_install          | Installs an authoritative server                  |
   | pdns_authoritative_config           | Configures an authoritative instance              |
   | pdns_authoritative_service          | Manages an authoritative instance                 |
-  | pdns_authoritative_backend          | Installs authoritative backend                    |
   | pdns_recursor_install               | Installs a recusor                                |
   | pdns_recursor_config                | Configures a recursor instance                    |
   | pdns_recursor_service               | Manages a a recursor instance                     |
 
-To fully configure an authoritative server you need to add at least 3 resources to your recipe, `pdns_authoritative_install`, `pdns_authoritative_config` and `pdns_authoritative_service`. If you want to install any backend other than the default (bind) for the authoritative server you need to add a fourth resource: `pdns_authoritative_backend`. There are some good usage examples in `test/cookbooks/pdns_test/recipes/`.
+To fully configure an authoritative server you need to add at least 3 resources to your recipe, `pdns_authoritative_install`, `pdns_authoritative_config` and `pdns_authoritative_service`. If you want to install any backend other than the default (bind) for the authoritative server you need to install the corresponding packages for the backend you want. There is an example for a postgresql backend in `test/cookbooks/pdns_test/recipes/`.
 
-For a recursor use the `pdns_recursor_install`, `pdns_recursor_config`, and `pdns_recursor_service` resources in your wrapper cookbooks to install, configure, and define PowerDNS recursors. Set the different properties on the resources according to your install and configuration needs. You can see a good example on this in `test/cookbooks/pdns_test/recipes_recursor_install_single.rb`
+For a recursor use the `pdns_recursor_install`, `pdns_recursor_config`, and `pdns_recursor_service` resources in your wrapper cookbooks to install, configure, and define PowerDNS recursors. Set the different properties on the resources according to your install and configuration needs. You can see a good example of this in `test/cookbooks/pdns_test/recipes_recursor_install_single.rb`
 
 For advanced use it is recommended to take a look at the chef resources themselves.
 
@@ -272,31 +267,6 @@ Creates a init service to manage a PowerDNS authoritative instance. This service
 ```
 pdns_authoritative_service 'server_01' do
   action [:enable, :start]
-end
-```
-
-### pdns_authoritative_backend
-
-Installs one backend package for the PowerDNS authoritative server. You'll still need to install and configure the backend itself in your wrapper cookbook. You can see the list of available backends supported in every platform in `libraries/authoritative_helpers.rb`
-
-Please review [PowerDNS documentation section](https://doc.powerdns.com/) to understand specific naming and settings for every backend since they differ.
-
-**Important**: it is advised to use the `pdns_authoritative_backend` resource right after the `pdns_authoritative_install` resource and before any `pdns_authoritative_service` resources. It may result in a broken chef run due to the way apt handles apt-triggers that start the default pdns service when installiung a backend.
-
-#### Properties
-
-| Name           | Class      |  Default value  | Consistent? |
-|----------------|------------|-----------------|-------------|
-| instance_name  | String     | name_property   | No |
-| version        | String, nil| nil             | No |
-
-#### Usage Example
-
-Install a PostgreSQL backend for the PowerDNS authoritative server:
-
-```
-pdns_authoritative_backend 'postgresql' do
-  action :install
 end
 ```
 

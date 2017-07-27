@@ -31,9 +31,12 @@ pdns_authoritative_install '' do
   action :install
 end
 
-pdns_authoritative_backend 'postgresql' do
-  action :install
-end
+pg_backend_package = value_for_platform_family(
+  'rhel' => 'pdns-backend-postgresql',
+  'debian' => 'pdns-backend-pgsql'
+)
+
+package pg_backend_package
 
 pdns_authoritative_config '' do
   action :create

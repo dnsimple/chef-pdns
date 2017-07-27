@@ -108,41 +108,6 @@ module Pdns
       'pdns'
     end
 
-    def backend_package_per_platform
-      {
-        'debian' =>
-        {
-          'geo' => 'pdns-backend-geo',
-          'ldap' => 'pdns-backend-ldap',
-          'mysql' => 'pdns-backend-mysql',
-          'postgresql' => 'pdns-backend-pgsql',
-          'pipe' => 'pdns-backend-pipe',
-          'sqlite' => 'pdns-backend-sqlite3',
-          'geoip' => 'pdns-backend-geoip',
-          'lua' => 'pdns-backend-lua',
-          'mydns' => 'pdns-backend-mydns',
-          'odbc' => 'pdns-backend-odbc',
-          'opendbx' => 'pdns-backend-opendbx',
-          'remote' => 'pdns-backend-remote',
-          'tinydns' => 'pdns-backend-tinydns',
-        },
-        'rhel' =>
-        {
-          'geo' => 'pdns-backend-geoip',
-          'ldap' => 'pdns-backend-ldap',
-          'lua' => 'pdns-backend-lua',
-          'mydns' => 'pdns-backend-mydns',
-          'mysql' => 'pdns-backend-mysql',
-          'odbc' => 'pdns-backend-odbc',
-          'pipe' => 'pdns-backend-pipe',
-          'postgresql' => 'pdns-backend-postgresql',
-          'remote' => 'pdns-backend-remote',
-          'sqlite' => 'pdns-backend-sqlite3',
-          'tinydns' => 'pdns-backend-tinydns',
-        },
-      }
-    end
-
     def default_authoritative_config_directory
       case node['platform_family']
       when 'debian'

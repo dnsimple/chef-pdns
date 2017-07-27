@@ -58,8 +58,4 @@ if defined?(ChefSpec)
   def restart_pdns_authoritative_service(resource_name)
     ChefSpec::Matchers::ResourceMatcher.new(:pdns_authoritative_service, :restart, resource_name)
   end
-
-  def pdns_authoritative_backend(resource_name)
-    ChefSpec::Matchers::ResourceMatcher.new(:pdns_authoritative_backend, :install, resource_name)
-  end
 end
