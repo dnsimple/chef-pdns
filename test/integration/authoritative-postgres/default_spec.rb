@@ -21,7 +21,15 @@ describe group(default_authoritative_run_user) do
   it { should exist }
 end
 
-check_process_name('server_01', default_authoritative_run_user)
+if service('pdns_server').type == 'systemd'
+  describe processes('pdns_server') do
+    its('users') { should eq ['pdns'] }
+  end
+else
+  describe processes('pdns_server-instance') do
+    its('users') { should eq ['pdns'] }
+  end
+end
 
 describe command('dig chaos txt version.bind @127.0.0.1 +short') do
   its('stdout.chomp') { should match(/"PowerDNS Authoritative Server 4\.\d\.\d/) }
