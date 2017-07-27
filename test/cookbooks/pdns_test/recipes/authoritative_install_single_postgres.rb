@@ -24,7 +24,6 @@ end
 
 execute 'psql -d pdns < /var/tmp/schema_postgres.sql' do
   user 'postgres'
-  action :run
   not_if 'psql -t -d pdns -c "select \'public.domains\'::regclass;"', user: 'postgres'
 end
 
