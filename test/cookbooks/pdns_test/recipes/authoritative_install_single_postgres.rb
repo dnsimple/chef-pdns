@@ -35,10 +35,6 @@ pdns_authoritative_backend 'postgresql' do
   action :install
 end
 
-pdns_authoritative_service '' do
-  action [:enable, :start]
-end
-
 pdns_authoritative_config '' do
   action :create
   launch ['gpgsql']
@@ -49,7 +45,11 @@ pdns_authoritative_config '' do
     gpgsql_dbname: 'pdns',
     gpgsql_password: 'wadus'
   )
-  notifies :restart, 'pdns_authoritative_service[]', :immediately
+  notifies :restart, 'pdns_authoritative_service[]'
+end
+
+pdns_authoritative_service '' do
+  action [:enable, :start]
 end
 
 execute 'create_zone' do
