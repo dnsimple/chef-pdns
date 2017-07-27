@@ -11,11 +11,11 @@ pdns_authoritative_install 'server_02' do
 end
 
 config_dir = case node['platform_family']
-when 'debian'
-  '/etc/powerdns'
-when 'rhel'
-  '/etc/pdns'
-end
+             when 'debian'
+               '/etc/powerdns'
+             when 'rhel'
+               '/etc/pdns'
+             end
 
 pdns_authoritative_config 'server_02' do
   action :create
@@ -25,7 +25,7 @@ pdns_authoritative_config 'server_02' do
   variables(
     'local-port' => '54',
     'bind-config' => "#{config_dir}/bindbackend.conf"
-    )
+  )
 end
 
 group 'pdns' do
