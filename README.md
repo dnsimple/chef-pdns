@@ -20,6 +20,9 @@ IMPORTANT: Please read the Deprecations and Compatibility Notes sections below s
 
 Users of the previous versions of the cookbook may find a few breaking changes. Here are the highlights:
 
+#### Chef 12.14 or newer
+
+To help clear up additional code and remove the 'yum' cookbook dependency, we have jumped up to Chef 12.14 as the minimum version. We'll look into the potential options of removing the 'apt' cookbook dependency as well.
 
 #### pdns_authoritative_backend has been removed
 
@@ -50,7 +53,7 @@ This was not implemented correctly in the previous versions and it has been remo
 
 ### Chef:
 
-- Chef 12.5 or newer
+- Chef 12.14 or newer
 
 ### Init Systems:
 

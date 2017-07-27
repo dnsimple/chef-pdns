@@ -54,9 +54,3 @@ action :restart do
     action :restart
   end
 end
-
-action_class.class_eval do
-  def whyrun_supported?
-    true
-  end
-end
