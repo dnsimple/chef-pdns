@@ -78,6 +78,8 @@ module Pdns
     def recursor_instance_config(name = '')
       if name.empty?
         'pdns-recursor.conf'
+      elsif hyphen?(name)
+        raise("Resource #{name} contains hyphens which are discouraged by PowerDNS")
       else
         "recursor-#{name}.conf"
       end
@@ -111,6 +113,8 @@ module Pdns
     def authoritative_instance_config(name = '')
       if name.empty?
         'pdns.conf'
+      elsif hyphen?(name)
+        raise("Resource #{name} contains hyphens which are discouraged by PowerDNS")
       else
         "pdns-#{name}.conf"
       end

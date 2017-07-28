@@ -137,6 +137,14 @@ RSpec.describe Pdns::RecursorHelpers do
       end
     end
 
+    context 'with a name with hyphens' do
+      let(:instance) { 'foo-bar' }
+      it 'aborts the run' do
+        expect { subject.recursor_instance_config(instance) }
+          .to raise_error('Resource foo-bar contains hyphens which are discouraged by PowerDNS')
+      end
+    end
+
     context 'with a name' do
       let(:instance) { 'foo' }
       it 'returns the config with a virtual instance name' do
@@ -207,6 +215,14 @@ RSpec.describe Pdns::AuthoritativeHelpers do
       let(:instance) { '' }
       it 'returns the default configuration' do
         expect(subject.authoritative_instance_config(instance)).to eq 'pdns.conf'
+      end
+    end
+
+    context 'with a name with hyphens' do
+      let(:instance) { 'foo-bar' }
+      it 'aborts the run' do
+        expect { subject.authoritative_instance_config(instance) }
+          .to raise_error('Resource foo-bar contains hyphens which are discouraged by PowerDNS')
       end
     end
 
