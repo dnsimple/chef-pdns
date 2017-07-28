@@ -40,8 +40,8 @@ module Pdns
     def systemd_name(name = '')
       if name.empty?
         'pdns-recursor'
-      elsif hyphen?('name')
-        abort("Resource names #{name} with hyphens are discouraged by PowerDNS")
+      elsif hyphen?(name)
+        raise("Resource #{name} contains hyphens which are discouraged by PowerDNS")
       else
         "pdns-recursor@#{name}"
       end
@@ -50,8 +50,8 @@ module Pdns
     def sysvinit_name(name = '')
       if name.empty?
         'pdns-recursor'
-      elsif hyphen?('name')
-        abort("Resource names #{name} with hyphens are discouraged by PowerDNS")
+      elsif hyphen?(name)
+        raise("Resource #{name} contains hyphens which are discouraged by PowerDNS")
       else
         "pdns-recursor-#{name}"
       end
@@ -91,6 +91,8 @@ module Pdns
     def systemd_name(name = '')
       if name.empty?
         'pdns'
+      elsif hyphen?(name)
+        raise("Resource #{name} contains hyphens which are discouraged by PowerDNS")
       else
         "pdns@#{name}"
       end
@@ -99,6 +101,8 @@ module Pdns
     def sysvinit_name(name = '')
       if name.empty?
         'pdns'
+      elsif hyphen?(name)
+        raise("Resource #{name} contains hyphens which are discouraged by PowerDNS")
       else
         "pdns-#{name}"
       end
