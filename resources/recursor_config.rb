@@ -30,7 +30,9 @@ provides :pdns_recursor_config, platform: 'centos' do |node| # ~FC005
 end
 
 include Pdns::RecursorHelpers
-property :instance_name, String, name_property: true
+property :instance_name, String, name_property: true, callbacks: {
+  'should not contain a hyphen' => ->(param) { !param.include?('-') },
+}
 property :config_dir, String, default: lazy { default_recursor_config_directory }
 property :socket_dir, String, default: lazy { |resource| "/var/run/#{resource.instance_name}" }
 property :run_group, String, default: lazy { default_recursor_run_user }

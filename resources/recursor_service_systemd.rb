@@ -22,7 +22,9 @@ provides :pdns_recursor_service, os: 'linux' do |_node|
 end
 
 include Pdns::RecursorHelpers
-property :instance_name, String, name_property: true
+property :instance_name, String, name_property: true, callbacks: {
+  'should not contain a hyphen' => ->(param) { !param.include?('-') },
+}
 property :config_dir, String, default: lazy { default_recursor_config_directory }
 
 action :enable do

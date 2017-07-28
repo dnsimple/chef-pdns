@@ -30,7 +30,9 @@ provides :pdns_authoritative_config, platform: 'centos' do |node| # ~FC005
 end
 
 include Pdns::AuthoritativeHelpers
-property :instance_name, String, name_property: true
+property :instance_name, String, name_property: true, callbacks: {
+  'should not contain a hyphen' => ->(param) { !param.include?('-') },
+}
 property :launch, Array, default: ['bind']
 property :config_dir, String, default: lazy { default_authoritative_config_directory }
 property :run_group, String, default: lazy { default_authoritative_run_user }
