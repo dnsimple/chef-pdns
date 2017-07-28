@@ -27,10 +27,6 @@ module Pdns
         Mash.new(home: '/', shell: '/sbin/nologin')
       end
     end
-
-    def hyphen?(input_string)
-      input_string.include?('-')
-    end
   end
 
   # Helpers method for recursor feature
@@ -40,8 +36,6 @@ module Pdns
     def systemd_name(name = '')
       if name.empty?
         'pdns-recursor'
-      elsif hyphen?(name)
-        raise("Resource #{name} contains hyphens which are discouraged by PowerDNS")
       else
         "pdns-recursor@#{name}"
       end
@@ -50,8 +44,6 @@ module Pdns
     def sysvinit_name(name = '')
       if name.empty?
         'pdns-recursor'
-      elsif hyphen?(name)
-        raise("Resource #{name} contains hyphens which are discouraged by PowerDNS")
       else
         "pdns-recursor-#{name}"
       end
@@ -78,8 +70,6 @@ module Pdns
     def recursor_instance_config(name = '')
       if name.empty?
         'pdns-recursor.conf'
-      elsif hyphen?(name)
-        raise("Resource #{name} contains hyphens which are discouraged by PowerDNS")
       else
         "recursor-#{name}.conf"
       end
@@ -93,8 +83,6 @@ module Pdns
     def systemd_name(name = '')
       if name.empty?
         'pdns'
-      elsif hyphen?(name)
-        raise("Resource #{name} contains hyphens which are discouraged by PowerDNS")
       else
         "pdns@#{name}"
       end
@@ -103,8 +91,6 @@ module Pdns
     def sysvinit_name(name = '')
       if name.empty?
         'pdns'
-      elsif hyphen?(name)
-        raise("Resource #{name} contains hyphens which are discouraged by PowerDNS")
       else
         "pdns-#{name}"
       end
@@ -113,8 +99,6 @@ module Pdns
     def authoritative_instance_config(name = '')
       if name.empty?
         'pdns.conf'
-      elsif hyphen?(name)
-        raise("Resource #{name} contains hyphens which are discouraged by PowerDNS")
       else
         "pdns-#{name}.conf"
       end
