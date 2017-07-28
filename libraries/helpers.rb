@@ -27,6 +27,10 @@ module Pdns
         Mash.new(home: '/', shell: '/sbin/nologin')
       end
     end
+
+    def hyphen?(input_string)
+      input_string.include?('-')
+    end
   end
 
   # Helpers method for recursor feature
@@ -36,6 +40,8 @@ module Pdns
     def systemd_name(name = '')
       if name.empty?
         'pdns-recursor'
+      elsif hyphen?('name')
+        abort("Resource names #{name} with hyphens are discouraged by PowerDNS")
       else
         "pdns-recursor@#{name}"
       end
@@ -44,6 +50,8 @@ module Pdns
     def sysvinit_name(name = '')
       if name.empty?
         'pdns-recursor'
+      elsif hyphen?('name')
+        abort("Resource names #{name} with hyphens are discouraged by PowerDNS")
       else
         "pdns-recursor-#{name}"
       end

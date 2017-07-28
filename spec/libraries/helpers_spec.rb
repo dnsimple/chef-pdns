@@ -22,7 +22,22 @@ RSpec.describe Pdns::Helpers do
         expect(subject.default_user_attributes).to eq Mash.new(home: '/', shell: '/sbin/nologin')
       end
     end
-  end
+
+  describe '#hyphen?' do
+    context 'when inpunt string has hyphen' do
+      let( :input_string ) { 'foo-bar' }
+      it 'returns true' do
+        expect(subject.has_hyphen?).to eq true
+      end
+    end
+
+      context 'when input string does not have hyphen' do
+        let ( :input_string ) { 'foo' }
+        it 'returns false' do
+          expect(subject.has_hyphen?). to eq false
+        end
+      end
+    end
 end
 
 RSpec.describe Pdns::RecursorHelpers do
