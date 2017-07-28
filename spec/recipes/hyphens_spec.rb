@@ -5,15 +5,38 @@ describe 'pdns_test::hyphens' do
     ChefSpec::SoloRunner.new(
       platform: 'ubuntu',
       version: '16.04',
-      os: 'linux',
-      step_into: ['pdns_authoritative_config']
+      os: 'linux'
     ).converge(described_recipe)
   end
 
-  context('when configured with a hyphen in the name') do
-    it 'returns an exception' do
+  context('pdns_authoritative_config') do
+    it 'raises an exception for a hyphen in the name' do
       expect {
         chef_run.pdns_authoritative_config('with-hyphen').instance_name
+      }.to raise_error(Chef::Exceptions::ValidationFailed)
+    end
+  end
+
+  context('pdns_authoritative_service') do
+    it 'raises an exception for a hyphen in the name' do
+      expect {
+        chef_run.pdns_authoritative_service('with-hyphen').instance_name
+      }.to raise_error(Chef::Exceptions::ValidationFailed)
+    end
+  end
+
+  context('pdns_recursor_config') do
+    it 'raises an exception for a hyphen in the name' do
+      expect {
+        chef_run.pdns_recursor_config('with-hyphen').instance_name
+      }.to raise_error(Chef::Exceptions::ValidationFailed)
+    end
+  end
+
+  context('pdns_recursor_service') do
+    it 'raises an exception for a hyphen in the name' do
+      expect {
+        chef_run.pdns_recursor_service('with-hyphen').instance_name
       }.to raise_error(Chef::Exceptions::ValidationFailed)
     end
   end
