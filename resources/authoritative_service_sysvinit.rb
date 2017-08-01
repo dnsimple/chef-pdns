@@ -47,7 +47,7 @@ action :enable do
     # "pdns" should be enough for setting up a Virtual instance:
     # https://github.com/PowerDNS/pdns/blob/master/docs/markdown/authoritative/running.md#starting-virtual-instances-with-sysv-init-scripts
     link "/etc/init.d/#{sysvinit_name(new_resource.instance_name)}" do
-      to 'pdns'
+      to '/etc/init.d/pdns'
       not_if { new_resource.instance_name.empty? }
     end
   end
