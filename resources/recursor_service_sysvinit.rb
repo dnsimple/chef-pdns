@@ -42,7 +42,7 @@ action :enable do
   end
 
   link "/etc/init.d/#{sysvinit_name(new_resource.instance_name)}" do
-    to 'pdns-recursor'
+    to '/etc/init.d/pdns-recursor'
     not_if { new_resource.instance_name.empty? }
   end
 
