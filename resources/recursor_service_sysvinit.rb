@@ -25,9 +25,9 @@ include Pdns::RecursorHelpers
 property :instance_name, String, name_property: true, callbacks: {
   'should not contain a hyphen' => ->(param) { !param.include?('-') },
 }
-property :cookbook, [String, NilClass], default: 'pdns'
+property :cookbook, String, default: 'pdns'
 property :config_dir, String, default: lazy { default_recursor_config_directory }
-property :source, [String, NilClass], default: lazy { "recursor.init.#{node['platform_family']}.erb" }
+property :source, String, default: lazy { "recursor.init.#{node['platform_family']}.erb" }
 property :variables, Hash, default: {}
 
 action :enable do
