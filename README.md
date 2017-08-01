@@ -63,7 +63,6 @@ This was not implemented correctly in the previous versions and it has been remo
 ### Required Cookbooks:
 
 - apt
-- yum
 
 ## Usage
 
