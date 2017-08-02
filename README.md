@@ -99,7 +99,7 @@ pdns_authoritative_config 'server_01' do
     gpgsql_port: 5432,
     gpgsql_dbname: 'pdns',
     gpgsql_password: 'wadus'
-    )
+  )
 end
 
 pdns_authoritative_service 'service_01' do
@@ -201,13 +201,14 @@ Creates a init service to manage a PowerDNS authoritative instance. This service
 
 #### Properties
 
-| Name           | Class       |  Default value                                        | Consistent? |
-|----------------|-------------|-------------------------------------------------------|-------------|
-| instance_name  | String      | name_property                                         | Yes |
-| cookbook       | String, nil | 'pdns'                                                | No |
-| source         | String, nil | 'authoritative.init.debian.erb'                       | No |
-| config_dir | String     | see `default_authoritative_config_directory` helper method | Yes |
-| socket_dir | String     | "/var/run/#{instance_name}"   | Yes |
+| Name           | Class       |  Default value                                             | Consistent? |
+|----------------|-------------|------------------------------------------------------------|-------------|
+| instance_name  | String      | name_property                                              | Yes         |
+| cookbook       | String      | 'pdns'                                                     | No          |
+| source         | String      | 'authoritative.init.debian.erb'                            | No          |
+| config_dir     | String      | See `default_authoritative_config_directory` helper method | Yes         |
+| socket_dir     | String      | "/var/run/#{instance_name}"                                | Yes         |
+| variables      | Hash        | {}                                                         | No          |
 
 #### Usage example
 
