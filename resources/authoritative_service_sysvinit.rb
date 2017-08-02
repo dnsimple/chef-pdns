@@ -28,7 +28,7 @@ property :instance_name, String, name_property: true, callbacks: {
 property :cookbook, String, default: 'pdns'
 property :source, String
 property :config_dir, String, default: lazy { default_authoritative_config_directory }
-property :variables, String
+property :variables, Hash, default: {}
 
 action :enable do
   template "/etc/init.d/#{sysvinit_name}" do
@@ -36,9 +36,7 @@ action :enable do
     owner 'root'
     group 'root'
     mode '0755'
-    variables(
-      variables: new_resource.variables
-    )
+    variables(new_resource.variables)
     action :create
     only_if { new_resource.property_is_set?(:source) }
   end
