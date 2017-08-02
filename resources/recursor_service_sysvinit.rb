@@ -36,7 +36,7 @@ action :enable do
     owner 'root'
     group 'root'
     mode '0755'
-    variables(variables: new_resource.variables)
+    variables(new_resource.variables)
     cookbook new_resource.cookbook
     action :create
   end
