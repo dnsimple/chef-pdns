@@ -1,307 +1,236 @@
-# 3.5.0 / 2017-07-13
+# Change Log
 
-## Enhancements
+## [v4.0.0](https://github.com/dnsimple/chef-pdns/tree/v4.0.0) (2017-08-04)
+[Full Changelog](https://github.com/dnsimple/chef-pdns/compare/v3.5.0...v4.0.0)
 
-* Systemd support for authoritative
+**Implemented enhancements:**
 
-## Maintenance
+- Refactor resources to match packaging configurations [\#80](https://github.com/dnsimple/chef-pdns/pull/80) ([therobot](https://github.com/therobot))
 
-* Improving documentation for backends for an edge case that break chef.
+**Closed issues:**
 
-# 3.4.1 / 2017-06-29
+- Add Systemd support [\#58](https://github.com/dnsimple/chef-pdns/issues/58)
 
-## Bug Fixes
+## [v3.5.0](https://github.com/dnsimple/chef-pdns/tree/v3.5.0) (2017-07-13)
+[Full Changelog](https://github.com/dnsimple/chef-pdns/compare/v3.4.1...v3.5.0)
 
-* Stopping the default recursor on `pdns_recursor_service` for sysvinit.
-  Fixes: https://github.com/dnsimple/chef-pdns/issues/77
+## [v3.4.1](https://github.com/dnsimple/chef-pdns/tree/v3.4.1) (2017-06-29)
+[Full Changelog](https://github.com/dnsimple/chef-pdns/compare/v3.4.0...v3.4.1)
 
-## Maintenance
+**Closed issues:**
 
-* Removing DB schema from files/ directory
+- pdns\_recursor\_service\_sysvinit behaves different when using Vagrant or Docker as providers [\#77](https://github.com/dnsimple/chef-pdns/issues/77)
+- Recursor refuses to start with custom socket-dir setting [\#74](https://github.com/dnsimple/chef-pdns/issues/74)
 
-# 3.4.0 / 2017-06-27
+**Merged pull requests:**
 
-## Maintenance
+- Stopping default recursor on debian based distros for sysvinit [\#78](https://github.com/dnsimple/chef-pdns/pull/78) ([therobot](https://github.com/therobot))
+- Removing DB schema  [\#76](https://github.com/dnsimple/chef-pdns/pull/76) ([therobot](https://github.com/therobot))
 
-* Split the rake file into differents pieces
-* Add concurrency for kitchen tests.
+## [v3.4.0](https://github.com/dnsimple/chef-pdns/tree/v3.4.0) (2017-06-27)
+[Full Changelog](https://github.com/dnsimple/chef-pdns/compare/v3.3.2...v3.4.0)
 
-# 3.3.2 / 2017-06-20
+**Merged pull requests:**
 
-## Bug Fixes
+- Change Rake tasks [\#72](https://github.com/dnsimple/chef-pdns/pull/72) ([jmauro](https://github.com/jmauro))
 
-* Recursor init script should create pid directory on start if it does not exist.
+## [v3.3.2](https://github.com/dnsimple/chef-pdns/tree/v3.3.2) (2017-06-23)
+[Full Changelog](https://github.com/dnsimple/chef-pdns/compare/v3.3.1...v3.3.2)
 
-# 3.3.1 / 2017-06-20
+**Merged pull requests:**
 
-## Bug Fixes
+- Create PID directory on init start commands [\#75](https://github.com/dnsimple/chef-pdns/pull/75) ([therobot](https://github.com/therobot))
 
-* Fixing MySQL package name for debian
+## [v3.3.1](https://github.com/dnsimple/chef-pdns/tree/v3.3.1) (2017-06-20)
+[Full Changelog](https://github.com/dnsimple/chef-pdns/compare/v3.3.0...v3.3.1)
 
-# 3.3.0 / 2017-06-14
+**Merged pull requests:**
 
-## Enhancements
+- Fix MySQL package for Debian [\#70](https://github.com/dnsimple/chef-pdns/pull/70) ([Jamira40](https://github.com/Jamira40))
 
-* Recursor latest version 4.0.5
-* Updated README
+## [v3.3.0](https://github.com/dnsimple/chef-pdns/tree/v3.3.0) (2017-06-14)
+[Full Changelog](https://github.com/dnsimple/chef-pdns/compare/v3.2.0...v3.3.0)
 
-## Bug Fixes
+**Merged pull requests:**
 
-* Correcting naming conventions on init scripts that were not following PowerDNS considerations for virtual hosting.
-* Fixing tests
+- Fix naming schema for init scripts [\#69](https://github.com/dnsimple/chef-pdns/pull/69) ([therobot](https://github.com/therobot))
 
-# 3.2.0 / 2017-06-02
+## [v3.2.0](https://github.com/dnsimple/chef-pdns/tree/v3.2.0) (2017-06-02)
+[Full Changelog](https://github.com/dnsimple/chef-pdns/compare/v3.1.0...v3.2.0)
 
-## Enhancements
+**Implemented enhancements:**
 
-* Added systemd support for recursors
+- Recursor systemd [\#61](https://github.com/dnsimple/chef-pdns/pull/61) ([jmauro](https://github.com/jmauro))
 
-## Bug Fixes
+## [v3.1.0](https://github.com/dnsimple/chef-pdns/tree/v3.1.0) (2017-06-01)
+[Full Changelog](https://github.com/dnsimple/chef-pdns/compare/v3.0.0...v3.1.0)
 
-* Stop and Disable the service 'pdns-recursor' as soon as new instance
-is created
+**Merged pull requests:**
 
-# 3.1.0 / 2017-06-01
+- Enhance and fix matchers [\#67](https://github.com/dnsimple/chef-pdns/pull/67) ([therobot](https://github.com/therobot))
+- Add systemd support for recursor and authoritative PowerDNS [\#66](https://github.com/dnsimple/chef-pdns/pull/66) ([jmauro](https://github.com/jmauro))
 
-## Enhancements
+## [v3.0.0](https://github.com/dnsimple/chef-pdns/tree/v3.0.0) (2017-05-29)
+[Full Changelog](https://github.com/dnsimple/chef-pdns/compare/v2.5.0...v3.0.0)
 
-* Expanding ChefSpec matchers
+**Implemented enhancements:**
 
-# 3.0.0 / 2017-05-29
+- Improving the way configuration options are handled [\#24](https://github.com/dnsimple/chef-pdns/issues/24)
+- Authoritative Resource [\#49](https://github.com/dnsimple/chef-pdns/pull/49) ([therobot](https://github.com/therobot))
+- PowerDNS recursor using Chef 12.5+ resource  [\#48](https://github.com/dnsimple/chef-pdns/pull/48) ([therobot](https://github.com/therobot))
 
-## Enhancements
+**Fixed bugs:**
 
-* Complete rewrite of the cookbook 
-* Using official PowerDNS apt repositories
-* Using Chef 12.5+ resources to create PowerDNS installs and settings for recursors and authoritatives.
-* ChefSpec and Inspec Tests
-* Centos 6, 7 Support
-* Ubuntu 14.04, 16.04 Support
-* Debian 8 support
+- Missing libssl-dev on source installs [\#44](https://github.com/dnsimple/chef-pdns/issues/44)
 
-# 2.5.0 / 2017-02-08
+**Closed issues:**
 
-## Maintenance
+- Add tests for multi recursor-multi [\#60](https://github.com/dnsimple/chef-pdns/issues/60)
+- Add integration test for multi suits [\#57](https://github.com/dnsimple/chef-pdns/issues/57)
+- Virtual hosting for recursor [\#55](https://github.com/dnsimple/chef-pdns/issues/55)
+- Rename cookbook repository and update metadata/README [\#47](https://github.com/dnsimple/chef-pdns/issues/47)
+- Sunset Chef 10.x and possibly 11.x support? [\#28](https://github.com/dnsimple/chef-pdns/issues/28)
+- Switch to bind for the default backend [\#23](https://github.com/dnsimple/chef-pdns/issues/23)
+- converge will fail on centos 6.5 [\#18](https://github.com/dnsimple/chef-pdns/issues/18)
+- Refactor the use of mysql::client [\#15](https://github.com/dnsimple/chef-pdns/issues/15)
 
-* Updating to latest pdns 3.4.11
-* Updating to latest recursor 3.7.4
+**Merged pull requests:**
 
-## Bug fixes
+- Test cleanup & fixup [\#62](https://github.com/dnsimple/chef-pdns/pull/62) ([therobot](https://github.com/therobot))
+- Adding CI support via travis [\#54](https://github.com/dnsimple/chef-pdns/pull/54) ([therobot](https://github.com/therobot))
 
-* Adding libssl-dev as dependency for source installs
+## [v2.5.0](https://github.com/dnsimple/chef-pdns/tree/v2.5.0) (2017-02-08)
+[Full Changelog](https://github.com/dnsimple/chef-pdns/compare/v2.4.1...v2.5.0)
 
-# 2.4.1 / 2016-14-09
+**Merged pull requests:**
 
-## Bug Fixes
-* Update download link to correct one for 3.4.10
+- Upgrade to latest 3.4.11 version / 3.7.4 version [\#46](https://github.com/dnsimple/chef-pdns/pull/46) ([therobot](https://github.com/therobot))
+- Adding missing dependency libssl dev on source install [\#45](https://github.com/dnsimple/chef-pdns/pull/45) ([therobot](https://github.com/therobot))
+- Cleanup and campsite the cookbook [\#40](https://github.com/dnsimple/chef-pdns/pull/40) ([martinisoft](https://github.com/martinisoft))
+- Docs: recursor is sometimes called resolver [\#39](https://github.com/dnsimple/chef-pdns/pull/39) ([jgoldschrafe](https://github.com/jgoldschrafe))
 
-# 2.4.0 / 2016-13-09
+## [v2.4.1](https://github.com/dnsimple/chef-pdns/tree/v2.4.1) (2016-09-14)
+[Full Changelog](https://github.com/dnsimple/chef-pdns/compare/v2.4.0...v2.4.1)
 
-## Enhancements
+**Merged pull requests:**
 
-* Add partial support for CentOS/REHL (recursor) PR #36
+- Fix authoritative downlaod link [\#38](https://github.com/dnsimple/chef-pdns/pull/38) ([onlyhavecans](https://github.com/onlyhavecans))
 
-# 2.3.0 / 2016-09-09
+## [v2.4.0](https://github.com/dnsimple/chef-pdns/tree/v2.4.0) (2016-09-13)
+[Full Changelog](https://github.com/dnsimple/chef-pdns/compare/v2.3.0...v2.4.0)
 
-## Warning
-* In PowerDNS 3.4.10 the default for any-to-tcp has been changed to 'yes'
-  * https://doc.powerdns.com/3/authoritative/upgrading/#3xx-to-3410
+**Merged pull requests:**
 
-## Bug fixes
+- Change to make the cookbook compatible with CentOS/RHEL [\#36](https://github.com/dnsimple/chef-pdns/pull/36) ([stromp](https://github.com/stromp))
 
-* Update authoritative to 3.4.10 to fix PowerDNS Security Advisory 2016-01
-  * https://doc.powerdns.com/md/security/powerdns-advisory-2016-01/
-  * Crafted queries can cause unexpected backend load
-* update source_url and issues_url
+## [v2.3.0](https://github.com/dnsimple/chef-pdns/tree/v2.3.0) (2016-09-09)
+[Full Changelog](https://github.com/dnsimple/chef-pdns/compare/v2.2.1...v2.3.0)
 
-## Enhancements
+**Closed issues:**
 
-* Add a new Rakefile for testing
-* Clean up docs a little
+- Bootstrapping fails [\#35](https://github.com/dnsimple/chef-pdns/issues/35)
 
-# 2.2.1 / 2016-03-03
+**Merged pull requests:**
 
-## Bug Fixes
+- Bump authoritative version due to advisory [\#37](https://github.com/dnsimple/chef-pdns/pull/37) ([onlyhavecans](https://github.com/onlyhavecans))
 
-* Resolved an issue where pdns install would run over and over again due
-  to a bad path.
+## [v2.2.1](https://github.com/dnsimple/chef-pdns/tree/v2.2.1) (2016-03-04)
+[Full Changelog](https://github.com/dnsimple/chef-pdns/compare/v2.2.0...v2.2.1)
 
-# 2.2.0 / 2016-03-03
+## [v2.2.0](https://github.com/dnsimple/chef-pdns/tree/v2.2.0) (2016-03-04)
+[Full Changelog](https://github.com/dnsimple/chef-pdns/compare/v2.1.1...v2.2.0)
 
-## Enhancements
+## [v2.1.1](https://github.com/dnsimple/chef-pdns/tree/v2.1.1) (2016-03-04)
+[Full Changelog](https://github.com/dnsimple/chef-pdns/compare/v2.1.0...v2.1.1)
 
-* We have eliminated the node attributes from the attributes folder to make
-  this cookbook more wrapper pattern friendly. Remember kids, don't put node
-  attributes in your attributes folder, everyone will have a bad time. :(
+**Closed issues:**
 
-## Cleanup
+- No pdns-server package [\#33](https://github.com/dnsimple/chef-pdns/issues/33)
 
-* Added some basic rubocop rules that we're starting to use with DNSimple
-  cookbook. Nothing intense, but should help get things looking spiffy :+1:
-* Made sure to comply with foodcritic, the ultimate yelp reviewer of the
-  Chef Supermarket.
+## [v2.1.0](https://github.com/dnsimple/chef-pdns/tree/v2.1.0) (2016-01-11)
+[Full Changelog](https://github.com/dnsimple/chef-pdns/compare/v2.0.0...v2.1.0)
 
-# 2.1.1 / 2016-03-03
+**Merged pull requests:**
 
-## Bug Fixes
+- Minimal support for a authoritative bind backend [\#32](https://github.com/dnsimple/chef-pdns/pull/32) ([therobot](https://github.com/therobot))
 
-* Renamed some ambiguous variables that might be causing a bug in certain
-  circumstances.
+## [v2.0.0](https://github.com/dnsimple/chef-pdns/tree/v2.0.0) (2016-01-04)
+[Full Changelog](https://github.com/dnsimple/chef-pdns/compare/v1.1.1...v2.0.0)
 
-## Cleanup
+**Merged pull requests:**
 
-* Updated some copyrights and trimmed a bunch of whitespace
+- Building a recursor from source and major cleanup [\#31](https://github.com/dnsimple/chef-pdns/pull/31) ([therobot](https://github.com/therobot))
 
-# 2.1.0 / 2016-11-01
+## [v1.1.1](https://github.com/dnsimple/chef-pdns/tree/v1.1.1) (2015-12-23)
+[Full Changelog](https://github.com/dnsimple/chef-pdns/compare/v1.1.0...v1.1.1)
 
-### Enhancements
+**Merged pull requests:**
 
-* Added bind as backend option and made it default
+- Cleanup, bug fixes and small improvements. [\#30](https://github.com/dnsimple/chef-pdns/pull/30) ([therobot](https://github.com/therobot))
 
-### Cleanup
+## [v1.1.0](https://github.com/dnsimple/chef-pdns/tree/v1.1.0) (2015-12-10)
+[Full Changelog](https://github.com/dnsimple/chef-pdns/compare/v1.0.5...v1.1.0)
 
-* Some spelling mistakes in the README were corrected
+## [v1.0.5](https://github.com/dnsimple/chef-pdns/tree/v1.0.5) (2015-11-10)
+[Full Changelog](https://github.com/dnsimple/chef-pdns/compare/v1.0.4...v1.0.5)
 
-# 2.0.0 / 2015-12-23
+## [v1.0.4](https://github.com/dnsimple/chef-pdns/tree/v1.0.4) (2015-09-02)
+[Full Changelog](https://github.com/dnsimple/chef-pdns/compare/v1.0.3...v1.0.4)
 
-### Enhancements
+## [v1.0.3](https://github.com/dnsimple/chef-pdns/tree/v1.0.3) (2015-05-04)
+[Full Changelog](https://github.com/dnsimple/chef-pdns/compare/v1.0.2...v1.0.3)
 
-* Adds the capability of installing a recursor from source
-* Adds the capability of installing a recursor with pipe backend (source and package install).
-* Updating documentation.
+## [v1.0.2](https://github.com/dnsimple/chef-pdns/tree/v1.0.2) (2015-05-04)
+[Full Changelog](https://github.com/dnsimple/chef-pdns/compare/v1.0.1...v1.0.2)
 
-### Cleanup
+**Merged pull requests:**
 
-* Major code refactor
+- updating opscode to chef [\#26](https://github.com/dnsimple/chef-pdns/pull/26) ([someara](https://github.com/someara))
+- Code refactor and added functionalities [\#25](https://github.com/dnsimple/chef-pdns/pull/25) ([therobot](https://github.com/therobot))
 
-### Breaking changes
+## [v1.0.1](https://github.com/dnsimple/chef-pdns/tree/v1.0.1) (2014-12-17)
+[Full Changelog](https://github.com/dnsimple/chef-pdns/compare/v1.0.0...v1.0.1)
 
-* Resolver no longer uses a separated template for configuration and it uses the same
-  attribute (flavor) to decide the functionality, so it is not possible to install a
-  resolver and an authoritative on the same machine anymore.
-* Only authoritative servers install or compile backends now.
+## [v1.0.0](https://github.com/dnsimple/chef-pdns/tree/v1.0.0) (2014-12-15)
+[Full Changelog](https://github.com/dnsimple/chef-pdns/compare/v0.3.4...v1.0.0)
 
-# 1.1.1 / 2015-12-23
+**Merged pull requests:**
 
-### Enhancements
+- Cleanup work for the pdns cookbook [\#22](https://github.com/dnsimple/chef-pdns/pull/22) ([martinisoft](https://github.com/martinisoft))
 
-* Creating schema, grants and users for postgres backend.
+## [v0.3.4](https://github.com/dnsimple/chef-pdns/tree/v0.3.4) (2014-07-15)
+[Full Changelog](https://github.com/dnsimple/chef-pdns/compare/v0.3.3...v0.3.4)
 
-### Bug Fixes
+**Merged pull requests:**
 
-* Handling the URL for downloading the source gracefully using lazy evaluation
- since this provoked a malformed URL string when concatenated with the version
- on source recipe.
+- Testing and Minor Updates [\#14](https://github.com/dnsimple/chef-pdns/pull/14) ([cwebberOps](https://github.com/cwebberOps))
 
-# 1.1.0 / 2015-12-10
+## [v0.3.3](https://github.com/dnsimple/chef-pdns/tree/v0.3.3) (2014-07-14)
+[Full Changelog](https://github.com/dnsimple/chef-pdns/compare/v0.3.2...v0.3.3)
 
-### Enhancements
+## [v0.3.2](https://github.com/dnsimple/chef-pdns/tree/v0.3.2) (2014-07-14)
+[Full Changelog](https://github.com/dnsimple/chef-pdns/compare/v0.3.0...v0.3.2)
 
-* Recursor is now the default behavior
-* Using bind as a default backend per recommendation on irc channel
-* Adding a new slave PowerDNS server configuration
-* Refactor of authoritative part
-* Refactor of build related code
-* Expanded documentation
+**Merged pull requests:**
 
-# 1.0.5 / 2015-11-10
+- Remove incorrect search domains [\#11](https://github.com/dnsimple/chef-pdns/pull/11) ([carolinebeauchamp](https://github.com/carolinebeauchamp))
 
-## Security
+## [v0.3.0](https://github.com/dnsimple/chef-pdns/tree/v0.3.0) (2014-02-21)
+[Full Changelog](https://github.com/dnsimple/chef-pdns/compare/v0.2.0...v0.3.0)
 
-* Updating to 3.4.7 addressing PowerDNS Security Advisory 2015-03.
-More information about this CVE can be found here:
-http://www.openwall.com/lists/oss-security/2015/11/09/3
+## [v0.2.0](https://github.com/dnsimple/chef-pdns/tree/v0.2.0) (2013-08-28)
+[Full Changelog](https://github.com/dnsimple/chef-pdns/compare/0.1.2...v0.2.0)
 
-# 1.0.4 / 2015-09-02
+**Merged pull requests:**
 
-## Security
+- \[COOK-3106\] Build PowerDNS from source [\#8](https://github.com/dnsimple/chef-pdns/pull/8) ([dje](https://github.com/dje))
 
-* Updating to 3.4.6 addressing PowerDNS Security Advisory 2015-02.
-More information about this CVE can be found here:
-http://www.openwall.com/lists/oss-security/2015/09/02/5
+## [0.1.2](https://github.com/dnsimple/chef-pdns/tree/0.1.2) (2013-05-28)
+**Merged pull requests:**
 
-# 1.0.3 / 2015-05-04
+- \[COOK-2986\] Fix foodcritic warnings [\#7](https://github.com/dnsimple/chef-pdns/pull/7) ([stevendanna](https://github.com/stevendanna))
+- \[COOK-2604\] Configure a PowerDNS server [\#2](https://github.com/dnsimple/chef-pdns/pull/2) ([dje](https://github.com/dje))
 
-### Bug Fixes
 
-* Executing bootstrap command on every pdns compilation run
 
-# 1.0.2 / 2015-05-04
-
-### Security
-
-* Updating to version 3.4.4 of authoritative powerdns server in order to address
-  PowerDNS Security Advisory 2015-01: Label decompression bug can cause crashes
-  or CPU spikes.
-
-### Bug Fixes
-
-* Allowing pdns_server to automatically upgrade in source installs
-
-# 1.0.1 / 2014-12-17
-
-### Bug Fixes
-
-* Adding missing configuration bits for authoritative_package recipe
-
-# 1.0.0 / 2014-12-15
-
-### Breaking Changes
-
-* There have been major changes to the recipes and attributes of this
-  cookbook in the first of many efforts to stabilize and modernize everything.
-  Please review the updated README and take special note of the install type
-  and backend attributes to suit your configuration.
-
-* We plan to eventually migrate the recipes over to LWRP's to make this
-  cookbook easier to wrap and extend.
-
-# 0.3.4 / 2014-07-15
-
-### Testing
-
-* Testing Updates
-
-### Bug Fixes
-
-* Fixed missing build-essential include
-
-# 0.3.3 / 2014-07-15
-
-### Bug Fixes
-
-* Not actually sure what happened here
-
-# 0.3.2 / 2014-07-14
-
-### Bug Fixes
-
-* Remove incorrect search domains
-
-# 0.3.0 / 2014-02-21
-
-### Bug Fixes
-
-* DNS should install the sqlite gem (needs build-essentials) and use the correct pdns template filename [COOK-978]
-
-# 0.2.0 / 2013-08-28
-
-### Improvements
-
-* Add source recipe [COOK-3106]
-
-# 0.1.2 / 2013-05-07
-
-### Bug Fixes
-
-* pdns cookbook has foodcritic failures [COOK-2986]
-
-### Improvements
-
-* Configure a PowerDNS server [COOK-2604]
-
-# 0.1.0
-
-### Initial Release
-
-- Fixes for centos/rhel boxen and pdns::recursor cookbook [COOK-1080]
+\* *This Change Log was automatically generated by [github_changelog_generator](https://github.com/skywinder/Github-Changelog-Generator)*
