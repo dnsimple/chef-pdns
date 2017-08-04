@@ -16,9 +16,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-include ::Pdns::PdnsRecursorHelpers
-
-resource_name :pdns_recursor_install_rhel
 
 provides :pdns_recursor_install, platform: 'centos' do |node|
   node['platform_version'].to_i >= 6
@@ -64,11 +61,5 @@ end
 action :uninstall do
   yum_package 'pdns-recursor' do
     action :remove
-  end
-end
-
-action_class.class_eval do
-  def whyrun_supported?
-    true
   end
 end

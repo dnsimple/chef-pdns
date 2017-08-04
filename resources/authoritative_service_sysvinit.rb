@@ -16,45 +16,36 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-include ::Pdns::PdnsAuthoritativeHelpers
-
-resource_name :pdns_authoritative_service_sysvinit
 
 provides :pdns_authoritative_service, os: 'linux' do |node|
   %w(ubuntu debian centos).include?(node['platform'])
 end
 
-property :instance_name, String, name_property: true
-property :cookbook, [String, NilClass], default: 'pdns'
-property :source, [String, NilClass]
+include Pdns::AuthoritativeHelpers
+property :instance_name, String, name_property: true, callbacks: {
+  'should not contain a hyphen' => ->(param) { !param.include?('-') },
+}
+property :cookbook, String, default: 'pdns'
+property :source, String
 property :config_dir, String, default: lazy { default_authoritative_config_directory }
-property :variables, String
+property :variables, Hash, default: {}
 
 action :enable do
-  service 'pdns' do
-    supports restart: true, status: true
-    action [:stop, :disable]
+  template "/etc/init.d/#{sysvinit_name}" do
+    source new_resource.source
+    owner 'root'
+    group 'root'
+    mode '0755'
+    variables(new_resource.variables)
+    action :create
+    only_if { new_resource.property_is_set?(:source) }
   end
 
-  sysvinit_script = ::File.join('/etc/init.d', sysvinit_name(new_resource.instance_name))
-  if new_resource.source
-    template sysvinit_script do
-      source new_resource.source
-      owner 'root'
-      group 'root'
-      mode '0755'
-      variables(
-        variables: new_resource.variables
-      )
-      action :create
-    end
-  else
-    # Has specified in the PowerDNS documentation, a symlink to the init.d script
-    # "pdns" should be enough for setting up a Virtual instance:
-    # https://github.com/PowerDNS/pdns/blob/master/docs/markdown/authoritative/running.md#starting-virtual-instances-with-sysv-init-scripts
-    link sysvinit_script do
-      to 'pdns'
-    end
+  # Create a symlink to the original pdns script to make a virtual instance
+  # https://doc.powerdns.com/md/authoritative/running/#virtual-hosting
+  link "/etc/init.d/#{sysvinit_name(new_resource.instance_name)}" do
+    to '/etc/init.d/pdns'
+    not_if { new_resource.instance_name.empty? || new_resource.property_is_set?(:source) }
   end
 
   service sysvinit_name(new_resource.instance_name) do
@@ -81,11 +72,5 @@ action :restart do
   service sysvinit_name(new_resource.instance_name) do
     supports restart: true, status: true
     action :restart
-  end
-end
-
-action_class.class_eval do
-  def whyrun_supported?
-    true
   end
 end

@@ -16,51 +16,37 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-include ::Pdns::PdnsRecursorHelpers
-
-resource_name :pdns_recursor_service_sysvinit
 
 provides :pdns_recursor_service, os: 'linux' do |node|
   %w(debian ubuntu centos).include?(node['platform'])
 end
 
-property :instance_name, String, name_property: true
-property :cookbook, [String, NilClass], default: 'pdns'
+include Pdns::RecursorHelpers
+property :instance_name, String, name_property: true, callbacks: {
+  'should not contain a hyphen' => ->(param) { !param.include?('-') },
+}
+property :cookbook, String, default: 'pdns'
 property :config_dir, String, default: lazy { default_recursor_config_directory }
-property :source, [String, NilClass], default: lazy { "recursor.init.#{node['platform_family']}.erb" }
-property :socket_dir, String, default: lazy { |resource| "/var/run/#{resource.instance_name}" }
+property :source, String, default: lazy { "recursor.init.#{node['platform_family']}.erb" }
+property :variables, Hash, default: {}
 
 action :enable do
-  # Some distros start pdns-recursor after installing it, we want to stop it
-  # The behavior of the init script on CentOS 6 causes a bug so we skip it there
-  # (see https://github.com/dnsimple/chef-pdns/issues/77#issuecomment-311644973)
-  # We want to prevent the default recursor to start on boot
-  pdns_recursor_actions = [:disable]
-  pdns_recursor_actions = pdns_recursor_actions.unshift(:stop) if node['platform_family'] == 'debian'
-
-  service 'pdns-recursor' do
-    supports restart: true, status: true
-    action pdns_recursor_actions
-  end
-
-  service_name = sysvinit_name(new_resource.instance_name)
-
-  template "/etc/init.d/#{service_name}" do
+  template '/etc/init.d/pdns-recursor' do
     source new_resource.source
     owner 'root'
     group 'root'
     mode '0755'
-    variables(
-      pdns_virtual_instance: new_resource.instance_name,
-      service_name: service_name,
-      config_dir: new_resource.config_dir,
-      socket_dir: new_resource.socket_dir
-    )
+    variables(new_resource.variables)
     cookbook new_resource.cookbook
     action :create
   end
 
-  service service_name do
+  link "/etc/init.d/#{sysvinit_name(new_resource.instance_name)}" do
+    to '/etc/init.d/pdns-recursor'
+    not_if { new_resource.instance_name.empty? }
+  end
+
+  service sysvinit_name(new_resource.instance_name) do
     supports restart: true, status: true
     action :enable
   end
@@ -84,11 +70,5 @@ action :restart do
   service sysvinit_name(new_resource.instance_name) do
     supports restart: true, status: true
     action :restart
-  end
-end
-
-action_class.class_eval do
-  def whyrun_supported?
-    true
   end
 end

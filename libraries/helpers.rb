@@ -30,15 +30,23 @@ module Pdns
   end
 
   # Helpers method for recursor feature
-  module PdnsRecursorHelpers
+  module RecursorHelpers
     include Pdns::Helpers
 
-    def systemd_name(name = nil)
-      "pdns-recursor@#{name}"
+    def systemd_name(name = '')
+      if name.empty?
+        'pdns-recursor'
+      else
+        "pdns-recursor@#{name}"
+      end
     end
 
-    def sysvinit_name(name = nil)
-      "pdns_recursor-#{name}"
+    def sysvinit_name(name = '')
+      if name.empty?
+        'pdns-recursor'
+      else
+        "pdns-recursor-#{name}"
+      end
     end
 
     def default_recursor_run_user
@@ -58,53 +66,50 @@ module Pdns
         '/etc/pdns-recursor'
       end
     end
+
+    def recursor_instance_config(name = '')
+      if name.empty?
+        'pdns-recursor.conf'
+      else
+        "recursor-#{name}.conf"
+      end
+    end
   end
 
   # Helpers method for authoritative feature
-  module PdnsAuthoritativeHelpers
+  module AuthoritativeHelpers
     include Pdns::Helpers
 
-    def systemd_name(name = nil)
-      "pdns@#{name}"
+    def systemd_name(name = '')
+      if name.empty?
+        'pdns'
+      else
+        "pdns@#{name}"
+      end
     end
 
-    def sysvinit_name(name = nil)
-      "pdns_authoritative-#{name}"
+    def sysvinit_name(name = '')
+      if name.empty?
+        'pdns'
+      else
+        "pdns-#{name}"
+      end
+    end
+
+    def authoritative_instance_config(name = '')
+      if name.empty?
+        'pdns.conf'
+      else
+        "pdns-#{name}.conf"
+      end
     end
 
     def default_authoritative_run_user
       'pdns'
     end
 
-    def backend_package_per_platform(instance_name = 'postgresql')
-      return 'pdns-backend-geo'        if node['platform_family'] == 'debian' && instance_name == 'geo'
-      return 'pdns-backend-ldap'       if node['platform_family'] == 'debian' && instance_name == 'ldap'
-      return 'pdns-backend-mysql '     if node['platform_family'] == 'debian' && instance_name == 'mysql'
-      return 'pdns-backend-pgsql'      if node['platform_family'] == 'debian' && instance_name == 'postgresql'
-      return 'pdns-backend-pipe'       if node['platform_family'] == 'debian' && instance_name == 'pipe'
-      return 'pdns-backend-sqlite3'    if node['platform_family'] == 'debian' && instance_name == 'sqlite'
-      return 'pdns-backend-geoip'      if node['platform_family'] == 'debian' && instance_name == 'geoip'
-      return 'pdns-backend-lua'        if node['platform_family'] == 'debian' && instance_name == 'lua'
-      return 'pdns-backend-mydns'      if node['platform_family'] == 'debian' && instance_name == 'mydns'
-      return 'pdns-backend-odbc'       if node['platform_family'] == 'debian' && instance_name == 'odbc'
-      return 'pdns-backend-opendbx'    if node['platform_family'] == 'debian' && instance_name == 'opendbx'
-      return 'pdns-backend-remote'     if node['platform_family'] == 'debian' && instance_name == 'remote'
-      return 'pdns-backend-tinydns'    if node['platform_family'] == 'debian' && instance_name == 'tinydns'
-      return 'pdns-backend-geo'        if node['platform_family'] == 'rhel'   && instance_name == 'geo'
-      return 'pdns-backend-ldap'       if node['platform_family'] == 'rhel'   && instance_name == 'ldap'
-      return 'pdns-backend-lua'        if node['platform_family'] == 'rhel'   && instance_name == 'lua'
-      return 'pdns-backend-mydns'      if node['platform_family'] == 'rhel'   && instance_name == 'mydns'
-      return 'pdns-backend-mysql'      if node['platform_family'] == 'rhel'   && instance_name == 'mysql'
-      return 'pdns-backend-pipe'       if node['platform_family'] == 'rhel'   && instance_name == 'pipe'
-      return 'pdns-backend-postgresql' if node['platform_family'] == 'rhel'   && instance_name == 'postgresql'
-      return 'pdns-backend-remote'     if node['platform_family'] == 'rhel'   && instance_name == 'remote'
-      return 'pdns-backend-sqlite'     if node['platform_family'] == 'rhel'   && instance_name == 'sqlite'
-    end
-
-    module_function
-
-    def default_authoritative_config_directory(platform_family = 'rhel')
-      case platform_family
+    def default_authoritative_config_directory
+      case node['platform_family']
       when 'debian'
         '/etc/powerdns'
       when 'rhel'

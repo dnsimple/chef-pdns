@@ -16,15 +16,15 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-include ::Pdns::PdnsRecursorHelpers
-
-resource_name :pdns_recursor_service_systemd
 
 provides :pdns_recursor_service, os: 'linux' do |_node|
   Chef::Platform::ServiceHelpers.service_resource_providers.include?(:systemd)
 end
 
-property :instance_name, String, name_property: true
+include Pdns::RecursorHelpers
+property :instance_name, String, name_property: true, callbacks: {
+  'should not contain a hyphen' => ->(param) { !param.include?('-') },
+}
 property :config_dir, String, default: lazy { default_recursor_config_directory }
 
 action :enable do
@@ -33,6 +33,7 @@ action :enable do
   service 'pdns-recursor' do
     supports restart: true, status: true
     action [:disable, :stop]
+    only_if { new_resource.instance_name.empty? }
   end
 
   service systemd_name(new_resource.instance_name) do
@@ -59,11 +60,5 @@ action :restart do
   service systemd_name(new_resource.instance_name) do
     supports restart: true, status: true
     action :restart
-  end
-end
-
-action_class.class_eval do
-  def whyrun_supported?
-    true
   end
 end
