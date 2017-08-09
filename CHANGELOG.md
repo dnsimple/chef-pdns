@@ -1,5 +1,17 @@
 # Change Log
 
+## [v4.1.0](https://github.com/dnsimple/chef-pdns/tree/v4.1.0) (2017-08-09)
+[Full Changelog](https://github.com/dnsimple/chef-pdns/compare/v4.0.0...v4.1.0)
+
+**Fixed bugs:**
+
+- Use append so that users can add to the pdns group [\#82](https://github.com/dnsimple/chef-pdns/pull/82) ([onlyhavecans](https://github.com/onlyhavecans))
+
+**Closed issues:**
+
+- Allow users to be appended to the `pdns` unix group [\#81](https://github.com/dnsimple/chef-pdns/issues/81)
+- Drop apt and yum cookbooks [\#59](https://github.com/dnsimple/chef-pdns/issues/59)
+
 ## [v4.0.0](https://github.com/dnsimple/chef-pdns/tree/v4.0.0) (2017-08-04)
 [Full Changelog](https://github.com/dnsimple/chef-pdns/compare/v3.5.0...v4.0.0)
 
