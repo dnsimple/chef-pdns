@@ -186,15 +186,17 @@ end
 
 ### pdns_recursor_install
 
-Installs PowerDNS recursor 4.1.x series using PowerDNS official repository in the supported platforms.
+Installs PowerDNS recursor 4.X series using PowerDNS official repository in the supported platforms.  This service supports the install and upgrade actions.
 
 #### Properties
 
-| Name           | Type        |  Default value  |
-|----------------|-------------|-----------------|
-| version        | String      | ''              |
-| series         | String      | '41'            |
-| debug          | true, false | false           |
+The install action supports these properties.
+
+| Name           | Class       |  Default value  | Consistent? |
+|----------------|-------------|-----------------|-------------|
+| version        | String      | name_property   | Yes         |
+| debug          | True, False | String, nil     | No          |
+| allow_upgrade  | True, False | String, nil     | No          |
 
 #### Usage examples
 
@@ -211,6 +213,12 @@ pdns_recursor_install 'my_recursor' do
   series '40'
 end
 ```
+
+Upgrade to the latest version of PowerDNS available from the official repository.
+
+    pdns_recursor_install 'my_recursor' do
+      action :upgrade
+    end
 
 ### pdns_recursor_service
 
