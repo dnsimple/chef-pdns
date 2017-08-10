@@ -34,7 +34,7 @@ action :install do
     distribution "#{node['lsb']['codename']}-rec-40"
     arch 'amd64'
     components ['main']
-    key 'https://repo.powerdns.com/FD380FBB-pub.asc'
+    key 'powerdns.asc'
   end
 
   apt_preference 'pdns-*' do
