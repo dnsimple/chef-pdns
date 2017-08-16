@@ -1,5 +1,12 @@
 # Change Log
 
+## [v4.2.0](https://github.com/dnsimple/chef-pdns/tree/v4.2.0) (2017-08-16)
+[Full Changelog](https://github.com/dnsimple/chef-pdns/compare/v4.1.0...v4.2.0)
+
+**Merged pull requests:**
+
+- Move powerdns public key into cookbook [\#85](https://github.com/dnsimple/chef-pdns/pull/85) ([onlyhavecans](https://github.com/onlyhavecans))
+
 ## [v4.1.0](https://github.com/dnsimple/chef-pdns/tree/v4.1.0) (2017-08-09)
 [Full Changelog](https://github.com/dnsimple/chef-pdns/compare/v4.0.0...v4.1.0)
 
