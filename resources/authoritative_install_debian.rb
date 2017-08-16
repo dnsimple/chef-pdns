@@ -36,6 +36,7 @@ action :install do
     arch 'amd64'
     components ['main']
     key 'powerdns.asc'
+    cookbook 'pdns'
   end
 
   apt_preference 'pdns-*' do
