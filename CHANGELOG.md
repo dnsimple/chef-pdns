@@ -1,5 +1,12 @@
 # Change Log
 
+## [v4.3.0](https://github.com/dnsimple/chef-pdns/tree/v4.3.0) (2017-08-16)
+[Full Changelog](https://github.com/dnsimple/chef-pdns/compare/v4.2.0...v4.3.0)
+
+**Fixed bugs:**
+
+- Rename default recursor configuration [\#86](https://github.com/dnsimple/chef-pdns/pull/86) ([martinisoft](https://github.com/martinisoft))
+
 ## [v4.2.0](https://github.com/dnsimple/chef-pdns/tree/v4.2.0) (2017-08-16)
 [Full Changelog](https://github.com/dnsimple/chef-pdns/compare/v4.1.0...v4.2.0)
 
