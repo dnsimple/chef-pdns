@@ -69,7 +69,7 @@ module Pdns
 
     def recursor_instance_config(name = '')
       if name.empty?
-        'pdns-recursor.conf'
+        'recursor.conf'
       else
         "recursor-#{name}.conf"
       end
