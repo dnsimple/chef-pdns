@@ -101,7 +101,7 @@ RSpec.describe Pdns::RecursorHelpers do
     context 'without a name' do
       let(:instance) { '' }
       it 'returns the default configuration' do
-        expect(subject.recursor_instance_config(instance)).to eq 'pdns-recursor.conf'
+        expect(subject.recursor_instance_config(instance)).to eq 'recursor.conf'
       end
     end
 
