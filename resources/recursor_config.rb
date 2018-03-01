@@ -47,13 +47,6 @@ property :cookbook, String, default: 'pdns'
 property :variables, Hash, default: {}
 
 action :create do
-  directory new_resource.config_dir do
-    owner 'root'
-    group 'root'
-    mode '0755'
-    action :create
-  end
-
   user new_resource.run_user do
     home new_resource.run_user_home
     shell new_resource.run_user_shell
@@ -79,11 +72,18 @@ action :create do
     action :create
   end
 
+  directory new_resource.config_dir do
+    owner 'root'
+    group new_resource.run_group
+    mode '0750'
+    action :create
+  end
+
   template "#{new_resource.config_dir}/#{recursor_instance_config(new_resource.instance_name)}" do
     source new_resource.source
     cookbook new_resource.cookbook
     owner 'root'
-    group 'root'
+    group new_resource.run_group
     mode '0640'
     variables(
       socket_dir: new_resource.socket_dir,
