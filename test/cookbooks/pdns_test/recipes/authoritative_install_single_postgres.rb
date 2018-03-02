@@ -1,19 +1,17 @@
+apt_update 'RIGHT_MEOW'
 
 include_recipe 'postgresql::server'
-include_recipe 'postgresql::ruby'
 
-connection_info = { host: '127.0.0.1', username: 'postgres' }
-
-postgresql_database_user 'pdns' do
-  connection connection_info
-  superuser true
-  password 'wadus'
-  action :create
+execute 'setup_postgres_user' do
+  command "psql -c \"CREATE ROLE pdns PASSWORD 'wadus' SUPERUSER INHERIT LOGIN;\""
+  user 'postgres'
+  not_if "psql -c \"SELECT rolname FROM pg_roles WHERE rolname='pdns';\" | grep pdns", user: 'postgres'
 end
 
-postgresql_database 'pdns' do
-  connection connection_info
-  action :create
+execute 'setup_postgres_database' do
+  command 'psql -c "CREATE DATABASE pdns;"'
+  user 'postgres'
+  not_if "psql -c \"SELECT datname FROM pg_database WHERE datname='pdns';\" | grep pdns", user: 'postgres'
 end
 
 cookbook_file '/var/tmp/schema_postgres.sql' do

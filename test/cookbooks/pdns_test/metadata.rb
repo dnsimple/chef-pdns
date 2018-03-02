@@ -7,4 +7,3 @@ version          '0.0.1'
 
 depends 'pdns'
 depends 'postgresql'
-depends 'database'

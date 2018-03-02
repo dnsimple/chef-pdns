@@ -39,9 +39,9 @@ describe command('dig -p 54 chaos txt version.bind @127.0.0.1 +short') do
 end
 
 describe command('dig -p 53 @127.0.0.1 dnsimple.com') do
-  its('stdout') { should match(Regexp.new(/208.93.64.253/)) }
+  its('stdout') { should match(Regexp.new(/\d+\.\d+\.\d+\.\d+/)) }
 end
 
 describe command('dig -p 54 @127.0.0.1 dnsimple.com') do
-  its('stdout') { should match(Regexp.new(/208.93.64.253/)) }
+  its('stdout') { should match(Regexp.new(/\d+\.\d+\.\d+\.\d+/)) }
 end

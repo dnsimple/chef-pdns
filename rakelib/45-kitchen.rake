@@ -1,5 +1,3 @@
-require 'bundler/setup'
-
 desc 'Run Test Kitchen integration tests'
 namespace :integration do
   # Gets a collection of instances.
