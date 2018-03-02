@@ -38,9 +38,7 @@ suites:
     # let's try twice before failing:
     # https://github.com/sous-chefs/postgresql/issues/421
     excludes: [
-      'centos-6.7',
-      'centos-6.9',
-      'centos-6', # for dokken
+      'centos-6.9' # for dokken
     ]
     run_list:
       - recipe[pdns_test::inspec_dependencies]
