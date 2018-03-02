@@ -2,8 +2,6 @@ apt_update 'RIGHT_MEOW'
 
 include_recipe 'postgresql::server'
 
-connection_info = { host: '127.0.0.1', username: 'postgres' }
-
 execute 'setup_postgres_user' do
   command "psql -c \"CREATE ROLE pdns PASSWORD 'wadus' SUPERUSER INHERIT LOGIN;\""
   user 'postgres'
