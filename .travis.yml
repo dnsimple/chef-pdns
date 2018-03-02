@@ -26,9 +26,7 @@ install: echo "skip bundle install"
 
 before_script:
 - eval "$(/opt/chefdk/bin/chef shell-init bash)"
-  # Dokken network creation is failing on travis.
-  # Ref: https://github.com/someara/kitchen-dokken/issues/112
-- chef gem install kitchen-dokken -v '<= 2.1.10'
+- chef gem install kitchen-dokken
 - chef gem install stove
 
 script: chef exec rake "$TASK[$KITCHEN_REGEXP, $CONCURRENCY, $ACTION]"
