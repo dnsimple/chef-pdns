@@ -1,5 +1,23 @@
 # Change Log
 
+## [v4.3.1](https://github.com/dnsimple/chef-pdns/tree/v4.3.1) (2018-03-08)
+[Full Changelog](https://github.com/dnsimple/chef-pdns/compare/v4.3.0...v4.3.1)
+
+**Fixed bugs:**
+
+- Fix: converge suite authoritative-postgres-centos-6 [\#63](https://github.com/dnsimple/chef-pdns/issues/63)
+- Testing cleanup/fixup [\#92](https://github.com/dnsimple/chef-pdns/pull/92) ([martinisoft](https://github.com/martinisoft))
+
+**Closed issues:**
+
+- Fix Testing [\#91](https://github.com/dnsimple/chef-pdns/issues/91)
+- Configuration permissions issues [\#89](https://github.com/dnsimple/chef-pdns/issues/89)
+
+**Merged pull requests:**
+
+- Fix config permissions [\#90](https://github.com/dnsimple/chef-pdns/pull/90) ([onlyhavecans](https://github.com/onlyhavecans))
+- Testing to chef 13 [\#87](https://github.com/dnsimple/chef-pdns/pull/87) ([onlyhavecans](https://github.com/onlyhavecans))
+
 ## [v4.3.0](https://github.com/dnsimple/chef-pdns/tree/v4.3.0) (2017-08-16)
 [Full Changelog](https://github.com/dnsimple/chef-pdns/compare/v4.2.0...v4.3.0)
 
