@@ -76,7 +76,7 @@ action :create do
   directory new_resource.config_dir do
     owner 'root'
     group new_resource.run_group
-    mode '0750'
+    mode '0755'
     action :create
   end
 
