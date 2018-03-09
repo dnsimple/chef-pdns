@@ -18,7 +18,7 @@
 #
 
 provides :pdns_recursor_service, os: 'linux' do |node|
-  %w(debian ubuntu centos).include?(node['platform'])
+  %w(debian ubuntu centos redhat).include?(node['platform'])
 end
 
 include Pdns::RecursorHelpers
