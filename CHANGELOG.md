@@ -1,5 +1,16 @@
 # Change Log
 
+## [v4.4.0](https://github.com/dnsimple/chef-pdns/tree/v4.4.0) (2018-03-09)
+[Full Changelog](https://github.com/dnsimple/chef-pdns/compare/v4.3.1...v4.4.0)
+
+**Implemented enhancements:**
+
+- Support RHEL [\#94](https://github.com/dnsimple/chef-pdns/pull/94) ([mengesb](https://github.com/mengesb))
+
+**Closed issues:**
+
+- Support RHEL [\#93](https://github.com/dnsimple/chef-pdns/issues/93)
+
 ## [v4.3.1](https://github.com/dnsimple/chef-pdns/tree/v4.3.1) (2018-03-08)
 [Full Changelog](https://github.com/dnsimple/chef-pdns/compare/v4.3.0...v4.3.1)
 
