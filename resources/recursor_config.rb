@@ -25,7 +25,7 @@ provides :pdns_recursor_config, platform: 'debian' do |node| # ~FC005
   node['platform_version'].to_i >= 8
 end
 
-provides :pdns_recursor_config, platform: 'centos' do |node| # ~FC005
+provides :pdns_recursor_config, platform_family: 'rhel' do |node| # ~FC005
   node['platform_version'].to_i >= 6
 end
 
