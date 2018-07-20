@@ -334,7 +334,7 @@ License & Authors
 - Author:: Anthony Eden (<anthony.eden@dnsimple.com>)
 
 ```text
-Copyright:: 2010-2014, Chef Software, Inc & 2014-2016 Aetrion, LLC.
+Copyright:: 2010-2014, Chef Software, Inc & 2014-2018 DNSimple Corp.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
