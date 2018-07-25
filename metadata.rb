@@ -1,5 +1,5 @@
 name             'pdns'
-maintainer       'Aetrion, LLC DBA DNSimple'
+maintainer       'DNSimple Corp'
 maintainer_email 'ops@dnsimple.com'
 license          'Apache-2.0'
 description      'Installs/Configures PowerDNS Recursor and Authoritative server'
