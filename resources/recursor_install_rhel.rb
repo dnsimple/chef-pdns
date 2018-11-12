@@ -54,7 +54,7 @@ action :install do
 
   yum_package 'pdns-recursor' do
     version new_resource.version
-    action new_resource.allow_upgrade ? :upgrade : :install
+    action :upgrade if new_resource.allow_upgrade
   end
 end
 

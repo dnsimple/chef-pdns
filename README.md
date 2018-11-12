@@ -186,7 +186,7 @@ end
 
 ### pdns_recursor_install
 
-Installs PowerDNS recursor 4.X series using PowerDNS official repository in the supported platforms.  This service supports the install and upgrade actions.
+Installs PowerDNS recursor 4.X series using PowerDNS official repository in the supported platforms. This service supports the install and upgrade actions.
 
 #### Properties
 
@@ -196,7 +196,7 @@ The install action supports these properties.
 |----------------|-------------|-----------------|-------------|
 | version        | String      | name_property   | Yes         |
 | debug          | True, False | String, nil     | No          |
-| allow_upgrade  | True, False | String, nil     | No          |
+| allow_upgrade  | True, False | false           | No          |
 
 #### Usage examples
 
