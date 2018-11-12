@@ -292,7 +292,7 @@ There is an specific file for testing guidelines on this cokbook: TESTING.md
 License & Authors
 -----------------
 - Author:: Aaron Kalin (<aaron.kalin@dnsimple.com>)
-- Author:: Jacobo García (<jacobo.garcia@dnsimple.com>)
+- Author:: Amy Aronsohn (<amy.aronsohn@dnsimple.com>)
 - Author:: Anthony Eden (<anthony.eden@dnsimple.com>)
 
 ```text
