@@ -25,13 +25,13 @@ provides :pdns_recursor_install, platform: 'debian' do |node|
   node['platform_version'].to_i >= 8
 end
 
-property :instance_name, String, name_property: true
-property :version, [String, nil], default: nil
+property :series, String, default: '41'
+property :version, String
 
 action :install do
   apt_repository 'powerdns-recursor' do
     uri "http://repo.powerdns.com/#{node['platform']}"
-    distribution "#{node['lsb']['codename']}-rec-40"
+    distribution "#{node['lsb']['codename']}-rec-#{new_resource.series}"
     arch 'amd64'
     components ['main']
     key 'powerdns.asc'

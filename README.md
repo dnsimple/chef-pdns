@@ -6,9 +6,13 @@ Provides resources for installing and configuring both PowerDNS authoritative an
 
 [![Build Status](https://travis-ci.org/dnsimple/chef-pdns.svg?branch=master)](https://travis-ci.org/dnsimple/chef-pdns)
 
-## Requirements
+## Deprecation Warning:
 
-IMPORTANT: Please read the Deprecations and Compatibility Notes sections below since there are breaking changes between versions 2 and 3 of this cookbook.
+The 5.x series of this cookbook now requires Chef 13 or newer which removes the dependency on the apt cookbook. We have also removed the 'instance_name' property from the install resources as they were never used and only affect the configuration and service resources.
+
+By default now, we will install the latest stable release of PowerDNS via loose version constraints. This was the behavior before, but because of how they name the package repositories, we had to start defaulting to a series release. A new 'series' property in the install resources now correspond to the major and minor version number combined. Currently this is '41' which is the 4.1.x series of releases in PowerDNS.
+
+## Requirements
 
 ### Platforms:
 
@@ -87,7 +91,6 @@ And a service named `pdns-server_01` which is symbolically linked linked to `pdn
 Most properties are simple ruby strings, but there is another cases that require special attention.
 Properties specified as elements in arrays will be split up (see split ruby method) and separated by commas.
 Boolean properties will be always translated to 'yes' or 'no'.
-Some properties need to be set consistently accross resources, they will be noted in their specific sections at the top under 'Consistent?'.
 Most of the properties are optional and have sane defaults, so they are only recommended for customized installs.
 
 ### pdns_authoritative_install
@@ -96,18 +99,27 @@ Installs PowerDNS authoritative server 4.X series using PowerDNS official reposi
 
 #### Properties
 
-| Name          | Class       |  Default value | Consistent?|
-|---------------|-------------|----------------|------------|
-| instance_name | String      | name_property  | Yes|
-| version       | String, nil | nil            | No |
-| debug         | true, false | false          | No |
+| Name          | Type        |  Default value |
+|---------------|-------------|----------------|
+| version       | String      | ''             |
+| series        | String      | '41'           |
+| debug         | true, false | false          |
 
-#### Usage example
+#### Usage examples
 
 Install a PowerDNS authoritative server package named `server-01` with the latest version available in the repository.
 
-```
+```ruby
 pdns_authoritative_install 'server_01' do
+  action :install
+end
+```
+
+Install the latest stable 4.0.x version of the Authoritative Nameserver
+
+```ruby
+pdns_authoritative_install 'older_stable' do
+  series '40'
   action :install
 end
 ```
@@ -120,7 +132,7 @@ Creates a PowerDNS recursor configuration, there is a fixed set of required prop
 
 | Name           | Class      |  Default value  | Consistent? |
 |----------------|------------|-----------------|-------------|
-| instance_name  | String     | name_property   | Yes         |
+| instance_name  | String     | resource name   | Yes         |
 | launch         | Array, nil | ['bind']        | No          |
 | config_dir     | String     | see `default_authoritative_config_directory` helper method | Yes |
 | socket_dir     | String     | "/var/run/#{resource.instance_name}" | Yes |
@@ -186,18 +198,21 @@ Installs PowerDNS recursor 4.X series using PowerDNS official repository in the 
 
 #### Properties
 
-| Name           | Class       |  Default value  | Consistent? |
-|----------------|-------------|-----------------|-------------|
-| version        | String      | name_property   | Yes         |
-| debug          | True, False | String, nil     | No          |
+| Name           | Type        |  Default value  |
+|----------------|-------------|-----------------|
+| version        | String      | ''              |
+| series         | String      | '41'            |
+| debug          | true, false | false           |
 
 #### Usage Example
 
-Install a 4. powerdns instance named 'my_recursor' on ubuntu 14.04:
+Install the latest 4.0.x release PowerDNS recursor.
 
-    pdns_recursor_install 'my_recursor' do
-      version '4.0.4-1pdns.trusty'
-    end
+```ruby
+pdns_recursor_install 'my_recursor' do
+  series '40'
+end
+```
 
 ### pdns_recursor_service
 
@@ -225,10 +240,12 @@ Sets up a PowerDNS recursor instance using the appropiate init system .
 
 Configure a PowerDNS recursor service instance named 'my_recursor' in your wrapper cookbook for Acme Corp with a custom template named `my-recursor.erb`
 
-    pdns_recursor_service 'my_recursor' do
-      source 'my-recursor.erb'
-      cookbook 'acme-pdns-recursor'
-    end
+```ruby
+pdns_recursor_service 'my_recursor' do
+  source 'my-recursor.erb'
+  cookbook 'acme-pdns-recursor'
+end
+```
 
 ### pdns_recursor_config
 
