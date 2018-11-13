@@ -27,6 +27,7 @@ end
 
 property :series, String, default: '41'
 property :version, String
+property :debug, [true, false], default: false
 
 action :install do
   apt_repository 'powerdns-recursor' do
@@ -46,6 +47,11 @@ action :install do
   apt_package 'pdns-recursor' do
     action :install
     version new_resource.version
+  end
+
+  apt_package 'pdns-recursor-dbg' do
+    action :install
+    only_if { new_resource.debug }
   end
 end
 
