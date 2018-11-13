@@ -21,8 +21,8 @@ provides :pdns_recursor_install, platform_family: 'rhel' do |node|
   node['platform_version'].to_i >= 6
 end
 
-property :instance_name, String, name_property: true
-property :version, [String, nil], default: nil
+property :series, String, default: '41'
+property :version, String
 property :debug, [true, false], default: false
 
 action :install do
@@ -34,18 +34,18 @@ action :install do
     only_if { node['platform_version'].to_i == 6 }
   end
 
-  yum_repository 'powerdns-rec-40' do
-    description 'PowerDNS repository for PowerDNS Recursor - version 4.0.X'
-    baseurl 'http://repo.powerdns.com/centos/$basearch/$releasever/rec-40'
+  yum_repository 'powerdns-recursor' do
+    description 'PowerDNS repository for PowerDNS Recursor'
+    baseurl "http://repo.powerdns.com/centos/$basearch/$releasever/rec-#{new_resource.series}"
     gpgkey 'https://repo.powerdns.com/FD380FBB-pub.asc'
     priority '90'
     includepkgs 'pdns*'
     action :create
   end
 
-  yum_repository 'powerdns-rec-40-debuginfo' do
-    description 'PowerDNS repository for PowerDNS Recursor - version 4.0.X debug symbols'
-    baseurl 'http://repo.powerdns.com/centos/$basearch/$releasever/rec-40/debug'
+  yum_repository 'powerdns-recursor-debug' do
+    description 'PowerDNS repository for PowerDNS Recursor with Debug Symbols'
+    baseurl "http://repo.powerdns.com/centos/$basearch/$releasever/rec-#{new_resource.series}/debug"
     gpgkey 'https://repo.powerdns.com/FD380FBB-pub.asc'
     priority '90'
     includepkgs 'pdns*'
