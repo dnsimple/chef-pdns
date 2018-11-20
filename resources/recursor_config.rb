@@ -39,8 +39,8 @@ property :run_group, String, default: lazy { default_recursor_run_user }
 property :run_user, String, default: lazy { default_recursor_run_user }
 property :run_user_home, String, default: lazy { default_user_attributes[:home] }
 property :run_user_shell, String, default: lazy { default_user_attributes[:shell] }
-property :setuid, String, default: lazy { |resource| resource.run_user }
-property :setgid, String, default: lazy { |resource| resource.run_group }
+property :setuid, String, default: lazy(&:run_user)
+property :setgid, String, default: lazy(&:run_group)
 
 property :source, String, default: 'recursor_service.conf.erb'
 property :cookbook, String, default: 'pdns'
