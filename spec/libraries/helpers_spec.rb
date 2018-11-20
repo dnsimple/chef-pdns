@@ -37,14 +37,14 @@ RSpec.describe Pdns::RecursorHelpers do
     context 'without a name' do
       let(:instance) { '' }
       it 'returns the service name without a specific name' do
-        expect(subject.systemd_name(instance)).to eq 'pdns-recursor'
+        expect(subject.systemd_name(instance)).to eq 'pdns-recursor.service'
       end
     end
 
     context 'with a name' do
       let(:instance) { 'foo' }
       it 'returns the service name with a virtual instance name' do
-        expect(subject.systemd_name(instance)).to eq('pdns-recursor@foo')
+        expect(subject.systemd_name(instance)).to eq('pdns-recursor@foo.service')
       end
     end
   end
@@ -126,14 +126,14 @@ RSpec.describe Pdns::AuthoritativeHelpers do
     context 'without a name' do
       let(:instance) { '' }
       it 'returns the service name without a specific name' do
-        expect(subject.systemd_name(instance)).to eq 'pdns'
+        expect(subject.systemd_name(instance)).to eq 'pdns.service'
       end
     end
 
     context 'with a name' do
       let(:instance) { 'foo' }
       it 'returns the service name with a virtual instance name' do
-        expect(subject.systemd_name(instance)).to eq('pdns@foo')
+        expect(subject.systemd_name(instance)).to eq('pdns@foo.service')
       end
     end
   end

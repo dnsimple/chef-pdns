@@ -22,7 +22,7 @@ provides :pdns_authoritative_service, os: 'linux' do |node|
 end
 
 include Pdns::AuthoritativeHelpers
-property :instance_name, String, name_property: true, callbacks: {
+property :instance_name, String, callbacks: {
   'should not contain a hyphen' => ->(param) { !param.include?('-') },
 }
 property :cookbook, String, default: 'pdns'

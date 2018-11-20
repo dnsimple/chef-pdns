@@ -33,19 +33,19 @@ module Pdns
   module RecursorHelpers
     include Pdns::Helpers
 
-    def systemd_name(name = '')
-      if name.empty?
-        'pdns-recursor'
+    def systemd_name(name)
+      if name && !name.empty?
+        "pdns-recursor@#{name}.service"
       else
-        "pdns-recursor@#{name}"
+        'pdns-recursor.service'
       end
     end
 
-    def sysvinit_name(name = '')
-      if name.empty?
-        'pdns-recursor'
-      else
+    def sysvinit_name(name)
+      if name && !name.empty?
         "pdns-recursor-#{name}"
+      else
+        'pdns-recursor'
       end
     end
 
@@ -67,11 +67,11 @@ module Pdns
       end
     end
 
-    def recursor_instance_config(name = '')
-      if name.empty?
-        'recursor.conf'
-      else
+    def recursor_instance_config(name)
+      if name && !name.empty?
         "recursor-#{name}.conf"
+      else
+        'recursor.conf'
       end
     end
   end
@@ -80,27 +80,27 @@ module Pdns
   module AuthoritativeHelpers
     include Pdns::Helpers
 
-    def systemd_name(name = '')
-      if name.empty?
-        'pdns'
+    def systemd_name(name)
+      if name && !name.empty?
+        "pdns@#{name}.service"
       else
-        "pdns@#{name}"
+        'pdns.service'
       end
     end
 
-    def sysvinit_name(name = '')
-      if name.empty?
-        'pdns'
-      else
+    def sysvinit_name(name)
+      if name && !name.empty?
         "pdns-#{name}"
+      else
+        'pdns'
       end
     end
 
-    def authoritative_instance_config(name = '')
-      if name.empty?
-        'pdns.conf'
-      else
+    def authoritative_instance_config(name)
+      if name && !name.empty?
         "pdns-#{name}.conf"
+      else
+        'pdns.conf'
       end
     end
 

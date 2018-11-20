@@ -47,6 +47,7 @@ action :install do
   apt_package 'pdns-server' do
     action :install
     version new_resource.version
+    allow_failure true if node['platform_version'].to_i >= 18.04
   end
 
   apt_package 'pdns-server-dbg' do

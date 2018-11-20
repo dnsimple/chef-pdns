@@ -25,7 +25,7 @@ execute 'psql -d pdns < /var/tmp/schema_postgres.sql' do
   not_if 'psql -t -d pdns -c "select \'public.domains\'::regclass;"', user: 'postgres'
 end
 
-pdns_authoritative_install '' do
+pdns_authoritative_install 'default' do
   action :install
 end
 
@@ -36,7 +36,7 @@ pg_backend_package = value_for_platform_family(
 
 package pg_backend_package
 
-pdns_authoritative_config '' do
+pdns_authoritative_config 'default' do
   action :create
   launch ['gpgsql']
   variables(
@@ -46,10 +46,10 @@ pdns_authoritative_config '' do
     gpgsql_dbname: 'pdns',
     gpgsql_password: 'wadus'
   )
-  notifies :restart, 'pdns_authoritative_service[]'
+  notifies :restart, 'pdns_authoritative_service[default]'
 end
 
-pdns_authoritative_service '' do
+pdns_authoritative_service 'default' do
   action [:enable, :start]
 end
 

@@ -30,7 +30,7 @@ provides :pdns_authoritative_config, platform_family: 'rhel' do |node| # ~FC005
 end
 
 include Pdns::AuthoritativeHelpers
-property :instance_name, String, name_property: true, callbacks: {
+property :instance_name, String, callbacks: {
   'should not contain a hyphen' => ->(param) { !param.include?('-') },
 }
 property :launch, Array, default: ['bind']
@@ -39,7 +39,7 @@ property :run_group, String, default: lazy { default_authoritative_run_user }
 property :run_user, String, default: lazy { default_authoritative_run_user }
 property :run_user_home, String, default: lazy { default_user_attributes[:home] }
 property :run_user_shell, String, default: lazy { default_user_attributes[:shell] }
-property :socket_dir, String, default: lazy { |resource| "/var/run/#{resource.instance_name}" }
+property :socket_dir, String, default: '/var/run/pdns'
 property :setuid, String, default:  lazy { |resource| resource.run_user }
 property :setgid, String, default:  lazy { |resource| resource.run_group }
 
