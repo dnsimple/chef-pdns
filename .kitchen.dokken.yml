@@ -33,20 +33,16 @@ platforms:
       intermediate_instructions:
           - RUN /usr/bin/apt-get update
           - RUN /usr/bin/apt-get install dnsutils -y
-    volumes:
-      - /sys/fs/cgroup:/sys/fs/cgroup:ro # required by systemd
 
   - name: centos-6
     driver:
       image: dokken/centos-6
+      pid_one_command: /sbin/init
 
   - name: centos-7
     driver:
       image: dokken/centos-7
-      platform: rhel
       pid_one_command: /usr/lib/systemd/systemd
-    volumes:
-      - /sys/fs/cgroup:/sys/fs/cgroup:ro # required by systemd
 
   - name: debian-8
     driver:
@@ -55,5 +51,4 @@ platforms:
       intermediate_instructions:
           - RUN /usr/bin/apt-get update
           - RUN /usr/bin/apt-get install dnsutils -y
-    volumes:
-        - /sys/fs/cgroup:/sys/fs/cgroup:ro # required by systemd
+
