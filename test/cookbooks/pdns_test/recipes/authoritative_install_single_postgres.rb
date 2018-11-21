@@ -1,6 +1,9 @@
 apt_update 'RIGHT_MEOW'
 
-include_recipe 'postgresql::server'
+postgresql_server_install 'default' do
+  version '10'
+  action [:install, :create]
+end
 
 execute 'setup_postgres_user' do
   command "psql -c \"CREATE ROLE pdns PASSWORD 'wadus' SUPERUSER INHERIT LOGIN;\""
