@@ -32,7 +32,9 @@ end
 include Pdns::AuthoritativeHelpers
 property :instance_name, String, name_property: true, callbacks: {
   'should not contain a hyphen' => ->(param) { !param.include?('-') },
+  'should not be blank' => ->(param) { !param.empty? },
 }
+property :virtual, [true, false], default: false
 property :launch, Array, default: ['bind']
 property :config_dir, String, default: lazy { default_authoritative_config_directory }
 property :run_group, String, default: lazy { default_authoritative_run_user }
@@ -80,7 +82,7 @@ action :create do
     action :create
   end
 
-  template "#{new_resource.config_dir}/#{authoritative_instance_config(new_resource.instance_name)}" do
+  template "#{new_resource.config_dir}/#{authoritative_instance_config(new_resource.instance_name, new_resource.virtual)}" do
     source new_resource.source
     cookbook new_resource.cookbook
     owner 'root'

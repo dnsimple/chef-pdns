@@ -24,7 +24,9 @@ end
 include Pdns::AuthoritativeHelpers
 property :instance_name, String, name_property: true, callbacks: {
   'should not contain a hyphen' => ->(param) { !param.include?('-') },
+  'should not be blank' => ->(param) { !param.empty? },
 }
+property :virtual, [true, false], default: false
 property :config_dir, String, default: lazy { default_authoritative_config_directory }
 
 action :enable do

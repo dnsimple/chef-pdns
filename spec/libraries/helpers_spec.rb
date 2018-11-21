@@ -122,50 +122,50 @@ RSpec.describe Pdns::AuthoritativeHelpers do
     DummyClass.new
   end
 
+  let(:virtual) { false }
+  let(:instance) { 'foo' }
+
   describe '#systemd_name' do
-    context 'without a name' do
-      let(:instance) { '' }
-      it 'returns the service name without a specific name' do
-        expect(subject.systemd_name(instance)).to eq 'pdns'
+    context 'is a virtual instance' do
+      let(:virtual) { true }
+      it 'returns the service name with a virtual instance name' do
+        expect(subject.systemd_name(instance, virtual)).to eq('pdns@foo.service')
       end
     end
 
-    context 'with a name' do
-      let(:instance) { 'foo' }
-      it 'returns the service name with a virtual instance name' do
-        expect(subject.systemd_name(instance)).to eq('pdns@foo')
+    context 'is not a virtual instance' do
+      it 'returns the service name without a specific name' do
+        expect(subject.systemd_name(instance, virtual)).to eq 'pdns.service'
       end
     end
   end
 
   describe '#sysvinit_name' do
-    context 'without a name' do
-      let(:instance) { '' }
-      it 'returns the service name without a specific name' do
-        expect(subject.sysvinit_name(instance)).to eq 'pdns'
+    context 'is a virtual instance' do
+      let(:virtual) { true }
+      it 'returns the service name with a virtual instance name' do
+        expect(subject.sysvinit_name(instance, virtual)).to eq('pdns-foo')
       end
     end
 
-    context 'with a name' do
-      let(:instance) { 'foo' }
-      it 'returns the service name with a virtual instance name' do
-        expect(subject.sysvinit_name(instance)).to eq('pdns-foo')
+    context 'is not a virtual instance' do
+      it 'returns the service name without a specific name' do
+        expect(subject.sysvinit_name(instance, virtual)).to eq 'pdns'
       end
     end
   end
 
   describe '#authoritative_instance_config' do
-    context 'without a name' do
-      let(:instance) { '' }
-      it 'returns the default configuration' do
-        expect(subject.authoritative_instance_config(instance)).to eq 'pdns.conf'
+    context 'is a virtual instance' do
+      let(:virtual) { true }
+      it 'returns the config with a virtual instance name' do
+        expect(subject.authoritative_instance_config(instance, virtual)).to eq 'pdns-foo.conf'
       end
     end
 
-    context 'with a name' do
-      let(:instance) { 'foo' }
-      it 'returns the config with a virtual instance name' do
-        expect(subject.authoritative_instance_config(instance)).to eq('pdns-foo.conf')
+    context 'is not a virtual instance' do
+      it 'returns the default configuration' do
+        expect(subject.authoritative_instance_config(instance, virtual)).to eq('pdns.conf')
       end
     end
   end
