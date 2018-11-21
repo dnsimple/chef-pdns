@@ -8,42 +8,6 @@ Provides resources for installing and configuring both PowerDNS authoritative an
 
 ## Requirements
 
-IMPORTANT: Please read the Deprecations and Compatibility Notes sections below since there are breaking changes between versions 2 and 3 of this cookbook.
-
-### Deprecations
-
-  - The recipe and attribute based way of setting different PowerDNS installs is completely deprecated, there are no  attributes in the newest version of this cookbok neither recipes to add to the run list.
-  - `pdnsrecord` and `domainrecord` resources have been deprecated since they were coupled with sqlite3 backend.
-  - Ubuntu 12.02 support has been removed, if you want this platform to be supported PRs are welcome, see the CONTRIBUTING.md file.
-
-### 4.x Compatibility Notes
-
-Users of the previous versions of the cookbook may find a few breaking changes. Here are the highlights:
-
-#### Chef 12.14 or newer
-
-To help clear up additional code and remove the 'yum' cookbook dependency, we have jumped up to Chef 12.14 as the minimum version. We'll look into the potential options of removing the 'apt' cookbook dependency as well.
-
-#### pdns_authoritative_backend has been removed
-
-This resource has been removed entirely because it would be easier to support allowing the user to select packages appropriate for their platform in the future and ease the burden on the maintainers for keeping what amounted to a massive hash table. To see how we achieved this setup, check out the test cookbook postgresql recipe under the `test/` directory.
-
-#### original instance is the new default
-
-The previous version forced you down the path of creating virtual instances of a resolver or authoritative and left the original in place. This release now _assumes_ you want to modify the original instance or create a virtual one based upon the original instance setup. If you look at the single install recipes, you'll see how this is done as the default case. Any named install or config resources without a name will use the default setup instance that comes with the package.
-
-In most cases you want to only run one instance of PowerDNS Authoritative or Recursor on your system which is why we have now assumed this default for you.
-
-#### Instance naming scheme
-
-The instance naming schemes between versions of the 3.x cookbook were admittedly very inconsistent. We now directly follow the [virtual instance naming scheme documentation at PowerDNS](https://doc.powerdns.com/md/authoritative/running/#virtual-hosting) which will cause some breakage for you under the covers. You'll unfortunately have to review what your services are currently named and remove them if they clash with the updated naming scheme. Specifically check for underscores and hyphens in the name.
-
-Speaking of instance naming, we now reject any virtual service name that contains a hypen. You will see a cookbook compile error if that is the case.
-
-#### socket_dir property for recursor init service has been removed
-
-This was not implemented correctly in the previous versions and it has been removed since it is now implemented via the custom init script
-
 ### Platforms:
 
 - Ubuntu 14.04 and newer
@@ -53,16 +17,12 @@ This was not implemented correctly in the previous versions and it has been remo
 
 ### Chef:
 
-- Chef 12.14 or newer
+- Chef 13 or newer
 
 ### Init Systems:
 
 * SysV
 * systemd
-
-### Required Cookbooks:
-
-- apt
 
 ## Usage
 
@@ -330,6 +290,7 @@ There is an specific file for testing guidelines on this cokbook: TESTING.md
 License & Authors
 -----------------
 - Author:: Aaron Kalin (<aaron.kalin@dnsimple.com>)
+- Author:: Amy Aronsohn (<amy.aronsohn@dnsimple.com>)
 - Author:: Jacobo García (<jacobo.garcia@dnsimple.com>)
 - Author:: Anthony Eden (<anthony.eden@dnsimple.com>)
 

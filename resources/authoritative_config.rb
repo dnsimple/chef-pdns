@@ -40,8 +40,8 @@ property :run_user, String, default: lazy { default_authoritative_run_user }
 property :run_user_home, String, default: lazy { default_user_attributes[:home] }
 property :run_user_shell, String, default: lazy { default_user_attributes[:shell] }
 property :socket_dir, String, default: lazy { |resource| "/var/run/#{resource.instance_name}" }
-property :setuid, String, default:  lazy(&:run_user)
-property :setgid, String, default:  lazy(&:run_group)
+property :setuid, String, default:  lazy { |resource| resource.run_user } # rubocop:disable Style/SymbolProc
+property :setgid, String, default:  lazy { |resource| resource.run_group } # rubocop:disable Style/SymbolProc
 
 property :source, String, default: 'authoritative_service.conf.erb'
 property :cookbook, String, default: 'pdns'

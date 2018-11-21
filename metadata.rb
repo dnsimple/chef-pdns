@@ -8,11 +8,9 @@ version          '4.4.0'
 source_url       'https://github.com/dnsimple/chef-pdns'
 issues_url       'https://github.com/dnsimple/chef-pdns/issues'
 
-chef_version '>= 12.14'
+chef_version '>= 13'
 
 supports 'ubuntu', '>= 14.04'
 supports 'debian', '>= 8.0'
 supports 'centos', '>= 6.0'
 supports 'redhat', '>= 6.0'
-
-depends 'apt'
