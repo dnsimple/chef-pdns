@@ -80,28 +80,16 @@ module Pdns
   module AuthoritativeHelpers
     include Pdns::Helpers
 
-    def systemd_name(name = '')
-      if name.empty?
-        'pdns'
-      else
-        "pdns@#{name}"
-      end
+    def systemd_name(name, virtual)
+      virtual ? "pdns@#{name}.service" : 'pdns.service'
     end
 
-    def sysvinit_name(name = '')
-      if name.empty?
-        'pdns'
-      else
-        "pdns-#{name}"
-      end
+    def sysvinit_name(name, virtual)
+      virtual ? "pdns-#{name}" : 'pdns'
     end
 
-    def authoritative_instance_config(name = '')
-      if name.empty?
-        'pdns.conf'
-      else
-        "pdns-#{name}.conf"
-      end
+    def authoritative_instance_config(name, virtual)
+      virtual ? "pdns-#{name}.conf" : 'pdns.conf'
     end
 
     def default_authoritative_run_user

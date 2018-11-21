@@ -1,14 +1,6 @@
-pdns_authoritative_install '' do
-  action :install
-end
+pdns_authoritative_install 'default'
 
-pdns_authoritative_config '' do
-  action :create
-end
-
-pdns_authoritative_install 'server_02' do
-  action :install
-end
+pdns_authoritative_config 'default'
 
 config_dir = case node['platform_family']
              when 'debian'
@@ -18,7 +10,7 @@ config_dir = case node['platform_family']
              end
 
 pdns_authoritative_config 'server_02' do
-  action :create
+  virtual true
   run_user 'another-pdns'
   run_group 'another-pdns'
   run_user_home '/var/lib/another-pdns'
@@ -58,10 +50,11 @@ file "#{config_dir}/example.org.zone" do
   mode '0440'
 end
 
-pdns_authoritative_service '' do
-  action [:enable, :start]
+pdns_authoritative_service 'default' do
+  action :restart
 end
 
 pdns_authoritative_service 'server_02' do
-  action [:enable, :start]
+  instance_name 'server_02'
+  action :restart
 end
