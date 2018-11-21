@@ -28,7 +28,6 @@ property :debug, [true, false], default: false
 action :install do
   yum_package 'epel-release' do
     action :install
-    only_if { node['platform_version'].to_i == 6 }
   end
 
   yum_repository 'powerdns-authoritative' do
