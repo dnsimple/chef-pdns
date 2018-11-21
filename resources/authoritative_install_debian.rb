@@ -25,13 +25,14 @@ provides :pdns_authoritative_install, platform: 'debian' do |node|
   node['platform_version'].to_i >= 8
 end
 
-property :version, [String, nil], default: nil
+property :version, String
+property :series, String, default: '41'
 property :debug, [true, false], default: false
 
 action :install do
   apt_repository 'powerdns-authoritative' do
     uri "http://repo.powerdns.com/#{node['platform']}"
-    distribution "#{node['lsb']['codename']}-auth-40"
+    distribution "#{node['lsb']['codename']}-auth-#{new_resource.series}"
     arch 'amd64'
     components ['main']
     key 'powerdns.asc'
