@@ -94,11 +94,10 @@ Installs PowerDNS authoritative server 4.X series using PowerDNS official reposi
 
 #### Properties
 
-| Name          | Class       |  Default value | Consistent?|
-|---------------|-------------|----------------|------------|
-| instance_name | String      | name_property  | Yes|
-| version       | String, nil | nil            | No |
-| debug         | true, false | false          | No |
+| Name          | Class       |  Default value |
+|---------------|-------------|----------------|
+| version       | String, nil | nil            |
+| debug         | true, false | false          |
 
 #### Usage example
 
