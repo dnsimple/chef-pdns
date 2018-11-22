@@ -30,28 +30,28 @@ property :virtual, [true, false], default: false
 property :config_dir, String, default: lazy { default_authoritative_config_directory }
 
 action :enable do
-  service systemd_name(new_resource.instance_name) do
+  service systemd_name(new_resource.instance_name, new_resource.virtual) do
     supports restart: true, status: true
     action :enable
   end
 end
 
 action :start do
-  service systemd_name(new_resource.instance_name) do
+  service systemd_name(new_resource.instance_name, new_resource.virtual) do
     supports restart: true, status: true
     action :start
   end
 end
 
 action :stop do
-  service systemd_name(new_resource.instance_name) do
+  service systemd_name(new_resource.instance_name, new_resource.virtual) do
     supports restart: true, status: true
     action :stop
   end
 end
 
 action :restart do
-  service systemd_name(new_resource.instance_name) do
+  service systemd_name(new_resource.instance_name, new_resource.virtual) do
     supports restart: true, status: true
     action :restart
   end
