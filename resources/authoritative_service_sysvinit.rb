@@ -45,33 +45,33 @@ action :enable do
 
   # Create a symlink to the original pdns script to make a virtual instance
   # https://doc.powerdns.com/md/authoritative/running/#virtual-hosting
-  link "/etc/init.d/#{sysvinit_name(new_resource.instance_name)}" do
+  link "/etc/init.d/#{sysvinit_name(new_resource.instance_name, new_resource.virtual)}" do
     to '/etc/init.d/pdns'
-    not_if { new_resource.instance_name.empty? || new_resource.property_is_set?(:source) }
+    not_if { new_resource.virtual || new_resource.property_is_set?(:source) }
   end
 
-  service sysvinit_name(new_resource.instance_name) do
+  service sysvinit_name(new_resource.instance_name, new_resource.virtual) do
     supports restart: true, status: true
     action :enable
   end
 end
 
 action :start do
-  service sysvinit_name(new_resource.instance_name) do
+  service sysvinit_name(new_resource.instance_name, new_resource.virtual) do
     supports restart: true, status: true
     action :start
   end
 end
 
 action :stop do
-  service sysvinit_name(new_resource.instance_name) do
+  service sysvinit_name(new_resource.instance_name, new_resource.virtual) do
     supports restart: true, status: true
     action :stop
   end
 end
 
 action :restart do
-  service sysvinit_name(new_resource.instance_name) do
+  service sysvinit_name(new_resource.instance_name, new_resource.virtual) do
     supports restart: true, status: true
     action :restart
   end
