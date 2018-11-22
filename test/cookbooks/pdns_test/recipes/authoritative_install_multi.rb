@@ -55,6 +55,6 @@ pdns_authoritative_service 'default' do
 end
 
 pdns_authoritative_service 'server_02' do
-  instance_name 'server_02'
+  virtual true
   action :restart
 end
