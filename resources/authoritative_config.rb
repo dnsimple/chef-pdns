@@ -41,7 +41,7 @@ property :run_group, String, default: lazy { default_authoritative_run_user }
 property :run_user, String, default: lazy { default_authoritative_run_user }
 property :run_user_home, String, default: lazy { default_user_attributes[:home] }
 property :run_user_shell, String, default: lazy { default_user_attributes[:shell] }
-property :socket_dir, String, default: lazy { |resource| "/var/run/#{resource.instance_name}" }
+property :socket_dir, String, default: '/var/run'
 property :setuid, String, default:  lazy { |resource| resource.run_user } # rubocop:disable Style/SymbolProc
 property :setgid, String, default:  lazy { |resource| resource.run_group } # rubocop:disable Style/SymbolProc
 
@@ -61,17 +61,6 @@ action :create do
     members [new_resource.run_user]
     system true
     append true
-    action :create
-  end
-
-  directory new_resource.socket_dir do
-    owner new_resource.run_user
-    group new_resource.run_group
-    # Because of the DynListener creation before dropping privileges, the
-    # socket-directory has to be '0777' for now
-    # Issue: https://github.com/PowerDNS/pdns/issues/4826
-    mode Chef::Platform::ServiceHelpers.service_resource_providers.include?(:systemd) ? '0777' : '0755'
-    recursive true
     action :create
   end
 
