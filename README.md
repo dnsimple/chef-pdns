@@ -99,6 +99,7 @@ Installs PowerDNS authoritative server 4.1.x series using PowerDNS official repo
 | version       | String      | ''             |
 | series        | String      | '41'           |
 | debug         | true, false | false          |
+| allow_upgrade | true, false | false          |
 
 #### Usage examples
 
@@ -113,6 +114,15 @@ Install the latest 4.0.x series PowerDNS Authoritative Server
 ```ruby
 pdns_authoritative_install 'server_01' do
   series '40'
+end
+```
+
+Install and upgrade to the latest 4.0.x PowerDNS Authoritative Server release
+
+```ruby
+pdns_authoritative_install 'server_01' do
+  series '40'
+  allow_upgrade true
 end
 ```
 
@@ -186,17 +196,16 @@ end
 
 ### pdns_recursor_install
 
-Installs PowerDNS recursor 4.X series using PowerDNS official repository in the supported platforms. This service supports the install and upgrade actions.
+Installs PowerDNS recursor 4.1.x series using PowerDNS official repository in the supported platforms.
 
 #### Properties
 
-The install action supports these properties.
-
-| Name           | Class       |  Default value  | Consistent? |
-|----------------|-------------|-----------------|-------------|
-| version        | String      | name_property   | Yes         |
-| debug          | True, False | String, nil     | No          |
-| allow_upgrade  | True, False | false           | No          |
+| Name           | Type        |  Default value  |
+|----------------|-------------|-----------------|
+| version        | String      | ''              |
+| series         | String      | '41'            |
+| debug          | true, false | false           |
+| allow_upgrade  | true, false | false           |
 
 #### Usage examples
 
@@ -214,11 +223,14 @@ pdns_recursor_install 'my_recursor' do
 end
 ```
 
-Upgrade to the latest version of PowerDNS available from the official repository.
+Install and upgrade to the latest 4.0.x PowerDNS recursor release
 
-    pdns_recursor_install 'my_recursor' do
-      action :upgrade
-    end
+```ruby
+pdns_recursor_install 'my_recursor' do
+  series '40'
+  allow_upgrade true
+end
+```
 
 ### pdns_recursor_service
 

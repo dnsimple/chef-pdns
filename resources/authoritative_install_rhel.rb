@@ -24,6 +24,7 @@ end
 property :version, String
 property :series, String, default: '41'
 property :debug, [true, false], default: false
+property :allow_upgrade, [true, false], default: false
 
 action :install do
   yum_package 'epel-release' do
@@ -51,6 +52,7 @@ action :install do
 
   yum_package 'pdns' do
     version new_resource.version
+    action :upgrade if new_resource.allow_upgrade
   end
 end
 

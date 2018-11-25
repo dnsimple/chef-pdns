@@ -28,6 +28,7 @@ end
 property :version, String
 property :series, String, default: '41'
 property :debug, [true, false], default: false
+property :allow_upgrade, [true, false], default: false
 
 action :install do
   apt_repository 'powerdns-authoritative' do
@@ -45,12 +46,12 @@ action :install do
   end
 
   apt_package 'pdns-server' do
-    action :install
+    action :upgrade if new_resource.allow_upgrade
     version new_resource.version
   end
 
   apt_package 'pdns-server-dbg' do
-    action :install
+    action :upgrade if new_resource.allow_upgrade
     only_if { new_resource.debug }
   end
 end
