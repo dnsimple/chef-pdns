@@ -33,7 +33,7 @@ property :config_dir, String, default: lazy { default_authoritative_config_direc
 property :variables, Hash, default: {}
 
 action :enable do
-  template "/etc/init.d/#{sysvinit_name}" do
+  template "/etc/init.d/#{sysvinit_name(new_resource.instance_name, false)}" do
     source new_resource.source
     owner 'root'
     group 'root'
@@ -47,7 +47,7 @@ action :enable do
   # https://doc.powerdns.com/md/authoritative/running/#virtual-hosting
   link "/etc/init.d/#{sysvinit_name(new_resource.instance_name, new_resource.virtual)}" do
     to '/etc/init.d/pdns'
-    not_if { new_resource.virtual || new_resource.property_is_set?(:source) }
+    only_if { new_resource.virtual }
   end
 
   service sysvinit_name(new_resource.instance_name, new_resource.virtual) do

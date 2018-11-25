@@ -51,10 +51,10 @@ file "#{config_dir}/example.org.zone" do
 end
 
 pdns_authoritative_service 'default' do
-  action :restart
+  action [:enable, :restart]
 end
 
 pdns_authoritative_service 'server_02' do
   virtual true
-  action :restart
+  action [:enable, :restart]
 end
