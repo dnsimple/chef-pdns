@@ -99,6 +99,7 @@ Installs PowerDNS authoritative server 4.1.x series using PowerDNS official repo
 | version       | String      | ''             |
 | series        | String      | '41'           |
 | debug         | true, false | false          |
+| allow_upgrade | true, false | false          |
 
 #### Usage examples
 
@@ -113,6 +114,15 @@ Install the latest 4.0.x series PowerDNS Authoritative Server
 ```ruby
 pdns_authoritative_install 'server_01' do
   series '40'
+end
+```
+
+Install and upgrade to the latest 4.0.x PowerDNS Authoritative Server release
+
+```ruby
+pdns_authoritative_install 'server_01' do
+  series '40'
+  allow_upgrade true
 end
 ```
 
@@ -195,6 +205,7 @@ Installs PowerDNS recursor 4.1.x series using PowerDNS official repository in th
 | version        | String      | ''              |
 | series         | String      | '41'            |
 | debug          | true, false | false           |
+| allow_upgrade  | true, false | false           |
 
 #### Usage examples
 
@@ -209,6 +220,15 @@ Install the latest 4.0.x release PowerDNS recursor
 ```ruby
 pdns_recursor_install 'my_recursor' do
   series '40'
+end
+```
+
+Install and upgrade to the latest 4.0.x PowerDNS recursor release
+
+```ruby
+pdns_recursor_install 'my_recursor' do
+  series '40'
+  allow_upgrade true
 end
 ```
 

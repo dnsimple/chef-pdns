@@ -24,6 +24,7 @@ end
 property :version, String
 property :series, String, default: '41'
 property :debug, [true, false], default: false
+property :allow_upgrade, [true, false], default: false
 
 action :install do
   # We take advantage of the yum_repository call bellow that will reload yum sources
@@ -53,6 +54,7 @@ action :install do
 
   yum_package 'pdns-recursor' do
     version new_resource.version
+    action :upgrade if new_resource.allow_upgrade
   end
 end
 
