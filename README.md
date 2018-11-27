@@ -257,13 +257,14 @@ Sets up a PowerDNS recursor instance using the appropiate init system .
 
 #### Properties
 
-| Name           | Class      |  Default value                                        | Consistent? |
-|----------------|------------|-------------------------------------------------------|-------------|
-| instance_name  | String     | name_property                                         | Yes         |
-| config_dir     | String     | see `default_recursor_config_directory` helper method | Yes         |
-| cookbook (SysVinit)      | String,nil | 'pdns'                                                | No          |
-| source  (SysVinit)       | String,nil | 'recursor.init.#{node['platform_family']}.erb'                            | No          |
-| variables (SysVinit)    | Hash     | {} | No     |
+| Name                     | Class      |  Default value                                        |
+|--------------------------|------------|-------------------------------------------------------|
+| instance_name            | String     | Resource name                                         |
+| virtual                  | Boolean    | false                                                 |
+| config_dir               | String     | see `default_recursor_config_directory` helper method |
+| cookbook (SysVinit)      | String,nil | 'pdns'                                                |
+| source  (SysVinit)       | String,nil | 'recursor.init.#{node['platform_family']}.erb'        |
+| variables (SysVinit)     | Hash       | {}                                                    |
 
 - `config_dir`: Path of the recursor configuration directory.
 - `cookbook`: Cookbook for a custom configuration template (Applied only when using SysVinit).
@@ -272,12 +273,23 @@ Sets up a PowerDNS recursor instance using the appropiate init system .
 
 #### Usage Example
 
-Configure a PowerDNS recursor service instance named 'my_recursor' in your wrapper cookbook for Acme Corp with a custom template named `my-recursor.erb`
+Disable the default PowerDNS recursor install service
 
-    pdns_recursor_service 'my_recursor' do
-      source 'my-recursor.erb'
-      cookbook 'acme-pdns-recursor'
-    end
+```ruby
+pdns_recursor_service 'default' do
+  action [:disable, :stop]
+end
+```
+
+Configure a virtual PowerDNS recursor service instance named 'my_recursor' in your wrapper cookbook for Acme Corp with a custom template named `my-recursor.erb`
+
+```ruby
+pdns_recursor_service 'my_recursor' do
+  virtual true
+  source 'my-recursor.erb'
+  cookbook 'acme-pdns-recursor'
+end
+```
 
 ### pdns_recursor_config
 
@@ -285,26 +297,28 @@ Creates a PowerDNS recursor configuration.
 
 #### Properties
 
-|           | Name           | Class       |  Default value                                         | Consistent? |
-|----------------|-------------|--------------------------------------------------------|-------------|
-| instance_name  | String      | name_property                                          | Yes         |
-| config_dir     | String      | see `default_recursor_config_directory` helper method  | Yes         |
-| socket_dir     | String      | /var/run/#{resource.instance_name}                     | Yes         |
-| run_group      | String      | see `default_recursor_run_user` helper method          | No          |
-| run_user       | String      | see `default_recursor_run_user` helper method          | No          |
-| run_user_home  | String      | see `default_user_attributes` helper method            | No          |
-| run_user_shell | String      | see `default_user_attributes` helper method            | No          |
-| setuid         | String      | resource.run_user                                      | No          |
-| setgid         | String      | resource.run_group                                     | No          |
-| source         | String, nil | 'recursor_service.conf.erb'                            | No          |
-| cookbook       | String, nil | 'pdns'                                                 | No          |
-| variables      | Hash        | {}                                                     | No          |
+| Name           | Class       |  Default value                                         |
+|----------------|-------------|--------------------------------------------------------|
+| instance_name  | String      | Resource name                                          |
+| virtual        | Boolean     | false                                                  |
+| config_dir     | String      | see `default_recursor_config_directory` helper method  |
+| socket_dir     | String      | /var/run/#{resource.instance_name}                     |
+| run_group      | String      | see `default_recursor_run_user` helper method          |
+| run_user       | String      | see `default_recursor_run_user` helper method          |
+| run_user_home  | String      | see `default_user_attributes` helper method            |
+| run_user_shell | String      | see `default_user_attributes` helper method            |
+| setuid         | String      | resource.run_user                                      |
+| setgid         | String      | resource.run_group                                     |
+| source         | String, nil | 'recursor_service.conf.erb'                            |
+| cookbook       | String, nil | 'pdns'                                                 |
+| variables      | Hash        | {}                                                     |
 
-- `config_dir` (C): Path of the recursor configuration directory.
-- `socket_dir` (C): Directory where sockets are created.
-- `source` (C): Name of the recursor custom template.
-- `socket_dir` (C): Directory where sockets are created.
-- `cookbook` (C): Cookbook for a custom configuration template
+- `virtual` : Is this a virtual instance or the default?
+- `config_dir` : Path of the recursor configuration directory.
+- `socket_dir` : Directory where sockets are created.
+- `source` : Name of the recursor custom template.
+- `socket_dir` : Directory where sockets are created.
+- `cookbook` : Cookbook for a custom configuration template
 - `variables`: Variables for the configuration template.
 - `run_group`: Unix group that runs the recursor.
 - `run_user`: Unix user that runs the recursor.
@@ -313,13 +327,26 @@ Creates a PowerDNS recursor configuration.
 
 #### Usage Example
 
+Customize the default recursor installation and change it's port to 54:
+
+```ruby
+pdns_recursor_config 'default' do
+  variables(
+    'local-port' => '54'
+  )
+end
+```
+
 Create a PowerDNS recursor configuration named 'my_recursor' in your wrapper cookbook for Acme Corp which uses a custom template named `my-recursor.erb` and a few attributes:
 
-    pdns_recursor_config 'my_recursor' do
-      source 'my-recursor.erb'
-      cookbook 'acme-pdns-recursor'
-      variables(client-tcp-timeout: '20', loglevel: '5', network-timeout: '2000')
-    end
+```ruby
+pdns_recursor_config 'my_recursor' do
+  virtual true
+  source 'my-recursor.erb'
+  cookbook 'acme-pdns-recursor'
+  variables(client-tcp-timeout: '20', loglevel: '5', network-timeout: '2000')
+end
+```
 
 #### Virtual Hosting
 
