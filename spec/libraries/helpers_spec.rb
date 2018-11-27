@@ -33,34 +33,35 @@ RSpec.describe Pdns::RecursorHelpers do
     DummyClass.new
   end
 
+  let(:virtual) { false }
+  let(:instance) { 'foo' }
+
   describe '#systemd_name' do
-    context 'without a name' do
-      let(:instance) { '' }
-      it 'returns the service name without a specific name' do
-        expect(subject.systemd_name(instance)).to eq 'pdns-recursor'
+    context 'is a virtual instance' do
+      let(:virtual) { true }
+      it 'returns the service name with a virtual instance name' do
+        expect(subject.systemd_name(instance, virtual)).to eq('pdns-recursor@foo.service')
       end
     end
 
-    context 'with a name' do
-      let(:instance) { 'foo' }
-      it 'returns the service name with a virtual instance name' do
-        expect(subject.systemd_name(instance)).to eq('pdns-recursor@foo')
+    context 'is not a virtual instance' do
+      it 'returns the service name without a specific name' do
+        expect(subject.systemd_name(instance, virtual)).to eq 'pdns-recursor.service'
       end
     end
   end
 
   describe '#sysvinit_name' do
-    context 'without a name' do
-      let(:instance) { '' }
-      it 'returns the service name without a specific name' do
-        expect(subject.sysvinit_name(instance)).to eq 'pdns-recursor'
+    context 'is a virtual instance' do
+      let(:virtual) { true }
+      it 'returns the service name with a virtual instance name' do
+        expect(subject.sysvinit_name(instance, virtual)).to eq('pdns-recursor-foo')
       end
     end
 
-    context 'with a name' do
-      let(:instance) { 'foo' }
-      it 'returns the service name with a virtual instance name' do
-        expect(subject.sysvinit_name(instance)).to eq('pdns-recursor-foo')
+    context 'is not a virtual instance' do
+      it 'returns the service name without a specific name' do
+        expect(subject.sysvinit_name(instance, virtual)).to eq 'pdns-recursor'
       end
     end
   end
@@ -98,17 +99,16 @@ RSpec.describe Pdns::RecursorHelpers do
   end
 
   describe '#recursor_instance_config' do
-    context 'without a name' do
-      let(:instance) { '' }
-      it 'returns the default configuration' do
-        expect(subject.recursor_instance_config(instance)).to eq 'recursor.conf'
+    context 'is a virtual instance' do
+      let(:virtual) { true }
+      it 'returns the config with a virtual instance name' do
+        expect(subject.recursor_instance_config(instance, virtual)).to eq('recursor-foo.conf')
       end
     end
 
-    context 'with a name' do
-      let(:instance) { 'foo' }
-      it 'returns the config with a virtual instance name' do
-        expect(subject.recursor_instance_config(instance)).to eq('recursor-foo.conf')
+    context 'is not a virtual instance' do
+      it 'returns the default configuration name' do
+        expect(subject.recursor_instance_config(instance, virtual)).to eq 'recursor.conf'
       end
     end
   end

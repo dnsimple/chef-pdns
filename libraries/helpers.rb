@@ -33,20 +33,12 @@ module Pdns
   module RecursorHelpers
     include Pdns::Helpers
 
-    def systemd_name(name = '')
-      if name.empty?
-        'pdns-recursor'
-      else
-        "pdns-recursor@#{name}"
-      end
+    def systemd_name(name, virtual)
+      virtual ? "pdns-recursor@#{name}.service" : 'pdns-recursor.service'
     end
 
-    def sysvinit_name(name = '')
-      if name.empty?
-        'pdns-recursor'
-      else
-        "pdns-recursor-#{name}"
-      end
+    def sysvinit_name(name, virtual)
+      virtual ? "pdns-recursor-#{name}" : 'pdns-recursor'
     end
 
     def default_recursor_run_user
@@ -67,12 +59,8 @@ module Pdns
       end
     end
 
-    def recursor_instance_config(name = '')
-      if name.empty?
-        'recursor.conf'
-      else
-        "recursor-#{name}.conf"
-      end
+    def recursor_instance_config(name, virtual)
+      virtual ? "recursor-#{name}.conf" : 'recursor.conf'
     end
   end
 
