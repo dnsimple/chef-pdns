@@ -1,5 +1,20 @@
 # Change Log
 
+## [v5.0.0](https://github.com/dnsimple/chef-pdns/tree/v5.0.0) (2018-11-26)
+[Full Changelog](https://github.com/dnsimple/chef-pdns/compare/v4.4.0...v5.0.0)
+
+**Implemented enhancements:**
+
+- add an upgrade action to the recursor\_install\_rhel resource. [\#84](https://github.com/dnsimple/chef-pdns/pull/84) ([MattMencel](https://github.com/MattMencel))
+
+**Merged pull requests:**
+
+- Add 'series' property for install resources [\#101](https://github.com/dnsimple/chef-pdns/pull/101) ([martinisoft](https://github.com/martinisoft))
+- Remove instance\_name from install resources [\#100](https://github.com/dnsimple/chef-pdns/pull/100) ([martinisoft](https://github.com/martinisoft))
+- Campsite and cleanup cookstyle violations [\#99](https://github.com/dnsimple/chef-pdns/pull/99) ([martinisoft](https://github.com/martinisoft))
+- Update dokken config and bump to Chef 13+ [\#98](https://github.com/dnsimple/chef-pdns/pull/98) ([martinisoft](https://github.com/martinisoft))
+- Update Copyright [\#96](https://github.com/dnsimple/chef-pdns/pull/96) ([onlyhavecans](https://github.com/onlyhavecans))
+
 ## [v4.4.0](https://github.com/dnsimple/chef-pdns/tree/v4.4.0) (2018-03-09)
 [Full Changelog](https://github.com/dnsimple/chef-pdns/compare/v4.3.1...v4.4.0)
 
