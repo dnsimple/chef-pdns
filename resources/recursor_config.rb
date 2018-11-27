@@ -32,9 +32,11 @@ end
 include Pdns::RecursorHelpers
 property :instance_name, String, name_property: true, callbacks: {
   'should not contain a hyphen' => ->(param) { !param.include?('-') },
+  'should not be blank' => ->(param) { !param.empty? },
 }
+property :virtual, [true, false], default: false
 property :config_dir, String, default: lazy { default_recursor_config_directory }
-property :socket_dir, String, default: lazy { |resource| "/var/run/#{resource.instance_name}" }
+property :socket_dir, String, default: '/var/run'
 property :run_group, String, default: lazy { default_recursor_run_user }
 property :run_user, String, default: lazy { default_recursor_run_user }
 property :run_user_home, String, default: lazy { default_user_attributes[:home] }
@@ -61,17 +63,6 @@ action :create do
     action :create
   end
 
-  directory new_resource.socket_dir do
-    owner new_resource.run_user
-    group new_resource.run_group
-    # When using service_manager the 'socket-dir' has to be writable for the 'set-gid'
-    # in order to start the service:
-    # Issue: https://github.com/PowerDNS/pdns/issues/4826
-    mode '0775'
-    recursive true
-    action :create
-  end
-
   directory new_resource.config_dir do
     owner 'root'
     group new_resource.run_group
@@ -79,7 +70,7 @@ action :create do
     action :create
   end
 
-  template "#{new_resource.config_dir}/#{recursor_instance_config(new_resource.instance_name)}" do
+  template "#{new_resource.config_dir}/#{recursor_instance_config(new_resource.instance_name, new_resource.virtual)}" do
     source new_resource.source
     cookbook new_resource.cookbook
     owner 'root'

@@ -24,7 +24,9 @@ end
 include Pdns::RecursorHelpers
 property :instance_name, String, name_property: true, callbacks: {
   'should not contain a hyphen' => ->(param) { !param.include?('-') },
+  'should not be blank' => ->(param) { !param.empty? },
 }
+property :virtual, [true, false], default: false
 property :cookbook, String, default: 'pdns'
 property :config_dir, String, default: lazy { default_recursor_config_directory }
 property :source, String, default: lazy { "recursor.init.#{node['platform_family']}.erb" }
@@ -41,33 +43,33 @@ action :enable do
     action :create
   end
 
-  link "/etc/init.d/#{sysvinit_name(new_resource.instance_name)}" do
+  link "/etc/init.d/#{sysvinit_name(new_resource.instance_name, new_resource.virtual)}" do
     to '/etc/init.d/pdns-recursor'
-    not_if { new_resource.instance_name.empty? }
+    only_if { new_resource.virtual }
   end
 
-  service sysvinit_name(new_resource.instance_name) do
+  service sysvinit_name(new_resource.instance_name, new_resource.virtual) do
     supports restart: true, status: true
     action :enable
   end
 end
 
 action :start do
-  service sysvinit_name(new_resource.instance_name) do
+  service sysvinit_name(new_resource.instance_name, new_resource.virtual) do
     supports restart: true, status: true
     action :start
   end
 end
 
 action :stop do
-  service sysvinit_name(new_resource.instance_name) do
+  service sysvinit_name(new_resource.instance_name, new_resource.virtual) do
     supports restart: true, status: true
     action :stop
   end
 end
 
 action :restart do
-  service sysvinit_name(new_resource.instance_name) do
+  service sysvinit_name(new_resource.instance_name, new_resource.virtual) do
     supports restart: true, status: true
     action :restart
   end
