@@ -6,6 +6,12 @@ Provides resources for installing and configuring both PowerDNS authoritative an
 
 [![Build Status](https://travis-ci.org/dnsimple/chef-pdns.svg?branch=master)](https://travis-ci.org/dnsimple/chef-pdns)
 
+## Upgrade Notes for 6.x series
+
+When upgrading to the 6.x series, please pay special attention to your config and service resources which use the `instance_name` property. We have introduced a new `virtual` property to the config and service resources to more clearly mark them as a virtual instance versus the default one configured via the install resource. If you used `instance_name ''` to refer to the default instance, you can safely remove this property or leave it as-is. If you do use another name, then you will want to set `virtual true` in your config and service resources.
+
+We have also changed the behavior of the `socket_dir` property on the service resources because it was incorrectly setup. It will be removed in a future release as it is a source of confusion (and bug) and a more advanced option for very specific use cases.
+
 ## Requirements
 
 ### Platforms:
