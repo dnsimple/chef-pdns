@@ -24,14 +24,16 @@ end
 include Pdns::AuthoritativeHelpers
 property :instance_name, String, name_property: true, callbacks: {
   'should not contain a hyphen' => ->(param) { !param.include?('-') },
+  'should not be blank' => ->(param) { !param.empty? },
 }
+property :virtual, [true, false], default: false
 property :cookbook, String, default: 'pdns'
 property :source, String
 property :config_dir, String, default: lazy { default_authoritative_config_directory }
 property :variables, Hash, default: {}
 
 action :enable do
-  template "/etc/init.d/#{sysvinit_name}" do
+  template "/etc/init.d/#{sysvinit_name(new_resource.instance_name, false)}" do
     source new_resource.source
     owner 'root'
     group 'root'
@@ -43,33 +45,33 @@ action :enable do
 
   # Create a symlink to the original pdns script to make a virtual instance
   # https://doc.powerdns.com/md/authoritative/running/#virtual-hosting
-  link "/etc/init.d/#{sysvinit_name(new_resource.instance_name)}" do
+  link "/etc/init.d/#{sysvinit_name(new_resource.instance_name, new_resource.virtual)}" do
     to '/etc/init.d/pdns'
-    not_if { new_resource.instance_name.empty? || new_resource.property_is_set?(:source) }
+    only_if { new_resource.virtual }
   end
 
-  service sysvinit_name(new_resource.instance_name) do
+  service sysvinit_name(new_resource.instance_name, new_resource.virtual) do
     supports restart: true, status: true
     action :enable
   end
 end
 
 action :start do
-  service sysvinit_name(new_resource.instance_name) do
+  service sysvinit_name(new_resource.instance_name, new_resource.virtual) do
     supports restart: true, status: true
     action :start
   end
 end
 
 action :stop do
-  service sysvinit_name(new_resource.instance_name) do
+  service sysvinit_name(new_resource.instance_name, new_resource.virtual) do
     supports restart: true, status: true
     action :stop
   end
 end
 
 action :restart do
-  service sysvinit_name(new_resource.instance_name) do
+  service sysvinit_name(new_resource.instance_name, new_resource.virtual) do
     supports restart: true, status: true
     action :restart
   end

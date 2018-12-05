@@ -45,13 +45,13 @@ For advanced use it is recommended to take a look at the chef resources themselv
 
 ### Properties
 
-#### A note about instance names
+#### Virtual instances and instance name
 
-PowerDNS parses the name of the instance by breaking apart the first hyphen it sees so all virtual service names (ones without a blank string) start with the service type and a hyphen. For example:
+If you wish to create multiple running copies of PowerDNS via Virtual Configurations you can set the virtual property on both the config and service resources. The name of the virtual instance will default to either the name of the resource or the 'instance_name' value of the resource if it is set. PowerDNS parses the name of the instance by breaking apart the first hyphen it sees so all virtual service names start with the service type and a hyphen. For example:
 
 ```ruby
 pdns_authoritative_config 'server_01' do
-  action :create
+  virtual true
   launch ['gpgsql']
   variables(
     gpgsql_host: '127.0.0.1',
@@ -60,9 +60,11 @@ pdns_authoritative_config 'server_01' do
     gpgsql_dbname: 'pdns',
     gpgsql_password: 'wadus'
   )
+  action :create
 end
 
 pdns_authoritative_service 'service_01' do
+  virtual true
   action [:enable, :start]
 end
 ```
@@ -135,6 +137,7 @@ Creates a PowerDNS recursor configuration, there is a fixed set of required prop
 | Name           | Class      |  Default value  | Consistent? |
 |----------------|------------|-----------------|-------------|
 | instance_name  | String     | name_property   | Yes         |
+| virtual        | Boolean    | false           | No          |
 | launch         | Array, nil | ['bind']        | No          |
 | config_dir     | String     | see `default_authoritative_config_directory` helper method | Yes |
 | socket_dir     | String     | "/var/run/#{resource.instance_name}" | Yes |
@@ -154,7 +157,7 @@ Create a PowerDNS authoritative configuration file named `server-01`:
 
 ```
 pdns_authoritative_config 'server_01' do
-  action :create
+  virtual true
   launch ['gpgsql']
   variables(
     gpgsql_host: '127.0.0.1',
@@ -166,12 +169,13 @@ pdns_authoritative_config 'server_01' do
     api: true,
     api-_eadonly: true
     )
+  action :create
 end
 ```
 
 ### pdns_authoritative_service
 
-Creates a init service to manage a PowerDNS authoritative instance. This service supports all the regular actions (start, stop, restart, etc.). Check the compatibility section to see which init services are supported.
+Creates a service to manage a PowerDNS authoritative instance. This service supports all the regular actions (start, stop, restart, etc.). Check the compatibility section to see which init services are supported.
 
 *Important:* services are not restarted or reloaded automatically on config changes in this cookbook, you need to add this in your wrapper cookbook if you desire this functionality, the `pdns_authoritative_service` cookbook provides actions to do it.
 
@@ -180,6 +184,7 @@ Creates a init service to manage a PowerDNS authoritative instance. This service
 | Name           | Class       |  Default value                                             | Consistent? |
 |----------------|-------------|------------------------------------------------------------|-------------|
 | instance_name  | String      | name_property                                              | Yes         |
+| virtual        | Boolean     | false                                                      | No          |
 | cookbook       | String      | 'pdns'                                                     | No          |
 | source         | String      | 'authoritative.init.debian.erb'                            | No          |
 | config_dir     | String      | See `default_authoritative_config_directory` helper method | Yes         |
@@ -188,8 +193,19 @@ Creates a init service to manage a PowerDNS authoritative instance. This service
 
 #### Usage example
 
+To enable and start the default PowerDNS Authoritative server
+
+```ruby
+pdns_authoritative_service 'default' do
+  action [:enable, :start]
+end
 ```
+
+To enable and start a virtual PowerDNS instance called 'server_01'
+
+```ruby
 pdns_authoritative_service 'server_01' do
+  virtual true
   action [:enable, :start]
 end
 ```

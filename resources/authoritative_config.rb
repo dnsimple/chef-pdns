@@ -32,14 +32,16 @@ end
 include Pdns::AuthoritativeHelpers
 property :instance_name, String, name_property: true, callbacks: {
   'should not contain a hyphen' => ->(param) { !param.include?('-') },
+  'should not be blank' => ->(param) { !param.empty? },
 }
+property :virtual, [true, false], default: false
 property :launch, Array, default: ['bind']
 property :config_dir, String, default: lazy { default_authoritative_config_directory }
 property :run_group, String, default: lazy { default_authoritative_run_user }
 property :run_user, String, default: lazy { default_authoritative_run_user }
 property :run_user_home, String, default: lazy { default_user_attributes[:home] }
 property :run_user_shell, String, default: lazy { default_user_attributes[:shell] }
-property :socket_dir, String, default: lazy { |resource| "/var/run/#{resource.instance_name}" }
+property :socket_dir, String, default: '/var/run'
 property :setuid, String, default:  lazy { |resource| resource.run_user } # rubocop:disable Style/SymbolProc
 property :setgid, String, default:  lazy { |resource| resource.run_group } # rubocop:disable Style/SymbolProc
 
@@ -62,17 +64,6 @@ action :create do
     action :create
   end
 
-  directory new_resource.socket_dir do
-    owner new_resource.run_user
-    group new_resource.run_group
-    # Because of the DynListener creation before dropping privileges, the
-    # socket-directory has to be '0777' for now
-    # Issue: https://github.com/PowerDNS/pdns/issues/4826
-    mode Chef::Platform::ServiceHelpers.service_resource_providers.include?(:systemd) ? '0777' : '0755'
-    recursive true
-    action :create
-  end
-
   directory new_resource.config_dir do
     owner 'root'
     group new_resource.run_group
@@ -80,7 +71,7 @@ action :create do
     action :create
   end
 
-  template "#{new_resource.config_dir}/#{authoritative_instance_config(new_resource.instance_name)}" do
+  template "#{new_resource.config_dir}/#{authoritative_instance_config(new_resource.instance_name, new_resource.virtual)}" do
     source new_resource.source
     cookbook new_resource.cookbook
     owner 'root'
