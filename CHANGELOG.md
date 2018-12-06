@@ -1,6 +1,14 @@
 # Change Log
 
-## [v5.0.0](https://github.com/dnsimple/chef-pdns/tree/v5.0.0) (2018-11-26)
+## [v6.0.0](https://github.com/dnsimple/chef-pdns/tree/v6.0.0) (2018-12-06)
+[Full Changelog](https://github.com/dnsimple/chef-pdns/compare/v5.0.0...v6.0.0)
+
+**Merged pull requests:**
+
+- Introduce virtual property for Recursor installs [\#103](https://github.com/dnsimple/chef-pdns/pull/103) ([martinisoft](https://github.com/martinisoft))
+- Introduce virtual property for Authoriative installs [\#102](https://github.com/dnsimple/chef-pdns/pull/102) ([martinisoft](https://github.com/martinisoft))
+
+## [v5.0.0](https://github.com/dnsimple/chef-pdns/tree/v5.0.0) (2018-11-27)
 [Full Changelog](https://github.com/dnsimple/chef-pdns/compare/v4.4.0...v5.0.0)
 
 **Implemented enhancements:**
