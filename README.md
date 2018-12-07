@@ -108,6 +108,9 @@ Installs PowerDNS authoritative server 4.1.x series using PowerDNS official repo
 | series        | String      | '41'           |
 | debug         | true, false | false          |
 | allow_upgrade | true, false | false          |
+| backends      | Array       | nil            |
+
+**Note:** When specifying the backends, the name of the backend must match the repository package. For example, in Debian systems the Postgresql backend is actually named `pgsql` while on RHEL systems it is `postgresql`. Consider using the `value_for_platform` if you are installing on multiple platforms. There is an example of this technique in the test folder cookbook recipe.
 
 #### Usage examples
 
@@ -131,6 +134,15 @@ Install and upgrade to the latest 4.0.x PowerDNS Authoritative Server release
 pdns_authoritative_install 'server_01' do
   series '40'
   allow_upgrade true
+end
+```
+
+Install the latest 4.1.x series PowerDNS Authoritative Server with the MySQL and Lua backends
+
+```ruby
+pdns_authoritative_install 'server_01' do
+  series '41'
+  backends ['mysql', 'lua']
 end
 ```
 
