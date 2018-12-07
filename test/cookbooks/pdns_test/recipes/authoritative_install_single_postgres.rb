@@ -28,14 +28,14 @@ execute 'psql -d pdns < /var/tmp/schema_postgres.sql' do
   not_if 'psql -t -d pdns -c "select \'public.domains\'::regclass;"', user: 'postgres'
 end
 
-pdns_authoritative_install 'default'
-
 pg_backend_package = value_for_platform_family(
-  'rhel' => 'pdns-backend-postgresql',
-  'debian' => 'pdns-backend-pgsql'
+  'rhel' => 'postgresql',
+  'debian' => 'pgsql'
 )
 
-package pg_backend_package
+pdns_authoritative_install 'default' do
+  backends [pg_backend_package]
+end
 
 pdns_authoritative_config 'default' do
   launch ['gpgsql']

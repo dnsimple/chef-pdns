@@ -25,6 +25,7 @@ property :version, String
 property :series, String, default: '41'
 property :debug, [true, false], default: false
 property :allow_upgrade, [true, false], default: false
+property :backends, Array
 
 action :install do
   yum_package 'epel-release' do
@@ -48,6 +49,15 @@ action :install do
     includepkgs 'pdns*'
     action :create
     not_if { new_resource.debug }
+  end
+
+  if new_resource.backends
+    new_resource.backends.each do |backend|
+      yum_package "pdns-backend-#{backend}" do
+        action :upgrade if new_resource.allow_upgrade
+        version new_resource.version
+      end
+    end
   end
 
   yum_package 'pdns' do
