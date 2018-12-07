@@ -34,7 +34,14 @@ pg_backend_package = value_for_platform_family(
 )
 
 pdns_authoritative_install 'default' do
+  series '40'
   backends [pg_backend_package]
+end
+
+pdns_authoritative_install 'default_upgrade' do
+  series '41'
+  backends [pg_backend_package]
+  allow_upgrade true
 end
 
 pdns_authoritative_config 'default' do
