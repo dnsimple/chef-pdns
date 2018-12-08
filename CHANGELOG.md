@@ -1,5 +1,16 @@
 # Change Log
 
+## [v6.1.0](https://github.com/dnsimple/chef-pdns/tree/v6.1.0) (2018-12-07)
+[Full Changelog](https://github.com/dnsimple/chef-pdns/compare/v6.0.0...v6.1.0)
+
+**Closed issues:**
+
+- Add modules to the install resources [\#104](https://github.com/dnsimple/chef-pdns/issues/104)
+
+**Merged pull requests:**
+
+- Add backends option to Authoritative Installation resources [\#105](https://github.com/dnsimple/chef-pdns/pull/105) ([martinisoft](https://github.com/martinisoft))
+
 ## [v6.0.0](https://github.com/dnsimple/chef-pdns/tree/v6.0.0) (2018-12-06)
 [Full Changelog](https://github.com/dnsimple/chef-pdns/compare/v5.0.0...v6.0.0)
 
