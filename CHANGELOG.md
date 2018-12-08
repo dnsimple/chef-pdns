@@ -1,6 +1,13 @@
 # Change Log
 
-## [v6.1.0](https://github.com/dnsimple/chef-pdns/tree/v6.1.0) (2018-12-07)
+## [v6.1.1](https://github.com/dnsimple/chef-pdns/tree/v6.1.1) (2018-12-07)
+[Full Changelog](https://github.com/dnsimple/chef-pdns/compare/v6.1.0...v6.1.1)
+
+**Merged pull requests:**
+
+- Don't manage the default recursor service [\#106](https://github.com/dnsimple/chef-pdns/pull/106) ([martinisoft](https://github.com/martinisoft))
+
+## [v6.1.0](https://github.com/dnsimple/chef-pdns/tree/v6.1.0) (2018-12-08)
 [Full Changelog](https://github.com/dnsimple/chef-pdns/compare/v6.0.0...v6.1.0)
 
 **Closed issues:**
