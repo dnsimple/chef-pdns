@@ -29,6 +29,7 @@ property :version, String
 property :series, String, default: '41'
 property :debug, [true, false], default: false
 property :allow_upgrade, [true, false], default: false
+property :backends, Array
 
 action :install do
   apt_repository 'powerdns-authoritative' do
@@ -43,6 +44,15 @@ action :install do
   apt_preference 'pdns-*' do
     pin          'origin repo.powerdns.com'
     pin_priority '600'
+  end
+
+  if new_resource.backends
+    new_resource.backends.each do |backend|
+      apt_package "pdns-backend-#{backend}" do
+        action :upgrade if new_resource.allow_upgrade
+        version new_resource.version
+      end
+    end
   end
 
   apt_package 'pdns-server' do
