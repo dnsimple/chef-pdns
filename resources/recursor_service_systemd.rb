@@ -30,14 +30,6 @@ property :virtual, [true, false], default: false
 property :config_dir, String, default: lazy { default_recursor_config_directory }
 
 action :enable do
-  # To make sure the default package doesn't start any "pdns_recursor" daemon
-  # because the default service could stop all other instances
-  service 'pdns-recursor' do
-    supports restart: true, status: true
-    action [:disable, :stop]
-    not_if { new_resource.virtual }
-  end
-
   service systemd_name(new_resource.instance_name, new_resource.virtual) do
     supports restart: true, status: true
     action :enable
