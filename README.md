@@ -12,6 +12,11 @@ When upgrading to the 6.x series, please pay special attention to your config an
 
 We have also changed the behavior of the `socket_dir` property on the service resources because it was incorrectly setup. It will be removed in a future release as it is a source of confusion (and bug) and a more advanced option for very specific use cases.
 
+## Ubuntu >=18.04 notes
+
+Operating systems like Ubuntu 18.04 and greater that ship with systemd-resolved configured to run by default will need this disabled and to manually configure your resolv.conf if you are running PowerDNS Authoritative on default ports.
+You can look at the [test cookbook](https://github.com/dnsimple/chef-pdns/blob/master/test/cookbooks/pdns_test/recipes/authoritative_install_multi.rb) for a simple example of how to handle this.
+
 ## Requirements
 
 ### Platforms:
