@@ -35,9 +35,11 @@ pg_backend_package = value_for_platform_family(
 
 include_recipe 'pdns_test::disable_systemd_resolved'
 
+## Disable for ubuntu >=18.04 PowerDNS did not make a 40 repo for Bionic
 pdns_authoritative_install 'default' do
   series '40'
   backends [pg_backend_package]
+  not_if { node['platform'].include?('ubuntu') && node['platform_version'].to_f >= 18.04 }
 end
 
 pdns_authoritative_install 'default_upgrade' do
