@@ -42,7 +42,7 @@ before_script:
   - chef gem install kitchen-dokken
   - chef gem install stove
 
-script: KITCHEN_LOCAL_YAML=.kitchen.dokken.yml kitchen verify $INSTANCE
+script: KITCHEN_LOCAL_YAML=.kitchen.dokken.yml kitchen verify ${INSTANCE}
 
 matrix:
   include:
