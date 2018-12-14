@@ -33,6 +33,8 @@ pg_backend_package = value_for_platform_family(
   'debian' => 'pgsql'
 )
 
+include_recipe 'pdns_test::disable_systemd_resolved'
+
 pdns_authoritative_install 'default' do
   series '40'
   backends [pg_backend_package]
