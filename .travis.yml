@@ -1,5 +1,4 @@
 sudo: required
-dist: trusty
 
 addons:
   apt:
@@ -8,16 +7,32 @@ addons:
     packages:
       - chefdk
 
+services: docker
+
 env:
   global:
-  - KITCHEN_LOCAL_YAML=.kitchen.dokken.yml
+   - KITCHEN_LOCAL_YAML=.kitchen.dokken.yml
   matrix:
-  # Lint + chefspec tests
-  - TASK="quick"
-  # Split up the test-kitchen run to avoid exceeding 50 minutes:
-  - TASK="integration:dokken" ACTION="test" KITCHEN_REGEXP=recursor CONCURRENCY="2"
-  - TASK="integration:dokken" ACTION="test" KITCHEN_REGEXP=authoritative-multi CONCURRENCY="2"
-  - TASK="integration:dokken" ACTION="test" KITCHEN_REGEXP=postgres CONCURRENCY="2"
+    # Split up the test-kitchen run to avoid exceeding 50 minutes:
+    - TASK="quick"
+    - TASK="integration:dokken" ACTION="verify" INSTANCE=authoritative-multi-centos-6
+    - TASK="integration:dokken" ACTION="verify" INSTANCE=authoritative-multi-centos-7
+    - TASK="integration:dokken" ACTION="verify" INSTANCE=authoritative-multi-debian-8
+    - TASK="integration:dokken" ACTION="verify" INSTANCE=authoritative-multi-ubuntu-1404
+    - TASK="integration:dokken" ACTION="verify" INSTANCE=authoritative-multi-ubuntu-1604
+    - TASK="integration:dokken" ACTION="verify" INSTANCE=authoritative-multi-ubuntu-1804
+    - TASK="integration:dokken" ACTION="verify" INSTANCE=authoritative-postgres-centos-6
+    - TASK="integration:dokken" ACTION="verify" INSTANCE=authoritative-postgres-centos-7
+    - TASK="integration:dokken" ACTION="verify" INSTANCE=authoritative-postgres-debian-8
+    - TASK="integration:dokken" ACTION="verify" INSTANCE=authoritative-postgres-ubuntu-1404
+    - TASK="integration:dokken" ACTION="verify" INSTANCE=authoritative-postgres-ubuntu-1604
+    # - TASK="integration:dokken" ACTION="verify" INSTANCE=authoritative-postgres-ubuntu-1804 This fails only on travis because PG can't start?
+    - TASK="integration:dokken" ACTION="verify" INSTANCE=recursor-multi-centos-6
+    - TASK="integration:dokken" ACTION="verify" INSTANCE=recursor-multi-centos-7
+    - TASK="integration:dokken" ACTION="verify" INSTANCE=recursor-multi-debian-8
+    - TASK="integration:dokken" ACTION="verify" INSTANCE=recursor-multi-ubuntu-1404
+    - TASK="integration:dokken" ACTION="verify" INSTANCE=recursor-multi-ubuntu-1604
+    - TASK="integration:dokken" ACTION="verify" INSTANCE=recursor-multi-ubuntu-1804
 
 matrix:
   fast_finish: true
@@ -25,11 +40,10 @@ matrix:
 install: echo "skip bundle install"
 
 before_script:
-- eval "$(/opt/chefdk/bin/chef shell-init bash)"
-- chef gem install kitchen-dokken
-- chef gem install stove
+  - sudo iptables -L DOCKER || ( echo "DOCKER iptables chain missing" ; sudo iptables -N DOCKER )
+  - eval "$(chef shell-init bash)"
 
-script: chef exec rake "$TASK[$KITCHEN_REGEXP, $CONCURRENCY, $ACTION]"
+script: chef exec rake "$TASK[$INSTANCE, $CONCURRENCY, $ACTION]"
 
 notifications:
   email: false

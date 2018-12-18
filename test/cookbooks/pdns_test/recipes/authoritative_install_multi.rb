@@ -1,3 +1,5 @@
+include_recipe 'pdns_test::disable_systemd_resolved'
+
 pdns_authoritative_install 'default'
 
 pdns_authoritative_config 'default'
