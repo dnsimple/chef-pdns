@@ -1,4 +1,4 @@
 package 'bind-utils' do
   action :install
-  only_if { node['platform_family'] == 'rhel' }
+  only_if { platform_family?('rhel') }
 end

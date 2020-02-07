@@ -1,8 +1,8 @@
 #
-# Cookbook Name:: pdns
+# Cookbook:: pdns
 # Resources:: pdns_authoritative_service
 #
-# Copyright 2017-2018 DNSimple Corp
+# Copyright:: 2017-2018 DNSimple Corp
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.

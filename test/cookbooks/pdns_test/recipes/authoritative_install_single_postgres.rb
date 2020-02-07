@@ -20,7 +20,7 @@ end
 cookbook_file '/var/tmp/schema_postgres.sql' do
   owner 'root'
   group 'root'
-  mode 0755
+  mode '755'
 end
 
 execute 'psql -d pdns < /var/tmp/schema_postgres.sql' do
