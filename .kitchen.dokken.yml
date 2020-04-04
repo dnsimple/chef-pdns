@@ -2,6 +2,7 @@
 driver:
   name: dokken
   privileged: true
+  chef_version: 15
 
 transport:
   name: dokken
@@ -14,6 +15,7 @@ provisioner:
   retry_on_exit_code:
     - 1
   max_retries: 2
+  chef_license: accept
 
 verifier:
   name: inspec
@@ -59,4 +61,3 @@ platforms:
       intermediate_instructions:
           - RUN /usr/bin/apt-get update
           - RUN /usr/bin/apt-get install dnsutils -y
-

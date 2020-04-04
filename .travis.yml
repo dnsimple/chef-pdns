@@ -9,6 +9,7 @@ services: docker
 env:
   global:
     - CHEF_LICENSE="accept-silent"
+    - KITCHEN_LOCAL_YAML=".kitchen.dokken.yml"
     - secure: IfD/3A3IPxozFCSTlI5q6PIr1D78WupjhZVU5RlvDRsuajZuhCJHYHQvD1SI0cLAE+MG3XPhg8BXbPDtHGPCpNKybEFhWlRU9tghTxpzijMBvImBVPNzo8otn8ywvpw1XSFHKd79dFj1SRZqWbEFW4G/JFHarxl9svggyrfMTx8=
   matrix:
     # Split up the test-kitchen run to avoid exceeding 50 minutes:
