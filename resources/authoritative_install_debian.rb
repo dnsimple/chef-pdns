@@ -22,7 +22,7 @@ provides :pdns_authoritative_install, platform: 'ubuntu' do |node|
 end
 
 provides :pdns_authoritative_install, platform: 'debian' do |node|
-  node['platform_version'].to_i >= 10
+  node['platform_version'].to_i >= 9
 end
 
 property :version, String
