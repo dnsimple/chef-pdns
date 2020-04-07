@@ -19,7 +19,6 @@ env:
     - TASK="integration:dokken" ACTION="verify" INSTANCE=authoritative-multi-centos-8
     - TASK="integration:dokken" ACTION="verify" INSTANCE=authoritative-multi-debian-9
     - TASK="integration:dokken" ACTION="verify" INSTANCE=authoritative-multi-debian-10
-    - TASK="integration:dokken" ACTION="verify" INSTANCE=authoritative-multi-ubuntu-1404
     - TASK="integration:dokken" ACTION="verify" INSTANCE=authoritative-multi-ubuntu-1604
     - TASK="integration:dokken" ACTION="verify" INSTANCE=authoritative-multi-ubuntu-1804
     - TASK="integration:dokken" ACTION="verify" INSTANCE=authoritative-postgres-centos-6
@@ -27,7 +26,6 @@ env:
     # - TASK="integration:dokken" ACTION="verify" INSTANCE=authoritative-postgres-centos-8 This fails because postgresql cookbook does not support centos 8
     - TASK="integration:dokken" ACTION="verify" INSTANCE=authoritative-postgres-debian-9
     - TASK="integration:dokken" ACTION="verify" INSTANCE=authoritative-postgres-debian-10
-    - TASK="integration:dokken" ACTION="verify" INSTANCE=authoritative-postgres-ubuntu-1404
     - TASK="integration:dokken" ACTION="verify" INSTANCE=authoritative-postgres-ubuntu-1604
     # - TASK="integration:dokken" ACTION="verify" INSTANCE=authoritative-postgres-ubuntu-1804 This fails only on travis because PG can't start?
     - TASK="integration:dokken" ACTION="verify" INSTANCE=recursor-multi-centos-6
@@ -35,7 +33,6 @@ env:
     - TASK="integration:dokken" ACTION="verify" INSTANCE=recursor-multi-centos-8
     - TASK="integration:dokken" ACTION="verify" INSTANCE=recursor-multi-debian-9
     - TASK="integration:dokken" ACTION="verify" INSTANCE=recursor-multi-debian-10
-    - TASK="integration:dokken" ACTION="verify" INSTANCE=recursor-multi-ubuntu-1404
     - TASK="integration:dokken" ACTION="verify" INSTANCE=recursor-multi-ubuntu-1604
     - TASK="integration:dokken" ACTION="verify" INSTANCE=recursor-multi-ubuntu-1804
 
