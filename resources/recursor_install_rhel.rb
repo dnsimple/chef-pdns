@@ -67,7 +67,7 @@ action :install do
     version new_resource.version
     action :upgrade if new_resource.allow_upgrade
     only_if { platform_family?('rhel') && node['platform_version'].to_f >= 8.0 }
-  end  
+  end
 end
 
 action :uninstall do
