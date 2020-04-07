@@ -22,7 +22,7 @@ provides :pdns_authoritative_install, platform_family: 'rhel' do |node|
 end
 
 property :version, String
-property :series, String, default: '41'
+property :series, String, default: '42'
 property :debug, [true, false], default: false
 property :allow_upgrade, [true, false], default: false
 property :backends, Array
@@ -30,6 +30,12 @@ property :backends, Array
 action :install do
   yum_package 'epel-release' do
     action :install
+    only_if { platform_family?('rhel') && node['platform_version'].to_f < 8.0 }
+  end
+
+  dnf_package 'epel-release' do
+    action :install
+    only_if { platform_family?('rhel') && node['platform_version'].to_f >= 8.0 }
   end
 
   yum_repository 'powerdns-authoritative' do
@@ -56,6 +62,13 @@ action :install do
       yum_package "pdns-backend-#{backend}" do
         action :upgrade if new_resource.allow_upgrade
         version new_resource.version
+        only_if { platform_family?('rhel') && node['platform_version'].to_f < 8.0 }
+      end
+
+      dnf_package "pdns-backend-#{backend}" do
+        action :upgrade if new_resource.allow_upgrade
+        version new_resource.version
+        only_if { platform_family?('rhel') && node['platform_version'].to_f >= 8.0 }
       end
     end
   end
@@ -63,6 +76,13 @@ action :install do
   yum_package 'pdns' do
     version new_resource.version
     action :upgrade if new_resource.allow_upgrade
+    only_if { platform_family?('rhel') && node['platform_version'].to_f < 8.0 }
+  end
+
+  dnf_package 'pdns' do
+    version new_resource.version
+    action :upgrade if new_resource.allow_upgrade
+    only_if { platform_family?('rhel') && node['platform_version'].to_f >= 8.0 }
   end
 end
 
@@ -70,5 +90,12 @@ action :uninstall do
   yum_package 'pdns' do
     action :remove
     version new_resource.version
+    only_if { platform_family?('rhel') && node['platform_version'].to_f < 8.0 }
+  end
+
+  dnf_package 'pdns' do
+    action :remove
+    version new_resource.version
+    only_if { platform_family?('rhel') && node['platform_version'].to_f >= 8.0 }
   end
 end

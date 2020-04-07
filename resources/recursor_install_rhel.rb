@@ -22,7 +22,7 @@ provides :pdns_recursor_install, platform_family: 'rhel' do |node|
 end
 
 property :version, String
-property :series, String, default: '41'
+property :series, String, default: '42'
 property :debug, [true, false], default: false
 property :allow_upgrade, [true, false], default: false
 
@@ -31,6 +31,12 @@ action :install do
   # and will make epel repository available for the pdns-recursor dependency 'protobuf'
   yum_package 'epel-release' do
     action :install
+    only_if { platform_family?('rhel') && node['platform_version'].to_f < 8.0 }
+  end
+
+  dnf_package 'epel-release' do
+    action :install
+    only_if { platform_family?('rhel') && node['platform_version'].to_f >= 8.0 }
   end
 
   yum_repository 'powerdns-recursor' do
@@ -49,17 +55,29 @@ action :install do
     priority '90'
     includepkgs 'pdns*'
     action :create
-    not_if { new_resource.debug }
   end
 
   yum_package 'pdns-recursor' do
     version new_resource.version
     action :upgrade if new_resource.allow_upgrade
+    only_if { platform_family?('rhel') && node['platform_version'].to_f < 8.0 }
   end
+
+  dnf_package 'pdns-recursor' do
+    version new_resource.version
+    action :upgrade if new_resource.allow_upgrade
+    only_if { platform_family?('rhel') && node['platform_version'].to_f >= 8.0 }
+  end  
 end
 
 action :uninstall do
   yum_package 'pdns-recursor' do
     action :remove
+    only_if { platform_family?('rhel') && node['platform_version'].to_f < 8.0 }
+  end
+
+  dnf_package 'pdns-recursor' do
+    action :remove
+    only_if { platform_family?('rhel') && node['platform_version'].to_f >= 8.0 }
   end
 end
