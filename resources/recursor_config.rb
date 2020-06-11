@@ -17,15 +17,15 @@
 # limitations under the License.
 #
 
-provides :pdns_recursor_config, platform: 'ubuntu' do |node| # ~FC005
+provides :pdns_recursor_config, platform: 'ubuntu' do |node|
   node['platform_version'].to_f >= 14.04
 end
 
-provides :pdns_recursor_config, platform: 'debian' do |node| # ~FC005
+provides :pdns_recursor_config, platform: 'debian' do |node|
   node['platform_version'].to_i >= 8
 end
 
-provides :pdns_recursor_config, platform_family: 'rhel' do |node| # ~FC005
+provides :pdns_recursor_config, platform_family: 'rhel' do |node|
   node['platform_version'].to_i >= 6
 end
 
