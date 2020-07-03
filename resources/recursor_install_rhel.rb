@@ -29,7 +29,7 @@ property :allow_upgrade, [true, false], default: false
 action :install do
   # We take advantage of the yum_repository call bellow that will reload yum sources
   # and will make epel repository available for the pdns-recursor dependency 'protobuf'
-  yum_package 'epel-release' do
+  package 'epel-release' do
     action :install
   end
 
@@ -52,14 +52,14 @@ action :install do
     not_if { new_resource.debug }
   end
 
-  yum_package 'pdns-recursor' do
+  package 'pdns-recursor' do
     version new_resource.version
     action :upgrade if new_resource.allow_upgrade
   end
 end
 
 action :uninstall do
-  yum_package 'pdns-recursor' do
+  package 'pdns-recursor' do
     action :remove
   end
 end

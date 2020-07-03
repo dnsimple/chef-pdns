@@ -28,7 +28,7 @@ property :allow_upgrade, [true, false], default: false
 property :backends, Array
 
 action :install do
-  yum_package 'epel-release' do
+  package 'epel-release' do
     action :install
   end
 
@@ -53,21 +53,21 @@ action :install do
 
   if new_resource.backends
     new_resource.backends.each do |backend|
-      yum_package "pdns-backend-#{backend}" do
+      package "pdns-backend-#{backend}" do
         action :upgrade if new_resource.allow_upgrade
         version new_resource.version
       end
     end
   end
 
-  yum_package 'pdns' do
+  package 'pdns' do
     version new_resource.version
     action :upgrade if new_resource.allow_upgrade
   end
 end
 
 action :uninstall do
-  yum_package 'pdns' do
+  package 'pdns' do
     action :remove
     version new_resource.version
   end
