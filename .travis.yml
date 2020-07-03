@@ -1,17 +1,10 @@
-dist: xenial
+dist: bionic
 
-addons:
-  apt:
-    sources:
-      - chef-stable-xenial
-    packages:
-      - chefdk
+services: docker
 
 cache:
   directories:
     - $HOME/.berkshelf
-
-services: docker
 
 env:
   global:
@@ -44,11 +37,15 @@ matrix:
 
 install: echo "skip bundle install"
 
-before_script:
-  - sudo iptables -L DOCKER || ( echo "DOCKER iptables chain missing" ; sudo iptables -N DOCKER )
-  - eval "$(chef shell-init bash)"
+before_install:
+  - curl -L https://omnitruck.chef.io/install.sh | sudo bash -s -- -P chef-workstation
 
 script: chef exec rake "$TASK[$INSTANCE, $CONCURRENCY, $ACTION]"
+
+after_failure:
+  - chef --version
+  - chef exec kitchen list
+  - chef exec kitchen diagnose $KITCHEN_REGEXP
 
 notifications:
   email: false
