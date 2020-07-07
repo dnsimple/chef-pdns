@@ -20,18 +20,18 @@ env:
   matrix:
     # Split up the test-kitchen run to avoid exceeding 50 minutes:
     - TASK="quick"
-    - TASK="integration:dokken" ACTION="verify" INSTANCE=authoritative-multi-centos-6
-    - TASK="integration:dokken" ACTION="verify" INSTANCE=authoritative-multi-centos-7
-    - TASK="integration:dokken" ACTION="verify" INSTANCE=authoritative-multi-ubuntu-1604
-    - TASK="integration:dokken" ACTION="verify" INSTANCE=authoritative-multi-ubuntu-1804
-    - TASK="integration:dokken" ACTION="verify" INSTANCE=authoritative-postgres-centos-6
-    - TASK="integration:dokken" ACTION="verify" INSTANCE=authoritative-postgres-centos-7
-    # - TASK="integration:dokken" ACTION="verify" INSTANCE=authoritative-postgres-ubuntu-1604 This fails only on travis because PG can't start?
-    - TASK="integration:dokken" ACTION="verify" INSTANCE=authoritative-postgres-ubuntu-1804
-    - TASK="integration:dokken" ACTION="verify" INSTANCE=recursor-multi-centos-6
-    - TASK="integration:dokken" ACTION="verify" INSTANCE=recursor-multi-centos-7
-    - TASK="integration:dokken" ACTION="verify" INSTANCE=recursor-multi-ubuntu-1604
-    - TASK="integration:dokken" ACTION="verify" INSTANCE=recursor-multi-ubuntu-1804
+    - TASK="kitchen"  KITCHEN_REGEXP=authoritative-multi-centos-6
+    - TASK="kitchen"  KITCHEN_REGEXP=authoritative-multi-centos-7
+    - TASK="kitchen"  KITCHEN_REGEXP=authoritative-multi-ubuntu-1604
+    - TASK="kitchen"  KITCHEN_REGEXP=authoritative-multi-ubuntu-1804
+    - TASK="kitchen"  KITCHEN_REGEXP=authoritative-postgres-centos-6
+    - TASK="kitchen"  KITCHEN_REGEXP=authoritative-postgres-centos-7
+    # - TASK="kitchen"  KITCHEN_REGEXP=authoritative-postgres-ubuntu-1604 # https://askubuntu.com/questions/830346/postgresql-server-doesnt-start
+    - TASK="kitchen"  KITCHEN_REGEXP=authoritative-postgres-ubuntu-1804
+    - TASK="kitchen"  KITCHEN_REGEXP=recursor-multi-centos-6
+    - TASK="kitchen"  KITCHEN_REGEXP=recursor-multi-centos-7
+    - TASK="kitchen"  KITCHEN_REGEXP=recursor-multi-ubuntu-1604
+    - TASK="kitchen"  KITCHEN_REGEXP=recursor-multi-ubuntu-1804
 
 matrix:
   fast_finish: true
