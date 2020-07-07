@@ -1,6 +1,7 @@
 ---
 driver:
   name: dokken
+  chef_version: 15
   privileged: true
 
 transport:
@@ -8,6 +9,7 @@ transport:
 
 provisioner:
   name: dokken
+  chef_license: accept
   # On CentOS 6, restart the 'postgres' database could fail the first time so
   # let's try twice before failing:
   # https://github.com/sous-chefs/postgresql/issues/421
