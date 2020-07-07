@@ -1,11 +1,13 @@
 ---
 driver:
-  name: vagrant
+  name: dokken
+  privileged: true
+
+transport:
+  name: dokken
 
 provisioner:
-  name: chef_zero
-  product_name: chef
-  product_version: 14
+  name: dokken
   # On CentOS 6, restart the 'postgres' database could fail the first time so
   # let's try twice before failing:
   # https://github.com/sous-chefs/postgresql/issues/421
@@ -17,12 +19,39 @@ verifier:
   name: inspec
 
 platforms:
-  - name: centos-6.9
-  - name: centos-7.2
-  - name: debian-8.8
-  - name: ubuntu-14.04
   - name: ubuntu-16.04
+    driver:
+      image: dokken/ubuntu-16.04
+      pid_one_command: /bin/systemd
+      intermediate_instructions:
+          - RUN /usr/bin/apt-get update
+          - RUN /usr/bin/apt-get install dnsutils -y
+
   - name: ubuntu-18.04
+    driver:
+      image: dokken/ubuntu-18.04
+      pid_one_command: /bin/systemd
+      intermediate_instructions:
+          - RUN /usr/bin/apt-get update
+          - RUN /usr/bin/apt-get install dnsutils -y
+
+  - name: centos-6
+    driver:
+      image: dokken/centos-6
+      pid_one_command: /sbin/init
+
+  - name: centos-7
+    driver:
+      image: dokken/centos-7
+      pid_one_command: /usr/lib/systemd/systemd
+
+  - name: debian-8
+    driver:
+      image: dokken/debian-8
+      pid_one_command: /bin/systemd
+      intermediate_instructions:
+          - RUN /usr/bin/apt-get update
+          - RUN /usr/bin/apt-get install dnsutils -y
 
 suites:
   - name: recursor-multi

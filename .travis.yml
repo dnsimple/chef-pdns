@@ -23,19 +23,16 @@ env:
     - TASK="integration:dokken" ACTION="verify" INSTANCE=authoritative-multi-centos-6
     - TASK="integration:dokken" ACTION="verify" INSTANCE=authoritative-multi-centos-7
     - TASK="integration:dokken" ACTION="verify" INSTANCE=authoritative-multi-debian-8
-    - TASK="integration:dokken" ACTION="verify" INSTANCE=authoritative-multi-ubuntu-1404
     - TASK="integration:dokken" ACTION="verify" INSTANCE=authoritative-multi-ubuntu-1604
     - TASK="integration:dokken" ACTION="verify" INSTANCE=authoritative-multi-ubuntu-1804
     - TASK="integration:dokken" ACTION="verify" INSTANCE=authoritative-postgres-centos-6
     - TASK="integration:dokken" ACTION="verify" INSTANCE=authoritative-postgres-centos-7
     - TASK="integration:dokken" ACTION="verify" INSTANCE=authoritative-postgres-debian-8
-    - TASK="integration:dokken" ACTION="verify" INSTANCE=authoritative-postgres-ubuntu-1404
     - TASK="integration:dokken" ACTION="verify" INSTANCE=authoritative-postgres-ubuntu-1604
     # - TASK="integration:dokken" ACTION="verify" INSTANCE=authoritative-postgres-ubuntu-1804 This fails only on travis because PG can't start?
     - TASK="integration:dokken" ACTION="verify" INSTANCE=recursor-multi-centos-6
     - TASK="integration:dokken" ACTION="verify" INSTANCE=recursor-multi-centos-7
     - TASK="integration:dokken" ACTION="verify" INSTANCE=recursor-multi-debian-8
-    - TASK="integration:dokken" ACTION="verify" INSTANCE=recursor-multi-ubuntu-1404
     - TASK="integration:dokken" ACTION="verify" INSTANCE=recursor-multi-ubuntu-1604
     - TASK="integration:dokken" ACTION="verify" INSTANCE=recursor-multi-ubuntu-1804
 
