@@ -1,11 +1,4 @@
-dist: xenial
-
-addons:
-  apt:
-    sources:
-      - chef-stable-xenial
-    packages:
-      - chefdk
+dist: bionic
 
 cache:
   directories:
@@ -20,21 +13,24 @@ env:
   matrix:
     # Split up the test-kitchen run to avoid exceeding 50 minutes:
     - TASK="quick"
-    - TASK="kitchen"  KITCHEN_REGEXP=authoritative-multi-centos-6
-    - TASK="kitchen"  KITCHEN_REGEXP=authoritative-multi-centos-7
-    - TASK="kitchen"  KITCHEN_REGEXP=authoritative-multi-ubuntu-1604
-    - TASK="kitchen"  KITCHEN_REGEXP=authoritative-multi-ubuntu-1804
-    - TASK="kitchen"  KITCHEN_REGEXP=authoritative-postgres-centos-6
-    - TASK="kitchen"  KITCHEN_REGEXP=authoritative-postgres-centos-7
-    # - TASK="kitchen"  KITCHEN_REGEXP=authoritative-postgres-ubuntu-1604 # https://askubuntu.com/questions/830346/postgresql-server-doesnt-start
-    - TASK="kitchen"  KITCHEN_REGEXP=authoritative-postgres-ubuntu-1804
-    - TASK="kitchen"  KITCHEN_REGEXP=recursor-multi-centos-6
-    - TASK="kitchen"  KITCHEN_REGEXP=recursor-multi-centos-7
-    - TASK="kitchen"  KITCHEN_REGEXP=recursor-multi-ubuntu-1604
-    - TASK="kitchen"  KITCHEN_REGEXP=recursor-multi-ubuntu-1804
+    - TASK="kitchen" KITCHEN_REGEXP=authoritative-multi-centos-6
+    - TASK="kitchen" KITCHEN_REGEXP=authoritative-multi-centos-7
+    - TASK="kitchen" KITCHEN_REGEXP=authoritative-multi-ubuntu-1604
+    - TASK="kitchen" KITCHEN_REGEXP=authoritative-multi-ubuntu-1804
+    - TASK="kitchen" KITCHEN_REGEXP=authoritative-postgres-centos-6
+    - TASK="kitchen" KITCHEN_REGEXP=authoritative-postgres-centos-7
+    # - TASK="kitchen" KITCHEN_REGEXP=authoritative-postgres-ubuntu-1604 # https://askubuntu.com/questions/830346/postgresql-server-doesnt-start
+    - TASK="kitchen" KITCHEN_REGEXP=authoritative-postgres-ubuntu-1804
+    - TASK="kitchen" KITCHEN_REGEXP=recursor-multi-centos-6
+    - TASK="kitchen" KITCHEN_REGEXP=recursor-multi-centos-7
+    - TASK="kitchen" KITCHEN_REGEXP=recursor-multi-ubuntu-1604
+    - TASK="kitchen" KITCHEN_REGEXP=recursor-multi-ubuntu-1804
 
 matrix:
   fast_finish: true
+
+before_install:
+  - curl -L https://omnitruck.chef.io/install.sh | sudo bash -s -- -P chef-workstation
 
 install: echo "skip bundle install"
 
@@ -42,7 +38,7 @@ before_script:
   - sudo iptables -L DOCKER || ( echo "DOCKER iptables chain missing" ; sudo iptables -N DOCKER )
   - eval "$(chef shell-init bash)"
 
-script: chef exec rake "$TASK[$INSTANCE, $CONCURRENCY, $ACTION]"
+script: chef exec rake $TASK
 
 notifications:
   email: false
