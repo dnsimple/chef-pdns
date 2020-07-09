@@ -18,11 +18,11 @@
 #
 
 provides :pdns_recursor_install, platform: 'ubuntu' do |node|
-  node['platform_version'].to_f >= 14.04
+  node['platform_version'].to_f >= 16.04
 end
 
 provides :pdns_recursor_install, platform: 'debian' do |node|
-  node['platform_version'].to_i >= 8
+  node['platform_version'].to_i >= 9
 end
 
 property :series, String, default: '41'
