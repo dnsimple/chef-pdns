@@ -32,7 +32,7 @@ else
 end
 
 describe command('dig chaos txt version.bind @127.0.0.1 +short') do
-  its('stdout.chomp') { should match(/"PowerDNS Authoritative Server 4\.2.\d/) }
+  its('stdout.chomp') { should match(/"PowerDNS Authoritative Server 4\.3.\d/) }
 end
 
 describe command('dig @127.0.0.1 smoke.example.org') do
