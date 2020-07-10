@@ -103,14 +103,14 @@ Most of the properties are optional and have sane defaults, so they are only rec
 
 ### pdns_authoritative_install
 
-Installs PowerDNS authoritative server 4.1.x series using PowerDNS official repository in the supported platforms.
+Installs PowerDNS authoritative server 4.3.x series using PowerDNS official repository in the supported platforms.
 
 #### Properties
 
 | Name          | Type        |  Default value |
 |---------------|-------------|----------------|
 | version       | String      | ''             |
-| series        | String      | '41'           |
+| series        | String      | '43'           |
 | debug         | true, false | false          |
 | allow_upgrade | true, false | false          |
 | backends      | Array       | nil            |
@@ -119,17 +119,17 @@ Installs PowerDNS authoritative server 4.1.x series using PowerDNS official repo
 
 #### Usage examples
 
-Install the latest 4.1.x series PowerDNS Authoritative Server
+Install the latest 4.3.x series PowerDNS Authoritative Server
 
 ```ruby
 pdns_authoritative_install 'server_01'
 ```
 
-Install the latest 4.0.x series PowerDNS Authoritative Server
+Install the latest 4.2.x series PowerDNS Authoritative Server
 
 ```ruby
 pdns_authoritative_install 'server_01' do
-  series '40'
+  series '42'
 end
 ```
 
@@ -235,30 +235,30 @@ end
 
 ### pdns_recursor_install
 
-Installs PowerDNS recursor 4.1.x series using PowerDNS official repository in the supported platforms.
+Installs PowerDNS recursor 4.3.x series using PowerDNS official repository in the supported platforms.
 
 #### Properties
 
 | Name           | Type        |  Default value  |
 |----------------|-------------|-----------------|
 | version        | String      | ''              |
-| series         | String      | '41'            |
+| series         | String      | '43'            |
 | debug          | true, false | false           |
 | allow_upgrade  | true, false | false           |
 
 #### Usage examples
 
-Install the latest 4.1.x release PowerDNS recursor
+Install the latest 4.3.x release PowerDNS recursor
 
 ```ruby
-pdns_recursor_install 'latest_4_1_x_recursor'
+pdns_recursor_install 'latest_4_3_x_recursor'
 ```
 
-Install the latest 4.0.x release PowerDNS recursor
+Install the latest 4.2.x release PowerDNS recursor
 
 ```ruby
 pdns_recursor_install 'my_recursor' do
-  series '40'
+  series '42'
 end
 ```
 
