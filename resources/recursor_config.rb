@@ -36,7 +36,7 @@ property :instance_name, String, name_property: true, callbacks: {
 }
 property :virtual, [true, false], default: false
 property :config_dir, String, default: lazy { default_recursor_config_directory }
-property :socket_dir, String, default: '/var/run'
+property :socket_dir, String, default: '/var/run/pdns-recursor'
 property :run_group, String, default: lazy { default_recursor_run_user }
 property :run_user, String, default: lazy { default_recursor_run_user }
 property :run_user_home, String, default: lazy { default_user_attributes[:home] }

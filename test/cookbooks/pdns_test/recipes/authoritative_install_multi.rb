@@ -15,6 +15,7 @@ pdns_authoritative_config 'server_02' do
   virtual true
   run_user 'another-pdns'
   run_group 'another-pdns'
+  socket_dir '/var/run/another-pdns'
   run_user_home '/var/lib/another-pdns'
   variables(
     'local-port' => '54',

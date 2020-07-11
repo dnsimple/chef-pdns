@@ -41,7 +41,7 @@ property :run_group, String, default: lazy { default_authoritative_run_user }
 property :run_user, String, default: lazy { default_authoritative_run_user }
 property :run_user_home, String, default: lazy { default_user_attributes[:home] }
 property :run_user_shell, String, default: lazy { default_user_attributes[:shell] }
-property :socket_dir, String, default: '/var/run'
+property :socket_dir, String, default: '/var/run/pdns'
 property :setuid, String, default:  lazy { |resource| resource.run_user }
 property :setgid, String, default:  lazy { |resource| resource.run_group }
 
