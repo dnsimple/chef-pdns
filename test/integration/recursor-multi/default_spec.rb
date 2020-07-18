@@ -27,7 +27,7 @@ describe processes(Regexp.new(/pdns_recursor\s(?!--config)/)) do
 end
 
 describe processes(Regexp.new(/pdns_recursor --config-name=server_02/)) do
-  its('users') { should match [Regexp.new(/another-pdns/)] }
+  its('users') { should match [Regexp.new(/pdns/)] }
 end
 
 describe command('dig -p 53 chaos txt version.bind @127.0.0.1 +short') do

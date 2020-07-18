@@ -13,19 +13,10 @@ config_dir = case node['platform_family']
 
 pdns_authoritative_config 'server_02' do
   virtual true
-  run_user 'another-pdns'
-  run_group 'another-pdns'
-  run_user_home '/var/lib/another-pdns'
   variables(
     'local-port' => '54',
     'bind-config' => "#{config_dir}/bindbackend.conf"
   )
-end
-
-group 'pdns' do
-  action :modify
-  members 'another-pdns'
-  append true
 end
 
 test_zonefile = <<-EOF

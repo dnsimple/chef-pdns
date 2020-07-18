@@ -28,7 +28,7 @@ if service('pdns_server').type == 'systemd'
   end
 
   describe processes(Regexp.new(/pdns_server\s(?=--config-name=server_02)/)) do
-    its('users') { should eq ['another-pdns'] }
+    its('users') { should eq ['pdns'] }
   end
 else
   describe processes(Regexp.new(/pdns_server-instance\s(?!--config-name=server_02)/)) do
@@ -36,7 +36,7 @@ else
   end
 
   describe processes(Regexp.new(/pdns_server-server_02-instance\s(?=--config-name=server_02)/)) do
-    its('users') { should eq ['another-pdns'] }
+    its('users') { should eq ['pdns'] }
   end
 end
 

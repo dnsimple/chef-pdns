@@ -164,12 +164,6 @@ Creates a PowerDNS recursor configuration, there is a fixed set of required prop
 | launch         | Array, nil | ['bind']        | No          |
 | config_dir     | String     | see `default_authoritative_config_directory` helper method | Yes |
 | socket_dir     | String     | "/var/run/#{resource.instance_name}" | Yes |
-| run_group      | String     | see `default_authoritative_run_user` helper method  | No |
-| run_user       | String     | see `default_authoritative_run_user` helper method  | No |
-| run_user_home  | String     | see `default_user_attributes` helper method | No |
-| run_user_shell | String     | see `default_user_attributes` helper method | No |
-| setuid         | String     | resource.run_user | No |
-| setgid         | String     | resource.run_group | No |
 | source         | String,nil | 'authoritative_service.conf.erb' | No |
 | cookbook       | String,nil | 'pdns' | No |
 | variables      | Hash       | { bind_config:  "#{resource.config_dir}/bindbackend.conf" } | No |
@@ -326,12 +320,6 @@ Creates a PowerDNS recursor configuration.
 | virtual        | Boolean     | false                                                  |
 | config_dir     | String      | see `default_recursor_config_directory` helper method  |
 | socket_dir     | String      | /var/run/#{resource.instance_name}                     |
-| run_group      | String      | see `default_recursor_run_user` helper method          |
-| run_user       | String      | see `default_recursor_run_user` helper method          |
-| run_user_home  | String      | see `default_user_attributes` helper method            |
-| run_user_shell | String      | see `default_user_attributes` helper method            |
-| setuid         | String      | resource.run_user                                      |
-| setgid         | String      | resource.run_group                                     |
 | source         | String, nil | 'recursor_service.conf.erb'                            |
 | cookbook       | String, nil | 'pdns'                                                 |
 | variables      | Hash        | {}                                                     |
@@ -343,10 +331,6 @@ Creates a PowerDNS recursor configuration.
 - `socket_dir` : Directory where sockets are created.
 - `cookbook` : Cookbook for a custom configuration template
 - `variables`: Variables for the configuration template.
-- `run_group`: Unix group that runs the recursor.
-- `run_user`: Unix user that runs the recursor.
-- `run_user_home`: Home of the Unix user that runs the recursor.
-- `run_user_shell`: Shell of the Unix user that runs the recursor.
 
 #### Usage Example
 
