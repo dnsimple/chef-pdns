@@ -24,7 +24,7 @@ PROGNAME=pdns-recursor
 # Derive the socket-dir setting from $CONFIG_FILE
 # or fall back to the default /var/run if not specified there.
 PIDDIR=$(awk -F= '/^socket-dir=/ {print $2}' $CONFIG_FILE)
-if [ -z "$PIDDIR" ]; then PIDDIR=/var/run; fi
+if [ -z "$PIDDIR" ]; then PIDDIR=/var/run/pdns-recursor; mkdir -p $PIDDIR; fi
 PIDFILE="${PIDDIR}/${INSTANCE_NAME}.pid"
 
 # Handle instance scripts
