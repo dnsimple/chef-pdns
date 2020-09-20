@@ -6,6 +6,11 @@ Provides resources for installing and configuring both PowerDNS authoritative an
 
 [![Build Status](https://travis-ci.org/dnsimple/chef-pdns.svg?branch=master)](https://travis-ci.org/dnsimple/chef-pdns)
 
+## Upgrade Notes for 7.x series
+Please note that this version primarily supports PowerDNS 4.3 and PowerDNS Recursor 4.3. Older versions may work, but are not as heavily tested. Additionally support for CentOS 6 / sysvinit has been dropped.
+
+When upgrading to the 7.x series, please pay special attention to your config and service resources which use the run_user / run_group / setuid / setgid properties. We have removed these attributes to better match the direction of upstream PowerDNS.
+
 ## Upgrade Notes for 6.x series
 
 When upgrading to the 6.x series, please pay special attention to your config and service resources which use the `instance_name` property. We have introduced a new `virtual` property to the config and service resources to more clearly mark them as a virtual instance versus the default one configured via the install resource. If you used `instance_name ''` to refer to the default instance, you can safely remove this property or leave it as-is. If you do use another name, then you will want to set `virtual true` in your config and service resources.
@@ -24,7 +29,7 @@ You can look at the [test cookbook](https://github.com/dnsimple/chef-pdns/blob/m
 - Ubuntu 14.04 and newer
 - Debian 8 and newer
 - RHEL 7 and newer
-- CentOS 6.9 and newer
+- CentOS 7 and newer
 
 ### Chef:
 
@@ -32,7 +37,6 @@ You can look at the [test cookbook](https://github.com/dnsimple/chef-pdns/blob/m
 
 ### Init Systems:
 
-* SysV
 * systemd
 
 ## Usage
