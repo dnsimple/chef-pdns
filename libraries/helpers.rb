@@ -37,10 +37,6 @@ module Pdns
       virtual ? "pdns-recursor@#{name}.service" : 'pdns-recursor.service'
     end
 
-    def sysvinit_name(name, virtual)
-      virtual ? "pdns-recursor-#{name}" : 'pdns-recursor'
-    end
-
     def default_recursor_run_user
       case node['platform_family']
       when 'debian'
@@ -70,10 +66,6 @@ module Pdns
 
     def systemd_name(name, virtual)
       virtual ? "pdns@#{name}.service" : 'pdns.service'
-    end
-
-    def sysvinit_name(name, virtual)
-      virtual ? "pdns-#{name}" : 'pdns'
     end
 
     def authoritative_instance_config(name, virtual)

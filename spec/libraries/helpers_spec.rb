@@ -51,21 +51,6 @@ RSpec.describe Pdns::RecursorHelpers do
     end
   end
 
-  describe '#sysvinit_name' do
-    context 'is a virtual instance' do
-      let(:virtual) { true }
-      it 'returns the service name with a virtual instance name' do
-        expect(subject.sysvinit_name(instance, virtual)).to eq('pdns-recursor-foo')
-      end
-    end
-
-    context 'is not a virtual instance' do
-      it 'returns the service name without a specific name' do
-        expect(subject.sysvinit_name(instance, virtual)).to eq 'pdns-recursor'
-      end
-    end
-  end
-
   describe '#default_recursor_run_user' do
     context 'when platform is debian' do
       it 'returns the recursor Debian system user' do
@@ -136,21 +121,6 @@ RSpec.describe Pdns::AuthoritativeHelpers do
     context 'is not a virtual instance' do
       it 'returns the service name without a specific name' do
         expect(subject.systemd_name(instance, virtual)).to eq 'pdns.service'
-      end
-    end
-  end
-
-  describe '#sysvinit_name' do
-    context 'is a virtual instance' do
-      let(:virtual) { true }
-      it 'returns the service name with a virtual instance name' do
-        expect(subject.sysvinit_name(instance, virtual)).to eq('pdns-foo')
-      end
-    end
-
-    context 'is not a virtual instance' do
-      it 'returns the service name without a specific name' do
-        expect(subject.sysvinit_name(instance, virtual)).to eq 'pdns'
       end
     end
   end

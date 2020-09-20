@@ -22,22 +22,12 @@ describe group(default_authoritative_run_user) do
   it { should exist }
 end
 
-if service('pdns_server').type == 'systemd'
-  describe processes(Regexp.new(/pdns_server\s(?!--config-name=server_02)/)) do
-    its('users') { should eq ['pdns'] }
-  end
+describe processes(Regexp.new(/pdns_server\s(?!--config-name=server_02)/)) do
+  its('users') { should eq ['pdns'] }
+end
 
-  describe processes(Regexp.new(/pdns_server\s(?=--config-name=server_02)/)) do
-    its('users') { should eq ['pdns'] }
-  end
-else
-  describe processes(Regexp.new(/pdns_server-instance\s(?!--config-name=server_02)/)) do
-    its('users') { should eq ['pdns'] }
-  end
-
-  describe processes(Regexp.new(/pdns_server-server_02-instance\s(?=--config-name=server_02)/)) do
-    its('users') { should eq ['pdns'] }
-  end
+describe processes(Regexp.new(/pdns_server\s(?=--config-name=server_02)/)) do
+  its('users') { should eq ['pdns'] }
 end
 
 describe command('dig -p 53 chaos txt version.bind @127.0.0.1 +short') do

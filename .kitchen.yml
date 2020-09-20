@@ -21,11 +21,6 @@ verifier:
   name: inspec
 
 platforms:
-  - name: centos-6
-    driver:
-      image: dokken/centos-6
-      pid_one_command: /sbin/init
-
   - name: centos-7
     driver:
       image: dokken/centos-7
@@ -82,12 +77,6 @@ suites:
     attributes:
 
   - name: authoritative-postgres
-    # On CentOS 6, restart the 'postgres' database could fail the first time so
-    # let's try twice before failing:
-    # https://github.com/sous-chefs/postgresql/issues/421
-    excludes: [
-      'centos-6.9' # for dokken
-    ]
     run_list:
       - recipe[pdns_test::inspec_dependencies]
       - recipe[pdns_test::authoritative_install_single_postgres]

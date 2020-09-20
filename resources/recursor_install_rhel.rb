@@ -18,7 +18,7 @@
 #
 
 provides :pdns_recursor_install, platform_family: 'rhel' do |node|
-  node['platform_version'].to_i >= 6
+  node['platform_version'].to_i >= 7
 end
 
 property :version, String
