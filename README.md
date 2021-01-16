@@ -6,6 +6,11 @@ Provides resources for installing and configuring both PowerDNS authoritative an
 
 [![Build Status](https://travis-ci.org/dnsimple/chef-pdns.svg?branch=master)](https://travis-ci.org/dnsimple/chef-pdns)
 
+## Upgrade Notes for 7.x series
+Please note that this version primarily supports PowerDNS 4.3 and PowerDNS Recursor 4.3. Older versions may work, but are not as heavily tested. Additionally support for CentOS 6 / sysvinit has been dropped.
+
+When upgrading to the 7.x series, please pay special attention to your config and service resources which use the run_user / run_group / setuid / setgid properties. We have removed these attributes to better match the direction of upstream PowerDNS.
+
 ## Upgrade Notes for 6.x series
 
 When upgrading to the 6.x series, please pay special attention to your config and service resources which use the `instance_name` property. We have introduced a new `virtual` property to the config and service resources to more clearly mark them as a virtual instance versus the default one configured via the install resource. If you used `instance_name ''` to refer to the default instance, you can safely remove this property or leave it as-is. If you do use another name, then you will want to set `virtual true` in your config and service resources.
@@ -24,7 +29,7 @@ You can look at the [test cookbook](https://github.com/dnsimple/chef-pdns/blob/m
 - Ubuntu 14.04 and newer
 - Debian 8 and newer
 - RHEL 7 and newer
-- CentOS 6.9 and newer
+- CentOS 7 and newer
 
 ### Chef:
 
@@ -32,7 +37,6 @@ You can look at the [test cookbook](https://github.com/dnsimple/chef-pdns/blob/m
 
 ### Init Systems:
 
-* SysV
 * systemd
 
 ## Usage
@@ -103,14 +107,14 @@ Most of the properties are optional and have sane defaults, so they are only rec
 
 ### pdns_authoritative_install
 
-Installs PowerDNS authoritative server 4.1.x series using PowerDNS official repository in the supported platforms.
+Installs PowerDNS authoritative server 4.3.x series using PowerDNS official repository in the supported platforms.
 
 #### Properties
 
 | Name          | Type        |  Default value |
 |---------------|-------------|----------------|
 | version       | String      | ''             |
-| series        | String      | '41'           |
+| series        | String      | '43'           |
 | debug         | true, false | false          |
 | allow_upgrade | true, false | false          |
 | backends      | Array       | nil            |
@@ -119,17 +123,17 @@ Installs PowerDNS authoritative server 4.1.x series using PowerDNS official repo
 
 #### Usage examples
 
-Install the latest 4.1.x series PowerDNS Authoritative Server
+Install the latest 4.3.x series PowerDNS Authoritative Server
 
 ```ruby
 pdns_authoritative_install 'server_01'
 ```
 
-Install the latest 4.0.x series PowerDNS Authoritative Server
+Install the latest 4.2.x series PowerDNS Authoritative Server
 
 ```ruby
 pdns_authoritative_install 'server_01' do
-  series '40'
+  series '42'
 end
 ```
 
@@ -164,12 +168,6 @@ Creates a PowerDNS recursor configuration, there is a fixed set of required prop
 | launch         | Array, nil | ['bind']        | No          |
 | config_dir     | String     | see `default_authoritative_config_directory` helper method | Yes |
 | socket_dir     | String     | "/var/run/#{resource.instance_name}" | Yes |
-| run_group      | String     | see `default_authoritative_run_user` helper method  | No |
-| run_user       | String     | see `default_authoritative_run_user` helper method  | No |
-| run_user_home  | String     | see `default_user_attributes` helper method | No |
-| run_user_shell | String     | see `default_user_attributes` helper method | No |
-| setuid         | String     | resource.run_user | No |
-| setgid         | String     | resource.run_group | No |
 | source         | String,nil | 'authoritative_service.conf.erb' | No |
 | cookbook       | String,nil | 'pdns' | No |
 | variables      | Hash       | { bind_config:  "#{resource.config_dir}/bindbackend.conf" } | No |
@@ -235,30 +233,30 @@ end
 
 ### pdns_recursor_install
 
-Installs PowerDNS recursor 4.1.x series using PowerDNS official repository in the supported platforms.
+Installs PowerDNS recursor 4.3.x series using PowerDNS official repository in the supported platforms.
 
 #### Properties
 
 | Name           | Type        |  Default value  |
 |----------------|-------------|-----------------|
 | version        | String      | ''              |
-| series         | String      | '41'            |
+| series         | String      | '43'            |
 | debug          | true, false | false           |
 | allow_upgrade  | true, false | false           |
 
 #### Usage examples
 
-Install the latest 4.1.x release PowerDNS recursor
+Install the latest 4.3.x release PowerDNS recursor
 
 ```ruby
-pdns_recursor_install 'latest_4_1_x_recursor'
+pdns_recursor_install 'latest_4_3_x_recursor'
 ```
 
-Install the latest 4.0.x release PowerDNS recursor
+Install the latest 4.2.x release PowerDNS recursor
 
 ```ruby
 pdns_recursor_install 'my_recursor' do
-  series '40'
+  series '42'
 end
 ```
 
@@ -326,12 +324,6 @@ Creates a PowerDNS recursor configuration.
 | virtual        | Boolean     | false                                                  |
 | config_dir     | String      | see `default_recursor_config_directory` helper method  |
 | socket_dir     | String      | /var/run/#{resource.instance_name}                     |
-| run_group      | String      | see `default_recursor_run_user` helper method          |
-| run_user       | String      | see `default_recursor_run_user` helper method          |
-| run_user_home  | String      | see `default_user_attributes` helper method            |
-| run_user_shell | String      | see `default_user_attributes` helper method            |
-| setuid         | String      | resource.run_user                                      |
-| setgid         | String      | resource.run_group                                     |
 | source         | String, nil | 'recursor_service.conf.erb'                            |
 | cookbook       | String, nil | 'pdns'                                                 |
 | variables      | Hash        | {}                                                     |
@@ -343,10 +335,6 @@ Creates a PowerDNS recursor configuration.
 - `socket_dir` : Directory where sockets are created.
 - `cookbook` : Cookbook for a custom configuration template
 - `variables`: Variables for the configuration template.
-- `run_group`: Unix group that runs the recursor.
-- `run_user`: Unix user that runs the recursor.
-- `run_user_home`: Home of the Unix user that runs the recursor.
-- `run_user_shell`: Shell of the Unix user that runs the recursor.
 
 #### Usage Example
 

@@ -6,12 +6,6 @@ config-dir= <%= @config_dir %>
 <% if @socket_dir %>
 socket-dir=<%= @socket_dir %>
 <% end %>
-<% if @setgid %>
-setgid=<%= @setgid %>
-<% end %>
-<% if @setuid %>
-setuid=<%= @setuid %>
-<% end %>
 <% if @launch %>
 launch=<%= @launch.join(',') %>
 <% end %>

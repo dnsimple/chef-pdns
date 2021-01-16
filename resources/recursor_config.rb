@@ -36,28 +36,24 @@ property :instance_name, String, name_property: true, callbacks: {
 }
 property :virtual, [true, false], default: false
 property :config_dir, String, default: lazy { default_recursor_config_directory }
-property :socket_dir, String, default: '/var/run'
-property :run_group, String, default: lazy { default_recursor_run_user }
-property :run_user, String, default: lazy { default_recursor_run_user }
-property :run_user_home, String, default: lazy { default_user_attributes[:home] }
-property :run_user_shell, String, default: lazy { default_user_attributes[:shell] }
-property :setuid, String, default: lazy { |resource| resource.run_user }
-property :setgid, String, default: lazy { |resource| resource.run_group }
+property :socket_dir, String, default: '/var/run/pdns-recursor'
 
 property :source, String, default: 'recursor_service.conf.erb'
 property :cookbook, String, default: 'pdns'
 property :variables, Hash, default: {}
 
 action :create do
-  user new_resource.run_user do
-    home new_resource.run_user_home
-    shell new_resource.run_user_shell
+  user 'pdns recursor' do
+    username lazy { default_recursor_run_user }
+    home lazy { default_user_attributes[:home] }
+    shell lazy { default_user_attributes[:shell] }
     system true
     action :create
   end
 
-  group new_resource.run_group do
-    members [new_resource.run_user]
+  group 'pdns recursor' do
+    group_name lazy { default_recursor_run_user }
+    members lazy { [ default_recursor_run_user ] }
     system true
     append true
     action :create
@@ -65,7 +61,7 @@ action :create do
 
   directory new_resource.config_dir do
     owner 'root'
-    group new_resource.run_group
+    group lazy { default_recursor_run_user }
     mode '0755'
     action :create
   end
@@ -74,12 +70,10 @@ action :create do
     source new_resource.source
     cookbook new_resource.cookbook
     owner 'root'
-    group new_resource.run_group
+    group lazy { default_recursor_run_user }
     mode '0640'
     variables(
       socket_dir: new_resource.socket_dir,
-      setuid: new_resource.setuid,
-      setgid: new_resource.setgid,
       variables: new_resource.variables
     )
   end
