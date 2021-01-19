@@ -65,6 +65,14 @@ action :install do
   package 'pdns' do
     version property_is_set?(:version) ? new_resource.version : series_to_version(new_resource.series)
     action :upgrade if new_resource.allow_upgrade
+    only_if { node['platform_version'].to_i >= 8 }
+  end
+
+  # handle chef bug where yum cache is not updated properly when setting version.
+  package 'pdns' do
+    version new_resource.version
+    action :upgrade if new_resource.allow_upgrade
+    only_if { node['platform_version'].to_i < 8 }
   end
 end
 
