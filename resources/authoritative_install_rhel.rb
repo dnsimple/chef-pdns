@@ -27,6 +27,8 @@ property :debug, [true, false], default: false
 property :allow_upgrade, [true, false], default: false
 property :backends, Array
 
+include Pdns::Helpers
+
 action :install do
   package 'epel-release' do
     action :install
@@ -61,7 +63,7 @@ action :install do
   end
 
   package 'pdns' do
-    version new_resource.version
+    version property_is_set?(:version) ? new_resource.version : series_to_version(new_resource.series)
     action :upgrade if new_resource.allow_upgrade
   end
 end
@@ -69,6 +71,6 @@ end
 action :uninstall do
   package 'pdns' do
     action :remove
-    version new_resource.version
+    version property_is_set?(:version) ? new_resource.version : series_to_version(new_resource.series)
   end
 end

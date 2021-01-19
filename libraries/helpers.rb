@@ -27,6 +27,10 @@ module Pdns
         Mash.new(home: '/', shell: '/sbin/nologin')
       end
     end
+
+    def series_to_version(series)
+      series.to_s.chars.map(&:to_i).join('.') + '.*'
+    end
   end
 
   # Helpers method for recursor feature

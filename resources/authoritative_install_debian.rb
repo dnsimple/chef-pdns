@@ -31,6 +31,8 @@ property :debug, [true, false], default: false
 property :allow_upgrade, [true, false], default: false
 property :backends, Array
 
+include Pdns::Helpers
+
 action :install do
   apt_repository 'powerdns-authoritative' do
     uri "http://repo.powerdns.com/#{node['platform']}"
@@ -57,7 +59,7 @@ action :install do
 
   apt_package 'pdns-server' do
     action :upgrade if new_resource.allow_upgrade
-    version new_resource.version
+    version property_is_set?(:version) ? new_resource.version : series_to_version(new_resource.series)
   end
 
   apt_package 'pdns-server-dbg' do
@@ -69,7 +71,7 @@ end
 action :uninstall do
   apt_package 'pdns-server' do
     action :remove
-    version new_resource.version
+    version property_is_set?(:version) ? new_resource.version : series_to_version(new_resource.series)
   end
 
   apt_package 'pdns-server-dbg' do

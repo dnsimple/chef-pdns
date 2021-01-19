@@ -23,6 +23,14 @@ RSpec.describe Pdns::Helpers do
       end
     end
   end
+
+  describe '#series_to_version(series)' do
+    context 'on all platforms' do
+      it 'returns a semantic version string based on the series' do
+        expect(subject.series_to_version('43')).to eq '4.3.*'
+      end
+    end
+  end
 end
 
 RSpec.describe Pdns::RecursorHelpers do
