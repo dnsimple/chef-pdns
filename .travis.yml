@@ -17,20 +17,20 @@ env:
     - TASK="kitchen" KITCHEN_REGEXP=authoritative-multi-centos-8
     - TASK="kitchen" KITCHEN_REGEXP=authoritative-multi-debian-9
     - TASK="kitchen" KITCHEN_REGEXP=authoritative-multi-debian-10
-    - TASK="kitchen" KITCHEN_REGEXP=authoritative-multi-ubuntu-1604
     - TASK="kitchen" KITCHEN_REGEXP=authoritative-multi-ubuntu-1804
+    - TASK="kitchen" KITCHEN_REGEXP=authoritative-multi-ubuntu-2004
     - TASK="kitchen" KITCHEN_REGEXP=authoritative-postgres-centos-7
     - TASK="kitchen" KITCHEN_REGEXP=authoritative-postgres-centos-8
     - TASK="kitchen" KITCHEN_REGEXP=authoritative-postgres-debian-9
     - TASK="kitchen" KITCHEN_REGEXP=authoritative-postgres-debian-10
-    # - TASK="kitchen" KITCHEN_REGEXP=authoritative-postgres-ubuntu-1604 # https://askubuntu.com/questions/830346/postgresql-server-doesnt-start
     - TASK="kitchen" KITCHEN_REGEXP=authoritative-postgres-ubuntu-1804
+    - TASK="kitchen" KITCHEN_REGEXP=authoritative-postgres-ubuntu-2004
     - TASK="kitchen" KITCHEN_REGEXP=recursor-multi-centos-7
     - TASK="kitchen" KITCHEN_REGEXP=recursor-multi-centos-8
     - TASK="kitchen" KITCHEN_REGEXP=recursor-multi-debian-9
     - TASK="kitchen" KITCHEN_REGEXP=recursor-multi-debian-10
-    - TASK="kitchen" KITCHEN_REGEXP=recursor-multi-ubuntu-1604
     - TASK="kitchen" KITCHEN_REGEXP=recursor-multi-ubuntu-1804
+    - TASK="kitchen" KITCHEN_REGEXP=recursor-multi-ubuntu-2004
 
 matrix:
   fast_finish: true
