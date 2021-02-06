@@ -73,7 +73,7 @@ action :create do
     group lazy { default_recursor_run_user }
     mode '0640'
     variables(
-      socket_dir: new_resource.socket_dir,
+      socket_dir: "#{recursor_socket_directory(new_resource.instance_name, new_resource.socket_dir, new_resource.virtual)}",
       variables: new_resource.variables
     )
   end
