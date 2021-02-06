@@ -26,7 +26,7 @@ provides :pdns_authoritative_config, platform: 'debian' do |node|
 end
 
 provides :pdns_authoritative_config, platform_family: 'rhel' do |node|
-  node['platform_version'].to_i >= 6
+  node['platform_version'].to_i >= 7
 end
 
 include Pdns::AuthoritativeHelpers
