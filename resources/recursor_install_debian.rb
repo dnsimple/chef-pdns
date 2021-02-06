@@ -25,7 +25,7 @@ provides :pdns_recursor_install, platform: 'debian' do |node|
   node['platform_version'].to_i >= 9
 end
 
-property :series, String, default: '43'
+property :series, String, default: '44'
 property :version, String
 property :debug, [true, false], default: false
 property :allow_upgrade, [true, false], default: false
