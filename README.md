@@ -1,13 +1,13 @@
 # PowerDNS Community Cookbook
 
-Provides resources for installing and configuring both PowerDNS authoritative and recursor. It uses the official PowerDNS repositories for packages and installs the appropiate configuration for your platform's init system.
+Provides resources for installing and configuring both PowerDNS authoritative and recursor. It uses the official PowerDNS repositories for packages and installs the appropriate configuration for your platform's init system.
 
 ## Build Status
 
 [![Build Status](https://travis-ci.org/dnsimple/chef-pdns.svg?branch=master)](https://travis-ci.org/dnsimple/chef-pdns)
 
 ## Upgrade Notes for 7.x series
-Please note that this version primarily supports PowerDNS 4.3 and PowerDNS Recursor 4.3. Older versions may work, but are not as heavily tested. Additionally support for CentOS 6 / sysvinit has been dropped.
+Please note that this version primarily supports PowerDNS 4.4 and PowerDNS Recursor 4.4. Older versions may work, but are not as heavily tested. Additionally support for CentOS 6 / sysvinit and Ubuntu 16.04 has been dropped.
 
 When upgrading to the 7.x series, please pay special attention to your config and service resources which use the run_user / run_group / setuid / setgid properties. We have removed these attributes to better match the direction of upstream PowerDNS.
 
@@ -26,8 +26,8 @@ You can look at the [test cookbook](https://github.com/dnsimple/chef-pdns/blob/m
 
 ### Platforms:
 
-- Ubuntu 14.04 and newer
-- Debian 8 and newer
+- Ubuntu 18.04 and newer
+- Debian 9 and newer
 - RHEL 7 and newer
 - CentOS 7 and newer
 
@@ -99,15 +99,15 @@ And a service named `pdns-server_01` which is symbolically linked linked to `pdn
 
 #### General note about resource properties
 
-Most properties are simple ruby strings, but there is another cases that require special attention.
+Most properties are simple ruby strings, but there are cases that require special attention.
 Properties specified as elements in arrays will be split up (see split ruby method) and separated by commas.
 Boolean properties will be always translated to 'yes' or 'no'.
-Some properties need to be set consistently accross resources, they will be noted in their specific sections at the top under 'Consistent?'.
+Some properties need to be set consistently across resources, they will be noted in their specific sections at the top under 'Consistent?'.
 Most of the properties are optional and have sane defaults, so they are only recommended for customized installs.
 
 ### pdns_authoritative_install
 
-Installs PowerDNS authoritative server 4.3.x series using PowerDNS official repository in the supported platforms.
+Installs PowerDNS authoritative server 4.4.x series using PowerDNS official repository in the supported platforms.
 
 #### Properties
 
@@ -119,38 +119,38 @@ Installs PowerDNS authoritative server 4.3.x series using PowerDNS official repo
 | allow_upgrade | true, false | false          |
 | backends      | Array       | nil            |
 
-**Note:** When specifying the backends, the name of the backend must match the repository package. For example, in Debian systems the Postgresql backend is actually named `pgsql` while on RHEL systems it is `postgresql`. Consider using the `value_for_platform` if you are installing on multiple platforms. There is an example of this technique in the test folder cookbook recipe.
+**Note:** When specifying backends, the name of the backend must match the repository package. For example, in Debian systems the Postgresql backend is actually named `pgsql` while on RHEL systems it is `postgresql`. Consider using the `value_for_platform` if you are installing on multiple platforms. There is an example of this technique in the test folder cookbook recipe.
 
 #### Usage examples
 
-Install the latest 4.3.x series PowerDNS Authoritative Server
+Install the latest 4.4.x series PowerDNS Authoritative Server
 
 ```ruby
 pdns_authoritative_install 'server_01'
 ```
 
-Install the latest 4.2.x series PowerDNS Authoritative Server
+Install the latest 4.3.x series PowerDNS Authoritative Server
 
 ```ruby
 pdns_authoritative_install 'server_01' do
-  series '42'
+  series '43'
 end
 ```
 
-Install and upgrade to the latest 4.0.x PowerDNS Authoritative Server release
+Install and upgrade to the latest 4.3.x PowerDNS Authoritative Server release
 
 ```ruby
 pdns_authoritative_install 'server_01' do
-  series '40'
+  series '43'
   allow_upgrade true
 end
 ```
 
-Install the latest 4.1.x series PowerDNS Authoritative Server with the MySQL and Lua backends
+Install the latest 4.4.x series PowerDNS Authoritative Server with the MySQL and Lua backends
 
 ```ruby
 pdns_authoritative_install 'server_01' do
-  series '41'
+  series '44'
   backends ['mysql', 'lua']
 end
 ```
@@ -233,38 +233,38 @@ end
 
 ### pdns_recursor_install
 
-Installs PowerDNS recursor 4.3.x series using PowerDNS official repository in the supported platforms.
+Installs PowerDNS recursor 4.4.x series using PowerDNS official repository in the supported platforms.
 
 #### Properties
 
 | Name           | Type        |  Default value  |
 |----------------|-------------|-----------------|
 | version        | String      | ''              |
-| series         | String      | '43'            |
+| series         | String      | '44'            |
 | debug          | true, false | false           |
 | allow_upgrade  | true, false | false           |
 
 #### Usage examples
 
-Install the latest 4.3.x release PowerDNS recursor
+Install the latest 4.4.x release PowerDNS recursor
 
 ```ruby
 pdns_recursor_install 'latest_4_3_x_recursor'
 ```
 
-Install the latest 4.2.x release PowerDNS recursor
+Install the latest 4.3.x release PowerDNS recursor
 
 ```ruby
 pdns_recursor_install 'my_recursor' do
-  series '42'
+  series '43'
 end
 ```
 
-Install and upgrade to the latest 4.0.x PowerDNS recursor release
+Install and upgrade to the latest 4.4.x PowerDNS recursor release
 
 ```ruby
 pdns_recursor_install 'my_recursor' do
-  series '40'
+  series '44'
   allow_upgrade true
 end
 ```
@@ -379,6 +379,6 @@ There is an specific file for testing guidelines on this cokbook: TESTING.md
 ## License
 
 Copyright (c) 2010-2014, Chef Software, Inc
-Copyright (c) 2014-2020, DNSimple Corporation
+Copyright (c) 2014-2021, DNSimple Corporation
 
 Licensed under the Apache License, Version 2.0.
