@@ -1,7 +1,7 @@
 ---
 driver:
   name: dokken
-  chef_version: 15
+  chef_version: 16
   privileged: true
 
 transport:
@@ -58,6 +58,14 @@ platforms:
   - name: ubuntu-18.04
     driver:
       image: dokken/ubuntu-18.04
+      pid_one_command: /bin/systemd
+      intermediate_instructions:
+          - RUN /usr/bin/apt-get update
+          - RUN /usr/bin/apt-get install dnsutils -y
+
+  - name: ubuntu-20.04
+    driver:
+      image: dokken/ubuntu-20.04
       pid_one_command: /bin/systemd
       intermediate_instructions:
           - RUN /usr/bin/apt-get update
