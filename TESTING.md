@@ -1,6 +1,6 @@
 # Testing
 
-To run the tests across all platforms, you want to grab the latest [ChefDK][https://downloads.chef.io/tools/chefdk] or [Chef-Workstation][https://downloads.chef.io/tools/workstation] and [Docker][https://docs.docker.com/get-docker/]:
+To run the tests across all platforms, you want to grab the latest [ChefDK](https://downloads.chef.io/tools/chefdk])or [Chef-Workstation](https://downloads.chef.io/tools/workstation) and [Docker](https://docs.docker.com/get-docker/):
 
 We currently use Cookstyle, ChefSpec and Inspec tests.
 

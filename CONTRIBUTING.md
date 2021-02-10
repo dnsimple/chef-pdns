@@ -4,7 +4,7 @@ We're excited that you'd like to help us with our PowerDNS cookbook project!
 
 ## Submitting issues
 
-When submitting an issue, please check the [Issues][https://github.com/dnsimple/chef-pdns/issues] section of this repository on Github to make sure it has not already been reported. If it has been reported, then please contribute to the conversation on the issue and provide any additional information you can. If it has not been reported, please be as detailed as possible.
+When submitting an issue, please check the [Issues](https://github.com/dnsimple/chef-pdns/issues) section of this repository on Github to make sure it has not already been reported. If it has been reported, then please contribute to the conversation on the issue and provide any additional information you can. If it has not been reported, please be as detailed as possible.
 
 ## Contribution process
 
@@ -18,7 +18,7 @@ When submitting an issue, please check the [Issues][https://github.com/dnsimple/
 In order to maintain a high standard of compatibility and consistency for the consumers of our cookbook we like to make sure all pull requests meet the following criteria:
 
 1. **Tests:** To ensure high quality code and protect against regressions in the future we require all changes have ample test coverage. This does not mean 100% coverage or even specific types of coverage. See the TESTING.md file for details on how to run the test suite.
-2. **Passing Continuous Integration (CI):** Speaking of tests, the contributed code must pass our full suite of tests on [Travis-CI][https://travis-ci.com/github/dnsimple/chef-pdns] and show a green indicator meaning the latest build passes. If for some reason the build is failing before your pull request, please raise the issue in the pull request so we may address it.
+2. **Passing Continuous Integration (CI):** Speaking of tests, the contributed code must pass our full suite of tests on [Travis-CI](https://travis-ci.com/github/dnsimple/chef-pdns) and show a green indicator meaning the latest build passes. If for some reason the build is failing before your pull request, please raise the issue in the pull request so we may address it.
 
 ### Code Review Process
 
