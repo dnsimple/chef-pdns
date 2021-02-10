@@ -4,10 +4,17 @@ Provides resources for installing and configuring both PowerDNS authoritative an
 
 ## Build Status
 
-[![Build Status](https://travis-ci.org/dnsimple/chef-pdns.svg?branch=master)](https://travis-ci.org/dnsimple/chef-pdns)
+[![Build Status](https://travis-ci.org/dnsimple/chef-pdns.svg?branch=main)](https://travis-ci.org/dnsimple/chef-pdns)
+
+## Upgrade Notes for 8.x series
+
+Please note that this version primarily supports PowerDNS 4.4 and PowerDNS Recursor 4.4. Older versions may work, but are not as heavily tested. Additionally support for Ubuntu 16.04 has been dropped.
+
+When upgrading to the 8.x series, please note that virtual recursor instances now enforce the socket directory location for compatibility with the default systemd service unit.
 
 ## Upgrade Notes for 7.x series
-Please note that this version primarily supports PowerDNS 4.4 and PowerDNS Recursor 4.4. Older versions may work, but are not as heavily tested. Additionally support for CentOS 6 / sysvinit and Ubuntu 16.04 has been dropped.
+
+Please note that this version primarily supports PowerDNS 4.3 and PowerDNS Recursor 4.3. Older versions may work, but are not as heavily tested. Additionally support for CentOS 6 / sysvinit has been dropped.
 
 When upgrading to the 7.x series, please pay special attention to your config and service resources which use the run_user / run_group / setuid / setgid properties. We have removed these attributes to better match the direction of upstream PowerDNS.
 
@@ -33,7 +40,7 @@ You can look at the [test cookbook](https://github.com/dnsimple/chef-pdns/blob/m
 
 ### Chef:
 
-- Chef 13 or newer
+- Chef 15 or newer
 
 ### Init Systems:
 
@@ -95,14 +102,15 @@ gpgsql-dbname=pdns
 gpgsql-password=wadus
 ```
 
-And a service named `pdns-server_01` which is symbolically linked linked to `pdns` if you are using SysVinit.
-
 #### General note about resource properties
 
 Most properties are simple ruby strings, but there are cases that require special attention.
 Properties specified as elements in arrays will be split up (see split ruby method) and separated by commas.
+
 Boolean properties will be always translated to 'yes' or 'no'.
+
 Some properties need to be set consistently across resources, they will be noted in their specific sections at the top under 'Consistent?'.
+
 Most of the properties are optional and have sane defaults, so they are only recommended for customized installs.
 
 ### pdns_authoritative_install
@@ -114,7 +122,7 @@ Installs PowerDNS authoritative server 4.4.x series using PowerDNS official repo
 | Name          | Type        |  Default value |
 |---------------|-------------|----------------|
 | version       | String      | ''             |
-| series        | String      | '43'           |
+| series        | String      | '44'           |
 | debug         | true, false | false          |
 | allow_upgrade | true, false | false          |
 | backends      | Array       | nil            |
@@ -137,7 +145,7 @@ pdns_authoritative_install 'server_01' do
 end
 ```
 
-Install and upgrade to the latest 4.3.x PowerDNS Authoritative Server release
+Install and upgrade to the latest 4.4.x PowerDNS Authoritative Server release
 
 ```ruby
 pdns_authoritative_install 'server_01' do
@@ -157,20 +165,28 @@ end
 
 ### pdns_authoritative_config
 
-Creates a PowerDNS recursor configuration, there is a fixed set of required properties (listed below) but most of the configuration is left to the user freely, every property set in the `variables` hash property will be rendered in the config template. Remember that using underscores `_` for property names is required and it's translated to hyphens `-` in configuration templates.
+Creates a PowerDNS authoritative configuration, there is a fixed set of required properties (listed below) but most of the configuration is left to the user freely, every property set in the `variables` hash property will be rendered in the config template. Remember that using underscores `_` for property names is required and it's translated to hyphens `-` in configuration templates.
 
 #### Properties
 
-| Name           | Class      |  Default value  | Consistent? |
-|----------------|------------|-----------------|-------------|
-| instance_name  | String     | name_property   | Yes         |
-| virtual        | Boolean    | false           | No          |
-| launch         | Array, nil | ['bind']        | No          |
-| config_dir     | String     | see `default_authoritative_config_directory` helper method | Yes |
-| socket_dir     | String     | "/var/run/#{resource.instance_name}" | Yes |
-| source         | String,nil | 'authoritative_service.conf.erb' | No |
-| cookbook       | String,nil | 'pdns' | No |
-| variables      | Hash       | { bind_config:  "#{resource.config_dir}/bindbackend.conf" } | No |
+| Name           | Class      |  Default value                                              | Consistent? |
+|----------------|------------|-------------------------------------------------------------|-------------|
+| instance_name  | String     | name_property                                               | Yes         |
+| cookbook       | String,nil | 'pdns'                                                      | No          |
+| launch         | Array, nil | ['bind']                                                    | No          |
+| config_dir     | String     | see `default_authoritative_config_directory` helper method  | Yes         |
+| socket_dir     | String     | "/var/run/#{resource.instance_name}"                        | Yes         |
+| source         | String,nil | 'authoritative.conf.erb'                                    | No          |
+| variables      | Hash       | { bind_config:  "#{resource.config_dir}/bindbackend.conf" } | No          |
+| virtual        | Boolean    | false                                                       | No          |
+
+- `cookbook` : Cookbook for a custom configuration template.
+- `launch` : Backends to launch with the service.
+- `config_dir` : Path of the recursor configuration directory.
+- `socket_dir` : Directory where sockets are created.
+- `source` : Name of the recursor custom template.
+- `variables`: Variables for the configuration template.
+- `virtual` : Is this a virtual instance or the default?
 
 #### Usage Example
 
@@ -205,12 +221,8 @@ Creates a service to manage a PowerDNS authoritative instance. This service supp
 | Name           | Class       |  Default value                                             | Consistent? |
 |----------------|-------------|------------------------------------------------------------|-------------|
 | instance_name  | String      | name_property                                              | Yes         |
-| virtual        | Boolean     | false                                                      | No          |
-| cookbook       | String      | 'pdns'                                                     | No          |
-| source         | String      | 'authoritative.init.debian.erb'                            | No          |
 | config_dir     | String      | See `default_authoritative_config_directory` helper method | Yes         |
-| socket_dir     | String      | "/var/run/#{instance_name}"                                | Yes         |
-| variables      | Hash        | {}                                                         | No          |
+| virtual        | Boolean     | false                                                      | No          |
 
 #### Usage example
 
@@ -269,28 +281,43 @@ pdns_recursor_install 'my_recursor' do
 end
 ```
 
+### pdns_recursor_config
+
+Creates a PowerDNS recursor configuration.
+
+#### Properties
+
+| Name           | Class      |  Default value                                              | Consistent? |
+|----------------|------------|-------------------------------------------------------------|-------------|
+| instance_name  | String     | name_property                                               | Yes         |
+| cookbook       | String,nil | 'pdns'                                                      | No          |
+| config_dir     | String     | see `default_recursor_config_directory` helper method       | Yes         |
+| socket_dir     | String     | "/var/run/#{resource.instance_name}"                        | Yes         |
+| source         | String,nil | 'recursor.conf.erb'                                         | No          |
+| variables      | Hash       | {}                                                          | No          |
+| virtual        | Boolean    | false                                                       | No          |
+
+- `cookbook` : Cookbook for a custom configuration template.
+- `config_dir` : Path of the recursor configuration directory.
+- `socket_dir` : Directory where sockets are created.
+- `source` : Name of the recursor custom template.
+- `variables`: Variables for the configuration template.
+- `virtual` : Is this a virtual instance or the default?
+
 ### pdns_recursor_service
 
-Sets up a PowerDNS recursor instance using the appropiate init system .
+Sets up a PowerDNS recursor instance.
 
 *Important:* services not restarted or reloaded automatically on config changes in this cookbook, you need to add this in your wrapper cookbook if you desire this functionality, the `pdns_recursor_service` cookbook provides actions to do it.
 
 
 #### Properties
 
-| Name                     | Class      |  Default value                                        |
-|--------------------------|------------|-------------------------------------------------------|
-| instance_name            | String     | Resource name                                         |
-| virtual                  | Boolean    | false                                                 |
-| config_dir               | String     | see `default_recursor_config_directory` helper method |
-| cookbook (SysVinit)      | String,nil | 'pdns'                                                |
-| source  (SysVinit)       | String,nil | 'recursor.init.#{node['platform_family']}.erb'        |
-| variables (SysVinit)     | Hash       | {}                                                    |
-
-- `config_dir`: Path of the recursor configuration directory.
-- `cookbook`: Cookbook for a custom configuration template (Applied only when using SysVinit).
-- `source`: Name of the recursor custom template (Applied only when using SysVinit).
-- `variables`: Variables hash to pass to the sysvinit template
+| Name           | Class       |  Default value                                             | Consistent? |
+|----------------|-------------|------------------------------------------------------------|-------------|
+| instance_name  | String      | name_property                                              | Yes         |
+| config_dir     | String      | See `default_recursor_config_directory` helper method      | Yes         |
+| virtual        | Boolean     | false                                                      | No          |
 
 #### Usage Example
 
@@ -311,30 +338,6 @@ pdns_recursor_service 'my_recursor' do
   cookbook 'acme-pdns-recursor'
 end
 ```
-
-### pdns_recursor_config
-
-Creates a PowerDNS recursor configuration.
-
-#### Properties
-
-| Name           | Class       |  Default value                                         |
-|----------------|-------------|--------------------------------------------------------|
-| instance_name  | String      | Resource name                                          |
-| virtual        | Boolean     | false                                                  |
-| config_dir     | String      | see `default_recursor_config_directory` helper method  |
-| socket_dir     | String      | /var/run/#{resource.instance_name}                     |
-| source         | String, nil | 'recursor_service.conf.erb'                            |
-| cookbook       | String, nil | 'pdns'                                                 |
-| variables      | Hash        | {}                                                     |
-
-- `virtual` : Is this a virtual instance or the default?
-- `config_dir` : Path of the recursor configuration directory.
-- `socket_dir` : Directory where sockets are created.
-- `source` : Name of the recursor custom template.
-- `socket_dir` : Directory where sockets are created.
-- `cookbook` : Cookbook for a custom configuration template
-- `variables`: Variables for the configuration template.
 
 #### Usage Example
 
@@ -361,20 +364,15 @@ end
 
 #### Virtual Hosting
 
-PowerDNS supports virtual hosting: running many instances of PowerDNS on different ports on the same machine. This is done by a few clever hacks on the init scripts that allow to specify different config files for each instance. This cookbook leverages this functionality in both recursor and authoritative.
-
-[PowerDNS recommends a specific naming schema](https://doc.powerdns.com/md/authoritative/running/) authoritative for virtual hosting. Specifically it does not allow hyphens (-) on the init scripts beyond the first which is provided by the init script (`/etc/init.d/pdns-`).
-
-We have adopted the convention of using underscores (_) in the name attributes of underscores in order to comply with this requirement.
+PowerDNS supports virtual hosting: running many instances of PowerDNS on different ports on the same machine. This cookbook leverages this functionality in both recursor and authoritative. For recursor virtual hosts, the socket directory is strictly enforced to support the default systemd service unit.
 
 ## Contributing
 
-There is an specific file for contributing guidelines on this cokbook: CONTRIBUTING.md
+There is an specific file for contributing guidelines on this cookbook: CONTRIBUTING.md
 
 ## Testing
 
-There is an specific file for testing guidelines on this cokbook: TESTING.md
-
+There is an specific file for testing guidelines on this cookbook: TESTING.md
 
 ## License
 
