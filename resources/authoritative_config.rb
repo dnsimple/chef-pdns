@@ -39,7 +39,7 @@ property :launch, Array, default: ['bind']
 property :config_dir, String, default: lazy { default_authoritative_config_directory }
 property :socket_dir, String, default: '/var/run/pdns'
 
-property :source, String, default: 'authoritative_service.conf.erb'
+property :source, String, default: 'authoritative.conf.erb'
 property :cookbook, String, default: 'pdns'
 property :variables, Hash, default: lazy { |resource| { bind_config: "#{resource.config_dir}/bindbackend.conf" } }
 

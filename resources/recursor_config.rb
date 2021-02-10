@@ -38,7 +38,7 @@ property :virtual, [true, false], default: false
 property :config_dir, String, default: lazy { default_recursor_config_directory }
 property :socket_dir, String, default: '/var/run/pdns-recursor'
 
-property :source, String, default: 'recursor_service.conf.erb'
+property :source, String, default: 'recursor.conf.erb'
 property :cookbook, String, default: 'pdns'
 property :variables, Hash, default: {}
 
