@@ -10,12 +10,6 @@ transport:
 provisioner:
   name: dokken
   chef_license: accept
-  # On CentOS 6, restart the 'postgres' database could fail the first time so
-  # let's try twice before failing:
-  # https://github.com/sous-chefs/postgresql/issues/421
-  retry_on_exit_code:
-    - 1
-  max_retries: 2
 
 verifier:
   name: inspec
