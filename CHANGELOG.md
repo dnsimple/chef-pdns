@@ -1,8 +1,8 @@
 # Changelog
 
-## [v8.0.0](https://github.com/dnsimple/chef-pdns/tree/v8.0.0) (2021-02-22)
+## [v8.0.1](https://github.com/dnsimple/chef-pdns/tree/v8.0.1) (2021-02-22)
 
-[Full Changelog](https://github.com/dnsimple/chef-pdns/compare/v6.1.1...v8.0.0)
+[Full Changelog](https://github.com/dnsimple/chef-pdns/compare/v6.1.1...v8.0.1)
 
 **Fixed bugs:**
 
@@ -42,10 +42,6 @@
 - Add modules to the install resources [\#104](https://github.com/dnsimple/chef-pdns/issues/104)
 - Add backends option to Authoritative Installation resources [\#105](https://github.com/dnsimple/chef-pdns/pull/105) ([martinisoft](https://github.com/martinisoft))
 
-**Merged pull requests:**
-
-- Introduce virtual property for Authoriative installs [\#102](https://github.com/dnsimple/chef-pdns/pull/102) ([martinisoft](https://github.com/martinisoft))
-
 ## [v6.0.0](https://github.com/dnsimple/chef-pdns/tree/v6.0.0) (2018-12-06)
 
 [Full Changelog](https://github.com/dnsimple/chef-pdns/compare/v5.0.0...v6.0.0)
@@ -53,6 +49,7 @@
 **Merged pull requests:**
 
 - Introduce virtual property for Recursor installs [\#103](https://github.com/dnsimple/chef-pdns/pull/103) ([martinisoft](https://github.com/martinisoft))
+- Introduce virtual property for Authoriative installs [\#102](https://github.com/dnsimple/chef-pdns/pull/102) ([martinisoft](https://github.com/martinisoft))
 
 ## [v5.0.0](https://github.com/dnsimple/chef-pdns/tree/v5.0.0) (2018-11-27)
 
@@ -79,6 +76,10 @@
 - Support RHEL [\#93](https://github.com/dnsimple/chef-pdns/issues/93)
 - Support RHEL [\#94](https://github.com/dnsimple/chef-pdns/pull/94) ([mengesb](https://github.com/mengesb))
 
+**Fixed bugs:**
+
+- Testing cleanup/fixup [\#92](https://github.com/dnsimple/chef-pdns/pull/92) ([martinisoft](https://github.com/martinisoft))
+
 ## [v4.3.1](https://github.com/dnsimple/chef-pdns/tree/v4.3.1) (2018-03-08)
 
 [Full Changelog](https://github.com/dnsimple/chef-pdns/compare/v4.3.0...v4.3.1)
@@ -86,8 +87,6 @@
 **Fixed bugs:**
 
 - Fix: converge suite authoritative-postgres-centos-6 [\#63](https://github.com/dnsimple/chef-pdns/issues/63)
-- Testing cleanup/fixup [\#92](https://github.com/dnsimple/chef-pdns/pull/92) ([martinisoft](https://github.com/martinisoft))
-- Rename default recursor configuration [\#86](https://github.com/dnsimple/chef-pdns/pull/86) ([martinisoft](https://github.com/martinisoft))
 
 **Closed issues:**
 
@@ -103,6 +102,10 @@
 
 [Full Changelog](https://github.com/dnsimple/chef-pdns/compare/v4.2.0...v4.3.0)
 
+**Fixed bugs:**
+
+- Rename default recursor configuration [\#86](https://github.com/dnsimple/chef-pdns/pull/86) ([martinisoft](https://github.com/martinisoft))
+
 ## [v4.2.0](https://github.com/dnsimple/chef-pdns/tree/v4.2.0) (2017-08-16)
 
 [Full Changelog](https://github.com/dnsimple/chef-pdns/compare/v4.1.0...v4.2.0)
@@ -114,10 +117,6 @@
 ## [v4.1.0](https://github.com/dnsimple/chef-pdns/tree/v4.1.0) (2017-08-09)
 
 [Full Changelog](https://github.com/dnsimple/chef-pdns/compare/v4.0.0...v4.1.0)
-
-**Fixed bugs:**
-
-- Use append so that users can add to the pdns group [\#82](https://github.com/dnsimple/chef-pdns/pull/82) ([onlyhavecans](https://github.com/onlyhavecans))
 
 **Closed issues:**
 
@@ -170,10 +169,13 @@
 
 [Full Changelog](https://github.com/dnsimple/chef-pdns/compare/v3.3.1...v3.3.2)
 
+**Fixed bugs:**
+
+- Use append so that users can add to the pdns group [\#82](https://github.com/dnsimple/chef-pdns/pull/82) ([onlyhavecans](https://github.com/onlyhavecans))
+
 **Merged pull requests:**
 
 - Create PID directory on init start commands [\#75](https://github.com/dnsimple/chef-pdns/pull/75) ([therobot](https://github.com/therobot))
-- Fix naming schema for init scripts [\#69](https://github.com/dnsimple/chef-pdns/pull/69) ([therobot](https://github.com/therobot))
 
 ## [v3.3.1](https://github.com/dnsimple/chef-pdns/tree/v3.3.1) (2017-06-20)
 
@@ -186,6 +188,10 @@
 ## [v3.3.0](https://github.com/dnsimple/chef-pdns/tree/v3.3.0) (2017-06-14)
 
 [Full Changelog](https://github.com/dnsimple/chef-pdns/compare/v3.2.0...v3.3.0)
+
+**Merged pull requests:**
+
+- Fix naming schema for init scripts [\#69](https://github.com/dnsimple/chef-pdns/pull/69) ([therobot](https://github.com/therobot))
 
 ## [v3.2.0](https://github.com/dnsimple/chef-pdns/tree/v3.2.0) (2017-06-02)
 
