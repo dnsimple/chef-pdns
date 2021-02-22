@@ -18,7 +18,7 @@
 #
 
 provides :pdns_authoritative_config, platform: 'ubuntu' do |node|
-  node['platform_version'].to_f >= 16.04
+  node['platform_version'].to_f >= 18.04
 end
 
 provides :pdns_authoritative_config, platform: 'debian' do |node|
@@ -26,7 +26,7 @@ provides :pdns_authoritative_config, platform: 'debian' do |node|
 end
 
 provides :pdns_authoritative_config, platform_family: 'rhel' do |node|
-  node['platform_version'].to_i >= 6
+  node['platform_version'].to_i >= 7
 end
 
 include Pdns::AuthoritativeHelpers
@@ -39,7 +39,7 @@ property :launch, Array, default: ['bind']
 property :config_dir, String, default: lazy { default_authoritative_config_directory }
 property :socket_dir, String, default: '/var/run/pdns'
 
-property :source, String, default: 'authoritative_service.conf.erb'
+property :source, String, default: 'authoritative.conf.erb'
 property :cookbook, String, default: 'pdns'
 property :variables, Hash, default: lazy { |resource| { bind_config: "#{resource.config_dir}/bindbackend.conf" } }
 

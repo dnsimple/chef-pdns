@@ -55,6 +55,10 @@ module Pdns
       end
     end
 
+    def recursor_socket_directory(name, socket_dir, virtual)
+      virtual ? "/var/run/pdns-recursor-#{name}" : socket_dir
+    end
+
     def recursor_instance_config(name, virtual)
       virtual ? "recursor-#{name}.conf" : 'recursor.conf'
     end

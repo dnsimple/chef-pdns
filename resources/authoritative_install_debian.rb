@@ -18,7 +18,7 @@
 #
 
 provides :pdns_authoritative_install, platform: 'ubuntu' do |node|
-  node['platform_version'].to_f >= 16.04
+  node['platform_version'].to_f >= 18.04
 end
 
 provides :pdns_authoritative_install, platform: 'debian' do |node|
@@ -26,7 +26,7 @@ provides :pdns_authoritative_install, platform: 'debian' do |node|
 end
 
 property :version, String
-property :series, String, default: '43'
+property :series, String, default: '44'
 property :debug, [true, false], default: false
 property :allow_upgrade, [true, false], default: false
 property :backends, Array

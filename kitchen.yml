@@ -1,7 +1,7 @@
 ---
 driver:
   name: dokken
-  chef_version: 15
+  chef_version: 16
   privileged: true
 
 transport:
@@ -10,12 +10,6 @@ transport:
 provisioner:
   name: dokken
   chef_license: accept
-  # On CentOS 6, restart the 'postgres' database could fail the first time so
-  # let's try twice before failing:
-  # https://github.com/sous-chefs/postgresql/issues/421
-  retry_on_exit_code:
-    - 1
-  max_retries: 2
 
 verifier:
   name: inspec
@@ -47,17 +41,17 @@ platforms:
           - RUN /usr/bin/apt-get update
           - RUN /usr/bin/apt-get install dnsutils -y
 
-  - name: ubuntu-16.04
+  - name: ubuntu-18.04
     driver:
-      image: dokken/ubuntu-16.04
+      image: dokken/ubuntu-18.04
       pid_one_command: /bin/systemd
       intermediate_instructions:
           - RUN /usr/bin/apt-get update
           - RUN /usr/bin/apt-get install dnsutils -y
 
-  - name: ubuntu-18.04
+  - name: ubuntu-20.04
     driver:
-      image: dokken/ubuntu-18.04
+      image: dokken/ubuntu-20.04
       pid_one_command: /bin/systemd
       intermediate_instructions:
           - RUN /usr/bin/apt-get update

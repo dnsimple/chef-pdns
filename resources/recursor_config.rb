@@ -18,7 +18,7 @@
 #
 
 provides :pdns_recursor_config, platform: 'ubuntu' do |node|
-  node['platform_version'].to_f >= 16.04
+  node['platform_version'].to_f >= 18.04
 end
 
 provides :pdns_recursor_config, platform: 'debian' do |node|
@@ -26,7 +26,7 @@ provides :pdns_recursor_config, platform: 'debian' do |node|
 end
 
 provides :pdns_recursor_config, platform_family: 'rhel' do |node|
-  node['platform_version'].to_i >= 6
+  node['platform_version'].to_i >= 7
 end
 
 include Pdns::RecursorHelpers
@@ -38,7 +38,7 @@ property :virtual, [true, false], default: false
 property :config_dir, String, default: lazy { default_recursor_config_directory }
 property :socket_dir, String, default: '/var/run/pdns-recursor'
 
-property :source, String, default: 'recursor_service.conf.erb'
+property :source, String, default: 'recursor.conf.erb'
 property :cookbook, String, default: 'pdns'
 property :variables, Hash, default: {}
 
@@ -73,7 +73,7 @@ action :create do
     group lazy { default_recursor_run_user }
     mode '0640'
     variables(
-      socket_dir: new_resource.socket_dir,
+      socket_dir: "#{recursor_socket_directory(new_resource.instance_name, new_resource.socket_dir, new_resource.virtual)}",
       variables: new_resource.variables
     )
   end
