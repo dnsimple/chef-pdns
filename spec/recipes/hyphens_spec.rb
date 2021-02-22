@@ -1,13 +1,7 @@
 require 'spec_helper'
 
 describe 'pdns_test::hyphens' do
-  let(:chef_run) do
-    ChefSpec::SoloRunner.new(
-      platform: 'ubuntu',
-      version: '16.04',
-      os: 'linux'
-    ).converge(described_recipe)
-  end
+  platform 'ubuntu', '18.04'
 
   context('pdns_authoritative_config') do
     it 'raises an exception for a hyphen in the name' do

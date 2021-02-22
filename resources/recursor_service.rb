@@ -1,6 +1,6 @@
 #
 # Cookbook:: pdns
-# Resources:: pdns_authoritative_service
+# Resources:: pdns_recursor_service
 #
 # Copyright:: 2017-2018 DNSimple Corp
 #
@@ -17,17 +17,15 @@
 # limitations under the License.
 #
 
-provides :pdns_authoritative_service, os: 'linux' do |_node|
-  Chef::Platform::ServiceHelpers.service_resource_providers.include?(:systemd)
-end
+provides :pdns_recursor_service
 
-include Pdns::AuthoritativeHelpers
+include Pdns::RecursorHelpers
 property :instance_name, String, name_property: true, callbacks: {
   'should not contain a hyphen' => ->(param) { !param.include?('-') },
   'should not be blank' => ->(param) { !param.empty? },
 }
 property :virtual, [true, false], default: false
-property :config_dir, String, default: lazy { default_authoritative_config_directory }
+property :config_dir, String, default: lazy { default_recursor_config_directory }
 
 action :enable do
   service systemd_name(new_resource.instance_name, new_resource.virtual) do
