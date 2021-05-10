@@ -1,8 +1,4 @@
-dist: bionic
-
-cache:
-  directories:
-    - $HOME/.berkshelf
+dist: focal
 
 services: docker
 
