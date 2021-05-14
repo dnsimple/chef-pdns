@@ -1,8 +1,8 @@
 # Changelog
 
-## [v8.0.1](https://github.com/dnsimple/chef-pdns/tree/v8.0.1) (2021-02-22)
+## [v8.0.2](https://github.com/dnsimple/chef-pdns/tree/v8.0.2) (2021-05-14)
 
-[Full Changelog](https://github.com/dnsimple/chef-pdns/compare/v6.1.1...v8.0.1)
+[Full Changelog](https://github.com/dnsimple/chef-pdns/compare/v6.1.1...v8.0.2)
 
 **Fixed bugs:**
 
@@ -20,6 +20,7 @@
 
 **Merged pull requests:**
 
+- Enhancement/focal support [\#117](https://github.com/dnsimple/chef-pdns/pull/117) ([AGS4NO](https://github.com/AGS4NO))
 - Update to series 44 [\#116](https://github.com/dnsimple/chef-pdns/pull/116) ([AGS4NO](https://github.com/AGS4NO))
 - Fix/ci [\#114](https://github.com/dnsimple/chef-pdns/pull/114) ([AGS4NO](https://github.com/AGS4NO))
 - Chef 14 testing [\#108](https://github.com/dnsimple/chef-pdns/pull/108) ([onlyhavecans](https://github.com/onlyhavecans))
@@ -76,10 +77,6 @@
 - Support RHEL [\#93](https://github.com/dnsimple/chef-pdns/issues/93)
 - Support RHEL [\#94](https://github.com/dnsimple/chef-pdns/pull/94) ([mengesb](https://github.com/mengesb))
 
-**Fixed bugs:**
-
-- Testing cleanup/fixup [\#92](https://github.com/dnsimple/chef-pdns/pull/92) ([martinisoft](https://github.com/martinisoft))
-
 ## [v4.3.1](https://github.com/dnsimple/chef-pdns/tree/v4.3.1) (2018-03-08)
 
 [Full Changelog](https://github.com/dnsimple/chef-pdns/compare/v4.3.0...v4.3.1)
@@ -87,6 +84,7 @@
 **Fixed bugs:**
 
 - Fix: converge suite authoritative-postgres-centos-6 [\#63](https://github.com/dnsimple/chef-pdns/issues/63)
+- Testing cleanup/fixup [\#92](https://github.com/dnsimple/chef-pdns/pull/92) ([martinisoft](https://github.com/martinisoft))
 
 **Closed issues:**
 
@@ -117,6 +115,10 @@
 ## [v4.1.0](https://github.com/dnsimple/chef-pdns/tree/v4.1.0) (2017-08-09)
 
 [Full Changelog](https://github.com/dnsimple/chef-pdns/compare/v4.0.0...v4.1.0)
+
+**Fixed bugs:**
+
+- Use append so that users can add to the pdns group [\#82](https://github.com/dnsimple/chef-pdns/pull/82) ([onlyhavecans](https://github.com/onlyhavecans))
 
 **Closed issues:**
 
@@ -168,10 +170,6 @@
 ## [v3.3.2](https://github.com/dnsimple/chef-pdns/tree/v3.3.2) (2017-06-23)
 
 [Full Changelog](https://github.com/dnsimple/chef-pdns/compare/v3.3.1...v3.3.2)
-
-**Fixed bugs:**
-
-- Use append so that users can add to the pdns group [\#82](https://github.com/dnsimple/chef-pdns/pull/82) ([onlyhavecans](https://github.com/onlyhavecans))
 
 **Merged pull requests:**
 
