@@ -1,8 +1,8 @@
 # Changelog
 
-## [v8.0.2](https://github.com/dnsimple/chef-pdns/tree/v8.0.2) (2021-05-14)
+## [v8.0.3](https://github.com/dnsimple/chef-pdns/tree/v8.0.3) (2021-06-07)
 
-[Full Changelog](https://github.com/dnsimple/chef-pdns/compare/v6.1.1...v8.0.2)
+[Full Changelog](https://github.com/dnsimple/chef-pdns/compare/v6.1.1...v8.0.3)
 
 **Fixed bugs:**
 
