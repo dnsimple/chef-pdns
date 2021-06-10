@@ -22,7 +22,7 @@ Thumbs.db
 *.sw[a-z]
 *.tmproj
 *~
-\#*
+#*
 REVISION
 TAGS*
 tmtags
