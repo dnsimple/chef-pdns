@@ -1,1 +1,0 @@
-A small cookbook to aid in testing `pdns`
