@@ -30,32 +30,32 @@ platforms:
       image: dokken/debian-9
       pid_one_command: /bin/systemd
       intermediate_instructions:
-          - RUN /usr/bin/apt-get update
-          - RUN /usr/bin/apt-get install dnsutils -y
+        - RUN /usr/bin/apt-get update
+        - RUN /usr/bin/apt-get install dnsutils -y
 
   - name: debian-10
     driver:
       image: dokken/debian-10
       pid_one_command: /bin/systemd
       intermediate_instructions:
-          - RUN /usr/bin/apt-get update
-          - RUN /usr/bin/apt-get install dnsutils -y
+        - RUN /usr/bin/apt-get update
+        - RUN /usr/bin/apt-get install dnsutils -y
 
   - name: ubuntu-18.04
     driver:
       image: dokken/ubuntu-18.04
       pid_one_command: /bin/systemd
       intermediate_instructions:
-          - RUN /usr/bin/apt-get update
-          - RUN /usr/bin/apt-get install dnsutils -y
+        - RUN /usr/bin/apt-get update
+        - RUN /usr/bin/apt-get install dnsutils -y
 
   - name: ubuntu-20.04
     driver:
       image: dokken/ubuntu-20.04
       pid_one_command: /bin/systemd
       intermediate_instructions:
-          - RUN /usr/bin/apt-get update
-          - RUN /usr/bin/apt-get install dnsutils -y
+        - RUN /usr/bin/apt-get update
+        - RUN /usr/bin/apt-get install dnsutils -y
 
 suites:
   - name: recursor-multi

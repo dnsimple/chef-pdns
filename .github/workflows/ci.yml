@@ -1,0 +1,78 @@
+---
+name: ci
+
+"on":
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  delivery:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+      - name: Install Chef Workstation
+        uses: actionshub/chef-install@main
+      - name: Run Chef Delivery
+        run: chef exec delivery local all
+        env:
+          CHEF_LICENSE: accept-no-persist
+
+  markdownlint-cli:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+      - name: Run markdownlint-cli
+        uses: nosborn/github-action-markdown-cli@v2.0.0
+        with:
+          files: .
+          config_file: ".markdownlint.yaml"
+
+  yamllint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+      - name: Run YAML Lint
+        uses: actionshub/yamllint@main
+
+  integration:
+    needs: [delivery, markdownlint-cli, yamllint]
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os:
+          - 'centos-7'
+          - 'centos-8'
+          - 'debian-10'
+          - 'debian-9'
+          - 'ubuntu-1804'
+          - 'ubuntu-2004'
+        suite:
+          - 'authoritative-multi'
+          - 'authoritative-postgres'
+          - 'recursor-multi'
+      fail-fast: false
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+      - name: Install Chef Workstation
+        uses: actionshub/chef-install@main
+      - name: Run Test Kitchen
+        uses: actionshub/test-kitchen@main
+        env:
+          CHEF_LICENSE: accept-no-persist
+          KITCHEN_LOCAL_YAML: kitchen.yml
+        with:
+          suite: ${{ matrix.suite }}
+          os: ${{ matrix.os }}
+      - name: Debug
+        if: failure()
+        run: |
+            set -x
+            sudo journalctl -l --since today
+            KITCHEN_LOCAL_YAML=kitchen.yml /usr/bin/kitchen exec \
+            ${{ matrix.suite }}-${{ matrix.os }} -c "journalctl -l"

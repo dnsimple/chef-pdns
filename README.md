@@ -1,5 +1,7 @@
 # PowerDNS Community Cookbook
 
+![CI](https://github.com/dnsimple/pdns/actions/workflows/ci.yml/badge.svg)
+
 Provides resources for installing and configuring both PowerDNS authoritative and recursor. It uses the official PowerDNS repositories for packages and installs the appropriate configuration for your platform's init system.
 
 ## Build Status
@@ -31,20 +33,20 @@ You can look at the [test cookbook](https://github.com/dnsimple/chef-pdns/blob/m
 
 ## Requirements
 
-### Platforms:
+### Platforms
 
 - Ubuntu 18.04 and newer
 - Debian 9 and newer
 - RHEL 7 and newer
 - CentOS 7 and newer
 
-### Chef:
+### Chef
 
 - Chef 15 or newer
 
-### Init Systems:
+### Init Systems
 
-* systemd
+- systemd
 
 ## Usage
 
@@ -93,7 +95,7 @@ end
 
 Will create a file named `/etc/powerdns/pdns-server_01.conf`:
 
-```
+```shell
 launch ['gpgsql']
 gpgsql-host=127.0.0.1
 gpgsql-user=pdns
@@ -117,7 +119,7 @@ Most of the properties are optional and have sane defaults, so they are only rec
 
 Installs PowerDNS authoritative server 4.4.x series using PowerDNS official repository in the supported platforms.
 
-#### Properties
+#### pdns_authoritative_install Properties
 
 | Name          | Type        |  Default value |
 |---------------|-------------|----------------|
@@ -129,7 +131,7 @@ Installs PowerDNS authoritative server 4.4.x series using PowerDNS official repo
 
 **Note:** When specifying backends, the name of the backend must match the repository package. For example, in Debian systems the Postgresql backend is actually named `pgsql` while on RHEL systems it is `postgresql`. Consider using the `value_for_platform` if you are installing on multiple platforms. There is an example of this technique in the test folder cookbook recipe.
 
-#### Usage examples
+#### pdns_authoritative_install Usage examples
 
 Install the latest 4.4.x series PowerDNS Authoritative Server
 
@@ -167,7 +169,7 @@ end
 
 Creates a PowerDNS authoritative configuration, there is a fixed set of required properties (listed below) but most of the configuration is left to the user freely, every property set in the `variables` hash property will be rendered in the config template. Remember that using underscores `_` for property names is required and it's translated to hyphens `-` in configuration templates.
 
-#### Properties
+#### pdns_authoritative_config Properties
 
 | Name           | Class      |  Default value                                              | Consistent? |
 |----------------|------------|-------------------------------------------------------------|-------------|
@@ -188,11 +190,11 @@ Creates a PowerDNS authoritative configuration, there is a fixed set of required
 - `variables`: Variables for the configuration template.
 - `virtual` : Is this a virtual instance or the default?
 
-#### Usage Example
+#### pdns_authoritative_config Usage Example
 
 Create a PowerDNS authoritative configuration file named `server-01`:
 
-```
+```ruby
 pdns_authoritative_config 'server_01' do
   virtual true
   launch ['gpgsql']
@@ -216,7 +218,7 @@ Creates a service to manage a PowerDNS authoritative instance. This service supp
 
 *Important:* services are not restarted or reloaded automatically on config changes in this cookbook, you need to add this in your wrapper cookbook if you desire this functionality, the `pdns_authoritative_service` cookbook provides actions to do it.
 
-#### Properties
+#### pdns_authoritative_service Properties
 
 | Name           | Class       |  Default value                                             | Consistent? |
 |----------------|-------------|------------------------------------------------------------|-------------|
@@ -224,7 +226,7 @@ Creates a service to manage a PowerDNS authoritative instance. This service supp
 | config_dir     | String      | See `default_authoritative_config_directory` helper method | Yes         |
 | virtual        | Boolean     | false                                                      | No          |
 
-#### Usage example
+#### pdns_authoritative_service Usage example
 
 To enable and start the default PowerDNS Authoritative server
 
@@ -247,7 +249,7 @@ end
 
 Installs PowerDNS recursor 4.4.x series using PowerDNS official repository in the supported platforms.
 
-#### Properties
+#### pdns_recursor_install Properties
 
 | Name           | Type        |  Default value  |
 |----------------|-------------|-----------------|
@@ -256,7 +258,7 @@ Installs PowerDNS recursor 4.4.x series using PowerDNS official repository in th
 | debug          | true, false | false           |
 | allow_upgrade  | true, false | false           |
 
-#### Usage examples
+#### pdns_recursor_install Usage examples
 
 Install the latest 4.4.x release PowerDNS recursor
 
@@ -285,7 +287,7 @@ end
 
 Creates a PowerDNS recursor configuration.
 
-#### Properties
+#### pdns_recursor_config Properties
 
 | Name           | Class      |  Default value                                              | Consistent? |
 |----------------|------------|-------------------------------------------------------------|-------------|
@@ -310,8 +312,7 @@ Sets up a PowerDNS recursor instance.
 
 *Important:* services not restarted or reloaded automatically on config changes in this cookbook, you need to add this in your wrapper cookbook if you desire this functionality, the `pdns_recursor_service` cookbook provides actions to do it.
 
-
-#### Properties
+#### pdns_recursor_service Properties
 
 | Name           | Class       |  Default value                                             | Consistent? |
 |----------------|-------------|------------------------------------------------------------|-------------|
@@ -319,9 +320,9 @@ Sets up a PowerDNS recursor instance.
 | config_dir     | String      | See `default_recursor_config_directory` helper method      | Yes         |
 | virtual        | Boolean     | false                                                      | No          |
 
-#### Usage Example
+#### pdns_recursor_service Usage Examples
 
-Disable the default PowerDNS recursor install service
+##### Disable the default PowerDNS recursor install service
 
 ```ruby
 pdns_recursor_service 'default' do
@@ -339,9 +340,7 @@ pdns_recursor_service 'my_recursor' do
 end
 ```
 
-#### Usage Example
-
-Customize the default recursor installation and change it's port to 54:
+##### Customize the default recursor installation and change it's port to 54
 
 ```ruby
 pdns_recursor_config 'default' do
