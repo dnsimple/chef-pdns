@@ -1,5 +1,7 @@
 # PowerDNS Community Cookbook
 
+![CI](https://github.com/dnsimple/pdns/actions/workflows/ci.yml/badge.svg)
+
 Provides resources for installing and configuring both PowerDNS authoritative and recursor. It uses the official PowerDNS repositories for packages and installs the appropriate configuration for your platform's init system.
 
 ## Build Status
