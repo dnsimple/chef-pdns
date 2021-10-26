@@ -47,8 +47,8 @@ jobs:
         os:
           - 'centos-7'
           - 'centos-8'
+          - 'debian-11'
           - 'debian-10'
-          - 'debian-9'
           - 'ubuntu-1804'
           - 'ubuntu-2004'
         suite:
