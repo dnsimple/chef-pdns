@@ -54,3 +54,10 @@ action :restart do
     action :restart
   end
 end
+
+action :disable do
+  service systemd_name(new_resource.instance_name, new_resource.virtual) do
+    supports restart: true, status: true
+    action :disable
+  end
+end
