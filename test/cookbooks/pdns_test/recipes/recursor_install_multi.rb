@@ -1,4 +1,6 @@
-pdns_recursor_install 'default'
+pdns_recursor_install 'default' do
+  debug true
+end
 
 pdns_recursor_config 'default'
 

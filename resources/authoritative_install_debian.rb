@@ -60,7 +60,7 @@ action :install do
     version new_resource.version
   end
 
-  apt_package 'pdns-server-dbg' do
+  apt_package 'pdns-server-dbgsym' do
     action :upgrade if new_resource.allow_upgrade
     only_if { new_resource.debug }
   end
@@ -72,8 +72,7 @@ action :uninstall do
     version new_resource.version
   end
 
-  apt_package 'pdns-server-dbg' do
+  apt_package 'pdns-server-dbgsym' do
     action :remove
-    only_if { new_resource.debug }
   end
 end

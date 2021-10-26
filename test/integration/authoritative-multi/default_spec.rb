@@ -4,6 +4,10 @@ describe package(default_authoritative_package) do
   it { should be_installed }
 end
 
+describe package(default_authoritative_debug_package) do
+  it { should be_installed }
+end
+
 describe port(53) do
   it { should be_listening }
   its('processes') { should match([/pdns_server/]) }

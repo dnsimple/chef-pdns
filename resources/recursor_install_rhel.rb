@@ -49,17 +49,27 @@ action :install do
     priority '90'
     includepkgs 'pdns*'
     action :create
-    not_if { new_resource.debug }
+    only_if { new_resource.debug }
   end
 
   package 'pdns-recursor' do
     version new_resource.version
     action :upgrade if new_resource.allow_upgrade
   end
+
+  package 'pdns-recursor-debuginfo' do
+    version new_resource.version
+    action :upgrade if new_resource.allow_upgrade
+    only_if { new_resource.debug }
+  end
 end
 
 action :uninstall do
   package 'pdns-recursor' do
+    action :remove
+  end
+
+  package 'pdns-recursor-debuginfo' do
     action :remove
   end
 end
