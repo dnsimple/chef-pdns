@@ -6,7 +6,7 @@ execute 'disble postgresql dnf module' do
 end
 
 postgresql_server_install 'default' do
-  version '10'
+  version '13'
   action [:install, :create]
 end
 
@@ -41,12 +41,12 @@ pg_backend_package = value_for_platform_family(
 include_recipe 'pdns_test::disable_systemd_resolved'
 
 pdns_authoritative_install 'default' do
-  series '43'
+  series '44'
   backends [pg_backend_package]
 end
 
 pdns_authoritative_install 'default_upgrade' do
-  series '44'
+  series '45'
   backends [pg_backend_package]
   allow_upgrade true
 end
