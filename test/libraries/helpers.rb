@@ -1,3 +1,12 @@
+def default_recursor_debug_package
+  case os[:family]
+  when 'debian'
+    'pdns-recursor-dbgsym'
+  when 'redhat'
+    'pdns-recursor-debuginfo'
+  end
+end
+
 def default_recursor_run_user
   case os[:family]
   when 'debian'
@@ -31,6 +40,15 @@ def default_authoritative_package
     'pdns-server'
   when 'redhat'
     'pdns'
+  end
+end
+
+def default_authoritative_debug_package
+  case os[:family]
+  when 'debian'
+    'pdns-server-dbgsym'
+  when 'redhat'
+    'pdns-debuginfo'
   end
 end
 
