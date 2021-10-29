@@ -4,9 +4,10 @@
 
 Provides resources for installing and configuring both PowerDNS authoritative and recursor. It uses the official PowerDNS repositories for packages and installs the appropriate configuration for your platform's init system.
 
-## Build Status
+## Upgrade Notes for 9.x series
 
-[![Build Status](https://travis-ci.org/dnsimple/chef-pdns.svg?branch=main)](https://travis-ci.org/dnsimple/chef-pdns)
+Please note that this version primarily supports PowerDNS 4.5 and PowerDNS Recursor 4.5. Older versions may work, but are not as heavily tested.
+Support for Debian 9 has been removed from the tests as PowerDNS is not making a 4.5 repo for it.
 
 ## Upgrade Notes for 8.x series
 
@@ -19,12 +20,6 @@ When upgrading to the 8.x series, please note that virtual recursor instances no
 Please note that this version primarily supports PowerDNS 4.3 and PowerDNS Recursor 4.3. Older versions may work, but are not as heavily tested. Additionally support for CentOS 6 / sysvinit has been dropped.
 
 When upgrading to the 7.x series, please pay special attention to your config and service resources which use the run_user / run_group / setuid / setgid properties. We have removed these attributes to better match the direction of upstream PowerDNS.
-
-## Upgrade Notes for 6.x series
-
-When upgrading to the 6.x series, please pay special attention to your config and service resources which use the `instance_name` property. We have introduced a new `virtual` property to the config and service resources to more clearly mark them as a virtual instance versus the default one configured via the install resource. If you used `instance_name ''` to refer to the default instance, you can safely remove this property or leave it as-is. If you do use another name, then you will want to set `virtual true` in your config and service resources.
-
-We have also changed the behavior of the `socket_dir` property on the service resources because it was incorrectly setup. It will be removed in a future release as it is a source of confusion (and bug) and a more advanced option for very specific use cases.
 
 ## Ubuntu >=18.04 notes
 
