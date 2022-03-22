@@ -17,7 +17,8 @@
 # limitations under the License.
 #
 
-provides :pdns_authoritative_install, platform: 'ubuntu' do |node|
+provides :pdns_authoritative_install, platform: 'ubuntu'
+unified_mode true do |node|
   node['platform_version'].to_f >= 18.04
 end
 
