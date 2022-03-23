@@ -60,6 +60,7 @@ jobs:
           - 'authoritative-postgres'
           - 'recursor-multi'
       fail-fast: false
+    continue-on-error: ${{ matrix.os == 'centos-8' }}
     steps:
       - name: Checkout Code
         uses: actions/checkout@v2
