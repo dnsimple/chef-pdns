@@ -18,6 +18,7 @@
 #
 
 provides :pdns_authoritative_service
+unified_mode true
 
 include Pdns::AuthoritativeHelpers
 property :instance_name, String, name_property: true, callbacks: {

@@ -18,6 +18,7 @@
 #
 
 provides :pdns_recursor_service
+unified_mode true
 
 include Pdns::RecursorHelpers
 property :instance_name, String, name_property: true, callbacks: {

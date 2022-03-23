@@ -17,7 +17,8 @@
 # limitations under the License.
 #
 
-provides :pdns_recursor_install, platform_family: 'rhel' do |node|
+provides :pdns_recursor_install, platform_family: 'rhel'
+unified_mode true do |node|
   node['platform_version'].to_i >= 7
 end
 

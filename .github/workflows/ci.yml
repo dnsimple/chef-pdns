@@ -15,8 +15,12 @@ jobs:
         uses: actions/checkout@v2
       - name: Install Chef Workstation
         uses: actionshub/chef-install@main
-      - name: Run Chef Delivery
-        run: chef exec delivery local all
+      - name: Run Cookstyle
+        run: chef exec rake cookstyle
+        env:
+          CHEF_LICENSE: accept-no-persist
+      - name: Run Specs
+        run: chef exec rake spec
         env:
           CHEF_LICENSE: accept-no-persist
 
@@ -56,6 +60,7 @@ jobs:
           - 'authoritative-postgres'
           - 'recursor-multi'
       fail-fast: false
+    continue-on-error: ${{ matrix.os == 'centos-8' }}
     steps:
       - name: Checkout Code
         uses: actions/checkout@v2
