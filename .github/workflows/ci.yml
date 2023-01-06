@@ -1,26 +1,31 @@
 ---
 name: ci
 
-"on":
+on:
   pull_request:
   push:
     branches:
       - main
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
-  delivery:
+  cookstyle:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
+      - name: Setup Private Cookbook Access
+        uses: webfactory/ssh-agent@v0.7.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
       - name: Install Chef Workstation
         uses: actionshub/chef-install@main
       - name: Run Cookstyle
         run: chef exec rake cookstyle
-        env:
-          CHEF_LICENSE: accept-no-persist
-      - name: Run Specs
-        run: chef exec rake spec
         env:
           CHEF_LICENSE: accept-no-persist
 
@@ -28,23 +33,43 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Run markdownlint-cli
-        uses: nosborn/github-action-markdown-cli@v2.0.0
+        uses: nosborn/github-action-markdown-cli@v3.2.0
         with:
           files: .
           config_file: ".markdownlint.yaml"
+
+  rspec:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+      - name: Setup Private Cookbook Access
+        uses: webfactory/ssh-agent@v0.7.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+      - name: Install Chef Workstation
+        uses: actionshub/chef-install@main
+      - name: Rspec
+        run: chef exec rake spec
+        env:
+          CHEF_LICENSE: accept-no-persist
 
   yamllint:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Run YAML Lint
         uses: actionshub/yamllint@main
 
   integration:
-    needs: [delivery, markdownlint-cli, yamllint]
+    needs:
+      - cookstyle
+      - markdownlint-cli
+      - rspec
+      - yamllint
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -63,13 +88,18 @@ jobs:
     continue-on-error: ${{ matrix.os == 'centos-8' }}
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
+      - uses: webfactory/ssh-agent@v0.7.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
       - name: Install Chef Workstation
         uses: actionshub/chef-install@main
       - name: Run Test Kitchen
         uses: actionshub/test-kitchen@main
         env:
           CHEF_LICENSE: accept-no-persist
+          DOCKER_HUB_TOKEN: ${{ secrets.DOCKER_HUB_TOKEN }}
+          DOCKER_HUB_USER: dnsimpleops
           KITCHEN_LOCAL_YAML: kitchen.yml
         with:
           suite: ${{ matrix.suite }}
@@ -79,5 +109,4 @@ jobs:
         run: |
             set -x
             sudo journalctl -l --since today
-            KITCHEN_LOCAL_YAML=kitchen.yml /usr/bin/kitchen exec \
-            ${{ matrix.suite }}-${{ matrix.os }} -c "journalctl -l"
+            KITCHEN_LOCAL_YAML=kitchen.yml /usr/bin/kitchen exec ${{ matrix.suite }}-${{ matrix.os }} -c "journalctl -l"
