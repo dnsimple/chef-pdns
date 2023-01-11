@@ -18,7 +18,7 @@ When submitting an issue, please check the [Issues](https://github.com/dnsimple/
 In order to maintain a high standard of compatibility and consistency for the consumers of our cookbook we like to make sure all pull requests meet the following criteria:
 
 1. **Tests:** To ensure high quality code and protect against regressions in the future we require all changes have ample test coverage. This does not mean 100% coverage or even specific types of coverage. See the TESTING.md file for details on how to run the test suite.
-2. **Passing Continuous Integration (CI):** Speaking of tests, the contributed code must pass our full suite of tests on [Travis-CI](https://travis-ci.com/github/dnsimple/chef-pdns) and show a green indicator meaning the latest build passes. If for some reason the build is failing before your pull request, please raise the issue in the pull request so we may address it.
+2. **Passing Continuous Integration (CI):** Speaking of tests, the contributed code must pass our full suite of tests on [GitHub](https://github.com/dnsimple/chef-pdns/actions) and show a green indicator meaning the latest build passes. If for some reason the build is failing before your pull request, please raise the issue in the pull request so we may address it.
 
 ### Code Review Process
 
@@ -36,5 +36,4 @@ Once you open a pull request, cookbook maintainers will review your code using t
 * **DONT** modify the `CHANGELOG.md` in your pull request as well. The maintainers will auto-generate this before a new release.
 * **DO** remember that humans are handling your contributions so please be nice and polite when discussing anything in your pull request.
 
-[security page]: https://dnsimple.com/security
-[Travis-CI]: https://travis-ci.com
+[DNSimple Security Page](https://dnsimple.com/security)
