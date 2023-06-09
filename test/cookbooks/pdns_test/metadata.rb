@@ -6,4 +6,4 @@ description      'A test cookbook for the pdns cookbook'
 version          '0.0.1'
 
 depends 'pdns'
-depends 'postgresql'
+depends 'postgresql', '< 11'
