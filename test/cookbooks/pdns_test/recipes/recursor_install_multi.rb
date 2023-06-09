@@ -1,4 +1,5 @@
 pdns_recursor_install 'default' do
+  series '45'
   debug true
 end
 
