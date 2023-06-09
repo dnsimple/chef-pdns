@@ -1,6 +1,6 @@
 apt_update 'RIGHT_MEOW'
 
-execute 'disble postgresql dnf module' do
+execute 'disable postgresql dnf module' do
   command 'dnf -qy module disable postgresql'
   only_if { platform_family?('rhel') && node['platform_version'].to_i == 8 }
 end
