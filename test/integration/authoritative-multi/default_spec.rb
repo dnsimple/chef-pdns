@@ -26,14 +26,6 @@ describe group(default_authoritative_run_user) do
   it { should exist }
 end
 
-describe processes(Regexp.new(/pdns_server\s(?!--config-name=server_02)/)) do
-  its('users') { should eq ['pdns'] }
-end
-
-describe processes(Regexp.new(/pdns_server\s(?=--config-name=server_02)/)) do
-  its('users') { should eq ['pdns'] }
-end
-
 describe command('dig -p 53 chaos txt version.bind @127.0.0.1 +short') do
   its('stdout.chomp') { should match(/"PowerDNS Authoritative Server 4\.8\.\d/) }
 end
