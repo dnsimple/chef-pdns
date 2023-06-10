@@ -19,7 +19,7 @@
 
 provides :pdns_authoritative_install, platform: 'ubuntu'
 unified_mode true do |node|
-  node['platform_version'].to_f >= 18.04
+  node['platform_version'].to_f >= 20.04
 end
 
 provides :pdns_authoritative_install, platform: 'debian' do |node|
