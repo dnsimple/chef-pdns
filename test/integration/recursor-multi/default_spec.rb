@@ -26,11 +26,11 @@ describe group(default_recursor_run_user) do
   it { should exist }
 end
 
-describe processes(Regexp.new("/usr/sbin/pdns_recursor --socket-dir=/run/pdns-recursor\s")) do
+describe processes(Regexp.new("pdns_recursor.+--socket-dir=/run/pdns-recursor\s")) do
   its('users') { should match [Regexp.new(/pdns-recursor/)] }
 end
 
-describe processes(Regexp.new('/usr/sbin/pdns_recursor --socket-dir=/run/pdns-recursor-server_02 --config-name=server_02')) do
+describe processes(Regexp.new('pdns_recursor.+--socket-dir=/run/pdns-recursor-server_02.+--config-name=server_02')) do
   its('users') { should match [Regexp.new(/pdns-recursor/)] }
 end
 
