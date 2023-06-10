@@ -5,15 +5,14 @@ execute 'disable postgresql dnf module' do
   only_if { platform_family?('rhel') && node['platform_version'].to_i == 8 }
 end
 
-postgresql_install 'default' do
+postgresql_install 'postgresql' do
   version 15
-  action [:install_server, :init_server]
+  action %i(install init_server)
 end
 
-# postgresql_install 'postgresql' do
-#   version 15
-#   action %i(install init_server)
-# end
+postgresql_service 'postgresql' do
+  action %i(enable start)
+end
 
 execute 'setup_postgres_user' do
   command "psql -c \"CREATE ROLE pdns PASSWORD 'wadus' SUPERUSER INHERIT LOGIN;\""
