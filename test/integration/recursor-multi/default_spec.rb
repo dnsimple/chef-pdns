@@ -35,11 +35,11 @@ describe processes(Regexp.new(/pdns_recursor --config-name=server_02/)) do
 end
 
 describe command('dig -p 53 chaos txt version.bind @127.0.0.1 +short') do
-  its('stdout.chomp') { should match(Regexp.new(/"PowerDNS Recursor 4\.8\.\d/)) }
+  its('stdout.chomp') { should match(Regexp.new(/"PowerDNS Recursor 4\.7\.\d/)) }
 end
 
 describe command('dig -p 54 chaos txt version.bind @127.0.0.1 +short') do
-  its('stdout.chomp') { should match(Regexp.new(/"PowerDNS Recursor 4\.8\.\d/)) }
+  its('stdout.chomp') { should match(Regexp.new(/"PowerDNS Recursor 4\.7\.\d/)) }
 end
 
 describe command('dig -p 53 @127.0.0.1 dnsimple.com') do

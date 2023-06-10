@@ -46,7 +46,7 @@ pdns_authoritative_install 'default' do
 end
 
 pdns_authoritative_install 'default_upgrade' do
-  series '48'
+  series '47'
   backends [pg_backend_package]
   allow_upgrade true
 end
