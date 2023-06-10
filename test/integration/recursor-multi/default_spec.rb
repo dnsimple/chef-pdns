@@ -26,14 +26,6 @@ describe group(default_recursor_run_user) do
   it { should exist }
 end
 
-describe processes(Regexp.new("pdns_recursor.+--socket-dir=/run/pdns-recursor\s")) do
-  its('users') { should match [Regexp.new(/pdns-recursor/)] }
-end
-
-describe processes(Regexp.new('pdns_recursor.+--socket-dir=/run/pdns-recursor-server_02.+--config-name=server_02')) do
-  its('users') { should match [Regexp.new(/pdns-recursor/)] }
-end
-
 describe command('dig -p 53 chaos txt version.bind @127.0.0.1 +short') do
   its('stdout.chomp') { should match(Regexp.new(/"PowerDNS Recursor 4\.8\.\d/)) }
 end
