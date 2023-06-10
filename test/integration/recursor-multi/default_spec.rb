@@ -30,7 +30,7 @@ describe processes(Regexp.new("/usr/sbin/pdns_recursor --socket-dir=/run/pdns-re
   its('users') { should match [Regexp.new(/pdns-recursor/)] }
 end
 
-describe processes(Regexp.new("/usr/sbin/pdns_recursor --socket-dir=/run/pdns-recursor-server_02 --config-name=server_02")) do
+describe processes(Regexp.new('/usr/sbin/pdns_recursor --socket-dir=/run/pdns-recursor-server_02 --config-name=server_02')) do
   its('users') { should match [Regexp.new(/pdns-recursor/)] }
 end
 
