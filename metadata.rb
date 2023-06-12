@@ -7,7 +7,7 @@ version          '9.0.0'
 source_url       'https://github.com/dnsimple/chef-pdns'
 issues_url       'https://github.com/dnsimple/chef-pdns/issues'
 
-chef_version '>= 18'
+chef_version '>= 15'
 
 supports 'ubuntu', '>= 20.04'
 supports 'debian', '>= 9.0'
