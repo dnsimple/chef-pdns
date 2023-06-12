@@ -41,14 +41,6 @@ platforms:
         - RUN /usr/bin/apt-get update
         - RUN /usr/bin/apt-get install dnsutils -y
 
-  - name: debian-12
-    driver:
-      image: dokken/debian-12
-      pid_one_command: /bin/systemd
-      intermediate_instructions:
-        - RUN /usr/bin/apt-get update
-        - RUN /usr/bin/apt-get install dnsutils -y
-
   - name: ubuntu-20.04
     driver:
       image: dokken/ubuntu-20.04
