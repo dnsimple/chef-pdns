@@ -27,7 +27,7 @@ provides :pdns_authoritative_install, platform: 'debian' do |node|
 end
 
 property :version, String
-property :series, String, default: '48'
+property :series, String, default: '47'
 property :debug, [true, false], default: false
 property :allow_upgrade, [true, false], default: false
 property :backends, Array
