@@ -371,6 +371,6 @@ There is an specific file for testing guidelines on this cookbook: TESTING.md
 ## License
 
 Copyright (c) 2010-2014, Chef Software, Inc
-Copyright (c) 2014-2021, DNSimple Corporation
+Copyright (c) 2014-2023, DNSimple Corporation
 
 Licensed under the Apache License, Version 2.0.
