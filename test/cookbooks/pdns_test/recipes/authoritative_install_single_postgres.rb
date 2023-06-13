@@ -1,13 +1,17 @@
 apt_update 'RIGHT_MEOW'
 
-execute 'disble postgresql dnf module' do
+execute 'disable postgresql dnf module' do
   command 'dnf -qy module disable postgresql'
   only_if { platform_family?('rhel') && node['platform_version'].to_i == 8 }
 end
 
-postgresql_server_install 'default' do
-  version '13'
-  action [:install, :create]
+postgresql_install 'postgresql' do
+  version 15
+  action %i(install init_server)
+end
+
+postgresql_service 'postgresql' do
+  action %i(enable start)
 end
 
 execute 'setup_postgres_user' do
@@ -41,12 +45,7 @@ pg_backend_package = value_for_platform_family(
 include_recipe 'pdns_test::disable_systemd_resolved'
 
 pdns_authoritative_install 'default' do
-  series '44'
-  backends [pg_backend_package]
-end
-
-pdns_authoritative_install 'default_upgrade' do
-  series '45'
+  series '48'
   backends [pg_backend_package]
   allow_upgrade true
 end
