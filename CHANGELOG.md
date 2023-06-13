@@ -1,5 +1,24 @@
 # Changelog
 
+## main
+
+## [v10.0.0](https://github.com/dnsimple/chef-pdns/tree/v10.0.0) (2023-06-23)
+
+[Full Changelog](https://github.com/dnsimple/chef-pdns/compare/v9.0.0...v10.0.0)
+
+**Implemented enhancements:**
+
+- Switch default to 4.8.x [\#130](https://github.com/dnsimple/chef-pdns/pull/130)
+- Add Ubuntu v22.04 support [\#130](https://github.com/dnsimple/chef-pdns/pull/130)
+- Drop Ubuntu v18.04 EOL support [\#130](https://github.com/dnsimple/chef-pdns/pull/130)
+- Updates PowerDNS pubkey [\#130](https://github.com/dnsimple/chef-pdns/pull/130)
+
+**Merged pull requests:**
+
+- Deprecates Chef Delivery CLI usage [\#124](https://github.com/dnsimple/chef-pdns/pull/124)
+- Have kitchen chef-client v18 [\#126](https://github.com/dnsimple/chef-pdns/pull/126)
+- Bump nosborn/github-action-markdown-cli from 3.2.0 to 3.3.0 \#129](https://github.com/dnsimple/chef-pdns/pull/129)
+
 ## [v9.0.0](https://github.com/dnsimple/chef-pdns/tree/v9.0.0) (2021-10-29)
 
 [Full Changelog](https://github.com/dnsimple/chef-pdns/compare/v6.1.1...v9.0.0)
