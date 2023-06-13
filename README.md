@@ -4,6 +4,10 @@
 
 Provides resources for installing and configuring both PowerDNS authoritative and recursor. It uses the official PowerDNS repositories for packages and installs the appropriate configuration for your platform's init system.
 
+## Upgrade Notes for 10.x series
+
+Please note that this version primarily supports PowerDNS 4.8 and PowerDNS Recursor 4.8. Older versions may work, but are not as heavily tested. Additionally support for Ubuntu 18.04 has been dropped.
+
 ## Upgrade Notes for 9.x series
 
 Please note that this version primarily supports PowerDNS 4.5 and PowerDNS Recursor 4.5. Older versions may work, but are not as heavily tested.
@@ -21,7 +25,7 @@ Please note that this version primarily supports PowerDNS 4.3 and PowerDNS Recur
 
 When upgrading to the 7.x series, please pay special attention to your config and service resources which use the run_user / run_group / setuid / setgid properties. We have removed these attributes to better match the direction of upstream PowerDNS.
 
-## Ubuntu >=18.04 notes
+## Ubuntu >= 18.04 notes
 
 Operating systems like Ubuntu 18.04 and greater that ship with systemd-resolved configured to run by default will need this disabled and to manually configure your resolv.conf if you are running PowerDNS Authoritative on default ports.
 You can look at the [test cookbook](https://github.com/dnsimple/chef-pdns/blob/master/test/cookbooks/pdns_test/recipes/disable_systemd_resolved.rb) for a simple example of how to handle this.
@@ -30,7 +34,7 @@ You can look at the [test cookbook](https://github.com/dnsimple/chef-pdns/blob/m
 
 ### Platforms
 
-- Ubuntu 18.04 and newer
+- Ubuntu 20.04 and newer
 - Debian 9 and newer
 - RHEL 7 and newer
 - CentOS 7 and newer
@@ -53,12 +57,12 @@ Combine the different resources in order to install, configure, and manage your 
   | pdns_authoritative_config           | Configures an authoritative instance              |
   | pdns_authoritative_service          | Manages an authoritative instance                 |
   | pdns_recursor_install               | Installs a recusor                                |
-  | pdns_recursor_config                | Configures a recursor instance                    |
+  | pdns_recursor_config                | Configures a recursor instance                    |
   | pdns_recursor_service               | Manages a a recursor instance                     |
 
 To fully configure an authoritative server you need to add at least 3 resources to your recipe, `pdns_authoritative_install`, `pdns_authoritative_config` and `pdns_authoritative_service`. If you want to install any backend other than the default (bind) for the authoritative server you need to install the corresponding packages for the backend you want. There is an example for a postgresql backend in `test/cookbooks/pdns_test/recipes/`.
 
-For a recursor use the `pdns_recursor_install`, `pdns_recursor_config`, and `pdns_recursor_service` resources in your wrapper cookbooks to install, configure, and define PowerDNS recursors. Set the different properties on the resources according to your install and configuration needs. You can see a good example of this in `test/cookbooks/pdns_test/recipes_recursor_install_single.rb`
+For a recursor use the `pdns_recursor_install`, `pdns_recursor_config`, and `pdns_recursor_service` resources in your wrapper cookbooks to install, configure, and define PowerDNS recursors. Set the different properties on the resources according to your install and configuration needs. You can see a good example of this in `test/cookbooks/pdns_test/recipes_recursor_install_single.rb`
 
 For advanced use it is recommended to take a look at the chef resources themselves.
 
@@ -112,14 +116,14 @@ Most of the properties are optional and have sane defaults, so they are only rec
 
 ### pdns_authoritative_install
 
-Installs PowerDNS authoritative server 4.4.x series using PowerDNS official repository in the supported platforms.
+Installs PowerDNS authoritative server 4.7.x series using PowerDNS official repository in the supported platforms.
 
 #### pdns_authoritative_install Properties
 
 | Name          | Type        |  Default value |
 |---------------|-------------|----------------|
 | version       | String      | ''             |
-| series        | String      | '44'           |
+| series        | String      | '47'           |
 | debug         | true, false | false          |
 | allow_upgrade | true, false | false          |
 | backends      | Array       | nil            |
@@ -128,34 +132,34 @@ Installs PowerDNS authoritative server 4.4.x series using PowerDNS official repo
 
 #### pdns_authoritative_install Usage examples
 
-Install the latest 4.4.x series PowerDNS Authoritative Server
+Install the latest 4.8.x series PowerDNS Authoritative Server
 
 ```ruby
 pdns_authoritative_install 'server_01'
 ```
 
-Install the latest 4.3.x series PowerDNS Authoritative Server
+Install the latest 4.7.x series PowerDNS Authoritative Server
 
 ```ruby
 pdns_authoritative_install 'server_01' do
-  series '43'
+  series '47'
 end
 ```
 
-Install and upgrade to the latest 4.4.x PowerDNS Authoritative Server release
+Install and upgrade to the latest 4.8.x PowerDNS Authoritative Server release
 
 ```ruby
 pdns_authoritative_install 'server_01' do
-  series '43'
+  series '47'
   allow_upgrade true
 end
 ```
 
-Install the latest 4.4.x series PowerDNS Authoritative Server with the MySQL and Lua backends
+Install the latest 4.8.x series PowerDNS Authoritative Server with the MySQL and Lua backends
 
 ```ruby
 pdns_authoritative_install 'server_01' do
-  series '44'
+  series '48'
   backends ['mysql', 'lua']
 end
 ```
@@ -242,38 +246,38 @@ end
 
 ### pdns_recursor_install
 
-Installs PowerDNS recursor 4.4.x series using PowerDNS official repository in the supported platforms.
+Installs PowerDNS recursor 4.8.x series using PowerDNS official repository in the supported platforms.
 
 #### pdns_recursor_install Properties
 
 | Name           | Type        |  Default value  |
 |----------------|-------------|-----------------|
 | version        | String      | ''              |
-| series         | String      | '44'            |
+| series         | String      | '48'            |
 | debug          | true, false | false           |
 | allow_upgrade  | true, false | false           |
 
 #### pdns_recursor_install Usage examples
 
-Install the latest 4.4.x release PowerDNS recursor
+Install the latest 4.8.x release PowerDNS recursor
 
 ```ruby
-pdns_recursor_install 'latest_4_3_x_recursor'
+pdns_recursor_install 'latest_4_8_x_recursor'
 ```
 
-Install the latest 4.3.x release PowerDNS recursor
+Install the latest 4.7.x release PowerDNS recursor
 
 ```ruby
 pdns_recursor_install 'my_recursor' do
-  series '43'
+  series '47'
 end
 ```
 
-Install and upgrade to the latest 4.4.x PowerDNS recursor release
+Install and upgrade to the latest 4.8.x PowerDNS recursor release
 
 ```ruby
 pdns_recursor_install 'my_recursor' do
-  series '44'
+  series '47'
   allow_upgrade true
 end
 ```
@@ -371,6 +375,6 @@ There is an specific file for testing guidelines on this cookbook: TESTING.md
 ## License
 
 Copyright (c) 2010-2014, Chef Software, Inc
-Copyright (c) 2014-2021, DNSimple Corporation
+Copyright (c) 2014-2023, DNSimple Corporation
 
 Licensed under the Apache License, Version 2.0.
