@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe 'pdns_test::hyphens' do
-  platform 'ubuntu', '18.04'
+  platform 'ubuntu', '20.04'
 
   context('pdns_authoritative_config') do
     it 'raises an exception for a hyphen in the name' do
