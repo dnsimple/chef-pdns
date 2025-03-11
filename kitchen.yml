@@ -15,23 +15,15 @@ verifier:
   name: inspec
 
 platforms:
-  - name: centos-7
+  - name: centos-stream-9
     driver:
-      image: dokken/centos-7
+      image: dokken/centos-stream-9
       pid_one_command: /usr/lib/systemd/systemd
 
-  - name: centos-8
+  - name: centos-stream-10
     driver:
-      image: dokken/centos-8
+      image: dokken/centos-stream-10
       pid_one_command: /usr/lib/systemd/systemd
-
-  - name: debian-10
-    driver:
-      image: dokken/debian-10
-      pid_one_command: /bin/systemd
-      intermediate_instructions:
-        - RUN /usr/bin/apt-get update
-        - RUN /usr/bin/apt-get install dnsutils -y
 
   - name: debian-11
     driver:
@@ -41,9 +33,9 @@ platforms:
         - RUN /usr/bin/apt-get update
         - RUN /usr/bin/apt-get install dnsutils -y
 
-  - name: ubuntu-20.04
+  - name: debian-12
     driver:
-      image: dokken/ubuntu-20.04
+      image: dokken/debian-12
       pid_one_command: /bin/systemd
       intermediate_instructions:
         - RUN /usr/bin/apt-get update
@@ -52,6 +44,14 @@ platforms:
   - name: ubuntu-22.04
     driver:
       image: dokken/ubuntu-22.04
+      pid_one_command: /bin/systemd
+      intermediate_instructions:
+        - RUN /usr/bin/apt-get update
+        - RUN /usr/bin/apt-get install dnsutils -y
+
+  - name: ubuntu-24.04
+    driver:
+      image: dokken/ubuntu-24.04
       pid_one_command: /bin/systemd
       intermediate_instructions:
         - RUN /usr/bin/apt-get update
