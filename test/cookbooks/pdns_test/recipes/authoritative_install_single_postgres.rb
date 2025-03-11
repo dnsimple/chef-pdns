@@ -45,7 +45,7 @@ pg_backend_package = value_for_platform_family(
 include_recipe 'pdns_test::disable_systemd_resolved'
 
 pdns_authoritative_install 'default' do
-  series '48'
+  series '49'
   backends [pg_backend_package]
   allow_upgrade true
 end
