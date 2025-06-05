@@ -132,34 +132,34 @@ Installs PowerDNS authoritative server 4.7.x series using PowerDNS official repo
 
 #### pdns_authoritative_install Usage examples
 
-Install the latest 4.8.x series PowerDNS Authoritative Server
+Install the latest 4.9.x series PowerDNS Authoritative Server
 
 ```ruby
 pdns_authoritative_install 'server_01'
 ```
 
-Install the latest 4.7.x series PowerDNS Authoritative Server
-
-```ruby
-pdns_authoritative_install 'server_01' do
-  series '47'
-end
-```
-
-Install and upgrade to the latest 4.8.x PowerDNS Authoritative Server release
-
-```ruby
-pdns_authoritative_install 'server_01' do
-  series '47'
-  allow_upgrade true
-end
-```
-
-Install the latest 4.8.x series PowerDNS Authoritative Server with the MySQL and Lua backends
+Install the latest 4.8.x series PowerDNS Authoritative Server
 
 ```ruby
 pdns_authoritative_install 'server_01' do
   series '48'
+end
+```
+
+Install and upgrade to the latest 4.9.x PowerDNS Authoritative Server release
+
+```ruby
+pdns_authoritative_install 'server_01' do
+  series '49'
+  allow_upgrade true
+end
+```
+
+Install the latest 4.9.x series PowerDNS Authoritative Server with the MySQL and Lua backends
+
+```ruby
+pdns_authoritative_install 'server_01' do
+  series '49'
   backends ['mysql', 'lua']
 end
 ```
@@ -259,25 +259,25 @@ Installs PowerDNS recursor 4.8.x series using PowerDNS official repository in th
 
 #### pdns_recursor_install Usage examples
 
-Install the latest 4.8.x release PowerDNS recursor
+Install the latest 5.0.x release PowerDNS recursor
 
 ```ruby
-pdns_recursor_install 'latest_4_8_x_recursor'
+pdns_recursor_install 'latest_5_0_x_recursor'
 ```
 
-Install the latest 4.7.x release PowerDNS recursor
+Install the latest 4.9.x release PowerDNS recursor
 
 ```ruby
 pdns_recursor_install 'my_recursor' do
-  series '47'
+  series '49'
 end
 ```
 
-Install and upgrade to the latest 4.8.x PowerDNS recursor release
+Install and upgrade to the latest 5.0.x PowerDNS recursor release
 
 ```ruby
 pdns_recursor_install 'my_recursor' do
-  series '47'
+  series '50'
   allow_upgrade true
 end
 ```
@@ -374,7 +374,7 @@ There is an specific file for testing guidelines on this cookbook: TESTING.md
 
 ## License
 
-Copyright (c) 2010-2014, Chef Software, Inc
-Copyright (c) 2014-2023, DNSimple Corporation
+Copyright (c) 2010-2025, Chef Software, Inc
+Copyright (c) 2014-2025, DNSimple Corporation
 
 Licensed under the Apache License, Version 2.0.
