@@ -17,16 +17,13 @@ verifier:
 platforms:
   - name: centos-stream-9
     driver:
-      image: centos-stream-9
+      image: dokken/centos-stream-9
       pid_one_command: /usr/lib/systemd/systemd
 
-  - name: debian-10
+  - name: centos-stream-10
     driver:
-      image: dokken/debian-10
-      pid_one_command: /bin/systemd
-      intermediate_instructions:
-        - RUN /usr/bin/apt-get update
-        - RUN /usr/bin/apt-get install dnsutils -y
+      image: dokken/centos-stream-10
+      pid_one_command: /usr/lib/systemd/systemd
 
   - name: debian-11
     driver:
