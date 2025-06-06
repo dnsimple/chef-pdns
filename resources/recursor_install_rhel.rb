@@ -23,7 +23,7 @@ unified_mode true do |node|
 end
 
 property :version, String
-property :series, String, default: '48'
+property :series, String, default: '50'
 property :debug, [true, false], default: false
 property :allow_upgrade, [true, false], default: false
 
