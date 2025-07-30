@@ -37,6 +37,7 @@ property :instance_name, String, name_property: true, callbacks: {
 }
 property :virtual, [true, false], default: false
 property :config_dir, String, default: lazy { default_recursor_config_directory }
+property :run_user, String, default: lazy { default_recursor_run_user }
 
 property :source, String, default: 'recursor.conf.erb'
 property :cookbook, String, default: 'pdns'
@@ -72,7 +73,8 @@ action :create do
     group lazy { default_recursor_run_user }
     mode '0640'
     variables(
-      config_dir: new_resource.config_dir
+      config_dir: new_resource.config_dir,
+      run_user: new_resource.run_user
     )
   end
 end
