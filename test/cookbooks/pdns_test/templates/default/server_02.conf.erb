@@ -2,8 +2,8 @@
 recursor:
   include_dir: <%= @config_dir %>/recursor.d
   <% if node['platform'] == 'centos' %>
-  setuid: pdns-recursor
-  setgid: pdns-recursor
+  setuid: <%= @run_user %>
+  setgid: <%= @run_user %>
   <% end %>
 incoming:
   listen:
