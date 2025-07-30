@@ -293,6 +293,7 @@ Creates a PowerDNS recursor configuration.
 | instance_name  | String     | name_property                                               | Yes         |
 | cookbook       | String,nil | 'pdns'                                                      | No          |
 | config_dir     | String     | see `default_recursor_config_directory` helper method       | Yes         |
+| run_user       | String     | see `default_recursor_run_user` helper method               | Yes         |
 | source         | String,nil | 'recursor.conf.erb'                                         | No          |
 | virtual        | Boolean    | false                                                       | No          |
 
