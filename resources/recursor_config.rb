@@ -37,7 +37,6 @@ property :instance_name, String, name_property: true, callbacks: {
 }
 property :virtual, [true, false], default: false
 property :config_dir, String, default: lazy { default_recursor_config_directory }
-property :socket_dir, String, default: '/var/run/pdns-recursor'
 
 property :source, String, default: 'recursor.conf.erb'
 property :cookbook, String, default: 'pdns'
@@ -73,9 +72,5 @@ action :create do
     owner 'root'
     group lazy { default_recursor_run_user }
     mode '0640'
-    variables(
-      socket_dir: "#{recursor_socket_directory(new_resource.instance_name, new_resource.socket_dir, new_resource.virtual)}",
-      variables: new_resource.variables
-    )
   end
 end
