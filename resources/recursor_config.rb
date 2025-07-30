@@ -40,7 +40,6 @@ property :config_dir, String, default: lazy { default_recursor_config_directory 
 
 property :source, String, default: 'recursor.conf.erb'
 property :cookbook, String, default: 'pdns'
-property :variables, Hash, default: {}
 
 action :create do
   user 'pdns recursor' do
@@ -72,5 +71,8 @@ action :create do
     owner 'root'
     group lazy { default_recursor_run_user }
     mode '0640'
+    variables(
+      config_dir: new_resource.config_dir
+    )
   end
 end
