@@ -38,6 +38,7 @@ action :install do
     distribution "#{node['lsb']['codename']}-auth-#{new_resource.series}"
     components ['main']
     key 'powerdns.asc'
+    signed_by true
     cookbook 'pdns'
   end
 
