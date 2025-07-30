@@ -27,11 +27,11 @@ describe group(default_recursor_run_user) do
 end
 
 describe command('dig -p 53 chaos txt version.bind @127.0.0.1 +short') do
-  its('stdout.chomp') { should match(Regexp.new(/"PowerDNS Recursor 5\.0\.\d/)) }
+  its('stdout.chomp') { should match(Regexp.new(/"PowerDNS Recursor 5\.2\.\d/)) }
 end
 
 describe command('dig -p 54 chaos txt version.bind @127.0.0.1 +short') do
-  its('stdout.chomp') { should match(Regexp.new(/"PowerDNS Recursor 5\.0\.\d/)) }
+  its('stdout.chomp') { should match(Regexp.new(/"PowerDNS Recursor 5\.2\.\d/)) }
 end
 
 describe command('dig -p 53 @127.0.0.1 dnsimple.com') do
@@ -43,7 +43,7 @@ describe command('dig -p 54 @127.0.0.1 dnsimple.com') do
 end
 
 ## Regression test for https://github.com/dnsimple/chef-pdns/issues/89
-describe command('rec_control --config-name=server_02 reload-zones') do
+describe command('rec_control --config-name=server_02 --socket-dir=/run/pdns-recursor-server_02 reload-zones') do
   its('stdout') { should match('ok') }
   its('stdout') { should_not match('unable to parse configuration file') }
   its('stdout') { should_not match('Encountered error reloading zones, keeping original data: Unable to re-parse configuration file') }
