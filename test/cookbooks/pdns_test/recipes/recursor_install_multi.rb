@@ -5,10 +5,9 @@ end
 pdns_recursor_config 'default'
 
 pdns_recursor_config 'server_02' do
+  cookbook 'pdns_test'
+  source 'server_02.conf.erb'
   virtual true
-  variables(
-    'local-port' => '54'
-  )
 end
 
 pdns_recursor_service 'default' do

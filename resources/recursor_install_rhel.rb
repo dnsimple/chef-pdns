@@ -2,7 +2,7 @@
 # Cookbook:: pdns
 # Resources:: pdns_recursor_install
 #
-# # Copyright:: 2023, DNSimple Corp.
+# # Copyright:: 2025, DNSimple Corp.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -23,7 +23,7 @@ unified_mode true do |node|
 end
 
 property :version, String
-property :series, String, default: '50'
+property :series, String, default: '52'
 property :debug, [true, false], default: false
 property :allow_upgrade, [true, false], default: false
 

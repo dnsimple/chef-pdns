@@ -246,38 +246,38 @@ end
 
 ### pdns_recursor_install
 
-Installs PowerDNS recursor 4.8.x series using PowerDNS official repository in the supported platforms.
+Installs PowerDNS recursor 5.2.x series using PowerDNS official repository in the supported platforms.
 
 #### pdns_recursor_install Properties
 
 | Name           | Type        |  Default value  |
 |----------------|-------------|-----------------|
 | version        | String      | ''              |
-| series         | String      | '48'            |
+| series         | String      | '52'            |
 | debug          | true, false | false           |
 | allow_upgrade  | true, false | false           |
 
 #### pdns_recursor_install Usage examples
 
-Install the latest 5.0.x release PowerDNS recursor
+Install the latest 5.2.x release PowerDNS recursor
 
 ```ruby
-pdns_recursor_install 'latest_5_0_x_recursor'
+pdns_recursor_install 'latest_5_2_x_recursor'
 ```
 
-Install the latest 4.9.x release PowerDNS recursor
+Install the latest 5.1.x release PowerDNS recursor
 
 ```ruby
 pdns_recursor_install 'my_recursor' do
-  series '49'
+  series '51'
 end
 ```
 
-Install and upgrade to the latest 5.0.x PowerDNS recursor release
+Install and upgrade to the latest 5.2.x PowerDNS recursor release
 
 ```ruby
 pdns_recursor_install 'my_recursor' do
-  series '50'
+  series '52'
   allow_upgrade true
 end
 ```
@@ -293,16 +293,13 @@ Creates a PowerDNS recursor configuration.
 | instance_name  | String     | name_property                                               | Yes         |
 | cookbook       | String,nil | 'pdns'                                                      | No          |
 | config_dir     | String     | see `default_recursor_config_directory` helper method       | Yes         |
-| socket_dir     | String     | "/var/run/#{resource.instance_name}"                        | Yes         |
+| run_user       | String     | see `default_recursor_run_user` helper method               | Yes         |
 | source         | String,nil | 'recursor.conf.erb'                                         | No          |
-| variables      | Hash       | {}                                                          | No          |
 | virtual        | Boolean    | false                                                       | No          |
 
 - `cookbook` : Cookbook for a custom configuration template.
 - `config_dir` : Path of the recursor configuration directory.
-- `socket_dir` : Directory where sockets are created.
 - `source` : Name of the recursor custom template.
-- `variables`: Variables for the configuration template.
 - `virtual` : Is this a virtual instance or the default?
 
 ### pdns_recursor_service
@@ -329,34 +326,24 @@ pdns_recursor_service 'default' do
 end
 ```
 
-Configure a virtual PowerDNS recursor service instance named 'my_recursor' in your wrapper cookbook for Acme Corp with a custom template named `my-recursor.erb`
+Configure a virtual PowerDNS recursor service instance named 'my_recursor' in your wrapper cookbook for Acme Corp with a custom template named `my-virtual-recursor.erb`
 
 ```ruby
 pdns_recursor_service 'my_recursor' do
   virtual true
-  source 'my-recursor.erb'
+  source 'my-virtual-recursor.erb'
   cookbook 'acme-pdns-recursor'
 end
 ```
 
-##### Customize the default recursor installation and change it's port to 54
-
-```ruby
-pdns_recursor_config 'default' do
-  variables(
-    'local-port' => '54'
-  )
-end
-```
+##### Customize the default recursor installation
 
 Create a PowerDNS recursor configuration named 'my_recursor' in your wrapper cookbook for Acme Corp which uses a custom template named `my-recursor.erb` and a few attributes:
 
 ```ruby
 pdns_recursor_config 'my_recursor' do
-  virtual true
   source 'my-recursor.erb'
   cookbook 'acme-pdns-recursor'
-  variables(client-tcp-timeout: '20', loglevel: '5', network-timeout: '2000')
 end
 ```
 

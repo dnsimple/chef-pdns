@@ -2,7 +2,7 @@
 # Cookbook:: pdns
 # Resources:: pdns_recursor_config
 #
-# # Copyright:: 2023, DNSimple Corp.
+# # Copyright:: 2025, DNSimple Corp.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -37,11 +37,10 @@ property :instance_name, String, name_property: true, callbacks: {
 }
 property :virtual, [true, false], default: false
 property :config_dir, String, default: lazy { default_recursor_config_directory }
-property :socket_dir, String, default: '/var/run/pdns-recursor'
+property :run_user, String, default: lazy { default_recursor_run_user }
 
 property :source, String, default: 'recursor.conf.erb'
 property :cookbook, String, default: 'pdns'
-property :variables, Hash, default: {}
 
 action :create do
   user 'pdns recursor' do
@@ -74,8 +73,8 @@ action :create do
     group lazy { default_recursor_run_user }
     mode '0640'
     variables(
-      socket_dir: "#{recursor_socket_directory(new_resource.instance_name, new_resource.socket_dir, new_resource.virtual)}",
-      variables: new_resource.variables
+      config_dir: new_resource.config_dir,
+      run_user: new_resource.run_user
     )
   end
 end
