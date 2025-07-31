@@ -4,11 +4,22 @@
 
 [Full Changelog](https://github.com/dnsimple/chef-pdns/compare/v10.0.0...v11.0.0)
 
+**Breaking changes:**
+
+**PowerDNS Recursor Configuration Format Updated to YAML**
+
+The cookbook now configures `recursor.conf` using the new YAML-based format introduced in recent versions of PowerDNS Recursor.
+
+⚠️ **Action required:** Existing configurations defined using the legacy `key=value` format must be updated to YAML to prevent configuration errors or service failures. Use `rec_control show-yaml path/to/recursor.conf` to show the conversion of a specific old-style settings file.
+
+Refer to the [PowerDNS Recursor documentation](https://docs.powerdns.com/recursor/yamlsettings.html) for the updated syntax and supported options.
+
+See the [README](./README.md) for guidance on using the `pdns_recursor_config` resource.
+
 **Implemented enhancements:**
 
 - Add support for latest recursor releases [\#138](https://github.com/dnsimple/chef-pdns/pull/138) ([AGS4NO](https://github.com/AGS4NO))
 - Update supported platforms [\#136](https://github.com/dnsimple/chef-pdns/pull/136) ([AGS4NO](https://github.com/AGS4NO))
-- Assign to the right github team [\#133](https://github.com/dnsimple/chef-pdns/pull/133) ([san983](https://github.com/san983))
 
 **Merged pull requests:**
 

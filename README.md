@@ -4,6 +4,22 @@
 
 Provides resources for installing and configuring both PowerDNS authoritative and recursor. It uses the official PowerDNS repositories for packages and installs the appropriate configuration for your platform's init system.
 
+## Upgrade Notes for 11.x series
+
+Please note that this version primarily supports PowerDNS 4.9 and PowerDNS Recursor 5.2. Older versions may work, but are not as heavily tested. Additionally support for CentOS 7/8, Debian 10, and Ubuntu 20.04 has been dropped.
+
+**Breaking changes:**
+
+**PowerDNS Recursor Configuration Format Updated to YAML**
+
+The cookbook now configures `recursor.conf` using the new YAML-based format introduced in recent versions of PowerDNS Recursor.
+
+⚠️ **Action required:** Existing configurations defined using the legacy `key=value` format must be updated to YAML to prevent configuration errors or service failures. Use `rec_control show-yaml path/to/recursor.conf` to show the conversion of a specific old-style settings file.
+
+Refer to the [PowerDNS Recursor documentation](https://docs.powerdns.com/recursor/yamlsettings.html) for the updated syntax and supported options.
+
+See the [README](./README.md) for guidance on using the `pdns_recursor_config` resource.
+
 ## Upgrade Notes for 10.x series
 
 Please note that this version primarily supports PowerDNS 4.8 and PowerDNS Recursor 4.8. Older versions may work, but are not as heavily tested. Additionally support for Ubuntu 18.04 has been dropped.
