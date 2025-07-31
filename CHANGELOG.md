@@ -1,23 +1,87 @@
 # Changelog
 
-## [v10.0.0](https://github.com/dnsimple/chef-pdns/tree/v10.0.0) (2023-06-13)
+## [v11.0.0](https://github.com/dnsimple/chef-pdns/tree/v11.0.0) (2025-07-31)
 
-[Full Changelog](https://github.com/dnsimple/chef-pdns/compare/v6.1.1...v10.0.0)
+[Full Changelog](https://github.com/dnsimple/chef-pdns/compare/v10.0.0...v11.0.0)
 
 **Implemented enhancements:**
 
-- Resources require disable action [\#71](https://github.com/dnsimple/chef-pdns/issues/71)
+- Add support for latest recursor releases [\#138](https://github.com/dnsimple/chef-pdns/pull/138) ([AGS4NO](https://github.com/AGS4NO))
+- Update supported platforms [\#136](https://github.com/dnsimple/chef-pdns/pull/136) ([AGS4NO](https://github.com/AGS4NO))
+- Assign to the right github team [\#133](https://github.com/dnsimple/chef-pdns/pull/133) ([san983](https://github.com/san983))
+
+**Merged pull requests:**
+
+- Bump nosborn/github-action-markdown-cli from 3.4.0 to 3.5.0 [\#137](https://github.com/dnsimple/chef-pdns/pull/137) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump nosborn/github-action-markdown-cli from 3.3.0 to 3.4.0 [\#134](https://github.com/dnsimple/chef-pdns/pull/134) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump actions/checkout from 3 to 4 [\#132](https://github.com/dnsimple/chef-pdns/pull/132) ([dependabot[bot]](https://github.com/apps/dependabot))
+
+## [v10.0.0](https://github.com/dnsimple/chef-pdns/tree/v10.0.0) (2023-06-13)
+
+[Full Changelog](https://github.com/dnsimple/chef-pdns/compare/v9.0.0...v10.0.0)
+
+**Implemented enhancements:**
+
 - Change the yum repository URL in the new recursor custom resource [\#50](https://github.com/dnsimple/chef-pdns/issues/50)
 - Default PowerDNS auth & rec to 4.8 + updates PowerDNS pubkey + Switches Ubuntu \(focal for bionic\) [\#130](https://github.com/dnsimple/chef-pdns/pull/130) ([san983](https://github.com/san983))
 
 **Fixed bugs:**
 
 - ExampleException in home\#example [\#128](https://github.com/dnsimple/chef-pdns/issues/128)
+
+**Merged pull requests:**
+
+- v10.0.0 release [\#131](https://github.com/dnsimple/chef-pdns/pull/131) ([san983](https://github.com/san983))
+- Bump nosborn/github-action-markdown-cli from 3.2.0 to 3.3.0 [\#129](https://github.com/dnsimple/chef-pdns/pull/129) ([dependabot[bot]](https://github.com/apps/dependabot))
+- update ci deps and jobs [\#127](https://github.com/dnsimple/chef-pdns/pull/127) ([AGS4NO](https://github.com/AGS4NO))
+- kitchen chef-client v18 [\#126](https://github.com/dnsimple/chef-pdns/pull/126) ([AGS4NO](https://github.com/AGS4NO))
+- Deprecates Chef Delivery CLI usage [\#124](https://github.com/dnsimple/chef-pdns/pull/124) ([san983](https://github.com/san983))
+
+## [v9.0.0](https://github.com/dnsimple/chef-pdns/tree/v9.0.0) (2021-10-29)
+
+[Full Changelog](https://github.com/dnsimple/chef-pdns/compare/v8.0.3...v9.0.0)
+
+**Implemented enhancements:**
+
+- Resources require disable action [\#71](https://github.com/dnsimple/chef-pdns/issues/71)
+
+**Fixed bugs:**
+
 - chefignore missing [\#118](https://github.com/dnsimple/chef-pdns/issues/118)
+- PowerDNS debug rpm [\#52](https://github.com/dnsimple/chef-pdns/issues/52)
+
+**Merged pull requests:**
+
+- Add disable to services [\#123](https://github.com/dnsimple/chef-pdns/pull/123) ([onlyhavecans](https://github.com/onlyhavecans))
+- Switch default to 4.5.x Drop testing for Debian 9 since upstream has [\#122](https://github.com/dnsimple/chef-pdns/pull/122) ([onlyhavecans](https://github.com/onlyhavecans))
+- Install debug packages with debug flag [\#121](https://github.com/dnsimple/chef-pdns/pull/121) ([onlyhavecans](https://github.com/onlyhavecans))
+- Adds CI to GitHub Actions [\#120](https://github.com/dnsimple/chef-pdns/pull/120) ([san983](https://github.com/san983))
+
+## [v8.0.3](https://github.com/dnsimple/chef-pdns/tree/v8.0.3) (2021-06-07)
+
+[Full Changelog](https://github.com/dnsimple/chef-pdns/compare/v8.0.2...v8.0.3)
+
+## [v8.0.2](https://github.com/dnsimple/chef-pdns/tree/v8.0.2) (2021-05-14)
+
+[Full Changelog](https://github.com/dnsimple/chef-pdns/compare/v8.0.1...v8.0.2)
+
+**Merged pull requests:**
+
+- Enhancement/focal support [\#117](https://github.com/dnsimple/chef-pdns/pull/117) ([AGS4NO](https://github.com/AGS4NO))
+
+## [v8.0.1](https://github.com/dnsimple/chef-pdns/tree/v8.0.1) (2021-02-22)
+
+[Full Changelog](https://github.com/dnsimple/chef-pdns/compare/v8.0.0...v8.0.1)
+
+## [v8.0.0](https://github.com/dnsimple/chef-pdns/tree/v8.0.0) (2021-02-22)
+
+[Full Changelog](https://github.com/dnsimple/chef-pdns/compare/v6.1.1...v8.0.0)
+
+**Fixed bugs:**
+
 - Getting an error if I do not stop pdns service [\#88](https://github.com/dnsimple/chef-pdns/issues/88)
 - issue in running the test recipe [\#83](https://github.com/dnsimple/chef-pdns/issues/83)
 - pdns\_authoritative\_backend matchers should be named install\_pdns\_authoritative\_backend [\#68](https://github.com/dnsimple/chef-pdns/issues/68)
-- PowerDNS debug rpm [\#52](https://github.com/dnsimple/chef-pdns/issues/52)
 - Add DNF / CentOS 8 - drop CentOS 6 [\#112](https://github.com/dnsimple/chef-pdns/pull/112) ([sspans](https://github.com/sspans))
 
 **Closed issues:**
@@ -29,16 +93,6 @@
 
 **Merged pull requests:**
 
-- v10.0.0 release [\#131](https://github.com/dnsimple/chef-pdns/pull/131) ([san983](https://github.com/san983))
-- Bump nosborn/github-action-markdown-cli from 3.2.0 to 3.3.0 [\#129](https://github.com/dnsimple/chef-pdns/pull/129) ([dependabot[bot]](https://github.com/apps/dependabot))
-- update ci deps and jobs [\#127](https://github.com/dnsimple/chef-pdns/pull/127) ([AGS4NO](https://github.com/AGS4NO))
-- kitchen chef-client v18 [\#126](https://github.com/dnsimple/chef-pdns/pull/126) ([AGS4NO](https://github.com/AGS4NO))
-- Deprecates Chef Delivery CLI usage [\#124](https://github.com/dnsimple/chef-pdns/pull/124) ([san983](https://github.com/san983))
-- Add disable to services [\#123](https://github.com/dnsimple/chef-pdns/pull/123) ([onlyhavecans](https://github.com/onlyhavecans))
-- Switch default to 4.5.x Drop testing for Debian 9 since upstream has [\#122](https://github.com/dnsimple/chef-pdns/pull/122) ([onlyhavecans](https://github.com/onlyhavecans))
-- Install debug packages with debug flag [\#121](https://github.com/dnsimple/chef-pdns/pull/121) ([onlyhavecans](https://github.com/onlyhavecans))
-- Adds CI to GitHub Actions [\#120](https://github.com/dnsimple/chef-pdns/pull/120) ([san983](https://github.com/san983))
-- Enhancement/focal support [\#117](https://github.com/dnsimple/chef-pdns/pull/117) ([AGS4NO](https://github.com/AGS4NO))
 - Update to series 44 [\#116](https://github.com/dnsimple/chef-pdns/pull/116) ([AGS4NO](https://github.com/AGS4NO))
 - Fix/ci [\#114](https://github.com/dnsimple/chef-pdns/pull/114) ([AGS4NO](https://github.com/AGS4NO))
 - Chef 14 testing [\#108](https://github.com/dnsimple/chef-pdns/pull/108) ([onlyhavecans](https://github.com/onlyhavecans))
