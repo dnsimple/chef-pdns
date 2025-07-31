@@ -10,7 +10,7 @@ Please note that this version primarily supports PowerDNS 4.9 and PowerDNS Recur
 
 **Breaking changes:**
 
-**PowerDNS Recursor Configuration Format Updated to YAML**
+PowerDNS Recursor Configuration Format Updated to YAML
 
 The cookbook now configures `recursor.conf` using the new YAML-based format introduced in recent versions of PowerDNS Recursor.
 
