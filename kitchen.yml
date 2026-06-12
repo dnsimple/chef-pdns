@@ -52,14 +52,6 @@ platforms:
         - RUN /usr/bin/apt-get update
         - RUN /usr/bin/apt-get install dnsutils -y
 
-  - name: ubuntu-26.04
-    driver:
-      image: dokken/ubuntu-26.04
-      pid_one_command: /bin/systemd
-      intermediate_instructions:
-        - RUN /usr/bin/apt-get update
-        - RUN /usr/bin/apt-get install dnsutils -y
-
 suites:
   - name: recursor-multi
     run_list:
