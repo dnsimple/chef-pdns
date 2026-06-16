@@ -1,5 +1,14 @@
 # Changelog
 
+## [v12.0.0](https://github.com/dnsimple/chef-pdns/tree/v12.0.0) (2026-06-12)
+
+[Full Changelog](https://github.com/dnsimple/chef-pdns/compare/v11.0.0...v12.0.0)
+
+**Implemented enhancements:**
+
+- Default PowerDNS Authoritative Server to 5.1.x series (series '51')
+- Default PowerDNS Recursor to 5.4.x series (series '54')
+
 ## [v11.0.0](https://github.com/dnsimple/chef-pdns/tree/v11.0.0) (2025-07-31)
 
 [Full Changelog](https://github.com/dnsimple/chef-pdns/compare/v10.0.0...v11.0.0)

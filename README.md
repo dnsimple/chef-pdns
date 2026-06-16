@@ -4,6 +4,10 @@
 
 Provides resources for installing and configuring both PowerDNS authoritative and recursor. It uses the official PowerDNS repositories for packages and installs the appropriate configuration for your platform's init system.
 
+## Upgrade Notes for 12.x series
+
+Please note that this version primarily supports PowerDNS Authoritative Server 5.1 and PowerDNS Recursor 5.4.
+
 ## Upgrade Notes for 11.x series
 
 Please note that this version primarily supports PowerDNS 4.9 and PowerDNS Recursor 5.2. Older versions may work, but are not as heavily tested. Additionally support for CentOS 7/8, Debian 10, and Ubuntu 20.04 has been dropped.
@@ -132,14 +136,14 @@ Most of the properties are optional and have sane defaults, so they are only rec
 
 ### pdns_authoritative_install
 
-Installs PowerDNS authoritative server 4.7.x series using PowerDNS official repository in the supported platforms.
+Installs PowerDNS authoritative server 5.1.x series using PowerDNS official repository in the supported platforms.
 
 #### pdns_authoritative_install Properties
 
 | Name          | Type        |  Default value |
 |---------------|-------------|----------------|
 | version       | String      | ''             |
-| series        | String      | '47'           |
+| series        | String      | '51'           |
 | debug         | true, false | false          |
 | allow_upgrade | true, false | false          |
 | backends      | Array       | nil            |
@@ -148,34 +152,34 @@ Installs PowerDNS authoritative server 4.7.x series using PowerDNS official repo
 
 #### pdns_authoritative_install Usage examples
 
-Install the latest 4.9.x series PowerDNS Authoritative Server
+Install the latest 5.1.x series PowerDNS Authoritative Server
 
 ```ruby
 pdns_authoritative_install 'server_01'
 ```
 
-Install the latest 4.8.x series PowerDNS Authoritative Server
-
-```ruby
-pdns_authoritative_install 'server_01' do
-  series '48'
-end
-```
-
-Install and upgrade to the latest 4.9.x PowerDNS Authoritative Server release
+Install the latest 4.9.x series PowerDNS Authoritative Server
 
 ```ruby
 pdns_authoritative_install 'server_01' do
   series '49'
+end
+```
+
+Install and upgrade to the latest 5.1.x PowerDNS Authoritative Server release
+
+```ruby
+pdns_authoritative_install 'server_01' do
+  series '51'
   allow_upgrade true
 end
 ```
 
-Install the latest 4.9.x series PowerDNS Authoritative Server with the MySQL and Lua backends
+Install the latest 5.1.x series PowerDNS Authoritative Server with the MySQL and Lua backends
 
 ```ruby
 pdns_authoritative_install 'server_01' do
-  series '49'
+  series '51'
   backends ['mysql', 'lua']
 end
 ```
@@ -262,38 +266,38 @@ end
 
 ### pdns_recursor_install
 
-Installs PowerDNS recursor 5.2.x series using PowerDNS official repository in the supported platforms.
+Installs PowerDNS recursor 5.4.x series using PowerDNS official repository in the supported platforms.
 
 #### pdns_recursor_install Properties
 
 | Name           | Type        |  Default value  |
 |----------------|-------------|-----------------|
 | version        | String      | ''              |
-| series         | String      | '52'            |
+| series         | String      | '54'            |
 | debug          | true, false | false           |
 | allow_upgrade  | true, false | false           |
 
 #### pdns_recursor_install Usage examples
 
+Install the latest 5.4.x release PowerDNS recursor
+
+```ruby
+pdns_recursor_install 'latest_5_4_x_recursor'
+```
+
 Install the latest 5.2.x release PowerDNS recursor
-
-```ruby
-pdns_recursor_install 'latest_5_2_x_recursor'
-```
-
-Install the latest 5.1.x release PowerDNS recursor
-
-```ruby
-pdns_recursor_install 'my_recursor' do
-  series '51'
-end
-```
-
-Install and upgrade to the latest 5.2.x PowerDNS recursor release
 
 ```ruby
 pdns_recursor_install 'my_recursor' do
   series '52'
+end
+```
+
+Install and upgrade to the latest 5.4.x PowerDNS recursor release
+
+```ruby
+pdns_recursor_install 'my_recursor' do
+  series '54'
   allow_upgrade true
 end
 ```

@@ -45,7 +45,7 @@ pg_backend_package = value_for_platform_family(
 include_recipe 'pdns_test::disable_systemd_resolved'
 
 pdns_authoritative_install 'default' do
-  series '49'
+  series '51'
   backends [pg_backend_package]
   allow_upgrade true
 end
@@ -73,7 +73,7 @@ execute 'create_zone' do
 end
 
 execute 'add_record' do
-  command 'pdnsutil add-record example.org smoke A 127.0.0.123'
+  command 'pdnsutil add-record example.org smoke.example.org A 127.0.0.123'
   user 'root'
   not_if 'pdnsutil list-zone example.org | grep smoke.example.org'
 end
