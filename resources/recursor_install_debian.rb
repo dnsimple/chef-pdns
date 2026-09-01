@@ -2,7 +2,7 @@
 # Cookbook:: pdns
 # Resources:: pdns_recursor_install
 #
-# # Copyright:: 2025, DNSimple Corp.
+# # Copyright:: 2026, DNSimple Corp.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -37,6 +37,7 @@ action :install do
     distribution "#{node['lsb']['codename']}-rec-#{new_resource.series}"
     components ['main']
     key 'powerdns.asc'
+    signed_by true
     cookbook 'pdns'
   end
 
