@@ -1,34 +1,41 @@
 # Changelog
 
-## [v12.0.0](https://github.com/dnsimple/chef-pdns/tree/v12.0.0) (2026-06-12)
+## [v12.0.1](https://github.com/dnsimple/chef-pdns/tree/v12.0.1) (2026-09-01)
+
+[Full Changelog](https://github.com/dnsimple/chef-pdns/compare/v12.0.0...v12.0.1)
+
+**Fixed bugs:**
+
+- Bump copyright year to 2026 and fix signed\_by on recursor apt repo [\#146](https://github.com/dnsimple/chef-pdns/pull/146) ([san983](https://github.com/san983))
+
+**Merged pull requests:**
+
+- Bump actions/checkout from 7.0.0 to 7.0.1 in the actions-patch-minor group [\#145](https://github.com/dnsimple/chef-pdns/pull/145) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump actions/checkout from 6.0.3 to 7.0.0 [\#144](https://github.com/dnsimple/chef-pdns/pull/144) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump actions/checkout from 6 to 6.0.3 in the actions-patch-minor group [\#143](https://github.com/dnsimple/chef-pdns/pull/143) ([dependabot[bot]](https://github.com/apps/dependabot))
+
+## [v12.0.0](https://github.com/dnsimple/chef-pdns/tree/v12.0.0) (2026-06-16)
 
 [Full Changelog](https://github.com/dnsimple/chef-pdns/compare/v11.0.0...v12.0.0)
 
 **Implemented enhancements:**
 
-- Default PowerDNS Authoritative Server to 5.1.x series (series '51')
-- Default PowerDNS Recursor to 5.4.x series (series '54')
+- feat: bump default PowerDNS versions to latest stable \(v12.0.0\) [\#142](https://github.com/dnsimple/chef-pdns/pull/142) ([san983](https://github.com/san983))
+
+**Merged pull requests:**
+
+- Bump actions/checkout from 5 to 6 [\#140](https://github.com/dnsimple/chef-pdns/pull/140) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump actions/checkout from 4 to 5 [\#139](https://github.com/dnsimple/chef-pdns/pull/139) ([dependabot[bot]](https://github.com/apps/dependabot))
 
 ## [v11.0.0](https://github.com/dnsimple/chef-pdns/tree/v11.0.0) (2025-07-31)
 
 [Full Changelog](https://github.com/dnsimple/chef-pdns/compare/v10.0.0...v11.0.0)
 
-**Breaking changes:**
-
-PowerDNS Recursor Configuration Format Updated to YAML
-
-The cookbook now configures `recursor.conf` using the new YAML-based format introduced in recent versions of PowerDNS Recursor.
-
-⚠️ **Action required:** Existing configurations defined using the legacy `key=value` format must be updated to YAML to prevent configuration errors or service failures. Use `rec_control show-yaml path/to/recursor.conf` to show the conversion of a specific old-style settings file.
-
-Refer to the [PowerDNS Recursor documentation](https://docs.powerdns.com/recursor/yamlsettings.html) for the updated syntax and supported options.
-
-See the [README](./README.md) for guidance on using the `pdns_recursor_config` resource.
-
 **Implemented enhancements:**
 
 - Add support for latest recursor releases [\#138](https://github.com/dnsimple/chef-pdns/pull/138) ([AGS4NO](https://github.com/AGS4NO))
 - Update supported platforms [\#136](https://github.com/dnsimple/chef-pdns/pull/136) ([AGS4NO](https://github.com/AGS4NO))
+- Assign to the right github team [\#133](https://github.com/dnsimple/chef-pdns/pull/133) ([san983](https://github.com/san983))
 
 **Merged pull requests:**
 
